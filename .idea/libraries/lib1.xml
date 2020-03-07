@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="lib1">
+    <CLASSES>
+      <root url="file://C:/Program Files (x86)/Common Files/Oracle/Java/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://C:/Program Files (x86)/Common Files/Oracle/Java/lib" />
+    </SOURCES>
+    <jarDirectory url="file://C:/Program Files (x86)/Common Files/Oracle/Java/lib" recursive="false" />
+    <jarDirectory url="file://C:/Program Files (x86)/Common Files/Oracle/Java/lib" recursive="false" type="SOURCES" />
+  </library>
+</component>
