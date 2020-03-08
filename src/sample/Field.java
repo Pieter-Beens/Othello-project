@@ -21,7 +21,6 @@ public class Field extends Button {
         this.columnindex = columnindex;
         this.rowindex = rowindex;
         this.color = 0;
-        this.validity = false;
         this.captureData = new Stack<>();
     }
 
@@ -31,14 +30,6 @@ public class Field extends Button {
 
     public void switchColor() {
         this.color = this.color * -1;
-    }
-
-    public void setAsValid() {
-        this.validity = true;
-    }
-
-    public void resetValidity() {
-        this.validity = false;
     }
 
     public void addToCaptureData(int[] dimensions) {

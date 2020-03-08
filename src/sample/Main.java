@@ -30,16 +30,17 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class Main extends Application {
+public class Main extends Application { //TODO: port to Android: https://stackoverflow.com/questions/9832052/port-java-application-to-android
 
-    private static final int BOARDSIZE = 19;
+    private static final int BOARDSIZE = 4;
     private int FIELDSIZE = 95;
     private int FIELDSPACING = 5;
-    private static final boolean fullScreen = false;
+    private static final boolean fullScreen = true;
 
     private static final boolean vsAI = true;
     private AI roboPieter = new AI(2000);
@@ -120,12 +121,13 @@ public class Main extends Application {
                 grid.add(field, i, j);
 
                 field.setOnMouseClicked(e -> { // set up listener
-                    try {
-                        makeAMove(field);
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                });
+                    new Thread(() -> {
+                        try {
+                            makeAMove(field);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();});
 
                 this.fields.get(i).add(field);
             }
@@ -165,10 +167,13 @@ public class Main extends Application {
 
     public void makeAMove(Field field) throws InterruptedException {
         lockBoard(); // locks the board to prevent players from immediately pressing another field and crashing the app
-        if (this.mostRecentMove != null) this.mostRecentMove.unmark();
+        if (this.mostRecentMove != null) {
+            Field fieldToUnmark = this.mostRecentMove;
+            Platform.runLater(() -> fieldToUnmark.unmark());
+        }
         placeStone(field);
         this.mostRecentMove = field;
-        this.mostRecentMove.mark();
+        Platform.runLater(() -> this.mostRecentMove.mark());
         enactCaptures(field);
         nextTurn(false);
     }
@@ -188,7 +193,6 @@ public class Main extends Application {
         int[] dimensions = new int[2];
         for (ArrayList<Field> row : fields) {
             for (Field field : row) {
-                field.resetValidity();
                 if (field.getColor() == 0) checkAllDirections(dimensions, field); // only check for validity if the field is empty
                 dimensions[1]++;
             }
@@ -224,7 +228,6 @@ public class Main extends Application {
 
             // success condition: next field is of your color, and this is not the first loop
             if (this.fields.get(nextField[0]).get(nextField[1]).getColor() == this.turn && loopNumber > 1) {
-                originalField.setAsValid();
                 while (!potentialCaptureData.empty()) {
                     originalField.addToCaptureData(potentialCaptureData.pop());
                 }
@@ -248,9 +251,15 @@ public class Main extends Application {
             int[] dimensions = field.getCaptureData().pop();
             this.fields.get(dimensions[0]).get(dimensions[1]).switchColor();
             stonesCaptured++;
-            updateView(); //TODO: MULTITHREAD EVERYTHING THAT CALLS updateView AND WAIT/SLEEP IMMEDIATELY AFTER, OR THE UPDATED VIEW WILL NOT BE SHOWN
+            Platform.runLater(() -> {
+                try {
+                    updateView();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+            //TODO: MULTITHREAD EVERYTHING THAT CALLS updateView AND WAIT/SLEEP IMMEDIATELY AFTER, OR THE UPDATED VIEW WILL NOT BE SHOWN
         }
-        field.resetCaptureData();
         System.out.println("Stones captured: " + stonesCaptured);
     }
 
@@ -281,6 +290,12 @@ public class Main extends Application {
         System.out.println("Next turn: " + this.turncounter);
         this.turnHasNoValidMoves = true;
 
+        for (ArrayList<Field> row : this.fields) {
+            for (Field field : row) {
+                field.resetCaptureData();
+            }
+        }
+
         setValidMoves();
 
         if (turnHasNoValidMoves && !skippedTurn) {
@@ -290,28 +305,21 @@ public class Main extends Application {
 
         if (turnHasNoValidMoves && skippedTurn) {
             System.out.println(getPlayerName(this.turn) + " was not able to move either, ending the game");
-            endGame();
+            gameFinished = true;
         }
 
-        updateView(); //TODO: MULTITHREAD EVERYTHING THAT CALLS updateView AND WAIT/SLEEP IMMEDIATELY AFTER, OR THE UPDATED VIEW WILL NOT BE SHOWN
+        Platform.runLater(() -> {
+            try {
+                updateView();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
 
         if (!gameFinished && vsAI && this.turn == -1) {
             Thread.sleep(2000);
             makeAMove(roboPieter.getMove(this.fields));
         }
-    }
-
-    public void endGame() {
-        int winSum = 0;
-        for (ArrayList<Field> row : fields) {
-            for (Field field : row) {
-                winSum += field.getColor();
-            }
-        }
-        if (winSum > 0) System.out.println(getPlayerName(1) + " has won!");
-        else if (winSum < 0) System.out.println(getPlayerName(-1) + " has won!");
-        else System.out.println("It's a draw!");
-        gameFinished = true;
     }
 
     public String getPlayerName(int player) {
@@ -340,7 +348,7 @@ public class Main extends Application {
 
         for (ArrayList<Field> row : this.fields) {
             for (Field field : row) {
-                if (field.getValidity()) field.setDisable(false);
+                if (!field.getCaptureData().isEmpty()) field.setDisable(false);
                 else field.setDisable(true);
 
 //                ImageView iv = new ImageView(this.x);
@@ -352,14 +360,33 @@ public class Main extends Application {
                 if (field.getColor() > 0) field.setStyle("-fx-background-color: " + player1colorcode);
                 else if (field.getColor() < 0) field.setStyle("-fx-background-color: " + player2colorcode);
 
-                String musicFile = "1.wav";
-
-                Media sound = new Media(new File(musicFile).toURI().toString());
-                MediaPlayer mediaPlayer = new MediaPlayer(sound);
-
-                new Thread(mediaPlayer::play); // TODO: kill this thread when it's done
+                //TODO: play .wav and kill thread immediately after
+//                String musicFile = "1.wav";
+//
+//                Media sound = new Media(new File(musicFile).toURI().toString());
+//                MediaPlayer mediaPlayer = new MediaPlayer(sound);
+//
+//                new Thread(mediaPlayer::play);
             }
         }
-//        System.out.println("VIEW UPDATED");
+        //System.out.println("VIEW UPDATED");
+
+        if (gameFinished) {
+            int winSum = 0;
+            for (ArrayList<Field> row : fields) {
+                for (Field field : row) {
+                    winSum += field.getColor();
+                }
+            }
+
+            String resultString;
+
+            if (winSum > 0) resultString = "GAME END: " + getPlayerName(1) + " has won!";
+            else if (winSum < 0) resultString = "GAME END: " + getPlayerName(-1) + " has won!";
+            else resultString = "It's a draw!";
+
+            System.out.println(resultString);
+            this.turnLabel.setText(resultString);
+        }
     }
 }
