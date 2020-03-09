@@ -213,15 +213,17 @@ public class Controller extends Application { //TODO: port to Android: https://s
         int[] dimensions = new int[2];
         for (ArrayList<Field> row : fields) {
             for (Field field : row) {
-                if (field.getColor() == 0) checkAllDirections(dimensions, field); // only check for validity if the field is empty
+                if (field.getColor() == 0) checkAllDirections(field); // only check for validity if the field is empty
                 dimensions[1]++;
             }
             dimensions[1] = 0;
             dimensions[0]++;
         }
+        if (!(vsAI && this.turn == -1)) lockBoard();
+        System.out.println("SET VALID MOVES");
     }
 
-    public void checkAllDirections(int[] initialDimensions, Field field) {
+    public void checkAllDirections(Field field) {
         loopCheck(field, 1, 1, new Stack<>());
         loopCheck(field, 1, 0, new Stack<>());
         loopCheck(field, 1, -1, new Stack<>());
@@ -312,6 +314,7 @@ public class Controller extends Application { //TODO: port to Android: https://s
 
         setValidMoves();
 
+
         if (turnHasNoValidMoves && !skippedTurn) {
             System.out.println(getPlayerName(this.turn) + " has no valid moves and must skip a turn");
             nextTurn(true);
@@ -360,23 +363,27 @@ public class Controller extends Application { //TODO: port to Android: https://s
         this.player1ScoreBar.setText(getPlayerName(1) + ": " + player1score);
         this.player2ScoreBar.setText(getPlayerName(-1) + ": " + player2score);
 
+        if (!(vsAI && this.turn == -1)) {
+            for (ArrayList<Field> row : this.fields) {
+                for (Field field : row) {
+                    if (!field.getCaptureData().isEmpty()) field.setDisable(false);
+                    else field.setDisable(true);
+                }
+            }
+        }
+
         for (ArrayList<Field> row : this.fields) {
             for (Field field : row) {
-                if (!field.getCaptureData().isEmpty()) field.setDisable(false);
-                else field.setDisable(true);
+                //ImageView iv = new ImageView(this.x);
+                //iv.setFitHeight(FIELDSIZE);
 
-//                ImageView iv = new ImageView(this.x);
-//                iv.setFitHeight(FIELDSIZE);
-
-//                if (field.getColor() > 0) field.setGraphic(new ImageView(this.x));
-//                else if (field.getColor() < 0) field.setGraphic(new ImageView(this.o));
+                //if (field.getColor() > 0) field.setGraphic(new ImageView(this.x));
+                //else if (field.getColor() < 0) field.setGraphic(new ImageView(this.o));
 
                 if (field.getColor() > 0) field.setStyle("-fx-background-color: " + player1colorcode);
                 else if (field.getColor() < 0) field.setStyle("-fx-background-color: " + player2colorcode);
-
             }
         }
-        //System.out.println("VIEW UPDATED");
 
         if (gameFinished) {
             int winSum = 0;
