@@ -20,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -36,7 +37,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class Controller extends Application { //TODO: port to Android: https://stackoverflow.com/questions/9832052/port-java-application-to-android
+public class Game extends Application { //TODO: port to Android: https://stackoverflow.com/questions/9832052/port-java-application-to-android
 
     private static final int BOARDSIZE = 8;
     private int FIELDSIZE = 95;
@@ -276,7 +277,7 @@ public class Controller extends Application { //TODO: port to Android: https://s
             int[] dimensions = field.getCaptureData().pop();
             this.fields.get(dimensions[0]).get(dimensions[1]).switchColor();
             stonesCaptured++;
-            //playSound(stonesCaptured); //TODO: play .wavs
+            playSound(stonesCaptured); //TODO: play .wavs
         }
         System.out.println("Stones captured: " + stonesCaptured);
     }
@@ -408,11 +409,8 @@ public class Controller extends Application { //TODO: port to Android: https://s
     public void playSound(int i) {
         //TODO: play .wav and kill thread immediately after
 
-        Media sound = new Media(new File(i + ".wav").toURI().toString());
+        Media sound = new Media(new File(i%4 + ".wav").toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        new Thread(() -> {
-            mediaPlayer.setOnEndOfMedia(() -> Thread.);
             mediaPlayer.play();
-        });
     }
 }
