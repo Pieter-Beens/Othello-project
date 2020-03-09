@@ -33,3 +33,6 @@ public class AI {
         
     }
 }
+
+//TODO: make multiple threads, one for every initial valid move, use temp arrays and store to shared array at the end (synchronized)
+// (or maybe just let the main thread handle this part)
