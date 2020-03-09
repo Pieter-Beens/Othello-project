@@ -104,7 +104,8 @@ public class Controller extends Application { //TODO: port to Android: https://s
         setupBoard();
         setupStartingPositions();
 
-        updateView();
+        updateBoardView();
+        updateInfoBarView();
 
         primaryStage.setTitle("Othello");
         primaryStage.setScene(new Scene(this.vbox));
@@ -145,6 +146,7 @@ public class Controller extends Application { //TODO: port to Android: https://s
                         try {
                             makeAMove(field);
                         } catch (InterruptedException ex) {
+                            System.out.print("Yes, it happened, the Thread was interrupted! No move for you!;");
                             ex.printStackTrace();
                         }
                     }).start();});
@@ -220,7 +222,7 @@ public class Controller extends Application { //TODO: port to Android: https://s
             dimensions[0]++;
         }
         if (!(vsAI && this.turn == -1)) lockBoard();
-        System.out.println("SET VALID MOVES");
+//        System.out.println("SET VALID MOVES");
     }
 
     public void checkAllDirections(Field field) {
@@ -268,13 +270,13 @@ public class Controller extends Application { //TODO: port to Android: https://s
     public void enactCaptures(Field field) throws InterruptedException {
         int stonesCaptured = 0;
         while (!field.getCaptureData().empty()) {
+            updateBoardView();
+            lockBoard();
+            Thread.sleep(200);
             int[] dimensions = field.getCaptureData().pop();
             this.fields.get(dimensions[0]).get(dimensions[1]).switchColor();
             stonesCaptured++;
-            //playSound(stonesCaptured);
-
-            //TODO: visualize fields being captured with 200ms intervals (also play .wavs)
-            // HOWTO: change WHILE to IF, pop once, updateView, play sound, and pass on the next iteration of this method to Platform.runLater
+            //playSound(stonesCaptured); //TODO: play .wavs
         }
         System.out.println("Stones captured: " + stonesCaptured);
     }
@@ -326,11 +328,8 @@ public class Controller extends Application { //TODO: port to Android: https://s
         }
 
         Platform.runLater(() -> {
-            try {
-                updateView();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            updateBoardView();
+            updateInfoBarView();
         });
 
         if (!gameFinished && vsAI && this.turn == -1) {
@@ -345,7 +344,7 @@ public class Controller extends Application { //TODO: port to Android: https://s
         return "MISSINGNO";
     }
 
-    public void updateView() throws InterruptedException { // TODO: divide into multiple parts relevant to respective calls; this will become a Class!
+    public void updateInfoBarView() {
         this.turnLabel.setText("TURN " + this.turncounter.toString() + ": " + getPlayerName(this.turn) + "'s move");
         if (this.turn > 0) this.turnLabel.setStyle("-fx-text-fill: " + player1colorcode);
         if (this.turn < 0) this.turnLabel.setStyle("-fx-text-fill: " + player2colorcode);
@@ -363,6 +362,26 @@ public class Controller extends Application { //TODO: port to Android: https://s
         this.player1ScoreBar.setText(getPlayerName(1) + ": " + player1score);
         this.player2ScoreBar.setText(getPlayerName(-1) + ": " + player2score);
 
+        if (gameFinished) {
+            int winSum = 0;
+            for (ArrayList<Field> row : fields) {
+                for (Field field : row) {
+                    winSum += field.getColor();
+                }
+            }
+
+            String resultString;
+
+            if (winSum > 0) resultString = "GAME END: " + getPlayerName(1) + " has won!";
+            else if (winSum < 0) resultString = "GAME END: " + getPlayerName(-1) + " has won!";
+            else resultString = "It's a draw!";
+
+            System.out.println(resultString);
+            this.turnLabel.setText(resultString);
+        }
+    }
+
+    public void updateBoardView() { // TODO: divide into multiple parts relevant to respective calls; this will become a Class!
         if (!(vsAI && this.turn == -1)) {
             for (ArrayList<Field> row : this.fields) {
                 for (Field field : row) {
@@ -384,24 +403,6 @@ public class Controller extends Application { //TODO: port to Android: https://s
                 else if (field.getColor() < 0) field.setStyle("-fx-background-color: " + player2colorcode);
             }
         }
-
-        if (gameFinished) {
-            int winSum = 0;
-            for (ArrayList<Field> row : fields) {
-                for (Field field : row) {
-                    winSum += field.getColor();
-                }
-            }
-
-            String resultString;
-
-            if (winSum > 0) resultString = "GAME END: " + getPlayerName(1) + " has won!";
-            else if (winSum < 0) resultString = "GAME END: " + getPlayerName(-1) + " has won!";
-            else resultString = "It's a draw!";
-
-            System.out.println(resultString);
-            this.turnLabel.setText(resultString);
-        }
     }
 
     public void playSound(int i) {
@@ -409,8 +410,8 @@ public class Controller extends Application { //TODO: port to Android: https://s
 
         Media sound = new Media(new File(i + ".wav").toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        //mediaPlayer.setOnEndOfMedia(); USE THIS TO KILL THREAD?
         new Thread(() -> {
+            mediaPlayer.setOnEndOfMedia(() -> Thread.);
             mediaPlayer.play();
         });
     }
