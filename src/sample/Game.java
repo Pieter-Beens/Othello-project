@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -39,12 +40,13 @@ import java.util.Stack;
 
 public class Game extends Application { //TODO: port to Android: https://stackoverflow.com/questions/9832052/port-java-application-to-android
 
-    private static final int BOARDSIZE = 8;
+    private int BOARDSIZE = 8;
     private int FIELDSIZE = 95;
     private int FIELDSPACING = 5;
-    private static final boolean fullScreen = true;
 
-    private static final boolean vsAI = true;
+    private boolean fullScreen = false;
+
+    private boolean vsAI = true;
     private AI roboPieter = new AI(2000);
 
     private ArrayList<ArrayList<Field>> fields; // contains all BOARDSIZE^2 field nodes // TODO: turn into separate CLASS
@@ -57,19 +59,22 @@ public class Game extends Application { //TODO: port to Android: https://stackov
 
     private String player1 = "RED"; // == 1
     private String player2 = "BLUE"; // == -1
-    // TODO: make opening screen to set boardsize, colorScheme (Pieter, Anna, Hummer), player names and vsAI/2 player game
 
     private boolean turnHasNoValidMoves = true;
 
     private GridPane grid = new GridPane();
-    private VBox vbox = new VBox();
+    private HBox infoBar = new HBox();
 
     private Integer turncounter = 1;
     private Label turnLabel;
 
-    private static final String boardcolorcode = "#f5e5ae";
-    private static final String player1colorcode = "#940a0a";
-    private static final String player2colorcode = "#050561";
+    private String boardcolorcode = "#f5e5ae";
+    private String boardcolorcodetext = "black";
+    private String player1colorcode = "#940a0a";
+    private String player1colorcodetext = "white";
+    private String player2colorcode = "#050561";
+    private String player2colorcodetext = "white";
+
 
     private Label player1ScoreBar;
     private Label player2ScoreBar;
@@ -83,24 +88,248 @@ public class Game extends Application { //TODO: port to Android: https://stackov
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        Button button = new Button();
-//
-//        button.setMinSize(100, 100);
-//        button.setStyle("-fx-background-color: " + boardcolorcode);
-//
-//        button.setOnMouseClicked(e -> { // set up listener
-//            new Thread(() -> {
-//                System.out.println("BUTTON CLICKED");
-//            }).start();});
-//
-//        this.vbox.getChildren().add(button);
-//
-//        primaryStage.setTitle("Othello");
-//        primaryStage.setFullScreen(this.fullScreen);
-//        primaryStage.setScene(new Scene(this.vbox));
-//        primaryStage.show();
+        VBox startScreen = new VBox();
 
-        //---------------------------------------------------------------//
+        startScreen.setMinSize(500, 500);
+
+        HBox titleRow = new HBox(); // <---------------------------------------------------------------------------
+
+        titleRow.getChildren().add(new ImageView(new Image("logo.png")));
+        titleRow.setAlignment(Pos.CENTER);
+
+        Label boardsizeLabel = new Label("CHOOSE NUMBER OF FIELDS");
+
+        HBox boardsizeRow = new HBox(); // <---------------------------------------------------------------------------
+
+        Button size6 = new Button("6x6");
+        size6.setMinSize(100, 100);
+        size6.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+
+        Button size8 = new Button("8x8");
+        size8.setMinSize(100, 100);
+        size8.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+
+        Button size10 = new Button("10x10");
+        size10.setMinSize(100, 100);
+        size10.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+
+        Button size12 = new Button("12x12");
+        size12.setMinSize(100, 100);
+        size12.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+
+        size6.setOnMouseClicked(e -> {
+            this.BOARDSIZE = 6;
+            size6.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+            size8.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            size10.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            size12.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+        });
+
+        size8.setOnMouseClicked(e -> {
+            this.BOARDSIZE = 8;
+            size6.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            size8.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+            size10.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            size12.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+        });
+
+        size10.setOnMouseClicked(e -> {
+            this.BOARDSIZE = 10;
+            size6.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            size8.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            size10.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+            size12.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+        });
+
+        size12.setOnMouseClicked(e -> {
+            this.BOARDSIZE = 12;
+            size6.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            size8.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            size10.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            size12.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+        });
+
+        boardsizeRow.getChildren().add(size6);
+        boardsizeRow.getChildren().add(size8);
+        boardsizeRow.getChildren().add(size10);
+        boardsizeRow.getChildren().add(size12);
+        boardsizeRow.setAlignment(Pos.CENTER);
+        boardsizeRow.setSpacing(30);
+
+        Label playersLabel = new Label("CHOOSE NUMBER OF PLAYERS");
+
+        HBox playersRow = new HBox(); // <---------------------------------------------------------------------------
+
+        Button oneplayer = new Button("P1 vs. AI");
+        oneplayer.setMinSize(100, 100);
+        oneplayer.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+
+        Button twoplayers = new Button("P1 vs. P2");
+        twoplayers.setMinSize(100, 100);
+        twoplayers.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+
+        oneplayer.setOnMouseClicked(e -> {
+            this.vsAI = true;
+            oneplayer.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+            twoplayers.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+        });
+
+        twoplayers.setOnMouseClicked(e -> {
+            this.vsAI = false;
+            oneplayer.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            twoplayers.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+        });
+
+        playersRow.getChildren().add(oneplayer);
+        playersRow.getChildren().add(twoplayers);
+        playersRow.setAlignment(Pos.CENTER);
+        playersRow.setSpacing(30);
+
+        Label colorLabel = new Label("CHOOSE COLOR SCHEME");
+
+        HBox colorRow = new HBox(); // <---------------------------------------------------------------------------
+
+        Button pieter = new Button("PIETER");
+        pieter.setMinSize(100, 100);
+        pieter.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+
+        Button anna = new Button("ANNA");
+        anna.setMinSize(100, 100);
+        anna.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+
+        Button hummer = new Button("HUMMER");
+        hummer.setMinSize(100, 100);
+        hummer.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+
+
+        pieter.setOnMouseClicked(e -> {
+            this.boardcolorcode = "#f5e5ae";
+            this.boardcolorcodetext = "black";
+            this.player1colorcode = "#940a0a";
+            this.player1colorcodetext = "white";
+            this.player2colorcode = "#050561";
+            this.player2colorcodetext = "white";
+            updateStartView();
+            pieter.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+            anna.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            hummer.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+        });
+
+        anna.setOnMouseClicked(e -> {
+            this.boardcolorcode = "#000000";
+            this.boardcolorcodetext = "white";
+            this.player1colorcode = "#852e00"; // dark orange red
+            this.player1colorcodetext = "black";
+            this.player2colorcode = "#0c4f00"; // dark green
+            this.player2colorcodetext = "white";
+            updateStartView();
+            pieter.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            anna.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+            hummer.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+        });
+
+        hummer.setOnMouseClicked(e -> {
+            this.boardcolorcode = "#75551d";
+            this.player2colorcodetext = "white";
+            this.player1colorcode = "#e0deda";
+            this.player2colorcodetext = "black";
+            this.player2colorcode = "#2b2a2a";
+            this.player2colorcodetext = "white";
+            updateStartView();
+            pieter.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            anna.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            hummer.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+        });
+
+        colorRow.getChildren().add(pieter);
+        colorRow.getChildren().add(anna);
+        colorRow.getChildren().add(hummer);
+        colorRow.setAlignment(Pos.CENTER);
+        colorRow.setSpacing(30);
+
+        Label namesLabel = new Label("CHANGE PLAYER NAMES");
+
+        HBox namesRow = new HBox(); // <---------------------------------------------------------------------------
+
+        TextField player1Input = new TextField("player1");
+        player1Input.setMaxSize(150, 35);
+
+        TextField player2Input = new TextField("player2");
+        player1Input.setMaxSize(150, 35);
+
+        namesRow.getChildren().add(player1Input);
+        namesRow.getChildren().add(player2Input);
+        namesRow.setAlignment(Pos.TOP_CENTER);
+        namesRow.setSpacing(30);
+
+        HBox bottomRow = new HBox(); // <---------------------------------------------------------------------------
+
+        Button fullscreenToggle = new Button();
+        fullscreenToggle.setText("Fullscreen OFF");
+        fullscreenToggle.setMinSize(300, 50);
+        fullscreenToggle.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+        fullscreenToggle.setOnMouseClicked(e -> {
+            fullScreen = !fullScreen;
+            if (fullScreen) {
+                fullscreenToggle.setText("Fullscreen ON");
+                fullscreenToggle.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
+            }
+            else {
+                fullscreenToggle.setText("Fullscreen OFF");
+                fullscreenToggle.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+            }
+        });
+
+        Button startButton = new Button();
+        startButton.setText("START");
+        startButton.setMinSize(100, 100);
+        startButton.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+        startButton.setOnMouseClicked(e -> startGame(primaryStage, player1Input.getText(), player2Input.getText()));
+
+        bottomRow.getChildren().add(fullscreenToggle);
+        bottomRow.getChildren().add(startButton);
+        bottomRow.setAlignment(Pos.CENTER_RIGHT);
+        bottomRow.setSpacing(10);
+
+
+        startScreen.getChildren().add(titleRow);
+        startScreen.getChildren().add(boardsizeLabel);
+        startScreen.getChildren().add(boardsizeRow);
+        startScreen.getChildren().add(playersLabel);
+        startScreen.getChildren().add(playersRow);
+        startScreen.getChildren().add(colorLabel);
+        startScreen.getChildren().add(colorRow);
+        startScreen.getChildren().add(namesLabel);
+        startScreen.getChildren().add(namesRow);
+        startScreen.getChildren().add(bottomRow);
+
+        startScreen.setSpacing(20);
+        startScreen.setStyle("-fx-background-color: " + boardcolorcode);
+
+        primaryStage.setTitle("OtHello World");
+        primaryStage.setFullScreen(this.fullScreen);
+        primaryStage.setScene(new Scene(startScreen));
+        primaryStage.show();
+    }
+
+    public void updateStartView() {
+        //TODO: recolor all elements of the start screen using this method
+    }
+
+    public void startGame(Stage primaryStage, String player1name, String player2name) {
+        if (player1name.length() > 11) player1name = player1name.substring(0,11);
+        else if (player1name.length() == 0) player1name = "player1";
+        if (player2name.length() > 11) player2name = player2name.substring(0,11);
+        else if (player2name.length() == 0) player2name = "player2";
+
+        this.player1 = player1name;
+        this.player2 = player2name;
+
+        VBox gameScreen = new VBox();
+
+        gameScreen.getChildren().add(this.grid);
+        gameScreen.getChildren().add(this.infoBar);
+        gameScreen.setAlignment(Pos.TOP_CENTER);
 
         setupBoard();
         setupStartingPositions();
@@ -109,7 +338,7 @@ public class Game extends Application { //TODO: port to Android: https://stackov
         updateInfoBarView();
 
         primaryStage.setTitle("Othello");
-        primaryStage.setScene(new Scene(this.vbox));
+        primaryStage.setScene(new Scene(gameScreen));
         primaryStage.setFullScreen(this.fullScreen);
         primaryStage.show();
 
@@ -125,6 +354,7 @@ public class Game extends Application { //TODO: port to Android: https://stackov
         int smallestDimension = (int) screenBounds.getMaxX();
         if ((screenBounds.getMaxY() - 50) < smallestDimension) smallestDimension = (int) (screenBounds.getMaxY() - 50);
         int roomPerField = smallestDimension / BOARDSIZE;
+        if (!fullScreen) roomPerField *= 0.80;
         this.FIELDSIZE = (int) (roomPerField * 0.95);
         this.FIELDSPACING = (int) (roomPerField * 0.05);
 
@@ -132,6 +362,7 @@ public class Game extends Application { //TODO: port to Android: https://stackov
         this.grid.setMinSize(FIELDSIZE, FIELDSIZE);
         this.grid.setVgap(FIELDSPACING);
         this.grid.setHgap(FIELDSPACING);
+        this.grid.setAlignment(Pos.CENTER);
 
         this.fields = new ArrayList<>();
         for (int i = 0; i < BOARDSIZE; i++) {
@@ -178,14 +409,10 @@ public class Game extends Application { //TODO: port to Android: https://stackov
         this.player2ScoreBar.setStyle("-fx-font-weight: bold");
         this.player2ScoreBar.setStyle("-fx-background-color: " + player2colorcode);
 
-        HBox infoBar = new HBox();
-        infoBar.getChildren().add(this.turnLabel);
-        infoBar.getChildren().add(this.player1ScoreBar);
-        infoBar.getChildren().add(this.player2ScoreBar);
-
-        this.vbox.getChildren().add(this.grid);
-        this.vbox.getChildren().add(infoBar);
-        this.vbox.setAlignment(Pos.CENTER);
+        this.infoBar.getChildren().add(this.turnLabel);
+        this.infoBar.getChildren().add(this.player1ScoreBar);
+        this.infoBar.getChildren().add(this.player2ScoreBar);
+        this.infoBar.setAlignment(Pos.CENTER);
     }
 
     public void makeAMove(Field field) throws InterruptedException {
@@ -277,7 +504,7 @@ public class Game extends Application { //TODO: port to Android: https://stackov
             int[] dimensions = field.getCaptureData().pop();
             this.fields.get(dimensions[0]).get(dimensions[1]).switchColor();
             stonesCaptured++;
-            playSound(stonesCaptured); //TODO: play .wavs
+            playSound(stonesCaptured);
         }
         System.out.println("Stones captured: " + stonesCaptured);
     }
