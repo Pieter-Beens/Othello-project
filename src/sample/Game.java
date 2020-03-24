@@ -68,12 +68,12 @@ public class Game extends Application { //TODO: port to Android: https://stackov
     private Integer turncounter = 1;
     private Label turnLabel;
 
-    private String boardcolorcode = "#f5e5ae";
-    private String boardcolorcodetext = "black";
-    private String player1colorcode = "#940a0a";
-    private String player1colorcodetext = "white";
-    private String player2colorcode = "#050561";
-    private String player2colorcodetext = "white";
+    public String boardcolorcode = "#f5e5ae";
+    public String boardcolorcodetext = "black";
+    public String player1colorcode = "#940a0a";
+    public String player1colorcodetext = "white";
+    public String player2colorcode = "#050561";
+    public String player2colorcodetext = "white";
 
 
     private Label player1ScoreBar;
@@ -101,9 +101,8 @@ public class Game extends Application { //TODO: port to Android: https://stackov
 
         HBox boardsizeRow = new HBox(); // <---------------------------------------------------------------------------
 
-        Button size6 = new Button("6x6");
-        size6.setMinSize(100, 100);
-        size6.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
+        CommonButton size6 = new CommonButton(this, false, "6x6");
+        size6.deselect();
 
         Button size8 = new Button("8x8");
         size8.setMinSize(100, 100);
@@ -118,7 +117,6 @@ public class Game extends Application { //TODO: port to Android: https://stackov
         size12.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
 
         size6.setOnMouseClicked(e -> {
-            this.BOARDSIZE = 6;
             size6.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
             size8.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
             size10.setStyle("-fx-background-color: " + player1colorcode + "; -fx-text-fill: " + player1colorcodetext);
@@ -309,6 +307,7 @@ public class Game extends Application { //TODO: port to Android: https://stackov
         primaryStage.setTitle("OtHello World");
         primaryStage.setFullScreen(this.fullScreen);
         primaryStage.setScene(new Scene(startScreen));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
@@ -337,7 +336,6 @@ public class Game extends Application { //TODO: port to Android: https://stackov
         updateBoardView();
         updateInfoBarView();
 
-        primaryStage.setTitle("Othello");
         primaryStage.setScene(new Scene(gameScreen));
         primaryStage.setFullScreen(this.fullScreen);
         primaryStage.show();
@@ -573,7 +571,7 @@ public class Game extends Application { //TODO: port to Android: https://stackov
     }
 
     public void updateInfoBarView() {
-        this.turnLabel.setText("TURN " + this.turncounter.toString() + ": " + getPlayerName(this.turn) + "'s move");
+        this.turnLabel.setText(" TURN " + this.turncounter.toString() + ": " + getPlayerName(this.turn) + "'s move");
         if (this.turn > 0) this.turnLabel.setStyle("-fx-text-fill: " + player1colorcode);
         if (this.turn < 0) this.turnLabel.setStyle("-fx-text-fill: " + player2colorcode);
 
@@ -587,8 +585,8 @@ public class Game extends Application { //TODO: port to Android: https://stackov
             }
         }
 
-        this.player1ScoreBar.setText(getPlayerName(1) + ": " + player1score);
-        this.player2ScoreBar.setText(getPlayerName(-1) + ": " + player2score);
+        this.player1ScoreBar.setText(" " + getPlayerName(1) + ": " + player1score);
+        this.player2ScoreBar.setText(" " + getPlayerName(-1) + ": " + player2score);
 
         if (gameFinished) {
             int winSum = 0;
@@ -606,6 +604,7 @@ public class Game extends Application { //TODO: port to Android: https://stackov
 
             System.out.println(resultString);
             this.turnLabel.setText(resultString);
+            this.turnLabel.setTextFill(Color.BLACK);
         }
     }
 
@@ -613,7 +612,9 @@ public class Game extends Application { //TODO: port to Android: https://stackov
         if (!(vsAI && this.turn == -1)) {
             for (ArrayList<Field> row : this.fields) {
                 for (Field field : row) {
-                    if (!field.getCaptureData().isEmpty()) field.setDisable(false);
+                    if (!field.getCaptureData().isEmpty()) {
+                        field.setDisable(false);
+                    }
                     else field.setDisable(true);
                 }
             }

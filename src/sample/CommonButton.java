@@ -1,15 +1,27 @@
 package sample;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 
 public class CommonButton extends Button {
 
-    int groupID; // used for handling exclusivity relationships between buttons in the same group (maybe make this another class)
+    Game game;
 
-    public CommonButton(int rowID) {
-        super();
+    public CommonButton(Game game, boolean isDefault, String text) {
+        super(text);
         this.setMinSize(100, 100);
-        //this.setStyle("-fx-background-color: " + player2colorcode + "; -fx-text-fill: " + player2colorcodetext);
-        this.groupID = rowID;
+
+        this.game = game;
+
+        if (isDefault) this.setStyle("-fx-background-color: " + game.player2colorcode + "; -fx-text-fill: " + game.player2colorcodetext);
+        else this.setStyle("-fx-background-color: " + game.player1colorcode + "; -fx-text-fill: " + game.player1colorcodetext);
+    }
+
+    public void select() {
+        this.setStyle("-fx-background-color: " + game.player2colorcode + "; -fx-text-fill: " + game.player2colorcodetext);
+    }
+
+    public void deselect() {
+        this.setStyle("-fx-background-color: " + game.player1colorcode + "; -fx-text-fill: " + game.player1colorcodetext);
     }
 }
