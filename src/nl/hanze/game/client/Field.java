@@ -1,4 +1,4 @@
-package sample;
+package nl.hanze.game.client;
 
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;

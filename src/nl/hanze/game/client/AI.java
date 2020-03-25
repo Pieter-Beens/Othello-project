@@ -1,7 +1,6 @@
-package sample;
+package nl.hanze.game.client;
 
 import java.sql.Time;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class AI {
