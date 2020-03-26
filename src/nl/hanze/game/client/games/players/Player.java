@@ -3,15 +3,17 @@ package nl.hanze.game.client.games.players;
 import nl.hanze.game.client.util.Move;
 
 public abstract class Player {
-    private String ign;
+    private String name;
 
-    public Player(String ign) {
-        this.ign = ign;
+    public Player(String name) {
+        this.name = name;
     }
 
-    public String getIgn() {
-        return ign;
+    public String getName() {
+        return name;
     }
     
     abstract public Move move(char[][] board);
+
+    public abstract String[] getColors();
 }

@@ -2,12 +2,14 @@ package nl.hanze.game.client.games;
 
 import nl.hanze.game.client.games.players.Player;
 import nl.hanze.game.client.util.Move;
-import nl.hanze.game.client.games.players.othello.OthelloPlayer;
+import nl.hanze.game.client.games.players.tictactoe.TicTacToePlayer;
 
-public class Othello extends Game {
+public class TicTacToeGame extends Game {
 
-    public Othello(OthelloPlayer... players) {
-        super(players);
+
+
+    public TicTacToeGame(TicTacToePlayer... players) {
+        super(3, players);
     }
 
     @Override
@@ -22,7 +24,7 @@ public class Othello extends Game {
 
     @Override
     public int getBoardSize() {
-        return 4;
+        return 3;
     }
 
     @Override
@@ -36,14 +38,17 @@ public class Othello extends Game {
     }
 
     @Override
-    public void recordMove(Move move) {
-        board[move.getX()][move.getY()] = 'X';
-
-        notifyObservers(move);
-    }
-
-    @Override
     public Player getWinner() {
         return null;
+    }
+
+    public void recordMove(Move move) {
+        //board[move.getX()][move.getY()] = 'X';
+        board[move.getX()][move.getY()].setOwner(activePlayer);
+
+        notifyObservers(move);
+
+        Player activePlayer = players.get(0);  // uh ja ik wil dat de andere player de activePlayer wordt, maar misschien moet dat...
+        // ...in een aparte functie genaamd nextTurn()?
     }
 }

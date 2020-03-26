@@ -1,6 +1,7 @@
 package nl.hanze.game.client.views.utils;
 
 import javafx.scene.control.Button;
+import nl.hanze.game.client.Application;
 import nl.hanze.game.client.views.MenuView;
 
 public class MenuButton extends Button {
@@ -25,12 +26,12 @@ public class MenuButton extends Button {
 
     public void select() {
         isActive = true;
-        this.setStyle("-fx-background-color: " + MenuView.BTN_ACTIVE_COLOR + "; -fx-text-fill: " + MenuView.BTN_ACTIVE_TEXT_COLOR);
+        this.setStyle("-fx-background-color: " + Application.BTN_ACTIVE_COLOR + "; -fx-text-fill: " + Application.BTN_ACTIVE_TEXT_COLOR);
     }
 
     public void deselect() {
         isActive = false;
-        this.setStyle("-fx-background-color: " + MenuView.BTN_COLOR + "; -fx-text-fill: " + MenuView.BTN_TEXT_COLOR);
+        this.setStyle("-fx-background-color: " + Application.BTN_COLOR + "; -fx-text-fill: " + Application.BTN_TEXT_COLOR);
     }
 
     public boolean isActive() {

@@ -17,4 +17,9 @@ public class RemotePlayer extends TicTacToePlayer {
     public Move move(char[][] board) {
         return new Move(this, 0, 0);
     }
+
+    @Override
+    public String[] getColors() {
+        return new String[]{"@"};
+    }
 }

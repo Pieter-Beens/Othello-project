@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import nl.hanze.game.client.Application;
 import nl.hanze.game.client.controllers.Controller;
 import nl.hanze.game.client.controllers.MenuController;
 import nl.hanze.game.client.views.utils.MenuButton;
@@ -15,11 +16,6 @@ import nl.hanze.game.client.views.utils.MenuToggleButton;
 import java.util.Arrays;
 
 public class MenuView extends VBox implements View {
-    public static final String BG_COLOR = "#f5e5ae";
-    public static final String BTN_COLOR = "#940a0a";
-    public static final String BTN_TEXT_COLOR = "white";
-    public static final String BTN_ACTIVE_COLOR = "#050561";
-    public static final String BTN_ACTIVE_TEXT_COLOR = "white";
 
     private MenuController controller;
 
@@ -59,7 +55,7 @@ public class MenuView extends VBox implements View {
         Button startButton = new Button();
         startButton.setText("START");
         startButton.setMinSize(100, 100);
-        startButton.setStyle("-fx-background-color: " + MenuView.BTN_COLOR + "; -fx-text-fill: " + MenuView.BTN_TEXT_COLOR);
+        startButton.setStyle("-fx-background-color: " + Application.BTN_COLOR + "; -fx-text-fill: " + Application.BTN_TEXT_COLOR);
         startButton.setOnMouseClicked(e -> {
             int size = Integer.parseInt(sizeMenu.getActive().getValue());
             boolean IsMultiPlayer = playersRow.getActive().getValue().equals("multi-player");
@@ -83,6 +79,6 @@ public class MenuView extends VBox implements View {
         this.getChildren().add(bottomRow);
 
         this.setSpacing(20);
-        this.setStyle("-fx-background-color: " + MenuView.BG_COLOR);
+        this.setStyle("-fx-background-color: " + Application.BG_COLOR);
     }
 }

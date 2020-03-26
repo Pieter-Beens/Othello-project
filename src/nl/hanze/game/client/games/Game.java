@@ -1,6 +1,8 @@
 package nl.hanze.game.client.games;
 
 import nl.hanze.game.client.games.players.Player;
+import nl.hanze.game.client.games.players.othello.OthelloPlayer;
+import nl.hanze.game.client.games.utils.Field;
 import nl.hanze.game.client.util.Move;
 import nl.hanze.game.client.util.GameObservable;
 import nl.hanze.game.client.util.GameObserver;
@@ -13,20 +15,24 @@ public abstract class Game implements GameObservable {
 
     private ArrayList<GameObserver> observers;
 
-    protected List<Player> players;
+    protected ArrayList<Player> players;
+
+    protected Player activePlayer;
 
     protected int currentPlayerIndex = 0;
 
-    protected char[][] board;
+    protected int boardSize;
+    protected Field[][] board;
 
-    protected Game(Player... players) {
-        if (players.length >= getMinAmountOfPlayers() || players.length <= getMaxAmountOfPlayers()) {
+    protected Game(int boardSize, Player... players) {
+        if (players.length < getMinAmountOfPlayers() || players.length > getMaxAmountOfPlayers()) {
             throw new IllegalArgumentException("An invalid amount of nl.hanze.group1.framework.players was given, " + players.length +
                     " should be between min: " + getMinAmountOfPlayers() + " max: " + getMaxAmountOfPlayers());
         }
 
-        this.board = new char[getBoardSize()][getBoardSize()];
-        this.players = Arrays.asList(players);
+        this.boardSize = boardSize;
+        this.board = new Field[getBoardSize()][getBoardSize()];
+        this.players = new ArrayList<>(Arrays.asList(players));
         this.observers = new ArrayList<>();
     }
 
@@ -52,7 +58,7 @@ public abstract class Game implements GameObservable {
         }
     }
 
-    public char[][] getBoard() {
+    public Field[][] getBoard() {
         return board;
     }
 
