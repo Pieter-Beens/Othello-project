@@ -14,7 +14,7 @@ public class CommandLineView implements Board {
                 Field currentField = board[row][column];
 
                 //string.append(board[row][column] == '\u0000' ? "-" : currentField).append(" ");
-                //TODO: gebruik Field.getOwner() om de char te bepalen: null = -, player1 = X, player2 = O
+                //TODO: gebruik Field.getOwner().getColor() om een char op te halen
             }
 
             string.append("\n");

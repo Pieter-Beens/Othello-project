@@ -2,31 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/controllers/OthelloController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/games/OthelloGame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/games/utils/Field.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/views/OthelloView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/views/boards/othello/FieldButton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/views/boards/othello/InfoBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/controllers/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/controllers/MenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/games/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/games/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/games/Othello.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/games/TicTacToe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/games/TicTacToeGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/games/players/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/games/players/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/games/players/othello/OthelloPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/games/players/othello/OthelloPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/games/players/tictactoe/AIPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/games/players/tictactoe/AIPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/games/players/tictactoe/ManualPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/games/players/tictactoe/ManualPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/games/players/tictactoe/RemotePlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/games/players/tictactoe/RemotePlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/util/GameObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/util/GameObserver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/views/MenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/views/MenuView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/views/boards/BoardView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/views/boards/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/views/boards/othello/GraphicalView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/views/boards/othello/OthelloBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/old/othello/AI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/old/othello/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/old/othello/Field.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/old/othello/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/TicTacToe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/old/tictactoe/TicTacToe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/old/othello/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/old/othello/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/views/boards/othello/OthelloBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/views/boards/othello/OthelloBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/views/boards/tictactoe/CommandLineView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/views/boards/tictactoe/CommandLineView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/views/boards/tictactoe/GraphicalView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/views/boards/tictactoe/TicTacToeBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/views/utils/MenuButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/views/utils/MenuButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nl/hanze/game/client/views/utils/MenuToggleButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nl/hanze/game/client/views/utils/MenuToggleButton.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,6 +111,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\beens\IdeaProjects\Othello\src\old\othello" />
+      <recent name="C:\Users\beens\IdeaProjects\Othello\src\old" />
       <recent name="C:\Users\beens\IdeaProjects\Othello\src\sample" />
       <recent name="C:\Users\beens\IdeaProjects\Othello" />
       <recent name="C:\Users\beens\IdeaProjects\Othello\src" />
@@ -133,7 +121,7 @@
       <recent name="C:\Users\beens\IdeaProjects\Othello\src\sample" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Application">
+  <component name="RunManager" selected="Application.Game (1)">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -165,7 +153,7 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="nl.hanze.game.client.*" />
+          <option name="PATTERN" value="old.tictactoe.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -180,6 +168,20 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="sample.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Game (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="old.othello.Game" />
+      <module name="Othello" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="old.othello.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -213,6 +215,20 @@
       </extension>
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TicTacToe" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="old.tictactoe.TicTacToe" />
+      <module name="Othello" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="old.tictactoe.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -256,6 +272,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Game (1)" />
+        <item itemvalue="Application.TicTacToe" />
         <item itemvalue="Application.Application" />
         <item itemvalue="Application.Game" />
         <item itemvalue="Application.Controller" />
@@ -320,26 +338,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="473" y="155" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1585084889047" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1585186047294">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1585236576923">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1584891875241" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1585186047294" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1585186047294">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1585236576923" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1585236576922">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1584891875241" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1585186047294" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1585186047294">
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1585236576922" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1585236576922">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1584891875241" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1585186047294" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1585186047294">
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1585236576922" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1585236576923">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1584891875241" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1585186047294" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1585236576923" />
     <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1583799225014">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -360,10 +378,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1585085863546" />
-    <state x="463" y="144" width="609" height="536" key="find.popup" timestamp="1585185803113">
+    <state x="463" y="144" width="609" height="536" key="find.popup" timestamp="1585229524329">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="463" y="144" width="609" height="536" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1585185803113" />
+    <state x="463" y="144" width="609" height="536" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1585229524329" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1583791254607">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
