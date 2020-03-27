@@ -1,4 +1,4 @@
-package nl.hanze.game.client;
+package old.tictactoe;
 
 import java.io.BufferedReader;
 import java.io.IOException;

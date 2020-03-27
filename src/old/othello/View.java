@@ -1,4 +1,4 @@
-package nl.hanze.game.client;
+package old.othello;
 
 import javafx.stage.Stage;
 

@@ -1,4 +1,4 @@
-package nl.hanze.game.client;
+package old.othello;
 
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
