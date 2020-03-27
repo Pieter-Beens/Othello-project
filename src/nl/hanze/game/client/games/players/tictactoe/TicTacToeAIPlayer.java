@@ -1,10 +1,9 @@
 package nl.hanze.game.client.games.players.tictactoe;
 
-import nl.hanze.game.client.games.players.Player;
 import nl.hanze.game.client.util.Move;
 
-public class AIPlayer extends TicTacToePlayer {
-    public AIPlayer(String ign) {
+public class TicTacToeAIPlayer extends TicTacToePlayer {
+    public TicTacToeAIPlayer(String ign) {
         super(ign);
     }
 

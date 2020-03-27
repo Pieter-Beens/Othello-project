@@ -1,16 +1,14 @@
 package nl.hanze.game.client.games.players.tictactoe;
 
-import nl.hanze.game.client.games.players.Player;
 import nl.hanze.game.client.util.Move;
 
-import java.net.Socket;
+public class TicTacToeManualPlayer extends TicTacToePlayer {
 
-public class RemotePlayer extends TicTacToePlayer {
-    private Socket server;
+    private String symbol;
 
-    public RemotePlayer(String ign, Socket server) {
+    public TicTacToeManualPlayer(String ign) {
         super(ign);
-        this.server = server;
+        symbol = "X"; // or O, I don't know how this works
     }
 
     @Override
@@ -20,6 +18,6 @@ public class RemotePlayer extends TicTacToePlayer {
 
     @Override
     public String[] getColors() {
-        return new String[]{"@"};
+        return new String[]{symbol};
     }
 }

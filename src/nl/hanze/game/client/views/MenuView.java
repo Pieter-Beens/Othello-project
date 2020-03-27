@@ -7,24 +7,29 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.hanze.game.client.Application;
-import nl.hanze.game.client.controllers.Controller;
 import nl.hanze.game.client.controllers.MenuController;
 import nl.hanze.game.client.views.utils.MenuButton;
 import nl.hanze.game.client.views.utils.MenuButtonGroup;
 import nl.hanze.game.client.views.utils.MenuToggleButton;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MenuView extends VBox implements View {
 
-    private MenuController controller;
-
     public MenuView(MenuController controller) {
-        this.controller = controller;
-
         this.setMinSize(500, 500);
 
         HBox titleRow = new HBox();
+
+        Label gameLabel = new Label("CHOOSE A GAME");
+        List<MenuButton> gameList = new ArrayList<>();
+        for (String game : Application.games) {
+            gameList.add(new MenuButton(game, game));
+        }
+        gameList.get(1).select();
+        MenuButtonGroup gameMenu = new MenuButtonGroup(gameList);
 
         Label boardsizeLabel = new Label("CHOOSE NUMBER OF FIELDS");
         MenuButton size6 = new MenuButton("6x6", "6");
@@ -59,8 +64,9 @@ public class MenuView extends VBox implements View {
         startButton.setOnMouseClicked(e -> {
             int size = Integer.parseInt(sizeMenu.getActive().getValue());
             boolean IsMultiPlayer = playersRow.getActive().getValue().equals("multi-player");
+            String game = gameMenu.getActive().getValue();
 
-            controller.startBtnClicked(player1Input.getText(), player2Input.getText(), size, fullscreenToggle.getStatus(), IsMultiPlayer);
+            controller.startBtnClicked(game, player1Input.getText(), player2Input.getText(), size, fullscreenToggle.getStatus(), IsMultiPlayer);
         });
 
         bottomRow.getChildren().add(fullscreenToggle);
@@ -68,8 +74,9 @@ public class MenuView extends VBox implements View {
         bottomRow.setAlignment(Pos.CENTER_RIGHT);
         bottomRow.setSpacing(10);
 
-
         this.getChildren().add(titleRow);
+        this.getChildren().add(gameLabel);
+        this.getChildren().add(gameMenu);
         this.getChildren().add(boardsizeLabel);
         this.getChildren().add(sizeMenu);
         this.getChildren().add(playersLabel);

@@ -1,10 +1,9 @@
 package nl.hanze.game.client.games.players.othello;
 
-import nl.hanze.game.client.games.players.Player;
 import nl.hanze.game.client.util.Move;
 
-public class ManualPlayer extends OthelloPlayer {
-    public ManualPlayer(String ign) {
+public class OthelloManualPlayer extends OthelloPlayer {
+    public OthelloManualPlayer(String ign) {
         super(ign);
     }
 

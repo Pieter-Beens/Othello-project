@@ -4,7 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import nl.hanze.game.client.controllers.OthelloController;
-import nl.hanze.game.client.games.players.othello.ManualPlayer;
+import nl.hanze.game.client.games.players.othello.OthelloManualPlayer;
 import nl.hanze.game.client.games.players.othello.OthelloPlayer;
 import nl.hanze.game.client.games.utils.Field;
 import nl.hanze.game.client.util.Move;
@@ -78,7 +78,7 @@ public class OthelloBoard extends GridPane implements Board {
 
         //TODO: update recentmove signifiers
 
-        if (controller.getActivePlayer() instanceof ManualPlayer) setValidMoves();
+        if (controller.getActivePlayer() instanceof OthelloManualPlayer) setValidMoves();
     }
 }
 

@@ -1,14 +1,13 @@
 package nl.hanze.game.client.games.players.othello;
 
-import nl.hanze.game.client.games.players.Player;
 import nl.hanze.game.client.util.Move;
 
 import java.net.Socket;
 
-public class RemotePlayer extends OthelloPlayer {
+public class OthelloRemotePlayer extends OthelloPlayer {
     private Socket server;
 
-    public RemotePlayer(String ign, Socket server) {
+    public OthelloRemotePlayer(String ign, Socket server) {
         super(ign);
         this.server = server;
     }

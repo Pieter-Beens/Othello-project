@@ -1,13 +1,10 @@
 package nl.hanze.game.client.games;
 
 import nl.hanze.game.client.games.players.Player;
-import nl.hanze.game.client.util.Move;
 import nl.hanze.game.client.games.players.tictactoe.TicTacToePlayer;
+import nl.hanze.game.client.util.Move;
 
 public class TicTacToeGame extends Game {
-
-
-
     public TicTacToeGame(TicTacToePlayer... players) {
         super(3, players);
     }
