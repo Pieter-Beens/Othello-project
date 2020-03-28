@@ -21,6 +21,11 @@ public class OthelloView extends VBox implements View {
         this.setAlignment(Pos.TOP_CENTER);
     }
 
+    public void scale() {
+        this.board.scale();
+        this.infoBox.scale();
+    }
+
     public OthelloBoard getBoard() {
         return this.board;
     }

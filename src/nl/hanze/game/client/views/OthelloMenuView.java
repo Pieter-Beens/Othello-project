@@ -15,11 +15,11 @@ import nl.hanze.game.client.views.utils.MenuToggleButton;
 
 import java.util.Arrays;
 
-public class MenuView extends VBox implements View {
+public class OthelloMenuView extends VBox implements View {
 
     private MenuController controller;
 
-    public MenuView(MenuController controller) {
+    public OthelloMenuView(MenuController controller) {
         this.controller = controller;
 
         this.setMinSize(500, 500);
