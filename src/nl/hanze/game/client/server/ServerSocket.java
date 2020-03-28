@@ -3,10 +3,11 @@ package nl.hanze.game.client.server;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ServerSocket {
+public class ServerSocket implements Runnable {
     private Socket socket;
     private Scanner scanner;
 
@@ -15,15 +16,21 @@ public class ServerSocket {
         this.scanner = new Scanner(System.in);
     }
 
-    public boolean login(String ign) throws IOException {
+    public String login(String ign) throws IOException {
         String result = sendCommand("login " + ign);
 
-        return result.equals("OK");
+        System.out.println("x");//result.equals("OK"));
+        return result;//.equals("OK");
+    }
+    public String logout() throws IOException {
+        String result = sendCommand("logout");
+
+        System.out.println("x");//result.equals("OK"));
+        return result;//.equals("OK");
     }
 
     public boolean subscribe(String gameType) throws IOException {
         String result = sendCommand("subscribe " + gameType);
-
         return result.equals("OK");
     }
 
@@ -31,8 +38,12 @@ public class ServerSocket {
         return null;
     }
 
-    public List<String> getGameList() {
-        return null;
+    public List<String> getGameList() throws IOException {
+        String result = sendCommand("get gamelist'");
+        List<String> gamelist = new ArrayList<>();
+        gamelist.add(result);
+        return gamelist;
+        //return result.equals("OK");
     }
 
     private String sendCommand(String command) throws IOException {
@@ -41,5 +52,25 @@ public class ServerSocket {
         out.flush();
 
         return scanner.nextLine();
+    }
+    @Override
+    public void run(){
+        try {
+            this.login("user1");
+            //System.out.println(this.getGameList());
+            //socket.sendCommand("login user1");
+            //System.out.println(this.sendCommand("get gamelist"));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public static void main(String[] args){
+        try{
+            ServerSocket socket = new ServerSocket("127.0.0.1",7789);
+            Thread t = new Thread(socket);
+            t.start();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }
