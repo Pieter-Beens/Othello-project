@@ -51,7 +51,7 @@ public class OthelloBoard extends GridPane implements Board {
     // called by listener when resizing
     public void scale() { //TODO: fix this
         double smallestDimension = controller.getStageWidth();
-        if (controller.getStageHeight() - 100 < smallestDimension) smallestDimension = controller.getStageHeight();
+        if (controller.getStageHeight() < smallestDimension) smallestDimension = controller.getStageHeight();
 
         double fieldSize = (smallestDimension / boardSize) * 0.90;
         for (Node fieldButton : getChildren()) {
