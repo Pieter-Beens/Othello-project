@@ -16,7 +16,11 @@ public class ServerListener implements Runnable {
     @Override
     public void run(){
         try {
-            System.out.println(br.readLine());
+            while(true) {
+                String line = br.readLine();
+                if(line != null)
+                System.out.println("Server: "+line);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

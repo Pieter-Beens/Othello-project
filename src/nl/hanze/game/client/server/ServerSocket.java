@@ -48,10 +48,15 @@ public class ServerSocket implements Observable {
             t1.start();
             t2.start();
 
+            Thread.sleep(1000);
             serverSocket.serverCommand.login("user1");
 
-            while(true) {}
-        } catch (IOException e){
+            Thread.sleep(1000);
+            serverSocket.serverCommand.getGameList();
+            Thread.sleep(1000);
+            serverSocket.serverCommand.getPlayerList();
+
+        } catch (IOException | InterruptedException e){
             e.printStackTrace();
         }
 

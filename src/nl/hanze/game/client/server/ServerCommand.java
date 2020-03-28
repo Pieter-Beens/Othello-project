@@ -26,14 +26,14 @@ public class ServerCommand implements Runnable {
         commandQueue.add("subscribe " + gameType);
     }
 
-    public List<String> getPlayerList() {
+    public void getPlayerList() {
         commandQueue.add("get playerlist");
-        return null;
+        //return null;
     }
 
-    public List<String> getGameList() throws IOException {
+    public void getGameList() throws IOException {
         commandQueue.add("get gamelist");
-        return null;
+        //return null;
 
     }
 
@@ -47,12 +47,14 @@ public class ServerCommand implements Runnable {
     public void run(){
         //TODO: process commandQueue
         try {
-            for(String command : commandQueue) {
-                System.out.println("SC.run(): "+command);
+            //noinspection InfiniteLoopStatement
+            while(true) if (!commandQueue.isEmpty()) {
+                String command = commandQueue.poll();
+                System.out.println("Client: " + command);
                 sendCommand(command);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
     }
 }
