@@ -24,6 +24,14 @@ public class Application extends javafx.application.Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
 
+        // set initial window size
+        this.primaryStage.setMinWidth(300);
+        this.primaryStage.setMinHeight(350);
+
+//        // keep fixed aspect ratio when resizing
+//        this.primaryStage.minHeightProperty().bind(this.primaryStage.widthProperty().multiply(1.10));
+//        this.primaryStage.maxHeightProperty().bind(this.primaryStage.widthProperty().multiply(1.10));
+
         MenuController menuController = new MenuController(primaryStage);
         VBox menu = new MenuView(menuController);
 
