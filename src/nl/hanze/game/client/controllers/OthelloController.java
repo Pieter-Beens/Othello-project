@@ -19,12 +19,10 @@ public class OthelloController {
     public void setView(OthelloView view) {
         this.view = view;
         primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
-            view.getBoard().scale();
-            view.getInfoBox().scale();
+            view.scale();
         });
         primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
-            view.getBoard().scale();
-            view.getInfoBox().scale();
+            view.scale();
         });
     }
 
