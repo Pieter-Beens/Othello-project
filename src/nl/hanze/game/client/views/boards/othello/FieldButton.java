@@ -3,7 +3,6 @@ package nl.hanze.game.client.views.boards.othello;
 import javafx.scene.control.Button;
 import nl.hanze.game.client.Application;
 import nl.hanze.game.client.games.players.Player;
-import nl.hanze.game.client.games.players.othello.OthelloPlayer;
 
 public class FieldButton extends Button {
 
@@ -19,7 +18,7 @@ public class FieldButton extends Button {
         setOnMouseClicked(e -> System.out.println("clickety"));
     }
 
-    public void setOwner(OthelloPlayer player) {
+    public void setOwner(Player player) {
         setStyle("-fx-background-color: " + player.getColors()[0]);
     }
 

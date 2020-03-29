@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import nl.hanze.game.client.games.OthelloGame;
 import nl.hanze.game.client.games.players.AIPlayer;
 import nl.hanze.game.client.games.players.ManualPlayer;
-import nl.hanze.game.client.games.players.othello.OthelloPlayer;
+import nl.hanze.game.client.games.players.Player;
 import nl.hanze.game.client.views.OthelloView;
 
 public class OfflineMenuController implements Controller {
@@ -23,8 +23,8 @@ public class OfflineMenuController implements Controller {
         if (ignPlayer2.length() > 10) ignPlayer2 = ignPlayer2.substring(0,11);
         else if (ignPlayer2.length() == 0) ignPlayer2 = "player2";
 
-        OthelloPlayer player1 = new ManualPlayer(ignPlayer1);
-        OthelloPlayer player2 = (isMultiPlayer) ? new ManualPlayer(ignPlayer2) : new AIPlayer(ignPlayer2);;
+        Player player1 = new ManualPlayer(ignPlayer1);
+        Player player2 = (isMultiPlayer) ? new ManualPlayer(ignPlayer2) : new AIPlayer(ignPlayer2);;
 
         OthelloController othelloController = new OthelloController(primaryStage, new OthelloGame(boardSize, player1, player2));
 

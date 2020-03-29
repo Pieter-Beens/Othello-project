@@ -35,7 +35,7 @@ public class Game extends Application { //TODO: port to Android: https://stackov
     private boolean vsAI = true;
     private AI roboPieter = new AI(2000);
 
-    private ArrayList<ArrayList<Field>> fields; // contains all BOARDSIZE^2 field nodes // TODO: turn into separate CLASS
+    private ArrayList<ArrayList<Field>> fields; // contains all BOARDSIZE^2 field nodes
 
     public int turn = 1;
 
@@ -298,7 +298,7 @@ public class Game extends Application { //TODO: port to Android: https://stackov
     }
 
     public void updateStartView() {
-        //TODO: recolor all elements of the start screen using this method
+
     }
 
     public void startGame(Stage primaryStage, String player1name, String player2name) {
@@ -562,7 +562,7 @@ public class Game extends Application { //TODO: port to Android: https://stackov
         if (this.turn < 0) this.turnLabel.setStyle("-fx-text-fill: " + player2colorcode);
 
         int player1score = 0;
-        int player2score = 0;  // TODO: implement lowering/increasing score in methods so this check is not needed every turn
+        int player2score = 0;
 
         for (ArrayList<Field> row : this.fields) {
             for (Field field : row) {
@@ -594,7 +594,7 @@ public class Game extends Application { //TODO: port to Android: https://stackov
         }
     }
 
-    public void updateBoardView() { // TODO: divide into multiple parts relevant to respective calls; this will become a Class!
+    public void updateBoardView() {
         if (!(vsAI && this.turn == -1)) {
             for (ArrayList<Field> row : this.fields) {
                 for (Field field : row) {
@@ -605,8 +605,6 @@ public class Game extends Application { //TODO: port to Android: https://stackov
                 }
             }
         }
-
-        //TODO: known bug: sometimes after a capture the background color is not changed, and can never be changed again?
 
         for (ArrayList<Field> row : this.fields) {
             for (Field field : row) {

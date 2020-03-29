@@ -5,7 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import nl.hanze.game.client.controllers.OthelloController;
 import nl.hanze.game.client.games.players.ManualPlayer;
-import nl.hanze.game.client.games.players.othello.OthelloPlayer;
+import nl.hanze.game.client.games.players.Player;
 import nl.hanze.game.client.games.utils.Field;
 import nl.hanze.game.client.util.Move;
 import nl.hanze.game.client.views.boards.Board;
@@ -14,10 +14,10 @@ public class OthelloBoard extends GridPane implements Board {
 
     private OthelloController controller;
     private int boardSize;
-    private OthelloPlayer player1;
-    private OthelloPlayer player2;
+    private Player player1;
+    private Player player2;
 
-    public OthelloBoard(OthelloController controller, int boardSize, OthelloPlayer player1, OthelloPlayer player2) {
+    public OthelloBoard(OthelloController controller, int boardSize, Player player1, Player player2) {
         this.controller = controller;
         this.boardSize = boardSize;
         this.player1 = player1;

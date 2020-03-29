@@ -8,17 +8,17 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import nl.hanze.game.client.Application;
 import nl.hanze.game.client.controllers.OthelloController;
-import nl.hanze.game.client.games.players.othello.OthelloPlayer;
+import nl.hanze.game.client.games.players.Player;
 
 public class InfoBox extends HBox {
     private final OthelloController controller;
-    private final OthelloPlayer player1;
-    private final OthelloPlayer player2;
+    private final Player player1;
+    private final Player player2;
     private final Label turnLabel;
     private final Label player1ScoreBar;
     private final Label player2ScoreBar;
 
-    public InfoBox(OthelloController controller, int boardSize, OthelloPlayer player1, OthelloPlayer player2) {
+    public InfoBox(OthelloController controller, int boardSize, Player player1, Player player2) {
         this.controller = controller;
         this.player1 = player1;
         this.player2 = player2;

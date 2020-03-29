@@ -1,6 +1,5 @@
 package nl.hanze.game.client.games.players;
 
-import nl.hanze.game.client.games.players.Player;
 import nl.hanze.game.client.util.Move;
 
 public class ManualPlayer extends Player {
