@@ -3,8 +3,8 @@ package nl.hanze.game.client;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import nl.hanze.game.client.controllers.MenuController;
-import nl.hanze.game.client.views.OthelloMenuView;
+import nl.hanze.game.client.controllers.OfflineMenuController;
+import nl.hanze.game.client.views.OfflineMenuView;
 
 public class Application extends javafx.application.Application {
     public static void main(String[] args) {
@@ -31,8 +31,8 @@ public class Application extends javafx.application.Application {
 //        this.primaryStage.minHeightProperty().bind(this.primaryStage.widthProperty().multiply(1.10));
 //        this.primaryStage.maxHeightProperty().bind(this.primaryStage.widthProperty().multiply(1.10));
 
-        MenuController menuController = new MenuController(primaryStage);
-        VBox menu = new OthelloMenuView(menuController);
+        OfflineMenuController menuController = new OfflineMenuController(primaryStage);
+        VBox menu = new OfflineMenuView(menuController);
 
         primaryStage.setTitle("OtHello World");
         this.primaryStage.setScene(new Scene(menu));

@@ -7,19 +7,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import nl.hanze.game.client.Application;
-import nl.hanze.game.client.controllers.Controller;
-import nl.hanze.game.client.controllers.MenuController;
+import nl.hanze.game.client.controllers.OfflineMenuController;
 import nl.hanze.game.client.views.utils.MenuButton;
 import nl.hanze.game.client.views.utils.MenuButtonGroup;
 import nl.hanze.game.client.views.utils.MenuToggleButton;
 
 import java.util.Arrays;
 
-public class OthelloMenuView extends VBox implements View {
+public class OfflineMenuView extends VBox implements View {
 
-    private MenuController controller;
+    private OfflineMenuController controller;
 
-    public OthelloMenuView(MenuController controller) {
+    public OfflineMenuView(OfflineMenuController controller) {
         this.controller = controller;
 
         this.setMinSize(500, 500);

@@ -8,11 +8,11 @@ import nl.hanze.game.client.games.players.othello.ManualPlayer;
 import nl.hanze.game.client.games.players.othello.OthelloPlayer;
 import nl.hanze.game.client.views.OthelloView;
 
-public class MenuController implements Controller {
+public class OfflineMenuController implements Controller {
 
     private Stage primaryStage;
 
-    public MenuController(Stage primaryStage) {
+    public OfflineMenuController(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
