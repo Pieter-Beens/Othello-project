@@ -1,13 +1,10 @@
 package nl.hanze.game.client.games;
 
 import nl.hanze.game.client.games.players.Player;
-import nl.hanze.game.client.games.players.othello.ManualPlayer;
 import nl.hanze.game.client.games.utils.Field;
 import nl.hanze.game.client.util.Move;
 import nl.hanze.game.client.games.players.othello.OthelloPlayer;
 
-import java.lang.reflect.Array;
-import java.util.EnumMap;
 import java.util.Random;
 
 public class OthelloGame extends Game {

@@ -625,7 +625,7 @@ public class Game extends Application { //TODO: port to Android: https://stackov
     public void playSound(int i) {
         //TODO: fix issue where sometimes sound effects fail to play
 
-        Media sound = new Media(new File(i%4 + ".wav").toURI().toString());
+        Media sound = new Media(new File("src/old/othello/" + i%4 + ".wav").toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
             mediaPlayer.play();
     }
