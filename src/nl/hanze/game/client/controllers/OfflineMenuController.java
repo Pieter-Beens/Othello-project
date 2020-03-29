@@ -3,8 +3,8 @@ package nl.hanze.game.client.controllers;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.hanze.game.client.games.OthelloGame;
-import nl.hanze.game.client.games.players.othello.AIPlayer;
-import nl.hanze.game.client.games.players.othello.ManualPlayer;
+import nl.hanze.game.client.games.players.AIPlayer;
+import nl.hanze.game.client.games.players.ManualPlayer;
 import nl.hanze.game.client.games.players.othello.OthelloPlayer;
 import nl.hanze.game.client.views.OthelloView;
 

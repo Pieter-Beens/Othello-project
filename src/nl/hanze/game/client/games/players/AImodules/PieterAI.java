@@ -1,4 +1,4 @@
-package nl.hanze.game.client.games.players.othello.AImodules;
+package nl.hanze.game.client.games.players.AImodules;
 
 public class PieterAI extends AI {
 
