@@ -11,15 +11,20 @@ public class CommandQueue implements Runnable {
     private final Object lock;
     private final BlockingQueue<String> commandQueue;
 
-    public CommandQueue(Socket socket, GameServer gameServer) {
+    protected CommandQueue(Socket socket, GameServer gameServer) {
         this.socket = socket;
         commandQueue = new LinkedBlockingQueue<>();
         this.gameserver = gameServer;
         this.lock = gameServer.lock;
     }
 
-    public void addCommand(String command){
-        commandQueue.add(command);
+    protected void addCommand(String command) {
+            commandQueue.add(command);
+            /*
+            synchronized (lock) {
+                lock.wait();
+            }*/
+            //System.out.println("xx");
     }
 
     private void sendCommand(String command) {
@@ -38,10 +43,9 @@ public class CommandQueue implements Runnable {
 
         //noinspection InfiniteLoopStatement
         while(true) {
-            //System.out.println("CQ");
             if (!commandQueue.isEmpty()) {
                 String command = commandQueue.poll();
-                System.out.println("Client: " + command);
+                //System.out.println("Client: " + command);
                 sendCommand(command);
             }
         }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameServer implements Observable {
+public class GameServer {
     private final Socket socket;
 
     private final CommandQueue commandQueue;
@@ -14,36 +14,14 @@ public class GameServer implements Observable {
     private Thread commandThread;
     private Thread listenerThread;
 
-    private final List<Object> observers;
-    private final List<String> onlinePlayers;
-    private final List<String> onlineGames;
-
     public final Object lock = new Object();
 
     public GameServer(String ip, int port) throws IOException {
         socket = new Socket(ip, port);
         commandQueue = new CommandQueue(socket, this);
         serverListener = new ServerListener(socket, this);
-        observers = new ArrayList<>();
-        onlinePlayers = new ArrayList<>();
-        onlineGames = new ArrayList<>();
         commandThread = new Thread(commandQueue);
         listenerThread = new Thread(serverListener);
-    }
-
-    @Override
-    public void addObserver(Object o) {
-        observers.add(o);
-    }
-
-    @Override
-    public void removeObserver(Object o) {
-        observers.remove(o);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for(Object observer : observers) observer.notifyAll();
     }
 
     public void start(){
@@ -58,32 +36,56 @@ public class GameServer implements Observable {
         socket.close();
     }
 
-    public boolean login(String ign) {
+    public void login(String ign) {
         commandQueue.addCommand("login " + ign);
-        return false;
     }
 
-    public boolean logout() {
+    public void logout() {
         commandQueue.addCommand("logout");
-        return false;
     }
 
-    public boolean subscribe(String gameType) {
+    public void subscribe(String gameType) {
         commandQueue.addCommand("subscribe " + gameType);
-        return false;
     }
 
-    public List<String> getPlayerList() {
+    public void getPlayerList() {
         commandQueue.addCommand("get playerlist");
-        return null;
-    }
-    public void addPlayers(String... players){
-        onlinePlayers.addAll(Arrays.asList(players));
     }
 
-    public List<String> getGameList() {
+    public void getGameList() {
         commandQueue.addCommand("get gamelist");
-        return null;
+    }
+
+    public void challenge(String player, String game){
+        commandQueue.addCommand("challenge "+player+" "+game);
+    }
+
+    public void challengeAccept(int id){
+        commandQueue.addCommand("challenge accept "+id);
+    }
+
+    public void help(){
+        commandQueue.addCommand("help");
+    }
+
+    public void help(String s){
+        commandQueue.addCommand("help "+s);
+    }
+
+    public void move(Object move){
+        //TODO: wat is het datatype van een zet?
+        commandQueue.addCommand("move "+move);
+    }
+    public void forfeit(){
+        commandQueue.addCommand("forfeit");
+    }
+
+    public void addObserver(Observer o){
+        this.serverListener.addObserver(o);
+    }
+
+    public void removeObserver(Observer o){
+        this.serverListener.removeObserver(o);
     }
 
     public static void main(String[] args){
@@ -91,10 +93,9 @@ public class GameServer implements Observable {
         try{
             GameServer gameServer = new GameServer("127.0.0.1",7789);
             gameServer.start();
-
+            gameServer.addObserver(new testObserver());
             Thread.sleep(1000);
             gameServer.login("user1");
-
             Thread.sleep(1000);
             gameServer.getGameList();
             Thread.sleep(2000);
