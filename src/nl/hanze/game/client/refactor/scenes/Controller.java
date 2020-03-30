@@ -4,11 +4,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import nl.hanze.game.client.refactor.Main;
-import nl.hanze.game.client.refactor.server.Observer;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import nl.hanze.game.client.server.Observer;
 
 public abstract class Controller implements Observer {
     public static Controller loadScene(String fxml) throws IOException {
