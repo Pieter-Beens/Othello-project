@@ -1,16 +1,16 @@
 package nl.hanze.game.client.refactor.scenes;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import nl.hanze.game.client.refactor.Main;
+import nl.hanze.game.client.refactor.server.Observer;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public abstract class Controller {
+public abstract class Controller implements Observer {
     public static Controller loadScene(String fxml) throws IOException {
         fxml = "src/nl/hanze/game/client/refactor/scenes/" + fxml;
 
@@ -24,5 +24,9 @@ public abstract class Controller {
         Main.primaryStage.show();
 
         return loader.getController();
+    }
+
+    public void update(String s){
+        System.out.println("Controller sees: " + s);
     }
 }
