@@ -5,59 +5,71 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
 class ServerCommunicator implements Runnable, Observable {
 
-    private final Socket socket;
-    private final BufferedReader br;
+    private final BufferedReader input;
     private final List<Observer> observers;
+    //private final LinkedList<String> commandQueue;
+    private final PrintWriter output;
     private boolean running = true;
-    private BlockingQueue<String> commandQueue;
+    private final Object lock = new Object();
+    private final Thread t;
 
-    protected ServerCommunicator(Socket s, BlockingQueue commandQueue) throws IOException {
-        br = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        socket = s;
+    protected ServerCommunicator(Socket s) throws IOException {
+        input = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        output = new PrintWriter(s.getOutputStream(), true);
         observers = new ArrayList<>();
-        this.commandQueue = commandQueue;
+        //commandQueue = new LinkedList<>();
+        t = new Thread(this);
+        t.start();
     }
 
     @Override
     public void run(){
         while(running) {
             try {
-                System.out.println(6);
-                if (!commandQueue.isEmpty()) {
-                    String command = commandQueue.poll();
-                    System.out.println("Client: " + command);
-                    sendCommand(command);
+                String serverInput = input.readLine();
+                if (serverInput != null) {
+                    notifyObservers(serverInput);
+                    if(serverInput.equals("OK")) {
+                        synchronized (lock) {
+                            lock.notifyAll();
+                        }
+                    }
                 }
-                String line = br.readLine();
-                if (line != null) {
-                    //System.out.println("Server: "+line);
-                    notifyObservers(line);
-                }
-
-
-            } catch (IOException e ) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    /*protected void addCommand(String s){
+    /*
+    protected void sendCommand(String s){
         commandQueue.add(s);
     }*/
 
-    private void sendCommand(String command) throws IOException {
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        out.println(command);
-        out.flush();
-        //if(command.equals("logout")) running = false;
+    protected synchronized void sendCommand(String command) {
+        synchronized (lock) {
+            System.out.println("Client: " + command);
+            output.println(command);
+            output.flush();
+            try {
+                if(!command.equals("logout"))lock.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    protected void close(){
+        running = false;
+    }
+    protected boolean isAlive(){
+        return t.isAlive();
     }
 
     @Override
