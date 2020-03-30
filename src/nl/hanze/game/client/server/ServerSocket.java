@@ -2,71 +2,80 @@ package nl.hanze.game.client.server;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ServerSocket {
     private final Socket socket;
-    private final ServerCommunicator serverCommunicator;
+    protected final BlockingQueue<String> commandQueue;
     private final Thread communicatorThread;
-
+    ServerCommunicator sc;
     public ServerSocket(String ip, int port) throws IOException {
         socket = new Socket(ip, port);
-        serverCommunicator = new ServerCommunicator(socket);
-        communicatorThread = new Thread(serverCommunicator);
+        commandQueue = new LinkedBlockingQueue<>();
+        sc = new ServerCommunicator(socket, commandQueue);
+        communicatorThread = new Thread(sc);
+    }
+
+    public void login(String ign) {
+        commandQueue.add("login " + ign);
+    }
+
+    private void logout() {
+        commandQueue.add("logout");
+    }
+
+    public void start(){
         communicatorThread.start();
     }
 
-
-    public void login(String ign) {
-        serverCommunicator.addCommand("login " + ign);
-    }
-
-    private void logoutAndClose() {
-        serverCommunicator.addCommand("logout");
+    private void close() throws IOException {
+        socket.close();
     }
 
     public void subscribe(String gameType) {
-        serverCommunicator.addCommand("subscribe " + gameType);
+        commandQueue.add("subscribe " + gameType);
     }
 
     public void getPlayerList() {
-        serverCommunicator.addCommand("get playerlist");
+        commandQueue.add("get playerlist");
     }
 
     public void getGameList() {
-        serverCommunicator.addCommand("get gamelist");
+        commandQueue.add("get gamelist");
     }
 
     public void challenge(String player, String game){
-        serverCommunicator.addCommand("challenge "+player+" "+game);
+        commandQueue.add("challenge "+player+" "+game);
     }
 
     public void challengeAccept(int id){
-        serverCommunicator.addCommand("challenge accept "+id);
+        commandQueue.add("challenge accept "+id);
     }
 
     public void help(){
-        serverCommunicator.addCommand("help");
+        commandQueue.add("help");
     }
 
     public void help(String s){
-        serverCommunicator.addCommand("help "+s);
+        commandQueue.add("help "+s);
     }
 
     public void move(Object move){
         //TODO: wat is het datatype van een zet?
-        serverCommunicator.addCommand("move "+move);
+        commandQueue.add("move "+move);
     }
 
     public void forfeit(){
-        serverCommunicator.addCommand("forfeit");
+        commandQueue.add("forfeit");
     }
 
     public void addObserver(Observer o){
-        serverCommunicator.addObserver(o);
+        sc.addObserver(o);
     }
 
     public void removeObserver(Observer o){
-        serverCommunicator.removeObserver(o);
+        sc.removeObserver(o);
     }
 
     public static void main(String[] args){
@@ -74,7 +83,8 @@ public class ServerSocket {
             ServerSocket serverSocket = new ServerSocket("127.0.0.1",7789);
 
             serverSocket.addObserver(new testObserver());
-            Thread.sleep(1000);
+            serverSocket.start();
+            //Thread.sleep(1000);
             serverSocket.login("user1");
             //serverSocket.login("user2");
             Thread.sleep(1000);
@@ -82,7 +92,7 @@ public class ServerSocket {
             Thread.sleep(2000);
             serverSocket.getPlayerList();
             Thread.sleep(2000);
-            serverSocket.logoutAndClose();
+            serverSocket.logout();
 
         } catch (IOException | InterruptedException e){
             e.printStackTrace();

@@ -15,41 +15,43 @@ class ServerCommunicator implements Runnable, Observable {
 
     private final Socket socket;
     private final BufferedReader br;
-    private final BlockingQueue<String> commandQueue;
     private final List<Observer> observers;
     private boolean running = true;
+    private BlockingQueue<String> commandQueue;
 
-    protected ServerCommunicator(Socket s) throws IOException {
+    protected ServerCommunicator(Socket s, BlockingQueue commandQueue) throws IOException {
         br = new BufferedReader(new InputStreamReader(s.getInputStream()));
         socket = s;
         observers = new ArrayList<>();
-        commandQueue = new LinkedBlockingQueue<>();
+        this.commandQueue = commandQueue;
     }
 
     @Override
     public void run(){
         while(running) {
             try {
+                System.out.println(6);
+                if (!commandQueue.isEmpty()) {
+                    String command = commandQueue.poll();
+                    System.out.println("Client: " + command);
+                    sendCommand(command);
+                }
                 String line = br.readLine();
                 if (line != null) {
                     //System.out.println("Server: "+line);
                     notifyObservers(line);
-                } else{
-                    while (!commandQueue.isEmpty()) {
-                        String command = commandQueue.poll();
-                        System.out.println("Client: " + command);
-                        sendCommand(command);
-                    }
                 }
+
+
             } catch (IOException e ) {
                 e.printStackTrace();
             }
         }
     }
 
-    protected void addCommand(String s){
+    /*protected void addCommand(String s){
         commandQueue.add(s);
-    }
+    }*/
 
     private void sendCommand(String command) throws IOException {
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
