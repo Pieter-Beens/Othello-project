@@ -17,6 +17,7 @@ class ServerCommunicator implements Runnable, Observable {
     private final BufferedReader br;
     private final BlockingQueue<String> commandQueue;
     private final List<Observer> observers;
+    private boolean running = true;
 
     protected ServerCommunicator(Socket s) throws IOException {
         br = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -27,19 +28,18 @@ class ServerCommunicator implements Runnable, Observable {
 
     @Override
     public void run(){
-        //noinspection InfiniteLoopStatement
-        while(true) {
-
+        while(running) {
             try {
-                if (!commandQueue.isEmpty()) {
-                    String command = commandQueue.poll();
-                    //System.out.println("Client: " + command);
-                    sendCommand(command);
-                }
                 String line = br.readLine();
                 if (line != null) {
                     //System.out.println("Server: "+line);
                     notifyObservers(line);
+                } else{
+                    while (!commandQueue.isEmpty()) {
+                        String command = commandQueue.poll();
+                        System.out.println("Client: " + command);
+                        sendCommand(command);
+                    }
                 }
             } catch (IOException e ) {
                 e.printStackTrace();
@@ -55,6 +55,7 @@ class ServerCommunicator implements Runnable, Observable {
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         out.println(command);
         out.flush();
+        //if(command.equals("logout")) running = false;
     }
 
     @Override

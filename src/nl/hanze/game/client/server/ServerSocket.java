@@ -12,23 +12,15 @@ public class ServerSocket {
         socket = new Socket(ip, port);
         serverCommunicator = new ServerCommunicator(socket);
         communicatorThread = new Thread(serverCommunicator);
-    }
-
-    public void start(){
         communicatorThread.start();
     }
 
-    public void close() throws IOException {
-        logout();
-        communicatorThread.stop();
-        socket.close();
-    }
 
     public void login(String ign) {
         serverCommunicator.addCommand("login " + ign);
     }
 
-    public void logout() {
+    private void logoutAndClose() {
         serverCommunicator.addCommand("logout");
     }
 
@@ -80,16 +72,18 @@ public class ServerSocket {
     public static void main(String[] args){
         try{
             ServerSocket serverSocket = new ServerSocket("127.0.0.1",7789);
-            serverSocket.start();
+
             serverSocket.addObserver(new testObserver());
+
             Thread.sleep(1000);
             serverSocket.login("user1");
+            //serverSocket.login("user2");
             Thread.sleep(1000);
             serverSocket.getGameList();
             Thread.sleep(2000);
             serverSocket.getPlayerList();
             Thread.sleep(2000);
-            serverSocket.close();
+            serverSocket.logoutAndClose();
 
         } catch (IOException | InterruptedException e){
             e.printStackTrace();
