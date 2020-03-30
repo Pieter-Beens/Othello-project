@@ -15,7 +15,7 @@ public abstract class GameController extends Controller {
     protected Player player2;
     protected Player currentPlayer;
 
-    public static void start(String ignPlayer1, String ignPlayer2, int boardSize, String game, boolean fullscreen, boolean isMultiPlayer) throws IOException {
+    public static void start(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer) throws IOException {
         // corrects overlong and empty playernames
         if (ignPlayer1.length() > 10) ignPlayer1 = ignPlayer1.substring(0,11);
         else if (ignPlayer1.length() == 0) ignPlayer1 = "player1";
@@ -37,8 +37,11 @@ public abstract class GameController extends Controller {
 
         GameController controller = (GameController) loadScene("games/" + game + "/" + game + ".fxml");
 
-        controller.setPlayer1(player1);
-        controller.setPlayer2(player2);
+        GameModel model = controller.getModel();
+        model.setPlayer1(player1);
+        model.setPlayer2(player2);
+
+        controller.setup();
 
         Main.primaryStage.setFullScreen(fullscreen);
     }
@@ -54,4 +57,8 @@ public abstract class GameController extends Controller {
     public void setPlayer2(Player player2) {
         this.player2 = player2;
     }
+
+    public void setup() {}
+
+    protected abstract GameModel getModel();
 }

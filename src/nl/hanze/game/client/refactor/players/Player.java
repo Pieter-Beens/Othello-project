@@ -1,6 +1,7 @@
 package nl.hanze.game.client.refactor.players;
 
 import nl.hanze.game.client.Application;
+import nl.hanze.game.client.refactor.scenes.utils.Colors;
 
 public class Player {
 
@@ -29,8 +30,8 @@ public class Player {
     }
 
     public void setStartingColors() {
-        color = Application.BTN_ACTIVE_COLOR;
-        textcolor = Application.BTN_ACTIVE_TEXT_COLOR;
+        color = Colors.BTN_ACTIVE_COLOR;
+        textcolor = Colors.BTN_ACTIVE_TEXT_COLOR;
     }
 
     public String getName() {

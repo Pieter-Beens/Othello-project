@@ -8,9 +8,6 @@
       fx:controller="nl.hanze.game.client.refactor.scenes.menu.offline.OfflineMenuController">
    <HBox prefHeight="100.0" prefWidth="200.0"/>
 
-   <Label text="CHOOSE NUMBER OF FIELDS"/>
-   <HBox fx:id="sizes" alignment="CENTER"/>
-
    <Label text="CHOOSE NUMBER OF PLAYERS"/>
    <HBox fx:id="players" alignment="CENTER"/>
 
