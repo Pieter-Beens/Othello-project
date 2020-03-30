@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import nl.hanze.game.client.refactor.scenes.utils.MenuButton?>
+<VBox alignment="CENTER" prefHeight="428.0" prefWidth="435.0" spacing="10"
+      xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="nl.hanze.game.client.refactor.scenes.start.StartController">
+    <HBox alignment="TOP_CENTER" spacing="30" fx:id="mode">
+        <MenuButton btn-text="Online" btn-value="online" onAction="#btnOnline"/>
+        <MenuButton btn-text="Offline" btn-value="offline" onAction="#btnOffline"/>
+    </HBox>
+</VBox>
