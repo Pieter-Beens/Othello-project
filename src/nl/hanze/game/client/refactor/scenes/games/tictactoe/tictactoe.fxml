@@ -5,6 +5,8 @@
 <VBox alignment="CENTER" prefHeight="428.0" prefWidth="435.0" spacing="10"
       xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="nl.hanze.game.client.refactor.scenes.games.tictactoe.TicTacToeController">
+    <Label text="TicTacToe"/>
+
     <GridPane gridLinesVisible="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
               minWidth="-Infinity" xmlns="http://javafx.com/javafx/10.0.2-internal">
         <rowConstraints>
@@ -36,4 +38,6 @@
         <Button maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" text="-" GridPane.rowIndex="2"
                 GridPane.columnIndex="2" onAction="#move"/>
     </GridPane>
+
+    <Button alignment="CENTER" onAction="#btnGoBack" prefHeight="35.0" text="Go back" textAlignment="CENTER" HBox.hgrow="ALWAYS"/>
 </VBox>

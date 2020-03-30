@@ -1,24 +1,19 @@
 package nl.hanze.game.client.refactor.players;
 
-import nl.hanze.game.client.refactor.players.AImodules.AI;
-import nl.hanze.game.client.refactor.players.AImodules.PieterAI;
+import nl.hanze.game.client.refactor.players.AI.AIStrategy;
+import nl.hanze.game.client.refactor.players.AI.utils.Move;
+import nl.hanze.game.client.refactor.scenes.games.Cell;
 
 public class AIPlayer extends Player {
 
-    AI AImodule;
+    AIStrategy AIStrategy;
 
-    public AIPlayer(String ign) {
+    public AIPlayer(String ign, AIStrategy AIStrategy) {
         super(ign);
-        AImodule = new PieterAI();
+        this.AIStrategy = AIStrategy;
     }
 
-//    @Override
-//    public Move move(char[][] board) {
-//        return new Move(this, 0, 0);
-//    }
-
-    @Override
-    public String[] getColors() {
-        return new String[0];
+    public Move move(Cell[][] board) {
+        return AIStrategy.determineNextMove(board, this);
     }
 }

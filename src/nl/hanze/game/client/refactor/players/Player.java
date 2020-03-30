@@ -2,7 +2,7 @@ package nl.hanze.game.client.refactor.players;
 
 import nl.hanze.game.client.Application;
 
-public abstract class Player {
+public class Player {
 
     private String name;
     private int score;
@@ -10,7 +10,7 @@ public abstract class Player {
     private String textcolor;
 
     public Player(String ign) {
-        this.name = name;
+        this.name = ign;
         score = 0;
         color = Application.BTN_COLOR;
         textcolor = Application.BTN_TEXT_COLOR;
@@ -36,8 +36,4 @@ public abstract class Player {
     public String getName() {
         return name;
     }
-
-    // TODO: I don't know about this one...
-    // abstract public Move move(char[][] board);
-
 }

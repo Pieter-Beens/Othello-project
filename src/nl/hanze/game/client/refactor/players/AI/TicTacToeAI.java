@@ -1,7 +1,15 @@
-package nl.hanze.game.client.refactor.players.AImodules;
+package nl.hanze.game.client.refactor.players.AI;
 
-public class PieterAI extends AI {
+import nl.hanze.game.client.refactor.players.AI.utils.Move;
+import nl.hanze.game.client.refactor.players.Player;
+import nl.hanze.game.client.refactor.scenes.games.Cell;
 
+public class TicTacToeAI implements AIStrategy {
+
+    @Override
+    public Move determineNextMove(Cell[][] board, Player player) {
+        return null;
+    }
 }
 
 /*
