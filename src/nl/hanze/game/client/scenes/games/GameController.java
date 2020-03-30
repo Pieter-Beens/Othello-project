@@ -6,6 +6,7 @@ import nl.hanze.game.client.players.AI.OthelloAI;
 import nl.hanze.game.client.players.AI.TicTacToeAI;
 import nl.hanze.game.client.players.AIPlayer;
 import nl.hanze.game.client.players.Player;
+import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.Controller;
 
 import java.io.IOException;
@@ -32,8 +33,8 @@ public abstract class GameController extends Controller {
                 break;
         }
 
-        Player player1 = new Player(ignPlayer1);
-        Player player2 = (isMultiPlayer) ? new Player(ignPlayer2) : new AIPlayer(ignPlayer2, aiStrategy);
+        Player player1 = new Player(ignPlayer1, PlayerType.LOCAL);
+        Player player2 = (isMultiPlayer) ? new Player(ignPlayer2, PlayerType.LOCAL) : new AIPlayer(ignPlayer2, PlayerType.AI, aiStrategy);
 
         GameController controller = (GameController) loadScene("games/" + game + "/" + game + ".fxml");
 

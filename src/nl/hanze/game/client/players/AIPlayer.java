@@ -8,8 +8,8 @@ public class AIPlayer extends Player {
 
     AIStrategy AIStrategy;
 
-    public AIPlayer(String ign, AIStrategy AIStrategy) {
-        super(ign);
+    public AIPlayer(String ign, PlayerType playerType, AIStrategy AIStrategy) {
+        super(ign, playerType);
         this.AIStrategy = AIStrategy;
     }
 
