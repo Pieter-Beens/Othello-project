@@ -74,7 +74,6 @@ public class ServerSocket {
             ServerSocket serverSocket = new ServerSocket("127.0.0.1",7789);
 
             serverSocket.addObserver(new testObserver());
-
             Thread.sleep(1000);
             serverSocket.login("user1");
             //serverSocket.login("user2");
