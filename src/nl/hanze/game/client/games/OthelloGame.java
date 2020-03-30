@@ -1,7 +1,6 @@
 package nl.hanze.game.client.games;
 
 import nl.hanze.game.client.games.players.Player;
-import nl.hanze.game.client.games.players.othello.OthelloPlayer;
 import nl.hanze.game.client.games.utils.Field;
 import nl.hanze.game.client.util.Move;
 
@@ -10,7 +9,7 @@ import java.util.Random;
 public class OthelloGame extends Game {
 
 
-    private OthelloPlayer activePlayer;
+    private Player activePlayer;
     private int turnCounter;
     public Field[][] board;
 
@@ -40,11 +39,11 @@ public class OthelloGame extends Game {
         getField(boardSize/2, boardSize/2 - 1).setOwner(players.get(1));
 
         // randomises starting player
-        activePlayer = (OthelloPlayer) players.get(new Random().nextInt(2));
+        activePlayer = players.get(new Random().nextInt(2));
         activePlayer.setStartingColors();
     }
 
-    public OthelloPlayer getActivePlayer() {
+    public Player getActivePlayer() {
         return activePlayer;
     }
 

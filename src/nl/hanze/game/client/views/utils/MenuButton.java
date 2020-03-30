@@ -2,7 +2,6 @@ package nl.hanze.game.client.views.utils;
 
 import javafx.scene.control.Button;
 import nl.hanze.game.client.Application;
-import nl.hanze.game.client.views.MenuView;
 
 public class MenuButton extends Button {
     protected boolean isActive = false;

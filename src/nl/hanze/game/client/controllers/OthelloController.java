@@ -2,7 +2,7 @@ package nl.hanze.game.client.controllers;
 
 import javafx.stage.Stage;
 import nl.hanze.game.client.games.OthelloGame;
-import nl.hanze.game.client.games.players.othello.OthelloPlayer;
+import nl.hanze.game.client.games.players.Player;
 import nl.hanze.game.client.views.OthelloView;
 
 public class OthelloController {
@@ -19,12 +19,10 @@ public class OthelloController {
     public void setView(OthelloView view) {
         this.view = view;
         primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
-            view.getBoard().scale();
-            view.getInfoBox().scale();
+            view.scale();
         });
         primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
-            view.getBoard().scale();
-            view.getInfoBox().scale();
+            view.scale();
         });
     }
 
@@ -32,7 +30,7 @@ public class OthelloController {
         return game;
     }
 
-    public OthelloPlayer getActivePlayer() {
+    public Player getActivePlayer() {
         return game.getActivePlayer();
     }
 

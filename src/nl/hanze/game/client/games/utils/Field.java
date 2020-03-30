@@ -2,7 +2,6 @@ package nl.hanze.game.client.games.utils;
 
 import nl.hanze.game.client.games.OthelloGame;
 import nl.hanze.game.client.games.players.Player;
-import nl.hanze.game.client.games.players.othello.OthelloPlayer;
 
 import java.awt.*;
 // can be used to store all fields a stone would capture, and pop() them one by one while Views are updated and sound effects play
