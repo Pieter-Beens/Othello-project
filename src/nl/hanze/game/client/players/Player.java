@@ -5,6 +5,7 @@ import nl.hanze.game.client.scenes.games.Field;
 import nl.hanze.game.client.scenes.utils.Colors;
 
 public class Player {
+    public static int counter = 0;
 
     private PlayerType playerType;
     private String name;
@@ -13,6 +14,11 @@ public class Player {
     private String textcolor;
 
     public Player(String ign, PlayerType playerType) {
+        Player.counter++;
+
+        if (ign.length() > 10) ign = ign.substring(0,11);
+        else if (ign.length() == 0) ign = "player" + counter;
+
         this.name = ign;
         score = 0;
         color = Colors.BTN_COLOR;

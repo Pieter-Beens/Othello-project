@@ -19,12 +19,6 @@ public abstract class GameController extends Controller {
     public List<Move> moveHistory;
 
     public static void start(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer) throws IOException {
-        // corrects overlong and empty playernames
-        if (ignPlayer1.length() > 10) ignPlayer1 = ignPlayer1.substring(0,11);
-        else if (ignPlayer1.length() == 0) ignPlayer1 = "player1";
-        if (ignPlayer2.length() > 10) ignPlayer2 = ignPlayer2.substring(0,11);
-        else if (ignPlayer2.length() == 0) ignPlayer2 = "player2";
-
         AIStrategy aiStrategy = null; //TODO: support multiple AI's/difficulties per game
         switch (game) {
             case "tictactoe":
