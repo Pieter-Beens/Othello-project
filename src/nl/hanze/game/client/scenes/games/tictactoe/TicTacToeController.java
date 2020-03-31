@@ -9,7 +9,7 @@ import nl.hanze.game.client.scenes.games.GameModel;
 import java.io.IOException;
 
 public class TicTacToeController extends GameController {
-    private TicTacToeModel model = new TicTacToeModel();
+    private TicTacToeModel model = new TicTacToeModel(3);
 
     public void move(ActionEvent event) {
         Button btn = (Button) event.getSource();

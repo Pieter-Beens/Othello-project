@@ -2,23 +2,12 @@ package nl.hanze.game.client.scenes.games.othello;
 
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
-import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.Field;
 import nl.hanze.game.client.scenes.games.GameModel;
 
 public class OthelloModel extends GameModel {
-
-    public OthelloModel() {
-        super();
-
-        boardSize = 8;
-
-        board = new Field[getBoardSize()][getBoardSize()];
-        for (int r = 0; r < boardSize; r++) {
-            for (int c = 0; c < boardSize; c++) {
-                board[r][c] = new Field(r,c);
-            }
-        }
+    public OthelloModel(int boardSize) {
+        super(boardSize);
     }
 
     @Override

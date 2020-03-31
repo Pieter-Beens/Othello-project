@@ -7,11 +7,20 @@ public abstract class GameModel {
     protected Player[] players = new Player[MAX_PLAYERS];
     protected Player activePlayer;
     protected int boardSize;
-    protected int turnCounter;
+    protected int turnCounter = 1;
     protected Field[][] board;
     public static final int[][] DIRECTIONS = {{1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}, {-1,0}, {-1,1}, {0,1}};
 
-    public GameModel() { turnCounter = 1; }
+    public GameModel(int boardSize) {
+        this.boardSize = boardSize;
+
+        this.board = new Field[boardSize][boardSize];
+        for (int r = 0; r < boardSize; r++) {
+            for (int c = 0; c < boardSize; c++) {
+                this.board[r][c] = new Field(r,c);
+            }
+        }
+    }
 
     public void nextTurn() {
         turnCounter++;

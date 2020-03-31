@@ -26,7 +26,7 @@ public class OthelloController extends GameController implements Initializable {
 
     private InfoBox infoBox;
 
-    private OthelloModel model = new OthelloModel();
+    private OthelloModel model = new OthelloModel(8);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
