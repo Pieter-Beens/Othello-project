@@ -7,8 +7,5 @@ public class TicTacToeModel extends GameModel {
         super(boardSize);
     }
 
-    @Override
-    public void setup() {
-        activePlayer = players[turnCounter%2];
-    }
+    // note to Roy: turncounter and activePlayer setup now happens in concrete method GameModel.setup()
 }

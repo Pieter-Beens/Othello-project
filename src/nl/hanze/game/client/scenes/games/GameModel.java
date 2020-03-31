@@ -27,7 +27,10 @@ public abstract class GameModel {
         activePlayer = players[turnCounter%2];
     }
 
-    public abstract void setup();
+    public void setup() {
+        activePlayer = players[turnCounter%2];
+        activePlayer.setStartingColors();
+    }
 
     public Player getPlayer(int i) {
         return players[i];

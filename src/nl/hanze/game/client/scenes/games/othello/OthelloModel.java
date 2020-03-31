@@ -22,8 +22,8 @@ public class OthelloModel extends GameModel {
         players[1].changeScore(2);
 
         //TODO: get starting player from server in online games
-        activePlayer = players[turnCounter%2];
-        activePlayer.setStartingColors();
+
+        super.setup();
     }
 
     public void placeStone(Move move) {
@@ -62,5 +62,17 @@ public class OthelloModel extends GameModel {
             }
         }
         return turnHasMoves;
+    }
+
+    public void updateFieldValidity() {
+
+    }
+
+    public void checkForCaptures() {
+
+    }
+    
+    public void enactCaptures() {
+
     }
 }
