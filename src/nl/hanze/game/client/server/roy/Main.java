@@ -11,6 +11,7 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         commandQueue = new LinkedBlockingQueue<>();
 
+        // Client is an observable
         client = new SocketClient(commandQueue);
         client.setIp("127.0.0.1");
         client.setPort(7789);
@@ -19,6 +20,7 @@ public class Main {
 
         Thread.sleep(1000);
 
+        // Controller is a observer
         Controller controller = new Controller();
 
         commandQueue.put("login roy");
