@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.util.List;
 
 public abstract class GameController extends Controller {
-    protected Player player1;
-    protected Player player2;
     public List<Move> moveHistory;
 
     public static void start(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer) throws IOException {
