@@ -6,14 +6,18 @@ import javafx.scene.layout.GridPane;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.AIPlayer;
-import nl.hanze.game.client.scenes.games.Cell;
+import nl.hanze.game.client.players.PlayerType;
+import nl.hanze.game.client.scenes.games.Field;
+import nl.hanze.game.client.scenes.games.othello.OthelloController;
 import nl.hanze.game.client.scenes.games.othello.OthelloModel;
 
 public class OthelloBoard extends GridPane {
     OthelloModel model;
+    OthelloController controller;
 
-    public OthelloBoard(OthelloModel model) {
+    public OthelloBoard(OthelloModel model, OthelloController controller) {
         this.model = model;
+        this.controller = controller;
 
         for (int r = 0; r < model.getBoardSize(); r++) {
             for (int c = 0; c < model.getBoardSize(); c++) {
@@ -25,19 +29,24 @@ public class OthelloBoard extends GridPane {
         setPadding(new Insets(5, 5, 5, 5));
     }
 
-    public void setValidMoves() {
-        int rowID = 0;
-        int columnID = 0;
-        for (Cell[] row : model.getBoard()) {
-            for (Cell field : row) {
-                if (field.checkValidity()) {
-                    getChildren().get(rowID * model.getBoardSize() + columnID).setDisable(false);
+    public void enableValidFields() {
+        int i = 0;
+        for (Field[] row : model.getBoard()) {
+            for (Field field : row) {
+                if (field.getValidity()) {
+                    getChildren().get(i).setDisable(false);
                 } else {
-                    getChildren().get(rowID * model.getBoardSize() + columnID).setDisable(true);
+                    getChildren().get(i).setDisable(true);
                 }
-                rowID++;
+                i++;
             }
-            columnID++;
+        }
+    }
+
+    public void disableAllFields() {
+        for (Node node : getChildren()) {
+            FieldButton button = (FieldButton) node;
+            button.setDisable(true);
         }
     }
 
@@ -57,20 +66,25 @@ public class OthelloBoard extends GridPane {
         setHgap(fieldSpacing);
     }
 
-    public void update(Cell[][] board, Move move) {
+    public void update() {
         // update colors
         for (Node fieldNode : this.getChildren()) {
             FieldButton fieldButton = (FieldButton) fieldNode;
             try {
-                String[] fieldColors = model.getCell(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner().getColors();
+                String[] fieldColors = model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner().getColors();
                 fieldButton.setStyle("-fx-background-color: " + fieldColors[0] + "; -fx-text-fill: " + fieldColors[1]);
             } catch (NullPointerException ignore) {}
         }
 
-        //TODO: update recentmove signifiers
+        //TODO: mark recent moves (and supply model logic in Field)
 
-        if ( !(model.getActivePlayer() instanceof AIPlayer) ) setValidMoves();
+        // makes buttons representing valid moves clickable
+        enableValidFields();
+        if (model.getActivePlayer().getPlayerType() != PlayerType.LOCAL) disableAllFields();
+
     }
+
+    public OthelloController getController() { return controller; }
 }
 
 //    public void setupBoard() {

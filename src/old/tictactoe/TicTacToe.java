@@ -114,16 +114,16 @@ public class TicTacToe {
             }
         }
 
-        int emptyCells = 0;
+        int emptyFields = 0;
         for (int row = 0; row < board.length; row++) {
             for (int column = 0; column < board[row].length; column++) {
                 if (board[row][column] == '\u0000') {
-                    emptyCells++;
+                    emptyFields++;
                 }
             }
         }
 
-        if (state == null && emptyCells == 0) {
+        if (state == null && emptyFields == 0) {
             return "draw";
         } else if (state != null) {
             return state;

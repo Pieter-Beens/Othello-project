@@ -2,7 +2,7 @@ package nl.hanze.game.client.players;
 
 import nl.hanze.game.client.players.AI.AIStrategy;
 import nl.hanze.game.client.players.AI.utils.Move;
-import nl.hanze.game.client.scenes.games.Cell;
+import nl.hanze.game.client.scenes.games.Field;
 
 public class AIPlayer extends Player {
 
@@ -13,7 +13,8 @@ public class AIPlayer extends Player {
         this.AIStrategy = AIStrategy;
     }
 
-    public Move move(Cell[][] board) {
+    @Override
+    public Move move(Field[][] board) {
         return AIStrategy.determineNextMove(board, this);
     }
 }

@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
+import nl.hanze.game.client.players.AI.utils.Move;
+import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.othello.utils.InfoBox;
@@ -20,7 +22,7 @@ public class OthelloController extends GameController implements Initializable {
     @FXML
     public HBox info;
 
-    private OthelloBoard board;
+    private OthelloBoard boardPane;
 
     private InfoBox infoBox;
 
@@ -28,20 +30,34 @@ public class OthelloController extends GameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        board = new OthelloBoard(model);
+        boardPane = new OthelloBoard(model, this);
         infoBox = new InfoBox(model);
 
-        boardContainer.getChildren().add(board);
+        boardContainer.getChildren().add(boardPane);
         info.getChildren().add(infoBox);
     }
 
     @Override
     public void setup() {
         model.setup();
-        infoBox.updateScore();
+        boardPane.disableAllFields();
+        model.turnHasMoves(model.getBoard(), getActivePlayer());
+        updateViews();
     }
 
-    public void move(ActionEvent event) {
+    @Override
+    public void updateViews() {
+        boardPane.update();
+        infoBox.update();
+    }
+
+    @Override
+    public void move(Move move) {
+        model.placeStone(move);
+        updateViews();
+
+        // check if the next turn belongs to an AIPlayer and if so, request a move
+        if (model.getActivePlayer().getPlayerType() == PlayerType.AI) model.getActivePlayer().move(model.getBoard());
     }
 
     public void btnGoBack(ActionEvent event) throws IOException {

@@ -1,5 +1,7 @@
 package nl.hanze.game.client.players;
 
+import nl.hanze.game.client.players.AI.utils.Move;
+import nl.hanze.game.client.scenes.games.Field;
 import nl.hanze.game.client.scenes.utils.Colors;
 
 public class Player {
@@ -18,8 +20,8 @@ public class Player {
         this.playerType = playerType;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void changeScore(int score) {
+        this.score += score;
     }
 
     public int getScore() {
@@ -41,5 +43,10 @@ public class Player {
 
     public PlayerType getPlayerType() {
         return playerType;
+    }
+
+    public Move move(Field[][] board) {
+        System.out.println("ERROR: Move calculation requested from non-AI player.");
+        return null;
     }
 }

@@ -25,6 +25,11 @@ public class TicTacToeController extends GameController {
     }
 
     @Override
+    public void updateViews() {
+
+    }
+
+    @Override
     protected GameModel getModel() {
         return model;
     }

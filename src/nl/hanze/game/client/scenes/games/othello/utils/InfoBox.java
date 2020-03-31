@@ -54,9 +54,9 @@ public class InfoBox extends HBox {
         player2ScoreBar.setMinWidth(Main.primaryStage.getWidth() / 4);
     }
 
-    public void updateScore() {
+    public void update() {
         this.turnLabel.setText("  TURN " + model.getTurnCount() + ": " + model.getActivePlayer().getName() + "'s move");
-        this.player1ScoreBar.setText(" " + model.getPlayer1().getName() + ": " + model.getPlayer1().getScore());
-        this.player2ScoreBar.setText(" " + model.getPlayer2().getName() + ": " + model.getPlayer2().getScore());
+        this.player1ScoreBar.setText(" " + model.getPlayer(0).getName() + ": " + model.getPlayer(0).getScore());
+        this.player2ScoreBar.setText(" " + model.getPlayer(1).getName() + ": " + model.getPlayer(1).getScore());
     }
 }

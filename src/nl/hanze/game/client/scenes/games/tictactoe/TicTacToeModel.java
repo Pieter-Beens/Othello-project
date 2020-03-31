@@ -4,7 +4,7 @@ import nl.hanze.game.client.scenes.games.GameModel;
 
 public class TicTacToeModel extends GameModel {
     @Override
-    public int getBoardSize() {
-        return 3;
+    public void setup() {
+
     }
 }

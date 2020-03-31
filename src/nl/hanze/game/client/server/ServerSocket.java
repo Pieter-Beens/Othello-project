@@ -1,5 +1,8 @@
 package nl.hanze.game.client.server;
 
+import nl.hanze.game.client.players.AI.utils.Move;
+import nl.hanze.game.client.scenes.games.othello.OthelloModel;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
@@ -55,9 +58,8 @@ public class ServerSocket {
         serverCommunicator.sendCommand("help "+s);
     }
 
-    public void move(Object move){
-        //TODO: wat is het datatype van een zet?
-        serverCommunicator.sendCommand("move "+move);
+    public void move(Move move){
+        serverCommunicator.sendCommand("move "+ move.getRow() * 8 + move.getColumn()); //TODO: get "8" directly from GameModel for generic use
     }
 
     public void forfeit(){

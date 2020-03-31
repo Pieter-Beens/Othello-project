@@ -16,7 +16,7 @@ public abstract class Controller implements Observer {
     }
 
     public static Controller loadScene(String fxml, FXMLLoader loader) throws IOException {
-        fxml = "src/nl/hanze/game/client/refactor/scenes/" + fxml;
+        fxml = "src/nl/hanze/game/client/scenes/" + fxml;
 
         FileInputStream fileInputStream = new FileInputStream(new File(fxml));
         Parent parent = loader.load(fileInputStream);

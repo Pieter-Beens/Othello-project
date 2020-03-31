@@ -1,8 +1,9 @@
 package nl.hanze.game.client.scenes.games.othello.utils;
 
 import javafx.scene.control.Button;
-import nl.hanze.game.client.Application;
-import nl.hanze.game.client.games.players.Player;
+import nl.hanze.game.client.players.AI.utils.Move;
+import nl.hanze.game.client.players.Player;
+import nl.hanze.game.client.scenes.games.othello.OthelloController;
 import nl.hanze.game.client.scenes.utils.Colors;
 
 public class FieldButton extends Button {
@@ -16,11 +17,11 @@ public class FieldButton extends Button {
 
         setStyle("-fx-background-color: " + Colors.BG_COLOR);
 
-        setOnMouseClicked(e -> System.out.println("clickety"));
-    }
-
-    public void setOwner(Player player) {
-        setStyle("-fx-background-color: " + player.getColors()[0]);
+        setOnMouseClicked(e -> {
+            OthelloBoard board = (OthelloBoard) getParent();
+            Move move = new Move(board.getController().getActivePlayer(), getRowID(), getColumnID());
+            board.getController().move(move);
+        });
     }
 
     public int getRowID() {
