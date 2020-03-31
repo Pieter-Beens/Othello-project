@@ -47,7 +47,7 @@ public class TicTacToeModel extends GameModel {
         return state(this.board);
     }
 
-    public State state(Field[][] board) {
+    public static State state(Field[][] board) {
         State state = null;
 
         // Check horizontal lines
@@ -56,7 +56,6 @@ public class TicTacToeModel extends GameModel {
 
             if (board[row][0].getOwner().equals(board[row][1].getOwner()) &&
                     board[row][1].getOwner().equals(board[row][2].getOwner())) {
-                System.out.println("horizontal line");
                 state = (board[row][0].getOwner().getSign().equals("O")) ? State.O_WINS : State.X_WINS;
             }
         }
@@ -66,7 +65,6 @@ public class TicTacToeModel extends GameModel {
             if (board[0][column].getOwner() == null || board[1][column].getOwner() == null || board[2][column].getOwner() == null) continue;
 
             if (board[0][column].getOwner().equals(board[1][column].getOwner()) && board[1][column].getOwner().equals(board[2][column].getOwner())) {
-                System.out.println("vertical line");
                 state = (board[0][column].getOwner().getSign().equals("O")) ? State.O_WINS : State.X_WINS;
             }
         }
@@ -77,7 +75,6 @@ public class TicTacToeModel extends GameModel {
             if (board[0][0].getOwner() != null && board[2][2].getOwner() != null) {
                 if (board[0][0].getOwner().equals(board[1][1].getOwner()) &&
                         board[1][1].getOwner().equals(board[2][2].getOwner())) {
-                    System.out.println("diagonal line 1");
                     state = (board[1][1].getOwner().getSign().equals("O")) ? State.O_WINS : State.X_WINS;
                 }
             }
@@ -85,7 +82,6 @@ public class TicTacToeModel extends GameModel {
             if (board[2][0].getOwner() != null && board[0][2].getOwner() != null) {
                 if (board[2][0].getOwner().equals(board[1][1].getOwner()) &&
                         board[1][1].getOwner().equals(board[0][2].getOwner())) {
-                    System.out.println("diagonal line 2");
                     state = (board[1][1].getOwner().getSign().equals("O")) ? State.O_WINS : State.X_WINS;
                 }
             }

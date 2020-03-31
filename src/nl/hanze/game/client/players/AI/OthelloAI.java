@@ -10,7 +10,7 @@ import java.util.Random;
 public class OthelloAI implements AIStrategy {
 
     @Override
-    public Move determineNextMove(Field[][] board, Player player) {
+    public Move determineNextMove(Field[][] board, Player player, Player opponent) {
         ArrayList<Field> validMoves = new ArrayList<>();
 
         for (Field[] row : board) {

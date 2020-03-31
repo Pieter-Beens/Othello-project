@@ -14,7 +14,7 @@ public class AIPlayer extends Player {
     }
 
     @Override
-    public Move move(Field[][] board) {
-        return AIStrategy.determineNextMove(board, this);
+    public Move move(Field[][] board, Player opponent) {
+        return AIStrategy.determineNextMove(board, this, opponent);
     }
 }

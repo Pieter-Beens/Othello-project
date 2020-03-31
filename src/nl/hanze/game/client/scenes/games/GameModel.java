@@ -52,6 +52,14 @@ public abstract class GameModel {
         return activePlayer;
     }
 
+    public Player getDisabledPlayer() {
+        if (players[0].equals(activePlayer)) {
+            return players[1];
+        }
+
+        return players[0];
+    }
+
     public int getBoardSize() {
         return boardSize;
     }
