@@ -41,9 +41,11 @@ public class TicTacToeController extends GameController implements Initializable
 
         updateViews();
 
-        // check if the next turn belongs to an AIPlayer and if so, request a move
-        if (model.getActivePlayer().getPlayerType() == PlayerType.AI) {
-            move(model.getActivePlayer().move(model.getBoard(), model.getDisabledPlayer()));
+        if (model.getCurrentState() == TicTacToeModel.State.IN_PROGRESS) {
+            // check if the next turn belongs to an AIPlayer and if so, request a move
+            if (model.getActivePlayer().getPlayerType() == PlayerType.AI) {
+                move(model.getActivePlayer().move(model.getBoard(), model.getDisabledPlayer()));
+            }
         }
     }
 

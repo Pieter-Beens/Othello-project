@@ -35,6 +35,10 @@ public class TicTacToeAI implements AIStrategy {
 
         Field[][] cloneBoard = Arrays.stream(board).map(Field[]::clone).toArray(Field[][]::new);
 
+        if (TicTacToeModel.state(cloneBoard) != TicTacToeModel.State.IN_PROGRESS) {
+            return null;
+        }
+
         int[] move = minimax(cloneBoard, true);
 
         return new Move(maximizingPlayer, move[ROW], move[COLUMN]);
