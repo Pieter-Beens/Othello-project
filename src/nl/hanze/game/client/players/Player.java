@@ -11,6 +11,7 @@ public class Player {
     private String name;
     private int score;
     private String color;
+    private String sign;
     private String textcolor;
 
     public Player(String ign, PlayerType playerType) {
@@ -24,6 +25,14 @@ public class Player {
         color = Colors.BTN_COLOR;
         textcolor = Colors.BTN_TEXT_COLOR;
         this.playerType = playerType;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
     }
 
     public void changeScore(int score) {
@@ -52,7 +61,11 @@ public class Player {
     }
 
     public Move move(Field[][] board) {
-        System.out.println("ERROR: Move calculation requested from non-AI player.");
-        return null;
+        throw new UnsupportedOperationException("Move calculation requested from non-AI player.");
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" + "playerType=" + playerType + ", name='" + name + '\'' + ", score=" + score + '}';
     }
 }
