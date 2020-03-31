@@ -4,11 +4,25 @@ import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.games.Field;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class OthelloAI implements AIStrategy {
 
     @Override
     public Move determineNextMove(Field[][] board, Player player) {
-        return null;
+        ArrayList<Field> validMoves = new ArrayList<>();
+
+        for (Field[] row : board) {
+            for (Field field : row) {
+                if (field.getValidity()) validMoves.add(field);
+            }
+        }
+
+        int i = new Random().nextInt(validMoves.size());
+        Field chosenMove = validMoves.get(i);
+        System.out.println(chosenMove.getRowID() + " " + " " + chosenMove.getColumnID()); // why this no work
+        return new Move(player, chosenMove.getRowID(), chosenMove.getColumnID());
     }
 }
 

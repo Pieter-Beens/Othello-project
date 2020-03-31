@@ -57,7 +57,9 @@ public class OthelloController extends GameController implements Initializable {
         updateViews();
 
         // check if the next turn belongs to an AIPlayer and if so, request a move
-        if (model.getActivePlayer().getPlayerType() == PlayerType.AI) model.getActivePlayer().move(model.getBoard());
+        if (model.getActivePlayer().getPlayerType() == PlayerType.AI) {
+            model.getActivePlayer().move(model.getBoard());
+        }
     }
 
     public void btnGoBack(ActionEvent event) throws IOException {

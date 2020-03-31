@@ -95,4 +95,12 @@ public class Field {
     public boolean getValidity() {
         return validity;
     }
+
+    public int getRowID() {
+        return rowID;
+    }
+
+    public int getColumnID() {
+        return columnID;
+    }
 }
