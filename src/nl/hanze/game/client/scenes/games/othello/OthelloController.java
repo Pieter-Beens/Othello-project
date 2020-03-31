@@ -41,7 +41,7 @@ public class OthelloController extends GameController implements Initializable {
     public void setup() {
         model.setup();
         boardPane.disableAllFields();
-        model.turnHasMoves(model.getBoard(), getActivePlayer());
+        model.updateFieldValidity();
         updateViews();
     }
 
