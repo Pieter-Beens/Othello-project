@@ -1,5 +1,8 @@
 package nl.hanze.game.client.server;
 
+import javafx.application.Platform;
+import nl.hanze.game.client.scenes.utils.Popup;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,6 +48,11 @@ public class ServerSocket implements Runnable, Observable {
                 while (in.ready() && (response = in.readLine()) != null) {
                     if (ignoredResponses.contains(response)) {
                         continue;
+                    }
+
+                    if(response.contains("ERR")) {
+                        String finalResponse = response;
+                        Platform.runLater(() -> Popup.display(finalResponse));
                     }
 
                     notifyObservers(response);

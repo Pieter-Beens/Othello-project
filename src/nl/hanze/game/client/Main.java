@@ -1,9 +1,6 @@
 package nl.hanze.game.client;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.server.Client;
