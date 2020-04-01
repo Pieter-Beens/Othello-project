@@ -5,19 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.hanze.game.client.server.roy.SocketClient;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import nl.hanze.game.client.server.Client;
 
 public class Main extends Application {
     public static Stage primaryStage;
-    public static BlockingQueue<String> commandQueue;
-    public static SocketClient client;
+    public static Client client;
 
     public static void main(String[] args) {
-        commandQueue = new LinkedBlockingQueue<>();
-        client = new SocketClient(commandQueue);
+        client = new Client();
 
         launch(args);
     }

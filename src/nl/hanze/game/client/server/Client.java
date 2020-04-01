@@ -5,20 +5,21 @@ import nl.hanze.game.client.players.AI.utils.Move;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public class SocketClient {
+public class Client {
     private BlockingQueue<String> commandQueue;
     private Socket socket;
-    private ServerCommunicator serverCommunicator;
+    private ServerSocket serverCommunicator;
     private Thread serverThread;
 
-    public SocketClient(BlockingQueue<String> commandQueue) {
-        this.commandQueue = commandQueue;
+    public Client() {
+        this.commandQueue = new LinkedBlockingQueue<>();
     }
 
     public void connect(String ip, int port) throws IOException {
         socket = new Socket(ip, port);
-        serverCommunicator = new ServerCommunicator(socket, commandQueue);
+        serverCommunicator = new ServerSocket(socket, commandQueue);
         serverThread = new Thread(serverCommunicator);
         serverThread.start();
     }

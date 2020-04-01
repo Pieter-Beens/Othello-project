@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
-public class ServerCommunicator implements Runnable, Observable {
+public class ServerSocket implements Runnable, Observable {
     private List<Observer> observers;
     private BlockingQueue<String> commandQueue;
     private PrintWriter out;
@@ -21,7 +21,7 @@ public class ServerCommunicator implements Runnable, Observable {
             "(C) Copyright 2015 Hanzehogeschool Groningen"
     );
 
-    public ServerCommunicator(Socket socket, BlockingQueue<String> queue) throws IOException {
+    public ServerSocket(Socket socket, BlockingQueue<String> queue) throws IOException {
         commandQueue = queue;
         this.observers = new ArrayList<>();
         out = new PrintWriter(socket.getOutputStream(), true);
