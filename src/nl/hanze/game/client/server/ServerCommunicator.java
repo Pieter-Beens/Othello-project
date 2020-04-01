@@ -5,71 +5,63 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
-
-class ServerCommunicator implements Runnable, Observable {
-
-    private final BufferedReader input;
-    private final List<Observer> observers;
-    //private final LinkedList<String> commandQueue;
-    private final PrintWriter output;
+public class ServerCommunicator implements Runnable, Observable {
+    private String ip;
+    private int port;
+    private Socket socket;
+    private List<Observer> observers;
+    private BlockingQueue<String> commandQueue;
+    private PrintWriter out;
+    private BufferedReader in;
     private boolean running = true;
-    private final Object lock = new Object();
-    private final Thread t;
+    private List<String> ignoredResponses = Arrays.asList(
+            "Strategic Game Server Fixed [Version 1.1.0]",
+            "(C) Copyright 2015 Hanzehogeschool Groningen"
+    );
 
-    protected ServerCommunicator(Socket s) throws IOException {
-        input = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        output = new PrintWriter(s.getOutputStream(), true);
-        observers = new ArrayList<>();
-        //commandQueue = new LinkedList<>();
-        t = new Thread(this);
-        t.start();
+    public ServerCommunicator(Socket socket, BlockingQueue<String> queue) throws IOException {
+        commandQueue = queue;
+        this.observers = new ArrayList<>();
+        out = new PrintWriter(socket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
+
 
     @Override
-    public void run(){
-        while(running) {
+    public void run() {
+        String command;
+        String response;
+
+        while (running) {
+            while ((command = commandQueue.poll()) != null) {
+                out.println(command);
+                out.flush();
+                System.out.println("send command: " + command);
+            }
+
             try {
-                String serverInput = input.readLine();
-                if (serverInput != null) {
-                    notifyObservers(serverInput);
-                    if(serverInput.equals("OK")) {
-                        synchronized (lock) {
-                            lock.notifyAll();
-                        }
+                while (in.ready() && (response = in.readLine()) != null) {
+                    if (ignoredResponses.contains(response)) {
+                        continue;
                     }
+
+                    notifyObservers(response);
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /*
-    protected void sendCommand(String s){
-        commandQueue.add(s);
-    }*/
-
-    protected synchronized void sendCommand(String command) {
-        synchronized (lock) {
-            System.out.println("Client: " + command);
-            output.println(command);
-            output.flush();
-            try {
-                if(!command.equals("logout"))lock.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            } catch (IOException e) { e.printStackTrace(); }
         }
     }
     protected void close(){
-        running = false;
-    }
-    protected boolean isAlive(){
-        return t.isAlive();
+        commandQueue.add("logout");
+        while(true) if (commandQueue.isEmpty()) {
+            running = false;
+            break;
+        }
+
     }
 
     @Override
