@@ -6,7 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.Controller;
+import nl.hanze.game.client.server.Client;
 import nl.hanze.game.client.server.ServerSocket;
 
 import javax.management.MBeanServerConnection;
@@ -26,6 +28,8 @@ public class OnlineMenuController extends Controller {
 
     @FXML
     private Text errorMsg;
+
+
 
     @FXML
     private void btnGoBack(ActionEvent event) throws IOException {
@@ -63,6 +67,18 @@ public class OnlineMenuController extends Controller {
         if (!error) {
             //CONNECT TO SERVER HERE
             loadScene("lobby/lobby.fxml");
+
+            /*
+            Main.client.connect(ip.getText(), Integer.parseInt(port.getText()));
+            Main.client.login(name.getText());
+
+            if (Main.client.) {
+                Platform.runLater(loadScene("lobby/lobby.fxml"));
+            }
+            */
+
+
+
         }
 
     }
