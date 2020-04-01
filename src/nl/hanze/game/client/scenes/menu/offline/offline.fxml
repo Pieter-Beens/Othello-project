@@ -1,27 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import nl.hanze.game.client.scenes.utils.MenuToggleButton?>
-<VBox fx:id="container" alignment="CENTER" spacing="20" minWidth="500" minHeight="500"
-      xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="nl.hanze.game.client.scenes.menu.offline.OfflineMenuController">
-   <HBox prefHeight="100.0" prefWidth="200.0"/>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-   <Label text="CHOOSE NUMBER OF PLAYERS"/>
-   <HBox fx:id="players" alignment="CENTER"/>
-
-   <Label text="CHOOSE A GAME"/>
-   <HBox fx:id="games" alignment="CENTER"/>
-
-   <Label text="CHANGE PLAYER NAMES"/>
-   <HBox alignment="TOP_CENTER" spacing="30">
-      <TextField fx:id="player1" text="player1" maxWidth="150" maxHeight="35"/>
-      <TextField fx:id="player2" text="player2" maxWidth="150" maxHeight="35"/>
-   </HBox>
-
-   <HBox fx:id="bottomRow" alignment="CENTER_RIGHT" spacing="10">
-      <MenuToggleButton text1="Fullscreen OFF" text2="Fullscreen ON" fx:id="fullscreen"/>
-      <Button text="START" minWidth="100" minHeight="100" fx:id="start" onAction="#startBtnClicked"/>
-   </HBox>
+<VBox maxHeight="480.0" minHeight="480.0" minWidth="500.0" prefHeight="480.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.menu.offline.OfflineMenuController">
+   <children>
+      <RadioButton mnemonicParsing="false" text="RadioButton" />
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="300.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="416.0" minWidth="10.0" prefWidth="147.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="416.0" minWidth="10.0" prefWidth="300.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+         
+                                                                              <Label text="Select a Game" GridPane.halignment="RIGHT">
+               <GridPane.margin>
+                  <Insets right="30.0" />
+               </GridPane.margin>
+            </Label>
+            <ToggleButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefHeight="31.0" prefWidth="100.0" selected="true" text="Othello" GridPane.columnIndex="1" GridPane.columnSpan="2147483647">
+               <toggleGroup>
+                  <ToggleGroup fx:id="selectedGame" />
+               </toggleGroup>
+            </ToggleButton>
+            <ToggleButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefWidth="100.0" text="Tic Tac Toe" toggleGroup="$selectedGame" GridPane.columnIndex="2" />
+            <Label text="Select Game Mode" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="30.0" />
+               </GridPane.margin>
+            </Label>
+            <ToggleButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefWidth="100.0" selected="true" text="Single Player" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <toggleGroup>
+                  <ToggleGroup fx:id="selectedGameMode" />
+               </toggleGroup>
+            </ToggleButton>
+            <ToggleButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefWidth="100.0" text="Multi Player" toggleGroup="$selectedGameMode" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+         </children>
+         <VBox.margin>
+            <Insets top="30.0" />
+         </VBox.margin>
+      </GridPane>
+      <GridPane id="playernames">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="300.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <TextField id="player1" fx:id="player1" maxHeight="35" maxWidth="243.0" prefHeight="26.0" prefWidth="240.0" promptText="Enter player name">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <TextField id="player2" fx:id="player2" maxHeight="35" maxWidth="242.0" prefHeight="26.0" prefWidth="240.0" promptText="Enter player name">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <Label text="Enter Player names" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets right="30.0" top="10.0" />
+               </GridPane.margin>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
+      </GridPane>
+      <GridPane id="diffyculty" maxHeight="100.0" minHeight="60.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="200.0" prefWidth="210.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Difficulty" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets right="30.0" />
+               </GridPane.margin>
+            </Label>
+            <Slider blockIncrement="1.0" majorTickUnit="1.0" max="2.0" maxWidth="255.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin></Slider>
+         </children>
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+      </GridPane>
+      <GridPane layoutX="10.0" layoutY="190.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label text="Use Fullscreen" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets right="30.0" />
+               </GridPane.margin>
+            </Label>
+            <CheckBox mnemonicParsing="false" GridPane.columnIndex="1" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+      </GridPane>
+      <HBox alignment="CENTER" prefHeight="38.0" prefWidth="350.0" spacing="40.0">
+         <children>
+            <Separator prefWidth="200.0" />
+            <Button fx:id="start" contentDisplay="CENTER" maxHeight="50.0" minHeight="40.0" minWidth="200.0" onAction="#startBtnClicked" prefHeight="40.0" prefWidth="200.0" text="Play!" textAlignment="CENTER" />
+            <Separator prefWidth="200.0" />
+         </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
 </VBox>

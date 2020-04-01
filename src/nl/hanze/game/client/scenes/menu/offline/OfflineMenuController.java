@@ -48,6 +48,8 @@ public class OfflineMenuController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        /*
         playersMenu = new MenuButtonGroup(Arrays.asList(
                 new MenuButton("P1 vs. AI", "single-player", true),
                 new MenuButton("P1 vs. P2", "multi-player"))
@@ -63,6 +65,8 @@ public class OfflineMenuController extends Controller implements Initializable {
         // Styling
         start.setStyle("-fx-background-color: " + Colors.BTN_COLOR + "; -fx-text-fill: " + Colors.BTN_TEXT_COLOR);
         container.setStyle("-fx-background-color: " + Colors.BG_COLOR);
+
+         */
     }
 
     public void startBtnClicked(ActionEvent event) throws IOException {
