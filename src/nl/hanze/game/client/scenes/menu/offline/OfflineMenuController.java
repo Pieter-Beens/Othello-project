@@ -70,9 +70,9 @@ public class OfflineMenuController extends Controller implements Initializable {
     }
 
     public void startBtnClicked(ActionEvent event) throws IOException {
-        String game = gamesMenu.getActive().getValue();
-        boolean isMultiPlayer = playersMenu.getActive().getValue().equals("multi-player");
+//        String game = gamesMenu.getActive().getValue();
+//        boolean isMultiPlayer = playersMenu.getActive().getValue().equals("multi-player");
 
-        GameController.start(player1.getText(), player2.getText(), game, fullscreen.getStatus(), isMultiPlayer);
+        GameController.start("Player 1", "Player 2", "othello", false, false);
     }
 }
