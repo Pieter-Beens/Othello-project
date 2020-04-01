@@ -11,6 +11,10 @@ import java.io.IOException;
 import nl.hanze.game.client.server.Observer;
 
 public abstract class Controller implements Observer {
+    public Controller() {
+        Main.client.setController(this);
+    }
+
     public static Controller loadScene(String fxml) throws IOException {
         return loadScene(fxml, new FXMLLoader());
     }
@@ -29,7 +33,7 @@ public abstract class Controller implements Observer {
         return loader.getController();
     }
 
-    public void update(String s){
+    public void update(String s) {
         System.out.println("Controller sees: " + s);
     }
 }

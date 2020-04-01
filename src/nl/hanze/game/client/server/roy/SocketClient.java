@@ -1,4 +1,4 @@
-package nl.hanze.game.client.server;
+package nl.hanze.game.client.server.roy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,32 +10,42 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
-public class ServerSocket implements Runnable, Observable {
+public class SocketClient implements Runnable, Observable {
+    private String ip;
+    private int port;
+    private Socket socket;
     private List<Observer> observers;
-    private BlockingQueue<String> commandQueue;
+    private BlockingQueue<String> queue;
     private PrintWriter out;
     private BufferedReader in;
-    private boolean running = true;
-    private List<String> ignoredResponses = Arrays.asList(
+    private List<String> ignoredResp = Arrays.asList(
             "Strategic Game Server Fixed [Version 1.1.0]",
             "(C) Copyright 2015 Hanzehogeschool Groningen"
     );
 
-    public ServerSocket(Socket socket, BlockingQueue<String> queue) throws IOException {
-        commandQueue = queue;
+    public SocketClient(BlockingQueue<String> queue) {
+        this.queue = queue;
         this.observers = new ArrayList<>();
+    }
+
+    public void connect() throws IOException {
+        this.socket = new Socket(ip, port);
+
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
-
     @Override
     public void run() {
+        try {
+            connect();
+        } catch (IOException e) { e.printStackTrace(); }
+
         String command;
         String response;
 
-        while (running) {
-            while ((command = commandQueue.poll()) != null) {
+        while (true) {
+            while ((command = this.queue.poll()) != null) {
                 out.println(command);
                 out.flush();
                 System.out.println("send command: " + command);
@@ -43,7 +53,7 @@ public class ServerSocket implements Runnable, Observable {
 
             try {
                 while (in.ready() && (response = in.readLine()) != null) {
-                    if (ignoredResponses.contains(response)) {
+                    if (ignoredResp.contains(response)) {
                         continue;
                     }
 
@@ -52,19 +62,18 @@ public class ServerSocket implements Runnable, Observable {
             } catch (IOException e) { e.printStackTrace(); }
         }
     }
-    protected void close(){
-        commandQueue.add("logout");
-        while(true) if (commandQueue.isEmpty()) {
-            running = false;
-            break;
-        }
 
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 
     @Override
     public void addObserver(Observer o) {
         observers.add(o);
-        System.out.println(observers.size());
     }
 
     @Override
@@ -74,10 +83,6 @@ public class ServerSocket implements Runnable, Observable {
 
     @Override
     public void notifyObservers(String s) {
-        for(Observer o : observers) o.update(s);
-    }
-
-    public void clearObservers() {
-        observers.clear();
+        for(Observer o : observers) o.commandResponse(s);
     }
 }

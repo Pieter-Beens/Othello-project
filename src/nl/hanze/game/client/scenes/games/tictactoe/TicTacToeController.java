@@ -3,8 +3,6 @@ package nl.hanze.game.client.scenes.games.tictactoe;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.PlayerType;
@@ -12,6 +10,7 @@ import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.tictactoe.utils.TicTacToeBoard;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -63,5 +62,9 @@ public class TicTacToeController extends GameController implements Initializable
     @Override
     protected GameModel getModel() {
         return model;
+    }
+
+    public void btnGoBack(ActionEvent event) throws IOException {
+        loadScene("menu/online/online.fxml");
     }
 }
