@@ -64,6 +64,7 @@ public class ServerSocket implements Runnable, Observable {
     @Override
     public void addObserver(Observer o) {
         observers.add(o);
+        System.out.println(observers.size());
     }
 
     @Override

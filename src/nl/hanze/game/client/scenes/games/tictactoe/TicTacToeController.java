@@ -3,12 +3,14 @@ package nl.hanze.game.client.scenes.games.tictactoe;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
+import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.tictactoe.utils.TicTacToeBoard;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,6 +27,15 @@ public class TicTacToeController extends GameController implements Initializable
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            Main.client.connect("127.0.0.1", 7789);
+            Main.client.addObserver(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Main.client.login("roy");
+
         boardPane = new TicTacToeBoard(model, this);
 
         boardContainer.getChildren().add(boardPane);

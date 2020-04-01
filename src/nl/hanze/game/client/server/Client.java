@@ -53,15 +53,15 @@ public class Client {
         commandQueue.add("challenge accept "+id);
     }
 
-    public void help(){
+    public void help() {
         commandQueue.add("help");
     }
 
-    public void help(String s){
+    public void help(String s) {
         commandQueue.add("help "+s);
     }
 
-    public void move(Move move){
+    public void move(Move move) {
         commandQueue.add("move "+ move.getRow() * 8 + move.getColumn()); //TODO: get "8" directly from GameModel for generic use
     }
 
@@ -69,11 +69,15 @@ public class Client {
         commandQueue.add("forfeit");
     }
 
-    public void addObserver(Observer o){
-        serverCommunicator.addObserver(o);
+    public void addObserver(Observer o) {
+        if (serverCommunicator != null) {
+            serverCommunicator.addObserver(o);
+        }
     }
 
-    public void removeObserver(Observer o){
-        serverCommunicator.removeObserver(o);
+    public void removeObserver(Observer o) {
+        if (serverCommunicator != null) {
+            serverCommunicator.removeObserver(o);
+        }
     }
 }
