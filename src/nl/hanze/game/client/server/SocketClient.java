@@ -1,28 +1,29 @@
 package nl.hanze.game.client.server;
 
 import nl.hanze.game.client.players.AI.utils.Move;
-import nl.hanze.game.client.scenes.games.othello.OthelloModel;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
-public class ServerSocket {
+public class SocketClient {
+    private BlockingQueue<String> commandQueue;
     private Socket socket;
-    public BlockingQueue<String> commandQueue;
-    ServerCommunicator serverCommunicator;
+    private ServerCommunicator serverCommunicator;
     private Thread serverThread;
 
-    public void connect(String ip, int port) throws IOException{
+    public SocketClient(BlockingQueue<String> commandQueue) {
+        this.commandQueue = commandQueue;
+    }
+
+    public void connect(String ip, int port) throws IOException {
         socket = new Socket(ip, port);
-        commandQueue = new LinkedBlockingQueue<>();
         serverCommunicator = new ServerCommunicator(socket, commandQueue);
         serverThread = new Thread(serverCommunicator);
         serverThread.start();
     }
 
-    private void close() throws IOException {
+    public void close() throws IOException {
         serverCommunicator.close();
         if(!serverThread.isAlive()) socket.close();
     }
@@ -74,29 +75,4 @@ public class ServerSocket {
     public void removeObserver(Observer o){
         serverCommunicator.removeObserver(o);
     }
-
-    /*
-    public static void main(String[] args){
-
-        try{
-            ServerSocket serverSocket = new ServerSocket();
-            serverSocket.connect("127.0.0.1",7789);
-
-            serverSocket.addObserver(new testObserver());
-
-            Thread.sleep(2000);
-            serverSocket.login("user1");
-            Thread.sleep(2000);
-            serverSocket.getGameList();
-            Thread.sleep(2000);
-            serverSocket.subscribe("Reversi");
-            Thread.sleep(2000);
-            serverSocket.getPlayerList();
-            Thread.sleep(2000);
-            serverSocket.close();
-
-        } catch (IOException | InterruptedException e){
-            e.printStackTrace();
-        }
-    }*/
 }

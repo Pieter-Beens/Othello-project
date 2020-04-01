@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 public class ServerCommunicator implements Runnable, Observable {
-    private String ip;
-    private int port;
-    private Socket socket;
     private List<Observer> observers;
     private BlockingQueue<String> commandQueue;
     private PrintWriter out;
