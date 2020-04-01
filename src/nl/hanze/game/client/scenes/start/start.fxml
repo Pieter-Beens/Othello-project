@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import nl.hanze.game.client.scenes.utils.MenuButton?>
-<VBox alignment="CENTER" prefHeight="428.0" prefWidth="435.0" spacing="10"
-      xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="nl.hanze.game.client.scenes.start.StartController">
-    <HBox alignment="TOP_CENTER" spacing="30" fx:id="mode">
-        <MenuButton btn-text="Online" btn-value="online" onAction="#btnOnline"/>
-        <MenuButton btn-text="Offline" btn-value="offline" onAction="#btnOffline"/>
-    </HBox>
+
+<VBox alignment="CENTER" prefHeight="528.0" prefWidth="950.0" spacing="10" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.start.StartController">
+   <ImageView fitHeight="95.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../utils/logo.png" />
+      </image>
+      <VBox.margin>
+         <Insets bottom="50.0" />
+      </VBox.margin></ImageView>
+    <HBox fx:id="mode" alignment="TOP_CENTER" prefWidth="850.0" spacing="200">
+      <children>
+         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../utils/online.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../utils/offline.png" />
+            </image></ImageView>
+      </children></HBox>
+   <HBox fx:id="mode1" alignment="TOP_CENTER" layoutX="10.0" layoutY="254.0" prefWidth="850.0" spacing="150">
+      <children>
+         <MenuButton btn-text="Online" btn-value="online" minHeight="40" onAction="#btnOnline" prefHeight="40" prefWidth="200" style="-fx-background-color: forestGreen; -fx-text-fill: white" />
+         <MenuButton btn-text="Offline" btn-value="offline" minHeight="40" onAction="#btnOffline" prefHeight="40" prefWidth="200" style="-fx-background-color: darkOrange; -fx-text-fill: white" />
+      </children>
+   </HBox>
 </VBox>
