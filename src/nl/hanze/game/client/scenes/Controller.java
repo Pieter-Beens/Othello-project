@@ -12,7 +12,7 @@ import nl.hanze.game.client.server.Observer;
 
 public abstract class Controller implements Observer {
     public Controller() {
-        Main.client.addObserver(this);
+        Main.client.setController(this);
     }
 
     public static Controller loadScene(String fxml) throws IOException {

@@ -1,9 +1,11 @@
 package nl.hanze.game.client.scenes.menu.online;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.Controller;
 
 import java.io.IOException;
@@ -12,16 +14,27 @@ public class OnlineMenuController extends Controller {
     @FXML
     public TextArea textField;
 
-    private String string;
-
     @FXML
     private void btnClick(ActionEvent event) {
-        Button btn = (Button) event.getSource();
-        String value = btn.getText();
+        String value = textField.getText();
 
-        string += value;
+        try {
+            Main.client.connect("127.0.0.1", 7789);
+            Main.client.setController(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        textField.setText(string);
+        Main.client.login(value);
+    }
+
+    public void update(String s) {
+        if (s.equals("OK")) {
+            Platform.runLater(() -> {
+                try { loadScene("games/tictactoe/tictactoe.fxml");
+                } catch (IOException ignore) {}
+            });
+        }
     }
 
     @FXML

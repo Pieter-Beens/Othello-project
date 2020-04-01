@@ -76,4 +76,8 @@ public class ServerSocket implements Runnable, Observable {
     public void notifyObservers(String s) {
         for(Observer o : observers) o.update(s);
     }
+
+    public void clearObservers() {
+        observers.clear();
+    }
 }

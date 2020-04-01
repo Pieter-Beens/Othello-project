@@ -1,6 +1,7 @@
 package nl.hanze.game.client.server;
 
 import nl.hanze.game.client.players.AI.utils.Move;
+import nl.hanze.game.client.scenes.Controller;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -69,15 +70,10 @@ public class Client {
         commandQueue.add("forfeit");
     }
 
-    public void addObserver(Observer o) {
+    public void setController(Controller o) {
         if (serverCommunicator != null) {
+            serverCommunicator.clearObservers();
             serverCommunicator.addObserver(o);
-        }
-    }
-
-    public void removeObserver(Observer o) {
-        if (serverCommunicator != null) {
-            serverCommunicator.removeObserver(o);
         }
     }
 }

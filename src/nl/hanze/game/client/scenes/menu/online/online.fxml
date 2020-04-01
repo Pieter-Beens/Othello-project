@@ -11,7 +11,7 @@
     </StackPane>
 
     <HBox alignment="CENTER" spacing="10">
-        <Button alignment="CENTER" onAction="#btnClick" prefHeight="35.0" text="Print Hello world" textAlignment="CENTER"
+        <Button alignment="CENTER" onAction="#btnClick" prefHeight="35.0" text="Login" textAlignment="CENTER"
                 HBox.hgrow="ALWAYS"/>
         <Button alignment="CENTER" onAction="#btnGoBack" prefHeight="35.0" text="Go back" textAlignment="CENTER"
                 HBox.hgrow="ALWAYS"/>
