@@ -1,9 +1,6 @@
 package nl.hanze.game.client.scenes.games;
 
 import nl.hanze.game.client.players.Player;
-import nl.hanze.game.client.scenes.games.othello.OthelloModel;
-
-import java.util.Stack;
 
 public class Field {
     int rowID;

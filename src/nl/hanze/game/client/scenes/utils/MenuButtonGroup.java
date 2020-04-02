@@ -5,7 +5,9 @@ import javafx.scene.layout.HBox;
 
 import java.util.List;
 
-
+/**
+ * @author Roy Voetman
+ */
 public class MenuButtonGroup extends HBox {
     private List<MenuButton> buttons;
 

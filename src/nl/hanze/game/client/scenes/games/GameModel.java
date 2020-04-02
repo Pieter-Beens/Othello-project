@@ -4,12 +4,17 @@ import nl.hanze.game.client.players.Player;
 
 public abstract class GameModel {
     final static int MAX_PLAYERS = 2;
+    public boolean gameHasEnded = false;
     protected Player[] players = new Player[MAX_PLAYERS];
     protected Player activePlayer;
     protected int boardSize;
     protected int turnCounter = 1;
     protected Field[][] board;
     public static final int[][] DIRECTIONS = {{1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}, {-1,0}, {-1,1}, {0,1}};
+
+    /**
+     * @author Pieter Beens
+     */
 
     public GameModel(int boardSize) {
         this.boardSize = boardSize;
@@ -78,9 +83,16 @@ public abstract class GameModel {
 
     public void endGame() { // TODO: make this a visual message/design results screen
         System.out.println("Neither player was able to move, so the game has ended!");
-        if (players[0].getScore() > players[1].getScore()) System.out.print(players[0].getName() + " has won!");
-        if (players[0].getScore() < players[1].getScore()) System.out.print(players[1].getName() + " has won!");
-        if (players[0].getScore() == players[1].getScore()) System.out.print(players[0].getName() + " and " + players[1] + " have tied for second place!");
+        gameHasEnded = true;
+        if (players[0].getScore() > players[1].getScore()) {
+            System.out.print(players[0].getName() + " has won!");
+        }
+        if (players[0].getScore() < players[1].getScore()) {
+            System.out.print(players[1].getName() + " has won!");
+        }
+        if (players[0].getScore() == players[1].getScore()) {
+            System.out.print(players[0].getName() + " and " + players[1].getName() + " have tied for second place!");
+        }
     }
 
 }

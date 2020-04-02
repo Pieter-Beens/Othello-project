@@ -5,6 +5,9 @@ import javafx.stage.Stage;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.server.Client;
 
+/**
+ * @author Roy Voetman
+ */
 public class Main extends Application {
     public static Stage primaryStage;
     public static Client client;

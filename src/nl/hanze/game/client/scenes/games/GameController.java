@@ -2,7 +2,7 @@ package nl.hanze.game.client.scenes.games;
 
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.AIStrategy;
-import nl.hanze.game.client.players.AI.OthelloAI;
+import nl.hanze.game.client.players.AI.OthelloAIEasy;
 import nl.hanze.game.client.players.AI.TicTacToeAI;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.AIPlayer;
@@ -16,6 +16,9 @@ import java.util.List;
 public abstract class GameController extends Controller {
     public List<Move> moveHistory;
 
+    /**
+     * @author Roy Voetman
+     */
     public static void start(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer) throws IOException {
         AIStrategy aiStrategy = null; //TODO: support multiple AI's/difficulties per game
         switch (game) {
@@ -23,7 +26,7 @@ public abstract class GameController extends Controller {
                 aiStrategy = new TicTacToeAI();
                 break;
             case "othello":
-                aiStrategy = new OthelloAI();
+                aiStrategy = new OthelloAIEasy();
                 break;
         }
 

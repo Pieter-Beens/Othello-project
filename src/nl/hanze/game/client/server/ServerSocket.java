@@ -1,8 +1,5 @@
 package nl.hanze.game.client.server;
 
-import javafx.application.Platform;
-import nl.hanze.game.client.scenes.utils.Popup;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,9 +36,9 @@ public class ServerSocket implements Runnable, Observable {
 
         while (running) {
             while ((command = commandQueue.poll()) != null) {
+                System.out.println("send command: " + command);
                 out.println(command);
                 out.flush();
-                System.out.println("send command: " + command);
             }
 
             try {
@@ -50,17 +47,13 @@ public class ServerSocket implements Runnable, Observable {
                         continue;
                     }
 
-                    if(response.contains("ERR")) {
-                        String finalResponse = response;
-                        Platform.runLater(() -> Popup.display(finalResponse));
-                    }
-
                     notifyObservers(response);
                 }
             } catch (IOException e) { e.printStackTrace(); }
         }
     }
-    protected void close(){
+
+    protected void logout() {
         commandQueue.add("logout");
         while(true) if (commandQueue.isEmpty()) {
             running = false;
@@ -72,7 +65,6 @@ public class ServerSocket implements Runnable, Observable {
     @Override
     public void addObserver(Observer o) {
         observers.add(o);
-        System.out.println(observers.size());
     }
 
     @Override

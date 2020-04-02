@@ -3,6 +3,9 @@ package nl.hanze.game.client.scenes.utils;
 import javafx.beans.NamedArg;
 import javafx.scene.control.Button;
 
+/**
+ * @author Roy Voetman
+ */
 public class MenuToggleButton extends Button {
     protected boolean toggle = false;
 
