@@ -1,5 +1,6 @@
 package nl.hanze.game.client.scenes.menu.online;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -68,17 +69,8 @@ public class OnlineMenuController extends Controller {
             //CONNECT TO SERVER HERE
             loadScene("lobby/lobby.fxml");
 
-            /*
             Main.client.connect(ip.getText(), Integer.parseInt(port.getText()));
             Main.client.login(name.getText());
-
-            if (Main.client.) {
-                Platform.runLater(loadScene("lobby/lobby.fxml"));
-            }
-            */
-
-
-
         }
 
     }
@@ -110,5 +102,15 @@ public class OnlineMenuController extends Controller {
         return true;
     }
 
+    @Override
+    public void update(String response) {
+        super.update(response);
 
+        if (response.equals("OK")) {
+            Platform.runLater(() -> {
+                try { loadScene("lobby/lobby.fxml");
+                } catch (IOException ignore) {}
+            });
+        }
+    }
 }
