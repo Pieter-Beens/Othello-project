@@ -18,7 +18,6 @@
 
 <VBox maxHeight="480.0" minHeight="480.0" minWidth="500.0" prefHeight="480.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.menu.offline.OfflineMenuController">
    <children>
-      <RadioButton mnemonicParsing="false" text="RadioButton" />
       <GridPane>
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="300.0" />
@@ -30,29 +29,28 @@
           <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-         
-                                                                              <Label text="Select a Game" GridPane.halignment="RIGHT">
+            <Label text="Select a Game" GridPane.halignment="RIGHT">
                <GridPane.margin>
                   <Insets right="30.0" />
                </GridPane.margin>
             </Label>
-            <ToggleButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefHeight="31.0" prefWidth="100.0" selected="true" text="Othello" GridPane.columnIndex="1" GridPane.columnSpan="2147483647">
+            <ToggleButton userData="othello" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefHeight="31.0" prefWidth="100.0" selected="true" text="Othello" GridPane.columnIndex="1" GridPane.columnSpan="2147483647">
                <toggleGroup>
-                  <ToggleGroup fx:id="selectedGame" />
+                  <ToggleGroup fx:id="games" />
                </toggleGroup>
             </ToggleButton>
-            <ToggleButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefWidth="100.0" text="Tic Tac Toe" toggleGroup="$selectedGame" GridPane.columnIndex="2" />
+            <ToggleButton userData="tictactoe" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefWidth="100.0" text="Tic Tac Toe" toggleGroup="$games" GridPane.columnIndex="2" />
             <Label text="Select Game Mode" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="30.0" />
                </GridPane.margin>
             </Label>
-            <ToggleButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefWidth="100.0" selected="true" text="Single Player" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <ToggleButton userData="single-player" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefWidth="100.0" selected="true" text="Single Player" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <toggleGroup>
-                  <ToggleGroup fx:id="selectedGameMode" />
+                  <ToggleGroup fx:id="gameModes" />
                </toggleGroup>
             </ToggleButton>
-            <ToggleButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefWidth="100.0" text="Multi Player" toggleGroup="$selectedGameMode" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ToggleButton userData="multi-player" accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefWidth="100.0" text="Multi Player" toggleGroup="$gameModes" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
          <VBox.margin>
             <Insets top="30.0" />
@@ -138,7 +136,7 @@
                   <Insets right="30.0" />
                </GridPane.margin>
             </Label>
-            <CheckBox mnemonicParsing="false" GridPane.columnIndex="1" />
+            <CheckBox fx:id="fullscreen" mnemonicParsing="false" GridPane.columnIndex="1" />
          </children>
          <VBox.margin>
             <Insets bottom="20.0" />

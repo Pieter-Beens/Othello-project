@@ -3,34 +3,15 @@ package nl.hanze.game.client.scenes.menu.offline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameController;
-import nl.hanze.game.client.scenes.utils.Colors;
-import nl.hanze.game.client.scenes.utils.MenuButton;
-import nl.hanze.game.client.scenes.utils.MenuButtonGroup;
-import nl.hanze.game.client.scenes.utils.MenuToggleButton;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class OfflineMenuController extends Controller implements Initializable {
-    @FXML
-    private VBox container;
-
-    @FXML
-    public HBox players;
-    public MenuButtonGroup playersMenu;
-
-    @FXML
-    public HBox games;
-    public MenuButtonGroup gamesMenu;
-
     @FXML
     public TextField player1;
 
@@ -38,13 +19,16 @@ public class OfflineMenuController extends Controller implements Initializable {
     public TextField player2;
 
     @FXML
-    public HBox bottomRow;
-
-    @FXML
-    public MenuToggleButton fullscreen;
-
-    @FXML
     public Button start;
+
+    @FXML
+    public ToggleGroup games;
+
+    @FXML
+    public ToggleGroup gameModes;
+
+    @FXML
+    public CheckBox fullscreen;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -70,9 +54,12 @@ public class OfflineMenuController extends Controller implements Initializable {
     }
 
     public void startBtnClicked(ActionEvent event) throws IOException {
-//        String game = gamesMenu.getActive().getValue();
-//        boolean isMultiPlayer = playersMenu.getActive().getValue().equals("multi-player");
+        ToggleButton selectedGame = (ToggleButton) games.getSelectedToggle();
+        String game = (String) selectedGame.getUserData();
 
-        GameController.start("Player 1", "Player 2", "othello", false, false);
+        ToggleButton selectedGameMode = (ToggleButton) gameModes.getSelectedToggle();
+        boolean isMultiplayer = selectedGameMode.getUserData().equals("multi-player");
+
+       GameController.start(player1.getText(), player2.getText(), game, fullscreen.isSelected(), isMultiplayer);
     }
 }
