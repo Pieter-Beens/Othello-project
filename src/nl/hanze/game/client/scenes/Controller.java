@@ -11,6 +11,9 @@ import nl.hanze.game.client.server.Observer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -52,10 +55,36 @@ public abstract class Controller implements Observer {
     }
 
     public void update(String response) {
-        if(response.contains("ERR")) {
+        if (response.contains("ERR")) {
             Platform.runLater(() -> Popup.display(response));
+        }
+
+        if (response.contains("SVR GAMELIST")) {
+            String string = response.replace("SVR GAMELIST ", "")
+                    .replace("[", "")
+                    .replace("]", "")
+                    .replace("\"", "");
+
+            List<String> list = new ArrayList<>(Arrays.asList(string.split(", ")));
+
+            updateGameList(list);
+        }
+
+        if (response.contains("SVR PLAYERLIST")) {
+            String string = response.replace("SVR PLAYERLIST ", "")
+                    .replace("[", "")
+                    .replace("]", "")
+                    .replace("\"", "");
+
+            List<String> list = new ArrayList<>(Arrays.asList(string.split(", ")));
+
+            updatePlayerList(list);
         }
 
         System.out.println("Controller sees: " + response);
     }
+
+    public void updateGameList(List<String> list) { }
+
+    public void updatePlayerList(List<String> list) { }
 }

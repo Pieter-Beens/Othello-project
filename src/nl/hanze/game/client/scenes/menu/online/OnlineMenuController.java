@@ -101,7 +101,7 @@ public class OnlineMenuController extends Controller {
         if (response.equals("OK")) {
             Platform.runLater(() -> {
                 try { loadScene("lobby/lobby.fxml");
-                } catch (IOException ignore) {}
+                } catch (IOException ignore) { ignore.printStackTrace(); }
             });
         }
     }
