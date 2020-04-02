@@ -7,6 +7,10 @@ import nl.hanze.game.client.scenes.games.GameModel;
 
 import java.util.Stack;
 
+/**
+ * @author Pieter Beens
+ */
+
 public class OthelloModel extends GameModel {
     public OthelloModel(int boardSize) {
         super(boardSize);
@@ -29,12 +33,18 @@ public class OthelloModel extends GameModel {
     }
 
     public void placeStone(Move move) {
-        board[move.getRow()][move.getColumn()].setOwner(move.getPlayer());
-        activePlayer.changeScore(1);
+        Field targetField = board[move.getRow()][move.getColumn()];
 
-        int captureTally = enactCaptures();
+        // stones are captured first...
+        int captureTally = enactCaptures(targetField);
         activePlayer.changeScore(captureTally);
         players[(turnCounter+1)%2].changeScore(-captureTally);
+
+        // ...before the stone is placed: this is because placing the stone first would affect enactCaptures>getCaptures calculation
+        targetField.setOwner(move.getPlayer());
+        activePlayer.changeScore(1);
+
+        System.out.println(activePlayer.getName() + " captured " + captureTally + " Field(s)!");
 
         nextTurn(false);
     }
@@ -89,14 +99,16 @@ public class OthelloModel extends GameModel {
     }
 
     public Stack<Field> getCaptures(Field field) {
-        // occupied Fields are never a valid move!
+        Stack<Field> allCaptures = new Stack<>();
+
+        // occupied Fields are never a valid move - immediately return empty Stack
         if (field.getOwner() != null) {
-            return new Stack<>();
+            return allCaptures;
         }
 
         for (int[] direction : GameModel.DIRECTIONS) {
 
-            Stack<Field> potentialCaptures = new Stack<>();
+            Stack<Field> capturesInThisDirection = new Stack<>();
 
             int currentRowID = field.getRowID();
             int currentColumnID = field.getColumnID();
@@ -107,37 +119,42 @@ public class OthelloModel extends GameModel {
 
                 // start with all cases where a direction will never make a move valid, so no further checks are necessary
                 // directly borders a place outside the board > NO CAPTURES HERE
-                if (nextRowID >= board.length || nextColumnID >= board.length || nextRowID < 0 || nextColumnID < 0)
-                    return new Stack<>();
+                if (nextRowID >= board.length || nextColumnID >= board.length || nextRowID < 0 || nextColumnID < 0) break;
                 Field nextField = board[nextRowID][nextColumnID];
 
                 // directly borders an empty Field > NO CAPTURES HERE
-                if (nextField.getOwner() == null) return new Stack<>();
+                if (nextField.getOwner() == null) break;
                 // directly borders a Field with the same owner > NO CAPTURES HERE
-                if (nextField.getOwner() == activePlayer && potentialCaptures.size() == 0) return new Stack<>();
+                if (nextField.getOwner() == activePlayer && capturesInThisDirection.size() == 0) break;
 
-                // success condition: if the loop has looped at least once and the next Field has the same owner, a full list of captures is returned
+                // success condition: if the loop has looped at least once and the next Field has the same owner, the captures are added to allCaptures
                 if (nextField.getOwner() == activePlayer) {
-                    return potentialCaptures;
+                    while (!capturesInThisDirection.isEmpty()) {
+                        allCaptures.push(capturesInThisDirection.pop());
+                    }
+                    break;
                 }
 
                 // if the next Field has another owner, this might be a capture!
                 if (nextField.getOwner() != activePlayer) {
                     currentRowID = nextRowID;
                     currentColumnID = nextColumnID;
-                    potentialCaptures.add(nextField);
+                    capturesInThisDirection.push(nextField);
                 }
                 // if the loop got this far, it means there is potential for a capture; the next iteration will check one Field further...
             }
         }
-        // this return statement should be impossible to reach
-        return new Stack<>();
+        // returns captures in all directions
+        return allCaptures;
     }
 
-    public int enactCaptures() {
-        Stack<Field> captures = checkForCaptures();
-        for (Field field : captures) field.setOwner(activePlayer);
-        System.out.println(activePlayer.getName() + " captured " + captures.size() + " Fields!");
-        return captures.size();
+    public int enactCaptures(Field field) {
+        int captureTally = 0;
+        Stack<Field> captures = getCaptures(field);
+        for (Field capturedField : captures) {
+            capturedField.setOwner(activePlayer);
+            captureTally++;
+        }
+        return captureTally;
     }
 }

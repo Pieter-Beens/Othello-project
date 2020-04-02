@@ -7,7 +7,11 @@ import nl.hanze.game.client.scenes.games.Field;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class OthelloAI implements AIStrategy {
+/**
+ * @author Pieter Beens
+ */
+
+public class OthelloAIMedium implements AIStrategy {
 
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
@@ -21,7 +25,6 @@ public class OthelloAI implements AIStrategy {
 
         int i = new Random().nextInt(validMoves.size());
         Field chosenMove = validMoves.get(i);
-        System.out.println(chosenMove.getRowID() + " " + " " + chosenMove.getColumnID()); // why this no work
         return new Move(player, chosenMove.getRowID(), chosenMove.getColumnID());
     }
 }

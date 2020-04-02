@@ -53,12 +53,15 @@ public class OthelloController extends GameController implements Initializable {
 
     @Override
     public void move(Move move) {
-        model.placeStone(move);
+        model.placeStone(move); // includes nextTurn() call
         updateViews();
 
+        // TODO: this method can be made generic (defined in GameController)
+
         // check if the next turn belongs to an AIPlayer and if so, request a move
-        if (model.getActivePlayer().getPlayerType() == PlayerType.AI) {
-            model.getActivePlayer().move(model.getBoard(), model.getDisabledPlayer());
+        if (model.getActivePlayer().getPlayerType() == PlayerType.AI && !model.gameHasEnded) {
+            // TODO: use new thread to allow View updates while AI is determining its move
+            move(model.getActivePlayer().move(model.getBoard(), model.getDisabledPlayer()));
         }
     }
 
