@@ -5,15 +5,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import nl.hanze.game.client.Main;
+import nl.hanze.game.client.scenes.utils.Popup;
+import nl.hanze.game.client.server.Observer;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Stack;
 
-import nl.hanze.game.client.scenes.utils.Popup;
-import nl.hanze.game.client.server.Observer;
-
+/**
+ * @author Roy Voetman
+ */
 public abstract class Controller implements Observer {
     public static Stack<String> sceneHistory = new Stack<>();
 

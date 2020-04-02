@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Roy Voetman
+ */
 public class TicTacToeController extends GameController implements Initializable {
     @FXML
     public HBox boardContainer;

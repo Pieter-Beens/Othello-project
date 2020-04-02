@@ -4,6 +4,9 @@ import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.scenes.games.Field;
 import nl.hanze.game.client.scenes.games.GameModel;
 
+/**
+ * @author Roy Voetman
+ */
 public class TicTacToeModel extends GameModel {
     private State currentState;
 

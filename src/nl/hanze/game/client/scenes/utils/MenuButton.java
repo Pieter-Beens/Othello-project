@@ -3,6 +3,9 @@ package nl.hanze.game.client.scenes.utils;
 import javafx.beans.NamedArg;
 import javafx.scene.control.Button;
 
+/**
+ * @author Roy Voetman
+ */
 public class MenuButton extends Button {
     protected boolean isActive = false;
     protected String value;

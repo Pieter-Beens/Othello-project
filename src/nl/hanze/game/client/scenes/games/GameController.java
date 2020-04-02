@@ -16,6 +16,9 @@ import java.util.List;
 public abstract class GameController extends Controller {
     public List<Move> moveHistory;
 
+    /**
+     * @author Roy Voetman
+     */
     public static void start(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer) throws IOException {
         AIStrategy aiStrategy = null; //TODO: support multiple AI's/difficulties per game
         switch (game) {

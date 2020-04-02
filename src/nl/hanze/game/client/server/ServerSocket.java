@@ -53,7 +53,7 @@ public class ServerSocket implements Runnable, Observable {
         }
     }
 
-    protected void logout(){
+    protected void logout() {
         commandQueue.add("logout");
         while(true) if (commandQueue.isEmpty()) {
             running = false;

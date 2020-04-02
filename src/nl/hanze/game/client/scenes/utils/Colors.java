@@ -1,5 +1,8 @@
 package nl.hanze.game.client.scenes.utils;
 
+/**
+ * @author Roy Voetman
+ */
 public class Colors {
     public static final String BG_COLOR = "#f5e5ae";
     public static final String BTN_COLOR = "#940a0a";
