@@ -1,5 +1,6 @@
 package nl.hanze.game.client.scenes;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Stack;
 
+import nl.hanze.game.client.scenes.utils.Popup;
 import nl.hanze.game.client.server.Observer;
 
 public abstract class Controller implements Observer {
@@ -47,7 +49,11 @@ public abstract class Controller implements Observer {
         loadScene(sceneHistory.pop());
     }
 
-    public void update(String s) {
-        System.out.println("Controller sees: " + s);
+    public void update(String response) {
+        if(response.contains("ERR")) {
+            Platform.runLater(() -> Popup.display(response));
+        }
+
+        System.out.println("Controller sees: " + response);
     }
 }

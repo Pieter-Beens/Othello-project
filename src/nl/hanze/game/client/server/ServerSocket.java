@@ -50,11 +50,6 @@ public class ServerSocket implements Runnable, Observable {
                         continue;
                     }
 
-                    if(response.contains("ERR")) {
-                        String finalResponse = response;
-                        Platform.runLater(() -> Popup.display(finalResponse));
-                    }
-
                     notifyObservers(response);
                 }
             } catch (IOException e) { e.printStackTrace(); }
