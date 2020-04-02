@@ -36,9 +36,9 @@ public class ServerSocket implements Runnable, Observable {
 
         while (running) {
             while ((command = commandQueue.poll()) != null) {
+                System.out.println("send command: " + command);
                 out.println(command);
                 out.flush();
-                System.out.println("send command: " + command);
             }
 
             try {
@@ -65,7 +65,6 @@ public class ServerSocket implements Runnable, Observable {
     @Override
     public void addObserver(Observer o) {
         observers.add(o);
-        System.out.println(observers.size());
     }
 
     @Override

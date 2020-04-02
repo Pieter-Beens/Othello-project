@@ -3,18 +3,12 @@ package nl.hanze.game.client.scenes.menu.online;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.Controller;
-import nl.hanze.game.client.server.Client;
-import nl.hanze.game.client.server.ServerSocket;
 
-import javax.management.MBeanServerConnection;
 import java.io.IOException;
-import java.net.Socket;
 
 public class OnlineMenuController extends Controller {
 
@@ -66,10 +60,8 @@ public class OnlineMenuController extends Controller {
 
         //no errors? connect to server, redirect to the lobby
         if (!error) {
-            //CONNECT TO SERVER HERE
-            loadScene("lobby/lobby.fxml");
-
             Main.client.connect(ip.getText(), Integer.parseInt(port.getText()));
+            Main.client.setController(this);
             Main.client.login(name.getText());
         }
 
