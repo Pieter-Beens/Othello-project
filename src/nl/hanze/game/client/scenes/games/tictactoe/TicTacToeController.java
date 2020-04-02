@@ -65,6 +65,6 @@ public class TicTacToeController extends GameController implements Initializable
     }
 
     public void btnGoBack(ActionEvent event) throws IOException {
-        loadScene("menu/online/online.fxml");
+        goBack();
     }
 }

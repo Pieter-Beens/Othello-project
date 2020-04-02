@@ -8,9 +8,13 @@ import nl.hanze.game.client.Main;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Stack;
+
 import nl.hanze.game.client.server.Observer;
 
 public abstract class Controller implements Observer {
+    public static Stack<String> sceneHistory = new Stack<>();
+
     public Controller() {
         Main.client.setController(this);
     }
@@ -20,6 +24,8 @@ public abstract class Controller implements Observer {
     }
 
     public static Controller loadScene(String fxml, FXMLLoader loader) throws IOException {
+        sceneHistory.add(fxml);
+
         fxml = "src/nl/hanze/game/client/scenes/" + fxml;
 
         FileInputStream fileInputStream = new FileInputStream(new File(fxml));
@@ -31,6 +37,14 @@ public abstract class Controller implements Observer {
         Main.primaryStage.show();
 
         return loader.getController();
+    }
+
+    public void goBack() throws IOException {
+        // Pop current scene
+        sceneHistory.pop();
+
+        // Pop previous scene
+        loadScene(sceneHistory.pop());
     }
 
     public void update(String s) {
