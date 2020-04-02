@@ -43,11 +43,11 @@
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
                            </GridPane.margin></TextField>
-                        <TextField value="127.0.0.1" fx:id="ip" alignment="CENTER" promptText="IP-address..." GridPane.rowIndex="2">
+                        <TextField text="127.0.0.1" fx:id="ip" alignment="CENTER" promptText="IP-address..." GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
                            </GridPane.margin></TextField>
-                        <TextField value="7789" fx:id="port" alignment="CENTER" promptText="Port Number..." GridPane.rowIndex="3">
+                        <TextField text="7789" fx:id="port" alignment="CENTER" promptText="Port Number..." GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
                            </GridPane.margin></TextField>
