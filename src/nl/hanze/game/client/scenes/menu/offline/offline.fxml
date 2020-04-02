@@ -16,9 +16,22 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="480.0" minHeight="480.0" minWidth="500.0" prefHeight="480.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.menu.offline.OfflineMenuController">
-   <children>
-      <GridPane>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0"
+      prefWidth="950.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="nl.hanze.game.client.scenes.menu.offline.OfflineMenuController">
+<children>
+   <HBox alignment="CENTER" prefHeight="77.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;">
+      <children>
+         <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnGoBack"
+                 prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;"
+                 text="back" textAlignment="CENTER"/>
+      </children>
+      <padding>
+         <Insets bottom="20.0" top="20.0"/>
+      </padding>
+   </HBox>
+   <GridPane>
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="300.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="416.0" minWidth="10.0" prefWidth="147.0" />

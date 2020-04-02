@@ -62,4 +62,8 @@ public class OfflineMenuController extends Controller implements Initializable {
 
        GameController.start(player1.getText(), player2.getText(), game, fullscreen.isSelected(), isMultiplayer);
     }
+
+    public void btnGoBack(ActionEvent event) throws IOException {
+        goBack();
+    }
 }
