@@ -39,6 +39,7 @@ public abstract class Controller implements Observer {
         Parent parent = loader.load(fileInputStream);
 
         Scene scene = new Scene(parent);
+        scene.getStylesheets().add("/resources/menu.css");
 
         Main.primaryStage.setScene(scene);
         Main.primaryStage.show();
