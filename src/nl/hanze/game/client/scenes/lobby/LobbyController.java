@@ -19,10 +19,10 @@ public class LobbyController extends Controller implements Initializable {
     public TableView<PlayerRow> playersTable;
 
     @FXML
-    public TableColumn gamesColumn;
+    public TableColumn<PlayerRow, String> nameColumn;
 
     @FXML
-    public TableColumn nameColumn;
+    public TableColumn<PlayerRow, String> gamesColumn;
 
     private String gameListString = "";
 
