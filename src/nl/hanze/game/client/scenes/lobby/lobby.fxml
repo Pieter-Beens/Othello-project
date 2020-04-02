@@ -1,22 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.*?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="950.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.lobby.LobbyController">
     <children>
         <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <HBox alignment="CENTER" prefHeight="75.0" prefWidth="600.0">
-                    <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lobby" />
-                    </children>
+               <children>
+                  <GridPane prefHeight="75.0" prefWidth="842.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="415.0" minWidth="0.0" prefWidth="63.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="0.0" prefWidth="65.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="0.0" prefWidth="102.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="10.0" prefWidth="390.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="10.0" prefWidth="228.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Play as:" />
+                        <ToggleButton fx:id="btnPlayAsAI" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickedBtnAsAI" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;" text="AI" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </ToggleButton>
+                        <ToggleButton fx:id="btnPlayAsManual" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickedBtnAsManual" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;" text="Manual" GridPane.columnIndex="2">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </ToggleButton>
+                        <Button fx:id="btnFullscreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickedBtnFullscreen" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #E47D21;" text="fullscreen: off" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                     </children>
+                  </GridPane>
+               </children>
                 </HBox>
                 <AnchorPane prefHeight="272.0" prefWidth="600.0">
                 <children>
-                        <TableView fx:id="playersTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TableView fx:id="playersTable" layoutX="54.0" prefHeight="272.0" prefWidth="844.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="54.0" AnchorPane.rightAnchor="52.0" AnchorPane.topAnchor="0.0">
                             <columns>
                                 <TableColumn fx:id="nameColumn" prefWidth="75.0" resizable="false" text="Name">
                                     <cellValueFactory><PropertyValueFactory property="name" />
@@ -38,7 +64,7 @@
                             </HBox.margin>
                         </Button>
 
-                        <Button mnemonicParsing="false" onAction="#btnStart" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: forestGreen; -fx-text-fill: #FFFF;" text="start">
+                        <Button mnemonicParsing="false" onAction="#btnStart" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="start">
                             <HBox.margin>
                                 <Insets left="12.0" />
                             </HBox.margin>
