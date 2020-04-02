@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import nl.hanze.game.client.scenes.utils.MenuButton?>
 
-<VBox alignment="CENTER" prefHeight="528.0" prefWidth="950.0" spacing="10" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.start.StartController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="950.0" spacing="10" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.start.StartController">
    <ImageView fitHeight="95.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true" fx:id="logo">
       <VBox.margin>
          <Insets bottom="50.0" />

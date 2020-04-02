@@ -116,17 +116,13 @@ public class OfflineMenuController extends Controller implements Initializable {
         //System.out.println(selectedGame.getSelectedToggle().isSelected());
 
 
-        //TODO:
-        // 1. get all values
-        // 2. assign fx:id
-        // 3. toggle multi/single player settings
-        // 4. start GameController
-
-
-
         //System.out.println(difficulty.managedProperty().toString());
         boolean multiplayer = false;
         if(selectedGameMode.getSelectedToggle().getUserData().equals("multi-player")) multiplayer =true;
        GameController.start(player1.getText(), player2.getText(), (String)selectedGame.getSelectedToggle().getUserData(), fullscreen.isSelected(), multiplayer);
+    }
+
+    public void btnGoBack(ActionEvent actionEvent) throws IOException {
+        goBack();
     }
 }
