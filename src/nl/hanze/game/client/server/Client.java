@@ -25,8 +25,8 @@ public class Client {
         serverThread.start();
     }
 
-    public void close() throws IOException {
-        serverCommunicator.close();
+    public void logout() throws IOException {
+        serverCommunicator.logout();
         if(!serverThread.isAlive()) socket.close();
     }
 

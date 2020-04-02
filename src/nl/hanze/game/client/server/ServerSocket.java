@@ -1,8 +1,5 @@
 package nl.hanze.game.client.server;
 
-import javafx.application.Platform;
-import nl.hanze.game.client.scenes.utils.Popup;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,7 +52,8 @@ public class ServerSocket implements Runnable, Observable {
             } catch (IOException e) { e.printStackTrace(); }
         }
     }
-    protected void close(){
+
+    protected void logout(){
         commandQueue.add("logout");
         while(true) if (commandQueue.isEmpty()) {
             running = false;
