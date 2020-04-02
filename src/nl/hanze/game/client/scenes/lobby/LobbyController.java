@@ -1,5 +1,7 @@
 package nl.hanze.game.client.scenes.lobby;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,10 +21,10 @@ public class LobbyController extends Controller implements Initializable {
     public TableView<PlayerRow> playersTable;
 
     @FXML
-    public TableColumn gamesColumn;
+    public TableColumn<PlayerRow, String> nameColumn;
 
     @FXML
-    public TableColumn nameColumn;
+    public TableColumn<PlayerRow, String> gamesColumn;
 
     private String gameListString = "";
 
@@ -30,6 +32,8 @@ public class LobbyController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Main.client.getGameList();
         Main.client.getPlayerList();
+
+        new Thread(new TableUpdater()).start();
 
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
         gamesColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.2));
@@ -58,8 +62,28 @@ public class LobbyController extends Controller implements Initializable {
     public void updatePlayerList(List<String> list) {
         super.updatePlayerList(list);
 
+        playersTable.setItems(FXCollections.observableArrayList());
+
         for (String player : list) {
             playersTable.getItems().add(new PlayerRow(player, gameListString));
+        }
+    }
+
+    public void btnStart(ActionEvent event) {
+        Platform.runLater(() -> System.out.println(playersTable.getSelectionModel().getSelectedItem().getName()));
+    }
+
+    private static class TableUpdater implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(2000);
+                    Main.client.getPlayerList();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
