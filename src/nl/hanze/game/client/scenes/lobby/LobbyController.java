@@ -16,8 +16,12 @@ import nl.hanze.game.client.scenes.utils.PlayerRow;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class LobbyController extends Controller implements Initializable {
 
@@ -122,12 +126,24 @@ public class LobbyController extends Controller implements Initializable {
 
         PlayerRow playerRow;
 
+        Set<Integer> foundIndexes = new HashSet<>();
+        Set<Integer> allIndexes = IntStream.range(0, tableList.size()).boxed().collect(Collectors.toSet());
+
         for (String player : list) {
             playerRow = new PlayerRow(player);
-            if (!tableList.contains(playerRow)) {
+            int indexOf = tableList.indexOf(playerRow);
+
+            if (indexOf == -1) {
                 tableList.add(new PlayerRow(player));
+            } else {
+                foundIndexes.add(indexOf);
             }
         }
+
+        // Subtract sets to get all players that "left" to lobby
+        allIndexes.removeAll(foundIndexes);
+        for (int index : allIndexes)
+            tableList.remove(index);
     }
 
     public void btnStart(ActionEvent event) {

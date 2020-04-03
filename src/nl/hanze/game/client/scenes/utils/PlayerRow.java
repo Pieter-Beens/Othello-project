@@ -4,6 +4,9 @@ import javafx.beans.property.SimpleStringProperty;
 
 import java.util.Objects;
 
+/**
+ * @author Roy Voetman
+ */
 public class PlayerRow {
     private final SimpleStringProperty name;
 
@@ -13,6 +16,10 @@ public class PlayerRow {
 
     public PlayerRow(String name) {
         this.name = new SimpleStringProperty(name);
+    }
+
+    public String getNameValue() {
+        return name.getValue();
     }
 
     public String getName() {
@@ -29,7 +36,7 @@ public class PlayerRow {
         if (o == null || getClass() != o.getClass()) return false;
 
         PlayerRow playerRow = (PlayerRow) o;
-        return name.getValue().equals(playerRow.name.getValue());
+        return this.getNameValue().equals(playerRow.getNameValue());
     }
 
     @Override
