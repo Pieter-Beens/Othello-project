@@ -37,14 +37,14 @@ public class OthelloModel extends GameModel {
 
         // stones are captured first...
         int captureTally = enactCaptures(targetField);
-        activePlayer.changeScore(captureTally);
+        getActivePlayer().changeScore(captureTally);
         players[(turnCounter+1)%2].changeScore(-captureTally);
 
         // ...before the stone is placed: this is because placing the stone first would affect enactCaptures>getCaptures calculation
         targetField.setOwner(move.getPlayer());
-        activePlayer.changeScore(1);
+        getActivePlayer().changeScore(1);
 
-        System.out.println(activePlayer.getName() + " captured " + captureTally + " Field(s)!");
+        System.out.println(getActivePlayer().getName() + " captured " + captureTally + " Field(s)!");
 
         nextTurn(false);
     }
@@ -61,7 +61,7 @@ public class OthelloModel extends GameModel {
         }
 
         if (!turnHasMoves()) {
-            System.out.println(activePlayer.getName() + " was unable to move, and had to skip their turn!");
+            System.out.println(getActivePlayer().getName() + " was unable to move, and had to skip their turn!");
             this.nextTurn(true);
         }
     }
@@ -125,10 +125,10 @@ public class OthelloModel extends GameModel {
                 // directly borders an empty Field > NO CAPTURES HERE
                 if (nextField.getOwner() == null) break;
                 // directly borders a Field with the same owner > NO CAPTURES HERE
-                if (nextField.getOwner() == activePlayer && capturesInThisDirection.size() == 0) break;
+                if (nextField.getOwner() == getActivePlayer() && capturesInThisDirection.size() == 0) break;
 
                 // success condition: if the loop has looped at least once and the next Field has the same owner, the captures are added to allCaptures
-                if (nextField.getOwner() == activePlayer) {
+                if (nextField.getOwner() == getActivePlayer()) {
                     while (!capturesInThisDirection.isEmpty()) {
                         allCaptures.push(capturesInThisDirection.pop());
                     }
@@ -136,7 +136,7 @@ public class OthelloModel extends GameModel {
                 }
 
                 // if the next Field has another owner, this might be a capture!
-                if (nextField.getOwner() != activePlayer) {
+                if (nextField.getOwner() == getInactivePlayer()) {
                     currentRowID = nextRowID;
                     currentColumnID = nextColumnID;
                     capturesInThisDirection.push(nextField);
@@ -152,7 +152,7 @@ public class OthelloModel extends GameModel {
         int captureTally = 0;
         Stack<Field> captures = getCaptures(field);
         for (Field capturedField : captures) {
-            capturedField.setOwner(activePlayer);
+            capturedField.setOwner(getActivePlayer());
             captureTally++;
         }
         return captureTally;

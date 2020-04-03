@@ -1,12 +1,12 @@
 package nl.hanze.game.client.scenes.games;
 
 import nl.hanze.game.client.players.Player;
+import nl.hanze.game.client.scenes.utils.Popup;
 
 public abstract class GameModel {
-    final static int MAX_PLAYERS = 2;
+    final static int MAX_PLAYERS = 2; // games can have only 2 players!
     public boolean gameHasEnded = false;
     protected Player[] players = new Player[MAX_PLAYERS];
-    protected Player activePlayer;
     protected int boardSize;
     protected int turnCounter = 1;
     protected Field[][] board;
@@ -30,12 +30,10 @@ public abstract class GameModel {
 
     public void nextTurn() {
         turnCounter++;
-        activePlayer = players[turnCounter%2];
     }
 
     public void setup() {
-        activePlayer = players[turnCounter%2];
-        activePlayer.setStartingColors();
+        players[turnCounter%2].setStartingColors();
     }
 
     public Player getPlayer(int i) {
@@ -50,20 +48,12 @@ public abstract class GameModel {
         this.players[0] = player2;
     }
 
-    public void setActivePlayer(Player activePlayer) {
-        this.activePlayer = activePlayer;
-    }
-
     public Player getActivePlayer() {
-        return activePlayer;
+        return players[turnCounter%2];
     }
 
-    public Player getDisabledPlayer() {
-        if (players[0].equals(activePlayer)) {
-            return players[1];
-        }
-
-        return players[0];
+    public Player getInactivePlayer() {
+        return players[(turnCounter+1)%2];
     }
 
     public int getBoardSize() {
@@ -82,16 +72,19 @@ public abstract class GameModel {
         return board;
     }
 
-    public void endGame() { // TODO: make this a visual message/design results screen
+    public void endGame() { // TODO: use a popup result
         System.out.println("Neither player was able to move, so the game has ended!");
         gameHasEnded = true;
         if (players[0].getScore() > players[1].getScore()) {
+            Popup.display(players[0].getName() + " has won!");
             System.out.print(players[0].getName() + " has won!");
         }
         if (players[0].getScore() < players[1].getScore()) {
+            Popup.display(players[1].getName() + " has won!");
             System.out.print(players[1].getName() + " has won!");
         }
         if (players[0].getScore() == players[1].getScore()) {
+            Popup.display(players[0].getName() + " and " + players[1].getName() + " have tied for second place!");
             System.out.print(players[0].getName() + " and " + players[1].getName() + " have tied for second place!");
         }
     }

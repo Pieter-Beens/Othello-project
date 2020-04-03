@@ -13,6 +13,11 @@ import java.util.Random;
 
 public class OthelloAIEasy implements AIStrategy {
 
+//    @Override
+//    public void run() {
+//        I NEED ACCESS TO MODEL HERE!
+//    }
+
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
         try {

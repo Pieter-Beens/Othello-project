@@ -17,4 +17,8 @@ public class AIPlayer extends Player {
     public Move move(Field[][] board, Player opponent) {
         return AIStrategy.determineNextMove(board, this, opponent);
     }
+
+    public void determineNextMove() {
+        //new Thread(AIStrategy).start();
+    }
 }
