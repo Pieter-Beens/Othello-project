@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -33,6 +34,8 @@ public class OfflineMenuController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        container.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> enablePlayButton());
+
         StringConverter tickLabelFormatter = new StringConverter<Double>() {
             @Override
             public String toString(Double tickLabel) {
@@ -106,6 +109,15 @@ public class OfflineMenuController extends Controller implements Initializable {
             setDifficultyVisibility(false);
             setPlayernamesVisibility(true);
         }
+    }
+
+    public void enablePlayButton(){
+        try{
+            selectedGameMode.getSelectedToggle().getUserData();
+            selectedGame.getSelectedToggle().getUserData();
+            start.setDisable(false);
+        }catch(NullPointerException e){}
+
     }
 
     public void startBtnClicked(ActionEvent event) throws IOException {

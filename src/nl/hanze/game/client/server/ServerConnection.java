@@ -7,13 +7,13 @@ import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class Client {
+public class ServerConnection {
     private BlockingQueue<String> commandQueue;
     private Socket socket;
     private ServerSocket serverCommunicator;
     private Thread serverThread;
 
-    public Client() {
+    public ServerConnection() {
         this.commandQueue = new LinkedBlockingQueue<>();
     }
 

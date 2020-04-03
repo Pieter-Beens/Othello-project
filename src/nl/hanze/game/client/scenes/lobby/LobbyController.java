@@ -62,8 +62,8 @@ public class LobbyController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         playersTable.setItems(tableList);
 
-        Main.client.getGameList();
-        Main.client.getPlayerList();
+        Main.serverConnection.getGameList();
+        Main.serverConnection.getPlayerList();
 
         tableUpdater = new TableUpdater();
         new Thread(tableUpdater).start();
@@ -139,7 +139,7 @@ public class LobbyController extends Controller implements Initializable {
     private void btnLogout(ActionEvent event) throws IOException {
         GameModel.serverName = null;
 
-        Main.client.logout();
+        Main.serverConnection.logout();
 
         goBack();
     }
@@ -203,7 +203,7 @@ public class LobbyController extends Controller implements Initializable {
             return;
         }
 
-        Main.client.challenge(playersTable.getSelectionModel().getSelectedItem().getName(), "Tic-tac-toe");
+        Main.serverConnection.challenge(playersTable.getSelectionModel().getSelectedItem().getName(), "Tic-tac-toe");
     }
 
     @Override
@@ -221,7 +221,7 @@ public class LobbyController extends Controller implements Initializable {
             while (running) {
                 try {
                     Thread.sleep(2000);
-                    Main.client.getPlayerList();
+                    Main.serverConnection.getPlayerList();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
