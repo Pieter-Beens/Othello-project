@@ -10,4 +10,8 @@
     <HBox alignment="TOP_CENTER" spacing="30" fx:id="boardContainer" />
 
     <HBox alignment="TOP_CENTER" spacing="30" fx:id="info" />
+    <HBox alignment="TOP_CENTER" spacing="30">
+        <Button alignment="CENTER" onAction="#btnGoBack" prefHeight="35.0" text="Go back" textAlignment="CENTER"
+                HBox.hgrow="ALWAYS"/>
+    </HBox>
 </VBox>

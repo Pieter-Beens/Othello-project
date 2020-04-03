@@ -21,6 +21,7 @@ public class FieldButton extends Button {
             OthelloBoard board = (OthelloBoard) getParent();
             Move move = new Move(board.getController().getActivePlayer(), getRowID(), getColumnID());
             board.getController().move(move);
+            board.getController().acceptNewMoves();
         });
     }
 

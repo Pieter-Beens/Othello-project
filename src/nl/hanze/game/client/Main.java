@@ -22,7 +22,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setMinWidth(300);
         primaryStage.setMinHeight(350);
-        primaryStage.setTitle("OtHello World");
+        primaryStage.setTitle("Two Player Games");
 
         Main.primaryStage = primaryStage;
 

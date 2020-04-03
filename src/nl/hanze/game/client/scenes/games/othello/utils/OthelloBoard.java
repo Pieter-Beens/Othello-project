@@ -67,7 +67,7 @@ public class OthelloBoard extends GridPane {
     }
 
     public void update() {
-        // update colors
+        // update FieldButton colors
         for (Node fieldNode : this.getChildren()) {
             FieldButton fieldButton = (FieldButton) fieldNode;
             try {
@@ -76,14 +76,10 @@ public class OthelloBoard extends GridPane {
             } catch (NullPointerException ignore) {}
         }
 
-        //TODO: mark recent moves (and supply model logic in Field)
+        //TODO: mark and unmark recent moves (update Fields field in model.placeStone())
 
-        // makes buttons representing valid moves clickable
-        enableValidFields();
-        if (model.getActivePlayer().getPlayerType() != PlayerType.LOCAL) disableAllFields();
-
+        disableAllFields();
     }
-
     public OthelloController getController() { return controller; }
 }
 
