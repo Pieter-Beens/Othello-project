@@ -1,5 +1,6 @@
 package nl.hanze.game.client.scenes.games.othello;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -43,6 +44,7 @@ public class OthelloController extends GameController implements Initializable {
         boardPane.disableAllFields();
         model.updateFieldValidity();
         updateViews();
+        boardPane.enableValidFields();
     }
 
     @Override
@@ -53,16 +55,24 @@ public class OthelloController extends GameController implements Initializable {
 
     @Override
     public void move(Move move) {
-        model.placeStone(move); // includes nextTurn() call
+        model.recordMove(move); // includes nextTurn() call
         updateViews();
 
-        // TODO: this method can be made partially generic (=defined in GameController)
+        // TODO: this method should be made more generic (and partially moved to super.move() in GameController)
+    }
 
+    public void acceptNewMoves() {
         // check if the next turn belongs to an AIPlayer and if so, request a move
         if (model.getActivePlayer().getPlayerType() == PlayerType.AI && !model.gameHasEnded) {
-            // model.getActivePlayer().determineNextMove(); //TODO: make method determineNextMove() in Player with error
+            // model.getActivePlayer().determineNextMove(); //TODO: make super.determineNextMove() in Player with error
 
             move(model.getActivePlayer().move(model.getBoard(), model.getInactivePlayer()));
+            this.acceptNewMoves(); //TODO: this should go into the AI runnable
+        }
+        else if (model.getActivePlayer().getPlayerType() == PlayerType.LOCAL && !model.gameHasEnded) {
+
+            // makes FieldButtons representing valid moves clickable
+            boardPane.enableValidFields();
         }
     }
 

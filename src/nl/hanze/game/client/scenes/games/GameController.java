@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.util.List;
 
 public abstract class GameController extends Controller {
-    public List<Move> moveHistory;
-
     /**
      * @author Roy Voetman
      */
@@ -54,10 +52,7 @@ public abstract class GameController extends Controller {
 
     public abstract void updateViews();
 
-    public void move(Move move) {
-        moveHistory.add(move);
-        // handling of moves is defined in game-specific childs
-    }
+    public abstract void move(Move move);
 
     protected abstract GameModel getModel();
 }

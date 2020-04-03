@@ -32,7 +32,7 @@ public class OthelloModel extends GameModel {
         super.setup();
     }
 
-    public void placeStone(Move move) {
+    public void recordMove(Move move) {
         Field targetField = board[move.getRow()][move.getColumn()];
 
         // stones are captured first...
