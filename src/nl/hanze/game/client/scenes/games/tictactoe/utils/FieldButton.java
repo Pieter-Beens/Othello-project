@@ -19,6 +19,7 @@ public class FieldButton extends Button {
             TicTacToeBoard board = (TicTacToeBoard) getParent();
             Move move = new Move(board.getController().getActivePlayer(), getRowID(), getColumnID());
             board.getController().move(move);
+            board.getController().acceptNewMoves();
         });
     }
 

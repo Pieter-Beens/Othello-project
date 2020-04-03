@@ -42,14 +42,25 @@ public class TicTacToeController extends GameController implements Initializable
         }
 
         updateViews();
+    }
 
-        if (model.getCurrentState() == TicTacToeModel.State.IN_PROGRESS) {
-            // check if the next turn belongs to an AIPlayer and if so, request a move
-            if (model.getActivePlayer().getPlayerType() == PlayerType.AI) {
+    public void acceptNewMoves() {
+        // check if the next turn belongs to an AIPlayer and if so, request a move
+        if (model.getActivePlayer().getPlayerType() == PlayerType.AI && model.getCurrentState() == TicTacToeModel.State.IN_PROGRESS) {
+            //move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
+
+            new Thread(() -> {
                 move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
-            }
+                acceptNewMoves();
+            }).start();
+        }
+        else if (model.getActivePlayer().getPlayerType() == PlayerType.LOCAL && model.getCurrentState() == TicTacToeModel.State.IN_PROGRESS) {
+
+            // makes FieldButtons representing valid moves clickable
+            //boardPane.enableValidFields(); //TODO: make Tic-Tac-Toe use this as well
         }
     }
+
 
     @Override
     public void setup() {
