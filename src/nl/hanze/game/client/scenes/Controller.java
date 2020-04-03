@@ -84,8 +84,10 @@ public abstract class Controller implements Observer {
                 switch (command) {
                     case "GAMELIST":
                         updateGameList(list);
+                        break;
                     case "PLAYERLIST":
                         updatePlayerList(list);
+                        break;
                 }
             }
         }

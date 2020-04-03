@@ -125,6 +125,8 @@ public class LobbyController extends Controller implements Initializable {
     public void updatePlayerList(List<String> list) {
         super.updatePlayerList(list);
 
+        System.err.println(list);
+
         PlayerRow playerRow;
 
         Set<Integer> foundIndexes = new HashSet<>();
