@@ -60,7 +60,7 @@ public class Player {
         return playerType;
     }
 
-    public Move move(Field[][] board, Player opponent) {
+    public Move calculateMove(Field[][] board, Player opponent) {
         throw new UnsupportedOperationException("Move calculation requested from non-AI player.");
     }
 

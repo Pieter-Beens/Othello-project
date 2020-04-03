@@ -35,8 +35,6 @@ public abstract class GameModel {
         turnCounter++;
 
         boardHistory.add(board); // at the end of every turn, save the new turn's board data to boardHistory ArrayList
-
-        System.out.println(boardHistory.size());
     }
 
     public void setup() {

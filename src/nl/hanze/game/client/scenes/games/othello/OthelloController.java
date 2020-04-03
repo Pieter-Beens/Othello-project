@@ -58,16 +58,18 @@ public class OthelloController extends GameController implements Initializable {
         model.recordMove(move); // includes nextTurn() call
         updateViews();
 
-        // TODO: this method should be made more generic (and partially moved to super.move() in GameController)
+        //TODO: this method should be made more generic (and partially moved to super.move() in GameController)
     }
 
     public void acceptNewMoves() {
         // check if the next turn belongs to an AIPlayer and if so, request a move
         if (model.getActivePlayer().getPlayerType() == PlayerType.AI && !model.gameHasEnded) {
-            // model.getActivePlayer().determineNextMove(); //TODO: make super.determineNextMove() in Player with error
+            //move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
 
-            move(model.getActivePlayer().move(model.getBoard(), model.getInactivePlayer()));
-            this.acceptNewMoves(); //TODO: this should go into the AI runnable
+            new Thread(() -> {
+                move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
+                acceptNewMoves();
+            }).start();
         }
         else if (model.getActivePlayer().getPlayerType() == PlayerType.LOCAL && !model.gameHasEnded) {
 
