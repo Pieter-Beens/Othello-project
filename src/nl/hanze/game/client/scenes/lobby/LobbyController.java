@@ -6,12 +6,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import nl.hanze.game.client.Main;
+import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
@@ -45,6 +43,9 @@ public class LobbyController extends Controller implements Initializable {
     public Button TTTBtn;
 
     @FXML
+    public ToggleGroup gameBtnGroup;
+
+    @FXML
     public TableView<PlayerRow> playersTable;
 
     @FXML
@@ -56,6 +57,9 @@ public class LobbyController extends Controller implements Initializable {
 
     // Contains either 'AI' or 'Manual' to indicate as whom the user wants to play as
     private String playAs = "";
+
+    // Contains the name of the game the user wants to play
+    private String selectedGame = "";
 
     // Indicates whether the user wants to play fullscreen, default is 'false'
     private Boolean fullscreen = false;
@@ -73,6 +77,8 @@ public class LobbyController extends Controller implements Initializable {
         new Thread(tableUpdater).start();
 
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
+
+
     }
 
     /**
@@ -83,15 +89,15 @@ public class LobbyController extends Controller implements Initializable {
         //Split gameListString into a list
         List<String> games = new ArrayList<String>(Arrays.asList(gameListString.split(", ")));
         //ArrayList which will contain the buttons
-        ArrayList<Button> buttons = new ArrayList<>();
+        ArrayList<ToggleButton> buttons = new ArrayList<>();
 
         //For each game, create button and add to buttons array
         for (String game : games) {
-            buttons.add(new Button(game));
+            buttons.add(new ToggleButton(game));
         }
 
         //For each button in buttons, add to gameBtnHbox
-        for (Button btn : buttons) {
+        for (ToggleButton btn : buttons) {
             Platform.runLater(new Runnable() {
                 @Override public void run() {
 
@@ -107,6 +113,7 @@ public class LobbyController extends Controller implements Initializable {
                     btn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
                     btn.setPrefHeight(30);
                     btn.setPrefWidth(100);
+                    btn.setToggleGroup(gameBtnGroup);
                     btn.setOnAction(e -> {
                         try {
                             clickedGameBtn(btn);
@@ -118,18 +125,51 @@ public class LobbyController extends Controller implements Initializable {
                 }
             });
 
-
         }
 
     }
 
     @FXML
-    private void clickedGameBtn(Button btn) throws Exception {
+    private void clickedGameBtn(ToggleButton btn) throws Exception {
+        String selectedBtn = btn.getId();
+
+        if (selectedBtn.equals("ReversiBtn")) {
+            selectedGame = "Reversi";
+        }
+        if (selectedBtn.equals("TTTBtn")) {
+            selectedGame = "Tic-tac-toe";
+        }
+
+
+
+        /*
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (selectedBtn.equals("ReversiBtn")) {
+                    btn.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
+                    //TTTBtn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
+                }
+                if (selectedBtn.equals("ReversiBtn")) {
+                    btn.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
+                    //ReversiBtn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
+                }
+            }
+        });
+        */
+
+
+        System.out.println("SELECTED GAME: " + selectedGame + " btnId: " + selectedBtn);
+
+        //Toggle btn = gameBtnGroup.getSelectedToggle();
+
+
+        /*
         if (btn.getId().equals("ReversiBtn")) {
             btn.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
-            //TTTBtn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
+            TTTBtn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
         }
-        /*
+
         if (btn.getId().equals("TTTBtn")) {
             btn.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
             ReversiBtn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
