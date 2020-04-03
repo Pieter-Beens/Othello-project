@@ -187,6 +187,10 @@ public class LobbyController extends Controller implements Initializable {
             tableList.remove(index);
     }
 
+    protected void gameChallenge(Map<String, String> map) {
+        Platform.runLater(() -> Popup.display("Match from " + map.get("CHALLENGER") + " for a game of " + map.get("GAMETYPE")));
+    }
+
     public void btnStart(ActionEvent event) {
         //playAs contains whom the user wants to play as (String 'AI' or 'Manual')
         //fullscreen contains if the user wants fullscreen, (Boolean 'true' or 'false')
