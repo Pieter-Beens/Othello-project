@@ -68,6 +68,7 @@
                               <Button mnemonicParsing="false" onAction="#btnLogout" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="logout" />
       
                               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnStart" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="start" GridPane.columnIndex="2" />
+                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnMatchRequest" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="match request" GridPane.columnIndex="3" />
                      </children>
                   </GridPane>
                     </children>

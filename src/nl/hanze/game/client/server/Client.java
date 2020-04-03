@@ -46,7 +46,7 @@ public class Client {
     }
 
     public void challenge(String player, String game){
-        commandQueue.add("challenge "+player+" "+game);
+        commandQueue.add("challenge \"" + player + "\" \"" + game + "\"");
     }
 
     public void challengeAccept(int id){

@@ -13,6 +13,7 @@ import javafx.scene.control.ToggleButton;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.utils.PlayerRow;
+import nl.hanze.game.client.scenes.utils.Popup;
 
 import java.io.IOException;
 import java.net.URL;
@@ -150,6 +151,15 @@ public class LobbyController extends Controller implements Initializable {
         //playAs contains whom the user wants to play as (String 'AI' or 'Manual')
         //fullscreen contains if the user wants fullscreen, (Boolean 'true' or 'false')
         Platform.runLater(() -> System.out.println(playersTable.getSelectionModel().getSelectedItem().getName()));
+    }
+
+    public void btnMatchRequest(ActionEvent event) {
+        if (playersTable.getSelectionModel().getSelectedItem() == null) {
+            Platform.runLater(() -> Popup.display("First select an opponent"));
+            return;
+        }
+
+        Main.client.challenge(playersTable.getSelectionModel().getSelectedItem().getName(), "Tic-tac-toe");
     }
 
     @Override
