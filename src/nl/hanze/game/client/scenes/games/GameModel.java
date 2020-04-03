@@ -11,6 +11,7 @@ public abstract class GameModel {
     protected int turnCounter = 1;
     protected Field[][] board;
     public static final int[][] DIRECTIONS = {{1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}, {-1,0}, {-1,1}, {0,1}};
+    public static String serverName;
 
     /**
      * @author Pieter Beens

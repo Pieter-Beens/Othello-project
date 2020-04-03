@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.Controller;
+import nl.hanze.game.client.scenes.games.GameModel;
 
 import java.io.IOException;
 
@@ -106,6 +107,7 @@ public class OnlineMenuController extends Controller {
         super.update(response);
 
         if (response.equals("OK")) {
+            GameModel.serverName = name.getText();
             Platform.runLater(() -> {
                 try { loadScene("lobby/lobby.fxml");
                 } catch (IOException ignore) { ignore.printStackTrace(); }

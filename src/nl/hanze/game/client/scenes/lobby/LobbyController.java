@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.Controller;
+import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.utils.PlayerRow;
 import nl.hanze.game.client.scenes.utils.Popup;
 
@@ -104,6 +105,8 @@ public class LobbyController extends Controller implements Initializable {
 
     @FXML
     private void btnLogout(ActionEvent event) throws IOException {
+        GameModel.serverName = null;
+
         Main.client.logout();
 
         goBack();
@@ -125,8 +128,6 @@ public class LobbyController extends Controller implements Initializable {
     public void updatePlayerList(List<String> list) {
         super.updatePlayerList(list);
 
-        System.err.println(list);
-
         PlayerRow playerRow;
 
         Set<Integer> foundIndexes = new HashSet<>();
@@ -136,10 +137,13 @@ public class LobbyController extends Controller implements Initializable {
             playerRow = new PlayerRow(player);
             int indexOf = tableList.indexOf(playerRow);
 
-            if (indexOf == -1) {
-                tableList.add(new PlayerRow(player));
-            } else {
-                foundIndexes.add(indexOf);
+            // Ignore self
+            if (!GameModel.serverName.equals(player)) {
+                if (indexOf == -1) {
+                    tableList.add(new PlayerRow(player));
+                } else {
+                    foundIndexes.add(indexOf);
+                }
             }
         }
 
