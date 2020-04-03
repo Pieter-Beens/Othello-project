@@ -89,18 +89,23 @@ public abstract class Controller implements Observer {
             case "GAME YOURTURN":
                 gameYourTurn(resp.getMap());
                 break;
+            case "GAME MOVE":
+                gameMove(resp.getMap());
+                break;
         }
 
-        System.out.println("Controller sees: " + response);
+        System.err.println(response);
     }
 
-    public void updateGameList(List<String> list) { }
+    protected void updateGameList(List<String> list) { }
 
-    public void updatePlayerList(List<String> list) { }
+    protected void updatePlayerList(List<String> list) { }
 
-    public void gameChallenge(Map<String, String> map) { }
+    protected void gameChallenge(Map<String, String> map) { }
 
-    public void gameMatch(Map<String, String> map) { }
+    protected void gameMatch(Map<String, String> map) { }
 
-    public void gameYourTurn(Map<String, String> map) { }
+    protected void gameYourTurn(Map<String, String> map) { }
+
+    protected void gameMove(Map<String, String> map) { }
 }

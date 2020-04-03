@@ -36,7 +36,7 @@ public class ServerSocket implements Runnable, Observable {
 
         while (running) {
             while ((command = commandQueue.poll()) != null) {
-                System.out.println("send command: " + command);
+                System.out.println(command);
                 out.println(command);
                 out.flush();
             }

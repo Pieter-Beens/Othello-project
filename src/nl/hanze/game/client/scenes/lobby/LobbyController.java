@@ -150,7 +150,7 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     @Override
-    public void updateGameList(List<String> list) {
+    protected void updateGameList(List<String> list) {
         super.updateGameList(list);
 
         gameListString = String.join(", ", list);
@@ -159,7 +159,7 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     @Override
-    public void updatePlayerList(List<String> list) {
+    protected void updatePlayerList(List<String> list) {
         super.updatePlayerList(list);
 
         PlayerRow playerRow;
