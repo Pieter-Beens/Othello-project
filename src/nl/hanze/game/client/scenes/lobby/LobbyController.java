@@ -13,6 +13,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.Controller;
+import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.utils.PlayerRow;
 import nl.hanze.game.client.scenes.utils.Popup;
@@ -159,6 +160,17 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     @Override
+    protected void gameMatch(Map<String, String> map) {
+        Platform.runLater(() -> {
+            try {
+                GameController.start(GameModel.serverName, map.get("OPPONENT"), map.get("GAMETYPE"), false, false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
     protected void updatePlayerList(List<String> list) {
         super.updatePlayerList(list);
 
@@ -187,6 +199,7 @@ public class LobbyController extends Controller implements Initializable {
             tableList.remove(index);
     }
 
+    @Override
     protected void gameChallenge(Map<String, String> map) {
         Platform.runLater(() -> Popup.display("Match from " + map.get("CHALLENGER") + " for a game of " + map.get("GAMETYPE")));
     }

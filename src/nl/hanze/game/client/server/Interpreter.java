@@ -46,7 +46,9 @@ public class Interpreter {
 
         for (String pair : pairs) {
             String[] segments = pair.split(": ");
-            map.put(segments[0], segments[1]);
+            System.out.println(Arrays.toString(segments));
+
+            map.put(segments[0], segments[1] != null ? segments[1] : "");
         }
 
         return map;
