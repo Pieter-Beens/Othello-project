@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.HBox;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameModel;
@@ -18,10 +19,7 @@ import nl.hanze.game.client.scenes.utils.Popup;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -35,6 +33,12 @@ public class LobbyController extends Controller implements Initializable {
 
     @FXML
     public Button btnFullscreen;
+
+    @FXML
+    public HBox gameBtnHBox;
+
+    //@FXML
+    //public GridPane gameBtnGrid;
 
     @FXML
     public TableView<PlayerRow> playersTable;
@@ -70,6 +74,34 @@ public class LobbyController extends Controller implements Initializable {
     /**
      * @author Jasper van Dijken
      */
+
+    private void updateGameBtnGroup() {
+        //Split gameListString into a list
+        List<String> games = new ArrayList<String>(Arrays.asList(gameListString.split(", ")));
+        //ArrayList which will contain the buttons
+        ArrayList<Button> buttons = new ArrayList<>();
+
+        //For each game, create button and add to buttons array
+        for (String game : games) {
+            buttons.add(new Button(game));
+        }
+
+        //For each button in buttons, add to gameBtnHbox
+        for (Button btn : buttons) {
+            Platform.runLater(new Runnable() {
+                @Override public void run() {
+                    btn.setStyle("-fx-background-color: #ACACAC;; -fx-text-fill: #FFFF;");
+                    btn.setPrefHeight(30);
+                    btn.setPrefWidth(100);
+                    gameBtnHBox.getChildren().add(btn);
+                }
+            });
+
+
+        }
+
+    }
+
     @FXML
     private void clickedBtnAsAI(ActionEvent event) throws IOException {
         //Set playAs to 'AI', make playAsAI button active, make playAsManual inactive
@@ -118,14 +150,16 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     @Override
-    public void updateGameList(List<String> list) {
+    protected void updateGameList(List<String> list) {
         super.updateGameList(list);
 
         gameListString = String.join(", ", list);
+        //method that makes sure the game buttons are created
+        updateGameBtnGroup();
     }
 
     @Override
-    public void updatePlayerList(List<String> list) {
+    protected void updatePlayerList(List<String> list) {
         super.updatePlayerList(list);
 
         PlayerRow playerRow;

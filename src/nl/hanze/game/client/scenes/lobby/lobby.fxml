@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.*?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="950.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.lobby.LobbyController">
     <children>
         <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -39,7 +40,7 @@
                   </GridPane>
                </children>
                 </HBox>
-            <HBox prefHeight="119.0" prefWidth="950.0" />
+            <HBox fx:id="gameBtnHBox" alignment="TOP_CENTER" prefHeight="119.0" prefWidth="950.0" />
             <HBox alignment="CENTER" prefHeight="283.0" prefWidth="950.0">
                <children>
                         <TableView fx:id="playersTable" prefHeight="272.0" prefWidth="844.0">
@@ -60,6 +61,7 @@
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="561.0" minWidth="0.0" prefWidth="512.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="0.0" prefWidth="109.0" />
+                        <ColumnConstraints />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

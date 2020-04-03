@@ -37,9 +37,7 @@ public class ServerConnection {
         commandQueue.add("subscribe " + gameType);
     }
 
-    public void getPlayerList() {
-        commandQueue.add("get playerlist");
-    }
+    public void getPlayerList() { commandQueue.add("get playerlist"); }
 
     public void getGameList() {
         commandQueue.add("get gamelist");

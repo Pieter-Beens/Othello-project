@@ -6,14 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.utils.Popup;
+import nl.hanze.game.client.server.Interpreter;
 import nl.hanze.game.client.server.Observer;
+import nl.hanze.game.client.server.ServerResponse;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -70,32 +71,41 @@ public abstract class Controller implements Observer {
             Platform.runLater(() -> Popup.display(response));
         }
 
-        String[] listCommands = {"GAMELIST", "PLAYERLIST"};
+        ServerResponse resp = Interpreter.parse(response);
 
-        for (String command : listCommands) {
-            if (response.contains(command)) {
-                String string = response.replace("SVR " + command + " ", "")
-                        .replace("[", "")
-                        .replace("]", "")
-                        .replace("\"", "");
-
-                List<String> list = new ArrayList<>(Arrays.asList(string.split(", ")));
-
-                switch (command) {
-                    case "GAMELIST":
-                        updateGameList(list);
-                        break;
-                    case "PLAYERLIST":
-                        updatePlayerList(list);
-                        break;
-                }
-            }
+        switch (resp.getCommand()) {
+            case "GAMELIST":
+                updateGameList(resp.getList());
+                break;
+            case "PLAYERLIST":
+                updatePlayerList(resp.getList());
+                break;
+            case "GAME CHALLENGE":
+                gameChallenge(resp.getMap());
+                break;
+            case "GAME MATCH":
+                gameMatch(resp.getMap());
+                break;
+            case "GAME YOURTURN":
+                gameYourTurn(resp.getMap());
+                break;
+            case "GAME MOVE":
+                gameMove(resp.getMap());
+                break;
         }
 
-        System.out.println("Controller sees: " + response);
+        System.err.println(response);
     }
 
-    public void updateGameList(List<String> list) { }
+    protected void updateGameList(List<String> list) { }
 
-    public void updatePlayerList(List<String> list) { }
+    protected void updatePlayerList(List<String> list) { }
+
+    protected void gameChallenge(Map<String, String> map) { }
+
+    protected void gameMatch(Map<String, String> map) { }
+
+    protected void gameYourTurn(Map<String, String> map) { }
+
+    protected void gameMove(Map<String, String> map) { }
 }
