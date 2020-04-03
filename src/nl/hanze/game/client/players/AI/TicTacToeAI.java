@@ -5,88 +5,111 @@ import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.games.Field;
 import nl.hanze.game.client.scenes.games.tictactoe.TicTacToeModel;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
+/**
+ *This class implements the AI for the tic-tac-toe singleplayer game.
+ *
+ * @author Nick
+ * @version 1.0
+ * @since 2-4-2020
+ */
 public class TicTacToeAI implements AIStrategy {
-    private static final int SCORE = 0;
-    private static final int ROW = 1;
-    private static final int COLUMN = 2;
 
-    private Map<TicTacToeModel.State, Integer> stateToScore = new HashMap<TicTacToeModel.State, Integer>() {{
-        put(TicTacToeModel.State.DRAW, 0);
-    }};
+    private Player humanPlayer;
+    private Player aiPlayer;
 
-    private Player maximizingPlayer;
-    private Player minimizingPlayer;
-
+    /**
+     * This interface method uses the minimax method to detirmine the best next move.
+     * @param board the tic-tac-toe board being played on, which is a double array of the Field class.
+     * @param player the AI player, which is an instance of the Player class.
+     * @param opponent the Human player, which is an instance of the Player class.
+     *
+     * @return this method returns an instance of the Move class, which will contain the coordinates for the best move
+     *         for the ai player.
+     */
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
-        if (player.getSign().equals("O")) {
-            stateToScore.put(TicTacToeModel.State.O_WINS, 10);
-            stateToScore.put(TicTacToeModel.State.X_WINS, -10);
-        } else {
-            stateToScore.put(TicTacToeModel.State.O_WINS, -10);
-            stateToScore.put(TicTacToeModel.State.X_WINS, 10);
-        }
+        humanPlayer = opponent;
+        aiPlayer = player;
 
-        this.maximizingPlayer = player;
-        this.minimizingPlayer = opponent;
+        int[] move = minimax(board, true);
 
-        Field[][] cloneBoard = Arrays.stream(board).map(Field[]::clone).toArray(Field[][]::new);
-
-        if (TicTacToeModel.state(cloneBoard) != TicTacToeModel.State.IN_PROGRESS) {
-            return null;
-        }
-
-        int[] move = minimax(cloneBoard, true);
-
-        return new Move(maximizingPlayer, move[ROW], move[COLUMN]);
+        return new Move(aiPlayer, move[1], move[2]);
     }
 
-    private int[] minimax(Field[][] board, boolean isMaximizing) {
-        // Base case
-        TicTacToeModel.State curState = TicTacToeModel.state(board);
-        if (curState != TicTacToeModel.State.IN_PROGRESS) {
-            return new int[]{stateToScore.get(curState)};
-        }
+    /**
+     * this method uses the minimax algorithm to recursively determine the best move for the AI player. Unlike other
+     * boardgames that utilize the minimax algorithm, tic-tac-toe is simple enough to allow the computer to fully calculate every
+     * possible move, thus we are left not with a heuristic guess to the best move, but instead the absolute best
+     * move available.
+     * @param board the tic-tac-toe board being played on, which is a double array of the Field class.
+     * @param aiPlaying a boolean to determine whether or not it is the AI trying to decide the best move, in which
+     *                  case the method will try and obtain the highest possible score. If this is not the case the
+     *                  method will instead try to obtain the lowest possible score.
+     *
+     * @return an int array containing the score for the move, the row for that move, and the column for that move,
+     *         respectively.
+     */
+    private int[] minimax(Field[][] board, boolean aiPlaying) {
+        int score; //our movescore
+        int bestScore; //the score of the best move so far
+        int bestRow = -1; //the best row, set to a negative int because it will be overwritten
+        int bestCol = -1; //the best column, set to a negative int because it will be overwritten
+        int scoreGetter[]; //array which is used to retrieve the score from a move
 
-        int bestRow = -1;
-        int bestColumn = -1;
-        int bestScore;
-        int[] move;
-
-        // Building the tree
-        bestScore = (isMaximizing) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-
-        for (int row = 0; row < board.length; row++) {
-            for (int column = 0; column < board[row].length; column++) {
-                if (board[row][column].getOwner() != null) continue;
-
-                Field field = new Field(row, column);
-
-                if (isMaximizing) {
-                    field.setOwner(maximizingPlayer);
-                } else {
-                    field.setOwner(minimizingPlayer);
+        //stop condition for the recursive call
+        if (TicTacToeModel.state(board) != TicTacToeModel.State.IN_PROGRESS) { //if the game on the board is finished:
+            if (TicTacToeModel.state(board) == TicTacToeModel.State.O_WINS) { //and O has won:
+                if (humanPlayer.getSign().equals(("O"))) { //and if O is the human player's sign:
+                    return new int[]{-1}; //we get a negative score, because the human won
                 }
-
-                board[row][column] = field;
-
-                move = minimax(board, !isMaximizing);
-
-                board[row][column].setOwner(null);
-
-                // If it is an AI move maximize the score
-                // Or if it is not an AI move minimize the score
-                if ((isMaximizing && move[SCORE] > bestScore) || (!isMaximizing && move[SCORE] < bestScore)) {
-                    bestScore = move[SCORE];
-                    bestRow = row;
-                    bestColumn = column;
+                else { //and if O is the computer player's sign:
+                    return new int[]{1}; //we get a positive score, because the human lost
                 }
+            }
+            else if (TicTacToeModel.state(board) == TicTacToeModel.State.X_WINS) { //same as above, but inverted for X
+                if (humanPlayer.getSign().equals(("O"))) {
+                    return new int[]{1};
+                }
+                else {
+                    return new int[]{-1};
+                }
+            }
+            else { //if there's a draw
+                return new int[]{0}; //we get a neutral score
             }
         }
 
-        return new int[]{bestScore, bestRow, bestColumn};
+        //the score is set as an arbitrarily high or low number for the initial best score, so that even a guaranteed
+        //loss or draw overrides it
+        if (aiPlaying) {
+            bestScore = -500;
+        }
+        else {
+            bestScore = 500;
+        }
+        for (int i = 0; i < 9; i++) { //for every cell in the board
+            if(board[i/3][i%3].getOwner() == null) { //if that cell is free
+                Field field = new Field(i/3,i%3);
+                //for either player, a field is made and placed on the board, and a recursive call is than made for the
+                //opposing player
+                if (aiPlaying) {
+                    field.setOwner(aiPlayer);
+                    board[i/3][i%3] = field;
+                    scoreGetter = minimax(board, false);
+                }
+                else {
+                    field.setOwner(humanPlayer);
+                    board[i/3][i%3] = field;
+                    scoreGetter = minimax(board, true);
+                }
+                score = scoreGetter[0]; //score is read from the returned int array
+                board[i/3][i%3].setOwner(null); //the cell becomes free again, so the board is kept clear
+                if ((score > bestScore && aiPlaying) || (score < bestScore && !aiPlaying)) { //if this move is better
+                    bestScore = score; //than this score becomes the best score
+                    bestRow = i/3;
+                    bestCol = i%3; //and the row and column are saved
+                }
+            }
+        }
+        return new int[]{bestScore, bestRow, bestCol}; //the best move is returned at the end of the for loop
     }
 }

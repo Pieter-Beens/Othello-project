@@ -24,13 +24,14 @@ public class OnlineMenuController extends Controller {
     @FXML
     private Text errorMsg;
 
-
-
     @FXML
     private void btnGoBack(ActionEvent event) throws IOException {
         loadScene("start/start.fxml");
     }
 
+    /**
+     * @author Jasper van Dijken
+     */
     @FXML
     private void connect(ActionEvent event) throws IOException {
 
@@ -67,6 +68,9 @@ public class OnlineMenuController extends Controller {
 
     }
 
+    /**
+     * @author Jasper van Dijken
+     */
     //method that checks for a valid ip address
     public static boolean checkIP (String ip) {
 
@@ -94,6 +98,9 @@ public class OnlineMenuController extends Controller {
         return true;
     }
 
+    /**
+     * @author Roy Voetman
+     */
     @Override
     public void update(String response) {
         super.update(response);

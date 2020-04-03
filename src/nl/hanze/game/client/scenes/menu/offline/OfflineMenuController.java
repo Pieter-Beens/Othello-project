@@ -13,10 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameController;
-import nl.hanze.game.client.scenes.utils.Colors;
-import nl.hanze.game.client.scenes.utils.MenuButton;
-import nl.hanze.game.client.scenes.utils.MenuButtonGroup;
-import nl.hanze.game.client.scenes.utils.MenuToggleButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -112,11 +108,7 @@ public class OfflineMenuController extends Controller implements Initializable {
         }
     }
 
-    public void startBtnClicked(ActionEvent event) throws IOException, InterruptedException {
-        //System.out.println(selectedGame.getSelectedToggle().isSelected());
-
-
-        //System.out.println(difficulty.managedProperty().toString());
+    public void startBtnClicked(ActionEvent event) throws IOException {
         boolean multiplayer = false;
         if(selectedGameMode.getSelectedToggle().getUserData().equals("multi-player")) multiplayer =true;
        GameController.start(player1.getText(), player2.getText(), (String)selectedGame.getSelectedToggle().getUserData(), fullscreen.isSelected(), multiplayer);
