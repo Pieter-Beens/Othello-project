@@ -79,21 +79,21 @@ public abstract class GameModel {
         return board;
     }
 
-    public void endGame() { // TODO: use a popup result
+    public void endGame() {
         System.out.println("Neither player was able to move, so the game has ended!");
         gameHasEnded = true;
+        String msg;
         if (players[0].getScore() > players[1].getScore()) {
-            Popup.display(players[0].getName() + " has won!");
-            System.out.print(players[0].getName() + " has won!");
+            msg = players[0].getName() + " has won!";
+            System.out.println("there can only be one");
+        } else if (players[0].getScore() < players[1].getScore()) {
+            msg = players[1].getName() + " has won!";
+            System.out.println("there can only be one");
+        } else {
+            msg = players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
+            System.out.println("there can only be one");
         }
-        if (players[0].getScore() < players[1].getScore()) {
-            Popup.display(players[1].getName() + " has won!");
-            System.out.print(players[1].getName() + " has won!");
-        }
-        if (players[0].getScore() == players[1].getScore()) {
-            Popup.display(players[0].getName() + " and " + players[1].getName() + " have tied for second place!");
-            System.out.print(players[0].getName() + " and " + players[1].getName() + " have tied for second place!");
-        }
+        Popup.display(msg, "GAME END", 300, 200);
+        System.out.println(msg);
     }
-
 }
