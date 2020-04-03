@@ -2,28 +2,28 @@ package nl.hanze.game.client.scenes.lobby;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.Controller;
+import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.utils.PlayerRow;
-import org.w3c.dom.ls.LSOutput;
+import nl.hanze.game.client.scenes.utils.Popup;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class LobbyController extends Controller implements Initializable {
 
@@ -37,19 +37,10 @@ public class LobbyController extends Controller implements Initializable {
     public Button btnFullscreen;
 
     @FXML
-    public HBox gameBtnHBox;
-
-    //@FXML
-    //public GridPane gameBtnGrid;
-
-    @FXML
     public TableView<PlayerRow> playersTable;
 
     @FXML
     public TableColumn<PlayerRow, String> nameColumn;
-
-    @FXML
-    public TableColumn<PlayerRow, String> gamesColumn;
 
     private String gameListString = "";
 
@@ -61,8 +52,12 @@ public class LobbyController extends Controller implements Initializable {
     // Indicates whether the user wants to play fullscreen, default is 'false'
     private Boolean fullscreen = false;
 
+    private ObservableList<PlayerRow> tableList = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        playersTable.setItems(tableList);
+
         Main.client.getGameList();
         Main.client.getPlayerList();
 
@@ -70,39 +65,11 @@ public class LobbyController extends Controller implements Initializable {
         new Thread(tableUpdater).start();
 
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
-        gamesColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.2));
     }
 
     /**
      * @author Jasper van Dijken
      */
-    private void updateGameBtnGroup() {
-        //Split gameListString into a list
-        List<String> games = new ArrayList<String>(Arrays.asList(gameListString.split(", ")));
-        //ArrayList which will contain the buttons
-        ArrayList<Button> buttons = new ArrayList<>();
-
-        //For each game, create button and add to buttons array
-        for (String game : games) {
-            buttons.add(new Button(game));
-        }
-
-        //For each button in buttons, add to gameBtnHbox
-        for (Button btn : buttons) {
-            Platform.runLater(new Runnable() {
-                @Override public void run() {
-                    btn.setStyle("-fx-background-color: #ACACAC;; -fx-text-fill: #FFFF;");
-                    btn.setPrefHeight(30);
-                    btn.setPrefWidth(100);
-                    gameBtnHBox.getChildren().add(btn);
-                }
-            });
-
-
-        }
-
-    }
-
     @FXML
     private void clickedBtnAsAI(ActionEvent event) throws IOException {
         //Set playAs to 'AI', make playAsAI button active, make playAsManual inactive
@@ -138,6 +105,8 @@ public class LobbyController extends Controller implements Initializable {
 
     @FXML
     private void btnLogout(ActionEvent event) throws IOException {
+        GameModel.serverName = null;
+
         Main.client.logout();
 
         goBack();
@@ -151,27 +120,52 @@ public class LobbyController extends Controller implements Initializable {
     @Override
     public void updateGameList(List<String> list) {
         super.updateGameList(list);
-        gameListString = String.join(", ", list);
 
-        //method that makes sure the game buttons are created
-        updateGameBtnGroup();
+        gameListString = String.join(", ", list);
     }
 
     @Override
     public void updatePlayerList(List<String> list) {
         super.updatePlayerList(list);
 
-        playersTable.setItems(FXCollections.observableArrayList());
+        PlayerRow playerRow;
+
+        Set<Integer> foundIndexes = new HashSet<>();
+        Set<Integer> allIndexes = IntStream.range(0, tableList.size()).boxed().collect(Collectors.toSet());
 
         for (String player : list) {
-            playersTable.getItems().add(new PlayerRow(player));
+            playerRow = new PlayerRow(player);
+            int indexOf = tableList.indexOf(playerRow);
+
+            // Ignore self
+            if (!GameModel.serverName.equals(player)) {
+                if (indexOf == -1) {
+                    tableList.add(new PlayerRow(player));
+                } else {
+                    foundIndexes.add(indexOf);
+                }
+            }
         }
+
+        // Subtract sets to get all players that "left" to lobby
+        allIndexes.removeAll(foundIndexes);
+        for (int index : allIndexes)
+            tableList.remove(index);
     }
 
     public void btnStart(ActionEvent event) {
         //playAs contains whom the user wants to play as (String 'AI' or 'Manual')
         //fullscreen contains if the user wants fullscreen, (Boolean 'true' or 'false')
         Platform.runLater(() -> System.out.println(playersTable.getSelectionModel().getSelectedItem().getName()));
+    }
+
+    public void btnMatchRequest(ActionEvent event) {
+        if (playersTable.getSelectionModel().getSelectedItem() == null) {
+            Platform.runLater(() -> Popup.display("First select an opponent"));
+            return;
+        }
+
+        Main.client.challenge(playersTable.getSelectionModel().getSelectedItem().getName(), "Tic-tac-toe");
     }
 
     @Override
