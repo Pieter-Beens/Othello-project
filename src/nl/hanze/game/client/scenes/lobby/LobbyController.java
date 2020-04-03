@@ -28,12 +28,15 @@ public class LobbyController extends Controller implements Initializable {
 
     private String gameListString = "";
 
+    private TableUpdater tableUpdater;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Main.client.getGameList();
         Main.client.getPlayerList();
 
-        new Thread(new TableUpdater()).start();
+        tableUpdater = new TableUpdater();
+        new Thread(tableUpdater).start();
 
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
         gamesColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.2));
@@ -73,10 +76,19 @@ public class LobbyController extends Controller implements Initializable {
         Platform.runLater(() -> System.out.println(playersTable.getSelectionModel().getSelectedItem().getName()));
     }
 
+    @Override
+    public void changeScene() {
+        super.changeScene();
+
+        tableUpdater.stop();
+    }
+
     private static class TableUpdater implements Runnable {
+        volatile boolean running = true;
+
         @Override
         public void run() {
-            while (true) {
+            while (running) {
                 try {
                     Thread.sleep(2000);
                     Main.client.getPlayerList();
@@ -84,6 +96,10 @@ public class LobbyController extends Controller implements Initializable {
                     e.printStackTrace();
                 }
             }
+        }
+
+        public void stop() {
+            running = false;
         }
     }
 }

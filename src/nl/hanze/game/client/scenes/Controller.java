@@ -21,9 +21,10 @@ import java.util.Stack;
  */
 public abstract class Controller implements Observer {
     public static Stack<String> sceneHistory = new Stack<>();
+    private static Controller currentController;
 
     public Controller() {
-        Main.client.setController(this);
+        Main.client.addObserver(this);
     }
 
     public static Controller loadScene(String fxml) throws IOException {
@@ -38,12 +39,21 @@ public abstract class Controller implements Observer {
         FileInputStream fileInputStream = new FileInputStream(new File(fxml));
         Parent parent = loader.load(fileInputStream);
 
+        if (currentController != null)
+            currentController.changeScene();
+
+        currentController = loader.getController();
+
         Scene scene = new Scene(parent);
 
         Main.primaryStage.setScene(scene);
         Main.primaryStage.show();
 
         return loader.getController();
+    }
+
+    public void changeScene() {
+        Main.client.removeObserver(this);
     }
 
     public void goBack() throws IOException {

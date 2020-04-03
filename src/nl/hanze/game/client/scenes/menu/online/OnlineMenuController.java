@@ -61,7 +61,7 @@ public class OnlineMenuController extends Controller {
         //no errors? connect to server, redirect to the lobby
         if (!error) {
             Main.client.connect(ip.getText(), Integer.parseInt(port.getText()));
-            Main.client.setController(this);
+            Main.client.addObserver(this);
             Main.client.login(name.getText());
         }
 
