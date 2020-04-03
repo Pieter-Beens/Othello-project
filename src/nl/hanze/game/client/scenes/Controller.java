@@ -70,26 +70,24 @@ public abstract class Controller implements Observer {
             Platform.runLater(() -> Popup.display(response));
         }
 
-        if (response.contains("SVR GAMELIST")) {
-            String string = response.replace("SVR GAMELIST ", "")
-                    .replace("[", "")
-                    .replace("]", "")
-                    .replace("\"", "");
+        String[] listCommands = {"GAMELIST", "PLAYERLIST"};
 
-            List<String> list = new ArrayList<>(Arrays.asList(string.split(", ")));
+        for (String command : listCommands) {
+            if (response.contains(command)) {
+                String string = response.replace("SVR " + command + " ", "")
+                        .replace("[", "")
+                        .replace("]", "")
+                        .replace("\"", "");
 
-            updateGameList(list);
-        }
+                List<String> list = new ArrayList<>(Arrays.asList(string.split(", ")));
 
-        if (response.contains("SVR PLAYERLIST")) {
-            String string = response.replace("SVR PLAYERLIST ", "")
-                    .replace("[", "")
-                    .replace("]", "")
-                    .replace("\"", "");
-
-            List<String> list = new ArrayList<>(Arrays.asList(string.split(", ")));
-
-            updatePlayerList(list);
+                switch (command) {
+                    case "GAMELIST":
+                        updateGameList(list);
+                    case "PLAYERLIST":
+                        updatePlayerList(list);
+                }
+            }
         }
 
         System.out.println("Controller sees: " + response);
