@@ -2,10 +2,11 @@ package nl.hanze.game.client.scenes.lobby;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
@@ -13,7 +14,6 @@ import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.utils.PlayerRow;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -36,9 +36,6 @@ public class LobbyController extends Controller implements Initializable {
     @FXML
     public TableColumn<PlayerRow, String> nameColumn;
 
-    @FXML
-    public TableColumn<PlayerRow, String> gamesColumn;
-
     private String gameListString = "";
 
     private TableUpdater tableUpdater;
@@ -49,8 +46,12 @@ public class LobbyController extends Controller implements Initializable {
     // Indicates whether the user wants to play fullscreen, default is 'false'
     private Boolean fullscreen = false;
 
+    private ObservableList<PlayerRow> tableList = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        playersTable.setItems(tableList);
+
         Main.client.getGameList();
         Main.client.getPlayerList();
 
@@ -58,7 +59,6 @@ public class LobbyController extends Controller implements Initializable {
         new Thread(tableUpdater).start();
 
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
-        gamesColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.2));
     }
 
     /**
@@ -120,10 +120,13 @@ public class LobbyController extends Controller implements Initializable {
     public void updatePlayerList(List<String> list) {
         super.updatePlayerList(list);
 
-        playersTable.setItems(FXCollections.observableArrayList());
+        PlayerRow playerRow;
 
         for (String player : list) {
-            playersTable.getItems().add(new PlayerRow(player, gameListString));
+            playerRow = new PlayerRow(player);
+            if (!tableList.contains(playerRow)) {
+                tableList.add(new PlayerRow(player));
+            }
         }
     }
 
