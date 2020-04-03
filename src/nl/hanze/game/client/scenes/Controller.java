@@ -24,7 +24,7 @@ public abstract class Controller implements Observer {
     private static Controller currentController;
 
     public Controller() {
-        Main.client.addObserver(this);
+        Main.serverConnection.addObserver(this);
     }
 
     public static Controller loadScene(String fxml) throws IOException {
@@ -54,7 +54,7 @@ public abstract class Controller implements Observer {
     }
 
     public void changeScene() {
-        Main.client.removeObserver(this);
+        Main.serverConnection.removeObserver(this);
     }
 
     public void goBack() throws IOException {
