@@ -3,6 +3,8 @@ package nl.hanze.game.client.scenes.games;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.utils.Popup;
 
+import java.util.ArrayList;
+
 public abstract class GameModel {
     final static int MAX_PLAYERS = 2; // games can have only 2 players!
     public boolean gameHasEnded = false;
@@ -10,6 +12,7 @@ public abstract class GameModel {
     protected int boardSize;
     protected int turnCounter = 1;
     protected Field[][] board;
+    protected ArrayList<Field[][]> boardHistory = new ArrayList<>();
     public static final int[][] DIRECTIONS = {{1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}, {-1,0}, {-1,1}, {0,1}};
     public static String serverName;
 
@@ -30,10 +33,16 @@ public abstract class GameModel {
 
     public void nextTurn() {
         turnCounter++;
+
+        boardHistory.add(board); // at the end of every turn, save the new turn's board data to boardHistory ArrayList
+
+        System.out.println(boardHistory.size());
     }
 
     public void setup() {
         players[turnCounter%2].setStartingColors();
+
+        boardHistory.add(board); // save first turn's board data to boardHistory ArrayList
     }
 
     public Player getPlayer(int i) {

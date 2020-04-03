@@ -56,7 +56,7 @@ public abstract class GameController extends Controller {
 
     public void move(Move move) {
         moveHistory.add(move);
-        // handling of moves is defined in inheriting classes
+        // handling of moves is defined in game-specific childs
     }
 
     protected abstract GameModel getModel();
