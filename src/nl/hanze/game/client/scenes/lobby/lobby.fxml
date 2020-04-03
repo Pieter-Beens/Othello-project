@@ -40,7 +40,10 @@
                   </GridPane>
                </children>
                 </HBox>
-            <HBox fx:id="gameBtnHBox" alignment="TOP_CENTER" prefHeight="119.0" prefWidth="950.0" />
+            <HBox fx:id="gameBtnHBox" alignment="TOP_CENTER" focusTraversable="true" prefHeight="119.0" prefWidth="950.0">
+               <children>
+                  <ButtonBar fx:id="gamesBar" buttonMinWidth="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" pickOnBounds="false" prefHeight="30.0" prefWidth="240.0" />
+               </children></HBox>
             <HBox alignment="CENTER" prefHeight="283.0" prefWidth="950.0">
                <children>
                         <TableView fx:id="playersTable" prefHeight="272.0" prefWidth="844.0">

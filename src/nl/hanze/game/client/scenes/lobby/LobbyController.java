@@ -6,7 +6,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.Player;
@@ -37,13 +39,10 @@ public class LobbyController extends Controller implements Initializable {
     public HBox gameBtnHBox;
 
     @FXML
-    public Button ReversiBtn;
+    public GridPane gameGrid;
 
     @FXML
-    public Button TTTBtn;
-
-    @FXML
-    public ToggleGroup gameBtnGroup;
+    public ButtonBar gamesBar;
 
     @FXML
     public TableView<PlayerRow> playersTable;
@@ -56,10 +55,10 @@ public class LobbyController extends Controller implements Initializable {
     private TableUpdater tableUpdater;
 
     // Contains either 'AI' or 'Manual' to indicate as whom the user wants to play as
-    private String playAs = "";
+    public String playAs = "";
 
     // Contains the name of the game the user wants to play
-    private String selectedGame = "";
+    public String selectedGame = "";
 
     // Indicates whether the user wants to play fullscreen, default is 'false'
     private Boolean fullscreen = false;
@@ -84,97 +83,57 @@ public class LobbyController extends Controller implements Initializable {
     /**
      * @author Jasper van Dijken
      */
-
     private void updateGameBtnGroup() {
         //Split gameListString into a list
         List<String> games = new ArrayList<String>(Arrays.asList(gameListString.split(", ")));
         //ArrayList which will contain the buttons
-        ArrayList<ToggleButton> buttons = new ArrayList<>();
+        ArrayList<Button> buttons = new ArrayList<>();
 
         //For each game, create button and add to buttons array
         for (String game : games) {
-            buttons.add(new ToggleButton(game));
+            buttons.add(new Button(game));
         }
 
         //For each button in buttons, add to gameBtnHbox
-        for (ToggleButton btn : buttons) {
+        for (Button btn : buttons) {
+            btn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
+            btn.setPrefWidth(150);
+            btn.setPrefHeight(30);
             Platform.runLater(new Runnable() {
-                @Override public void run() {
+                @Override
+                public void run() {
 
-                    //If button is tic-tac-toe, make variable TTTBtn, because the '-' can't be in a variable name
-                    if (btn.getText().equals("Tic-tac-toe")) {
-                        btn.setId("TTTBtn");
-                    }
-                    //Else make the name of the game + Btn the Id
-                    else {
-                        btn.setId(btn.getText().concat("Btn"));
-                    }
-
-                    btn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
-                    btn.setPrefHeight(30);
-                    btn.setPrefWidth(100);
-                    btn.setToggleGroup(gameBtnGroup);
-                    btn.setOnAction(e -> {
+                    gamesBar.getButtons().add(btn);
+                    btn.setOnAction(event -> {
                         try {
                             clickedGameBtn(btn);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     });
-                    gameBtnHBox.getChildren().add(btn);
                 }
             });
 
         }
-
     }
 
     @FXML
-    private void clickedGameBtn(ToggleButton btn) throws Exception {
-        String selectedBtn = btn.getId();
+    private void clickedGameBtn(Button btn) throws Exception {
 
-        if (selectedBtn.equals("ReversiBtn")) {
-            selectedGame = "Reversi";
-        }
-        if (selectedBtn.equals("TTTBtn")) {
-            selectedGame = "Tic-tac-toe";
-        }
+        selectedGame = btn.getText();
 
+        int amount = gamesBar.getButtons().size();
 
+        int index = gamesBar.getButtons().indexOf(btn);
 
-        /*
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                if (selectedBtn.equals("ReversiBtn")) {
-                    btn.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
-                    //TTTBtn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
-                }
-                if (selectedBtn.equals("ReversiBtn")) {
-                    btn.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
-                    //ReversiBtn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
-                }
+        gamesBar.getButtons().get(index).setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
+
+        for (int i = 0; i < amount; i++) {
+            if (i != index) {
+                Button other = (Button) gamesBar.getButtons().get(i);
+                other.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF");
             }
-        });
-        */
-
-
-        System.out.println("SELECTED GAME: " + selectedGame + " btnId: " + selectedBtn);
-
-        //Toggle btn = gameBtnGroup.getSelectedToggle();
-
-
-        /*
-        if (btn.getId().equals("ReversiBtn")) {
-            btn.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
-            TTTBtn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
         }
-
-        if (btn.getId().equals("TTTBtn")) {
-            btn.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
-            ReversiBtn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
-        }
-         */
     }
 
     @FXML
@@ -279,9 +238,16 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     public void btnStart(ActionEvent event) {
-        //playAs contains whom the user wants to play as (String 'AI' or 'Manual')
+        //playAs contains whom the user wants to play as, (String 'AI' or 'Manual')
         //fullscreen contains if the user wants fullscreen, (Boolean 'true' or 'false')
+        //selectedGame contains the game the user wants to play, (String 'Reversi' or 'Tic-tac-toe')
+
         Platform.runLater(() -> System.out.println(playersTable.getSelectionModel().getSelectedItem().getName()));
+
+        //Subscribe for game
+        Main.serverConnection.subscribe(selectedGame);
+
+        System.out.println("Play as: " + playAs + " fullscreen: " + fullscreen + " game: " + selectedGame);
     }
 
     public void btnMatchRequest(ActionEvent event) {
