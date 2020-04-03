@@ -38,8 +38,11 @@ public class LobbyController extends Controller implements Initializable {
     @FXML
     public HBox gameBtnHBox;
 
-    //@FXML
-    //public GridPane gameBtnGrid;
+    @FXML
+    public Button ReversiBtn;
+
+    @FXML
+    public Button TTTBtn;
 
     @FXML
     public TableView<PlayerRow> playersTable;
@@ -91,9 +94,26 @@ public class LobbyController extends Controller implements Initializable {
         for (Button btn : buttons) {
             Platform.runLater(new Runnable() {
                 @Override public void run() {
-                    btn.setStyle("-fx-background-color: #ACACAC;; -fx-text-fill: #FFFF;");
+
+                    //If button is tic-tac-toe, make variable TTTBtn, because the '-' can't be in a variable name
+                    if (btn.getText().equals("Tic-tac-toe")) {
+                        btn.setId("TTTBtn");
+                    }
+                    //Else make the name of the game + Btn the Id
+                    else {
+                        btn.setId(btn.getText().concat("Btn"));
+                    }
+
+                    btn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
                     btn.setPrefHeight(30);
                     btn.setPrefWidth(100);
+                    btn.setOnAction(e -> {
+                        try {
+                            clickedGameBtn(btn);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    });
                     gameBtnHBox.getChildren().add(btn);
                 }
             });
@@ -101,6 +121,20 @@ public class LobbyController extends Controller implements Initializable {
 
         }
 
+    }
+
+    @FXML
+    private void clickedGameBtn(Button btn) throws Exception {
+        if (btn.getId().equals("ReversiBtn")) {
+            btn.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
+            //TTTBtn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
+        }
+        /*
+        if (btn.getId().equals("TTTBtn")) {
+            btn.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
+            ReversiBtn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
+        }
+         */
     }
 
     @FXML
