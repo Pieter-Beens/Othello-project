@@ -41,7 +41,7 @@ public class Popup {
 
         Label label1= new Label(msg);
         label1.setWrapText(true);
-        Button button1= new Button("Back to Title");
+        Button button1= new Button("Return to Menu");
         button1.setOnAction(e -> {
             popupwindow.close();
             try {
