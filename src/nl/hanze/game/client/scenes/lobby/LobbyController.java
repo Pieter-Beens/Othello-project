@@ -6,12 +6,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import nl.hanze.game.client.Main;
-import nl.hanze.game.client.players.Player;
+import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
@@ -196,7 +195,7 @@ public class LobbyController extends Controller implements Initializable {
     protected void gameMatch(Map<String, String> map) {
         Platform.runLater(() -> {
             try {
-                GameController.start(GameModel.serverName, map.get("OPPONENT"), map.get("GAMETYPE"), false, false);
+                GameController.startOnline(map, fullscreen, PlayerType.LOCAL);
             } catch (IOException e) {
                 e.printStackTrace();
             }
