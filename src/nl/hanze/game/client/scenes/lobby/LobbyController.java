@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -119,13 +118,20 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     @FXML
-    private void clickedGameBtn(Button btn) throws Exception {
+    private void clickedGameBtn(Button btn) {
         selectedGame = btn.getText();
-        for (Node bt : gamesBar.getButtons()) {
+        ObservableList<Node> b = gamesBar.getButtons();
+
+        for (Node bt : b ) {
             if(bt != btn) {
+                bt.setStyle("");
                 bt.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF");
+                //bt.getStyleClass().add();
+                bt.applyCss();
             }else{
-                bt.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
+                bt.setStyle("");
+                bt.applyCss();
+                //bt.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
         }}
     }
 
@@ -228,6 +234,11 @@ public class LobbyController extends Controller implements Initializable {
     @Override
     protected void gameChallenge(Map<String, String> map) {
         Platform.runLater(() -> Popup.display("Match from " + map.get("CHALLENGER") + " for a game of " + map.get("GAMETYPE")));
+    }
+
+    @Override
+    protected void gameYourTurn(Map<String, String> map) {
+        GameController.YOUR_TURN_COMMAND_BUFFER = map;
     }
 
     public void btnStart(ActionEvent event) {

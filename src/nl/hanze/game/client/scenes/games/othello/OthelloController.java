@@ -83,7 +83,7 @@ public class OthelloController extends GameController implements Initializable {
     }
 
     @Override
-    protected GameModel getModel() {
+    public GameModel getModel() {
         return model;
     }
 }

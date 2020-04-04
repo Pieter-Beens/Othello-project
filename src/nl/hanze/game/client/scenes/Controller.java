@@ -75,22 +75,22 @@ public abstract class Controller implements Observer {
 
         switch (resp.getCommand()) {
             case "GAMELIST":
-                updateGameList(resp.getList());
+                Platform.runLater(() -> updateGameList(resp.getList()));
                 break;
             case "PLAYERLIST":
-                updatePlayerList(resp.getList());
+                Platform.runLater(() -> updatePlayerList(resp.getList()));
                 break;
             case "GAME CHALLENGE":
-                gameChallenge(resp.getMap());
+                Platform.runLater(() -> gameChallenge(resp.getMap()));
                 break;
             case "GAME MATCH":
-                gameMatch(resp.getMap());
+                Platform.runLater(() -> gameMatch(resp.getMap()));
                 break;
             case "GAME YOURTURN":
-                gameYourTurn(resp.getMap());
+                Platform.runLater(() -> gameYourTurn(resp.getMap()));
                 break;
             case "GAME MOVE":
-                gameMove(resp.getMap());
+                Platform.runLater(() -> gameMove(resp.getMap()));
                 break;
         }
 

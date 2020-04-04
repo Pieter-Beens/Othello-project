@@ -1,6 +1,7 @@
 package nl.hanze.game.client.scenes.games.tictactoe.utils;
 
 import javafx.scene.control.Button;
+import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.scenes.utils.Colors;
 
@@ -19,7 +20,11 @@ public class FieldButton extends Button {
             TicTacToeBoard board = (TicTacToeBoard) getParent();
             Move move = new Move(board.getController().getActivePlayer(), getRowID(), getColumnID());
             board.getController().move(move);
-            board.getController().acceptNewMoves();
+
+            if (!Main.serverConnection.hasConnection())
+                board.getController().acceptNewMoves();
+            else
+                Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), board.getController().getModel().getBoardSize()));
         });
     }
 
