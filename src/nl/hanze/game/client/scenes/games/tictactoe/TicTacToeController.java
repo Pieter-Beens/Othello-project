@@ -13,6 +13,7 @@ import nl.hanze.game.client.scenes.games.tictactoe.utils.TicTacToeBoard;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -79,6 +80,7 @@ public class TicTacToeController extends GameController implements Initializable
         int cell = Integer.parseInt(map.get("MOVE"));
         int[] cords = Move.cellToCords(cell, model.getBoardSize());
 
+        System.out.println(Arrays.toString(cords) + "----------------------------");
         move(new Move(model.getPlayerByName(map.get("PLAYER")), cords[0], cords[1]));
     }
 

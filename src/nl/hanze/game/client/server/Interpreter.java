@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class Interpreter {
     public static final String[] LIST_COMMANDS = {"GAMELIST", "PLAYERLIST"};
-    public static final String[] MAP_COMMANDS = {"GAME CHALLENGE", "GAME MATCH", "GAME YOURTURN", "GAME CHALLENGE CANCELLED", "SVR GAME MOVE"};
+    public static final String[] MAP_COMMANDS = {"GAME CHALLENGE", "GAME MATCH", "GAME YOURTURN", "GAME CHALLENGE CANCELLED", "GAME MOVE"};
 
     public static ServerResponse parse(String response) {
         for (String command : LIST_COMMANDS) {
@@ -46,8 +46,6 @@ public class Interpreter {
 
         for (String pair : pairs) {
             String[] segments = pair.split(": ");
-            System.out.println(Arrays.toString(segments));
-
             map.put(segments[0], segments.length == 2 ? segments[1] : "");
         }
 
