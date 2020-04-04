@@ -1,6 +1,5 @@
 package nl.hanze.game.client.scenes.games.othello;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -83,7 +82,7 @@ public class OthelloController extends GameController implements Initializable {
     }
 
     @Override
-    protected GameModel getModel() {
+    public GameModel getModel() {
         return model;
     }
 }

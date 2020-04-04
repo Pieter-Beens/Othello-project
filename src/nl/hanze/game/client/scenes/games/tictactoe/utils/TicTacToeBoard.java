@@ -19,10 +19,11 @@ public class TicTacToeBoard extends GridPane {
         for (int r = 0; r < model.getBoardSize(); r++) {
             for (int c = 0; c < model.getBoardSize(); c++) {
                 FieldButton button = new FieldButton(r,c);
-                button.setDisable(false);
                 this.add(button, r, c);
             }
         }
+
+        disableAllFields();
 
         scale();
         setPadding(new Insets(5, 5, 5, 5));
@@ -56,15 +57,21 @@ public class TicTacToeBoard extends GridPane {
             } catch (NullPointerException ignore) {}
         }
 
-        if (model.getCurrentState() != TicTacToeModel.State.IN_PROGRESS) {
-            disableAllFields();
-        }
+        disableAllFields();
     }
 
     public void disableAllFields() {
+        setDisablePropertyOnAllFields(true);
+    }
+
+    public void enableAllFields() {
+        setDisablePropertyOnAllFields(false);
+    }
+
+    private void setDisablePropertyOnAllFields(boolean disable) {
         for (Node node : getChildren()) {
             FieldButton button = (FieldButton) node;
-            button.setDisable(true);
+            button.setDisable(disable);
         }
     }
 

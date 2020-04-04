@@ -7,11 +7,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 public class ServerSocket implements Runnable, Observable {
-    private List<Observer> observers;
+    private final List<Observer> observers;
     private BlockingQueue<String> commandQueue;
     private PrintWriter out;
     private BufferedReader in;
@@ -23,7 +24,7 @@ public class ServerSocket implements Runnable, Observable {
 
     public ServerSocket(Socket socket, BlockingQueue<String> queue) throws IOException {
         commandQueue = queue;
-        this.observers = new ArrayList<>();
+        this.observers = Collections.synchronizedList(new ArrayList<>());
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
@@ -74,6 +75,9 @@ public class ServerSocket implements Runnable, Observable {
 
     @Override
     public void notifyObservers(String s) {
-        for(Observer o : observers) o.update(s);
+        // Iterator of a thread safe list is not thread safe
+        synchronized (observers) {
+            for(Observer o : observers) o.update(s);
+        }
     }
 }

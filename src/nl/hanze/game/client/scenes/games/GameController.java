@@ -92,5 +92,5 @@ public abstract class GameController extends Controller {
 
     public abstract void move(Move move);
 
-    protected abstract GameModel getModel();
+    public abstract GameModel getModel();
 }
