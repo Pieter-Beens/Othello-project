@@ -2,7 +2,12 @@ package nl.hanze.game.client.scenes.games.othello.utils;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.AIPlayer;
@@ -10,6 +15,14 @@ import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.Field;
 import nl.hanze.game.client.scenes.games.othello.OthelloController;
 import nl.hanze.game.client.scenes.games.othello.OthelloModel;
+import nl.hanze.game.client.scenes.utils.Colors;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+/**
+ * @author Pieter Beens
+ */
 
 public class OthelloBoard extends GridPane {
     OthelloModel model;
@@ -27,6 +40,9 @@ public class OthelloBoard extends GridPane {
 
         scale();
         setPadding(new Insets(5, 5, 5, 5));
+
+        setStyle("-fx-background-image: url('src/resources/logo.png')"); //TODO: put a full board image as background
+        setStyle("-fx-background-color: " + "#FFFFFF");
     }
 
     public void enableValidFields() {
@@ -67,12 +83,17 @@ public class OthelloBoard extends GridPane {
     }
 
     public void update() {
-        // update FieldButton colors
+        // update FieldButton colors (or images??)
         for (Node fieldNode : this.getChildren()) {
             FieldButton fieldButton = (FieldButton) fieldNode;
             try {
-                String[] fieldColors = model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner().getColors();
-                fieldButton.setStyle("-fx-background-color: " + fieldColors[0] + "; -fx-text-fill: " + fieldColors[1]);
+//                String[] fieldColors = model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner().getColors();
+//                fieldButton.setStyle("-fx-background-color: " + fieldColors[0] + "; -fx-text-fill: " + fieldColors[1]);
+
+                ImageView iv = new ImageView(model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner().getReversiImage());
+                //iv.setFitHeight(fieldSize);
+                //iv.setFitWidth(fieldSize);
+                fieldButton.setGraphic(iv);
             } catch (NullPointerException ignore) {}
         }
 
@@ -82,41 +103,3 @@ public class OthelloBoard extends GridPane {
     }
     public OthelloController getController() { return controller; }
 }
-
-//    public void setupBoard() {
-//        Rectangle2D screenBounds = Screen.getPrimary().getBounds(); // get dimensions of screen
-//        int smallestDimension = (int) screenBounds.getMaxX();
-//        if ((screenBounds.getMaxY() - 50) < smallestDimension) smallestDimension = (int) (screenBounds.getMaxY() - 50);
-//        int roomPerField = smallestDimension / BOARDSIZE;
-//        if (!fullScreen) roomPerField *= 0.80;
-//        this.FIELDSIZE = (int) (roomPerField * 0.95);
-//        this.FIELDSPACING = (int) (roomPerField * 0.05);
-//
-//        //grid.setPadding(new Insets(10, 10, 10, 10));
-//        this.grid.setMinSize(FIELDSIZE, FIELDSIZE);
-//        this.grid.setVgap(FIELDSPACING);
-//        this.grid.setHgap(FIELDSPACING);
-//        this.grid.setAlignment(Pos.CENTER);
-//
-//        this.fields = new ArrayList<>();
-//        for (int i = 0; i < BOARDSIZE; i++) {
-//            this.fields.add(new ArrayList<>());
-//            for (int j = 0; j < BOARDSIZE; j++) {
-//                Field field = new Field(i, j);
-//                field.setMinSize(FIELDSIZE, FIELDSIZE);
-//                field.setStyle("-fx-background-color: " + boardcolorcode);
-//                grid.add(field, i, j);
-//
-//                field.setOnMouseClicked(e -> { // set up listener
-//                    new Thread(() -> {
-//                        try {
-//                            makeAMove(field);
-//                        } catch (InterruptedException ex) {
-//                            System.out.print("Yes, it happened, the Thread was interrupted! No move for you!;");
-//                            ex.printStackTrace();
-//                        }
-//                    }).start();});
-//
-//                this.fields.get(i).add(field);
-//            }
-//        }
