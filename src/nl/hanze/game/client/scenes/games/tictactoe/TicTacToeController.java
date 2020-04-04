@@ -37,10 +37,9 @@ public class TicTacToeController extends GameController implements Initializable
 
     @Override
     public void move(Move move) {
-        if (model.isValidMove(move)) {
+        if (model.isValidMove(move)) { //TODO: this should not be necessary
             model.recordMove(move);
         }
-
         updateViews();
     }
 
@@ -53,14 +52,11 @@ public class TicTacToeController extends GameController implements Initializable
                 move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
                 acceptNewMoves();
             }).start();
-        }
-        else if (model.getActivePlayer().getPlayerType() == PlayerType.LOCAL && model.getCurrentState() == TicTacToeModel.State.IN_PROGRESS) {
-
+        } else if (model.getActivePlayer().getPlayerType() == PlayerType.LOCAL && model.getCurrentState() == TicTacToeModel.State.IN_PROGRESS) {
             // makes FieldButtons representing valid moves clickable
             //boardPane.enableValidFields(); //TODO: make Tic-Tac-Toe use this as well
         }
     }
-
 
     @Override
     public void setup() {
