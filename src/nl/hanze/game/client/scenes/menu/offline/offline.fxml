@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import nl.hanze.game.client.scenes.utils.SelectButton?>
 
-<VBox fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="950.0" stylesheets="@/resources/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.menu.offline.OfflineMenuController">
+<VBox fx:id="container" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="950.0" stylesheets="@/resources/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.menu.offline.OfflineMenuController">
     <children>
        <HBox alignment="CENTER" prefHeight="77.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;">
           <children>
