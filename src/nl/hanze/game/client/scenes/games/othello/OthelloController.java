@@ -56,7 +56,7 @@ public class OthelloController extends GameController implements Initializable {
     @Override
     public void move(Move move) {
         model.recordMove(move); // includes nextTurn() call
-        updateViews();
+        Platform.runLater(this::updateViews);
 
         //TODO: this method should be made more generic (and partially moved to super.move() in GameController)
     }
@@ -68,7 +68,7 @@ public class OthelloController extends GameController implements Initializable {
 
             new Thread(() -> {
                 move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
-                acceptNewMoves();
+                Platform.runLater(this::acceptNewMoves);
             }).start();
         }
         else if (model.getActivePlayer().getPlayerType() == PlayerType.LOCAL && !model.gameHasEnded) {
@@ -83,7 +83,7 @@ public class OthelloController extends GameController implements Initializable {
     }
 
     @Override
-    protected GameModel getModel() {
+    public GameModel getModel() {
         return model;
     }
 }

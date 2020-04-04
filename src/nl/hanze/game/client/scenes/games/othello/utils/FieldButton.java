@@ -1,5 +1,6 @@
 package nl.hanze.game.client.scenes.games.othello.utils;
 
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
@@ -21,7 +22,7 @@ public class FieldButton extends Button {
             OthelloBoard board = (OthelloBoard) getParent();
             Move move = new Move(board.getController().getActivePlayer(), getRowID(), getColumnID());
             board.getController().move(move);
-            board.getController().acceptNewMoves();
+            Platform.runLater(() -> board.getController().acceptNewMoves());
         });
     }
 

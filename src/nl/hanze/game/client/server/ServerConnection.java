@@ -1,7 +1,5 @@
 package nl.hanze.game.client.server;
 
-import nl.hanze.game.client.players.AI.utils.Move;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
@@ -22,6 +20,10 @@ public class ServerConnection {
         serverCommunicator = new ServerSocket(socket, commandQueue);
         serverThread = new Thread(serverCommunicator);
         serverThread.start();
+    }
+
+    public boolean hasConnection() {
+        return socket != null;
     }
 
     public void logout() throws IOException {
@@ -59,8 +61,8 @@ public class ServerConnection {
         commandQueue.add("help "+s);
     }
 
-    public void move(Move move) {
-        commandQueue.add("move "+ move.getRow() * 8 + move.getColumn()); //TODO: get "8" directly from GameModel for generic use
+    public void move(int cell) {
+        commandQueue.add("move "+ cell);
     }
 
     public void forfeit(){

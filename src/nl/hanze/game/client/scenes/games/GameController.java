@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.util.Map;
 
 public abstract class GameController extends Controller {
+    // If the your turn command was received in the lobby controller
+    // it will be buffered in this field
+    public static Map<String, String> YOUR_TURN_COMMAND_BUFFER = null;
+
     /**
      * @author Roy Voetman
      */
@@ -86,11 +90,24 @@ public abstract class GameController extends Controller {
         return getModel().getActivePlayer();
     }
 
-    public void setup() {}
+    public void setup() {
+        if (YOUR_TURN_COMMAND_BUFFER != null) {
+            gameYourTurn(YOUR_TURN_COMMAND_BUFFER);
+            YOUR_TURN_COMMAND_BUFFER = null;
+        }
+    }
+
+    public void goBack() throws IOException {
+        if (Main.serverConnection.hasConnection()) {
+            Main.serverConnection.forfeit();
+        }
+
+        super.goBack();
+    }
 
     public abstract void updateViews();
 
     public abstract void move(Move move);
 
-    protected abstract GameModel getModel();
+    public abstract GameModel getModel();
 }
