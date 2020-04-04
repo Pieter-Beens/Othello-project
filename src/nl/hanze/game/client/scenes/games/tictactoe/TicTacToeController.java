@@ -89,6 +89,8 @@ public class TicTacToeController extends GameController implements Initializable
 
         if (!Main.serverConnection.hasConnection())
             acceptNewMoves();
+
+        super.setup();
     }
 
     @Override

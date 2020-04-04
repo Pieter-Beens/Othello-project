@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -228,6 +227,11 @@ public class LobbyController extends Controller implements Initializable {
     @Override
     protected void gameChallenge(Map<String, String> map) {
         Platform.runLater(() -> Popup.display("Match from " + map.get("CHALLENGER") + " for a game of " + map.get("GAMETYPE")));
+    }
+
+    @Override
+    protected void gameYourTurn(Map<String, String> map) {
+        GameController.YOUR_TURN_COMMAND_BUFFER = map;
     }
 
     public void btnStart(ActionEvent event) {
