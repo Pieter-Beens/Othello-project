@@ -119,13 +119,20 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     @FXML
-    private void clickedGameBtn(Button btn) throws Exception {
+    private void clickedGameBtn(Button btn) {
         selectedGame = btn.getText();
-        for (Node bt : gamesBar.getButtons()) {
+        ObservableList<Node> b = gamesBar.getButtons();
+
+        for (Node bt : b ) {
             if(bt != btn) {
+                bt.setStyle("");
                 bt.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF");
+                //bt.getStyleClass().add();
+                bt.applyCss();
             }else{
-                bt.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
+                bt.setStyle("");
+                bt.applyCss();
+                //bt.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
         }}
     }
 
