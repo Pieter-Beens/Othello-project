@@ -56,7 +56,7 @@ public class Popup {
         layout.getChildren().addAll(label1, button1);
         layout.setAlignment(Pos.CENTER);
 
-        Scene scene1= new Scene(layout, height, width);
+        Scene scene1= new Scene(layout, width, height);
         popupwindow.setScene(scene1);
         popupwindow.showAndWait();
     }
