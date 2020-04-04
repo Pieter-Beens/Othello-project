@@ -19,8 +19,8 @@ public class TicTacToeModel extends GameModel {
     public void setup() {
         super.setup();
 
-        players[0].setSign("X");
-        players[1].setSign("O");
+        players[0].setSign("O");
+        players[1].setSign("X");
     }
 
     public boolean isValidMove(Move move) {

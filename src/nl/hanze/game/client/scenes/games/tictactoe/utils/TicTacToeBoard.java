@@ -18,8 +18,8 @@ public class TicTacToeBoard extends GridPane {
 
         for (int r = 0; r < model.getBoardSize(); r++) {
             for (int c = 0; c < model.getBoardSize(); c++) {
-                FieldButton button = new FieldButton(r,c);
-                this.add(button, r, c);
+                FieldButton button = new FieldButton(r, c);
+                this.add(button, c, r);
             }
         }
 
