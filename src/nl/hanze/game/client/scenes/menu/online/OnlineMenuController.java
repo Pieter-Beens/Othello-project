@@ -27,7 +27,7 @@ public class OnlineMenuController extends Controller {
 
     @FXML
     private void btnGoBack(ActionEvent event) throws IOException {
-        loadScene("start/start.fxml");
+        goBack();//loadScene("start/start.fxml");
     }
 
     /**

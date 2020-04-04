@@ -93,15 +93,12 @@ public abstract class GameModel {
         String msg;
         if (players[0].getScore() > players[1].getScore()) {
             msg = players[0].getName() + " has won!";
-            System.out.println("there can only be one");
         } else if (players[0].getScore() < players[1].getScore()) {
             msg = players[1].getName() + " has won!";
-            System.out.println("there can only be one");
         } else {
             msg = players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
-            System.out.println("there can only be one");
         }
-        Popup.display(msg, "GAME END", 300, 200);
         System.out.println(msg);
+        Popup.display(msg, "GAME END", 300, 200);
     }
 }

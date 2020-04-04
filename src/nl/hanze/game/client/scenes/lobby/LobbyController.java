@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -118,21 +120,13 @@ public class LobbyController extends Controller implements Initializable {
 
     @FXML
     private void clickedGameBtn(Button btn) throws Exception {
-
         selectedGame = btn.getText();
-
-        int amount = gamesBar.getButtons().size();
-
-        int index = gamesBar.getButtons().indexOf(btn);
-
-        gamesBar.getButtons().get(index).setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
-
-        for (int i = 0; i < amount; i++) {
-            if (i != index) {
-                Button other = (Button) gamesBar.getButtons().get(i);
-                other.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF");
-            }
-        }
+        for (Node bt : gamesBar.getButtons()) {
+            if(bt != btn) {
+                bt.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF");
+            }else{
+                bt.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
+        }}
     }
 
     @FXML
