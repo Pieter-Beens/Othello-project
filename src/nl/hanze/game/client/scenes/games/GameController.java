@@ -13,10 +13,10 @@ import nl.hanze.game.client.scenes.Controller;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * @author Roy Voetman
+ */
 public abstract class GameController extends Controller {
-    /**
-     * @author Roy Voetman
-     */
     public static GameController startOnline(Map<String, String> args, boolean fullscreen, PlayerType playerType) throws IOException {
         String game = args.get("GAMETYPE").toLowerCase().replace("-", "");
         game = game.equals("reversi") ? "othello" : game;
@@ -43,9 +43,6 @@ public abstract class GameController extends Controller {
         return start(controller, fullscreen);
     }
 
-    /**
-     * @author Roy Voetman
-     */
     public static void startOffline(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer) throws IOException {
         game = game.toLowerCase().replace("-", "");
 
