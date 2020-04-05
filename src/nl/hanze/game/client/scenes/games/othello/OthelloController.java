@@ -79,7 +79,7 @@ public class OthelloController extends GameController implements Initializable {
     }
 
     public void btnGoBack(ActionEvent event) throws IOException {
-        loadScene("menu/offline/offline.fxml");
+        goBack();
     }
 
     @Override

@@ -1,8 +1,13 @@
 package nl.hanze.game.client.players;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.scenes.games.Field;
 import nl.hanze.game.client.scenes.utils.Colors;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class Player {
     public static int counter = 0;
@@ -13,6 +18,8 @@ public class Player {
     private String color;
     private String sign;
     private String textcolor;
+    private Image reversiImage;
+    private Image tictactoeImage;
 
     public Player(String ign, PlayerType playerType) {
         Player.counter++;
@@ -25,6 +32,11 @@ public class Player {
         color = Colors.BTN_COLOR;
         textcolor = Colors.BTN_TEXT_COLOR;
         this.playerType = playerType;
+        try {
+            reversiImage = new Image(new FileInputStream("src/resources/whitestone.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getSign() {
@@ -33,6 +45,10 @@ public class Player {
 
     public void setSign(String sign) {
         this.sign = sign;
+    }
+
+    public Image getReversiImage() {
+        return reversiImage;
     }
 
     public void changeScore(int score) {
@@ -50,6 +66,11 @@ public class Player {
     public void setStartingColors() {
         color = Colors.BTN_ACTIVE_COLOR;
         textcolor = Colors.BTN_ACTIVE_TEXT_COLOR;
+        try {
+            reversiImage = new Image(new FileInputStream("src/resources/blackstone.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getName() {

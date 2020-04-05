@@ -2,6 +2,7 @@ package nl.hanze.game.client.scenes.games.othello.utils;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.games.othello.OthelloController;

@@ -41,7 +41,7 @@ public class Popup {
 
         Label label1= new Label(msg);
         label1.setWrapText(true);
-        Button button1= new Button("Back to Title");
+        Button button1= new Button("Return to Menu");
         button1.setOnAction(e -> {
             popupwindow.close();
             try {
@@ -56,7 +56,7 @@ public class Popup {
         layout.getChildren().addAll(label1, button1);
         layout.setAlignment(Pos.CENTER);
 
-        Scene scene1= new Scene(layout, height, width);
+        Scene scene1= new Scene(layout, width, height);
         popupwindow.setScene(scene1);
         popupwindow.showAndWait();
     }

@@ -85,20 +85,6 @@ public class OthelloModel extends GameModel {
         }
     }
 
-    public Stack<Field> checkForCaptures() {
-        Stack<Field> captureStack = new Stack<>();
-
-        for (Field[] row : board) {
-            for (Field field : row) {
-                Stack<Field> fieldCaptures = getCaptures(field);
-                while (!fieldCaptures.isEmpty()) {
-                    captureStack.push(fieldCaptures.pop());
-                }
-            }
-        }
-        return captureStack;
-    }
-
     public Stack<Field> getCaptures(Field field) {
         Stack<Field> allCaptures = new Stack<>();
 
