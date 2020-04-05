@@ -66,6 +66,7 @@ public class TicTacToeController extends GameController implements Initializable
     protected void gameYourTurn(Map<String, String> map) {
         super.gameYourTurn(map);
 
+        System.out.println(model.getActivePlayer().getPlayerType() + "-----------------");
         if (model.getActivePlayer().getPlayerType() == PlayerType.AI) {
             move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
         } else {

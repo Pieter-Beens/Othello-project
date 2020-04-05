@@ -91,6 +91,7 @@ public abstract class GameController extends Controller {
     }
 
     public void setup() {
+        System.out.println(YOUR_TURN_COMMAND_BUFFER + " IN SETUP");
         if (YOUR_TURN_COMMAND_BUFFER != null) {
             gameYourTurn(YOUR_TURN_COMMAND_BUFFER);
             YOUR_TURN_COMMAND_BUFFER = null;

@@ -20,7 +20,6 @@ public class ServerConnection {
         try {
             socket = new Socket(ip, port);
         } catch (ConnectException e) {
-            e.printStackTrace();
             return false;
         }
 

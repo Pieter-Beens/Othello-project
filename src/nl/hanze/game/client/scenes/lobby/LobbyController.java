@@ -52,7 +52,7 @@ public class LobbyController extends Controller implements Initializable {
 
     private String gameListString = "";
 
-    private TableUpdater tableUpdater;
+    private static TableUpdater tableUpdater;
 
     // Contains either 'AI' or 'Manual' to indicate as whom the user wants to play as
     public String playAs = "";
@@ -71,6 +71,9 @@ public class LobbyController extends Controller implements Initializable {
 
         Main.serverConnection.getGameList();
         Main.serverConnection.getPlayerList();
+
+        if (tableUpdater != null)
+            tableUpdater.stop();
 
         tableUpdater = new TableUpdater();
         new Thread(tableUpdater).start();
@@ -239,6 +242,7 @@ public class LobbyController extends Controller implements Initializable {
     @Override
     protected void gameYourTurn(Map<String, String> map) {
         GameController.YOUR_TURN_COMMAND_BUFFER = map;
+        System.out.println(GameController.YOUR_TURN_COMMAND_BUFFER + " IN LOBBY");
     }
 
     public void btnStart(ActionEvent event) {
@@ -270,6 +274,13 @@ public class LobbyController extends Controller implements Initializable {
         tableUpdater.stop();
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        tableUpdater.stop();
+
+        super.finalize();
+    }
+
     private static class TableUpdater implements Runnable {
         volatile boolean running = true;
 
@@ -277,7 +288,7 @@ public class LobbyController extends Controller implements Initializable {
         public void run() {
             while (running) {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(5000);
                     Main.serverConnection.getPlayerList();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

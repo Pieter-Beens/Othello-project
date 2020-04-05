@@ -105,7 +105,9 @@ public abstract class Controller implements Observer {
 
     protected void gameMatch(Map<String, String> map) { }
 
-    protected void gameYourTurn(Map<String, String> map) { }
+    protected void gameYourTurn(Map<String, String> map) {
+        System.out.println("YOUR TURN");
+    }
 
     protected void gameMove(Map<String, String> map) { }
 }
