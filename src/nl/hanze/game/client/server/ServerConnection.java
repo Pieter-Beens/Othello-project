@@ -1,6 +1,7 @@
 package nl.hanze.game.client.server;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -15,11 +16,19 @@ public class ServerConnection {
         this.commandQueue = new LinkedBlockingQueue<>();
     }
 
-    public void connect(String ip, int port) throws IOException {
-        socket = new Socket(ip, port);
+    public boolean connect(String ip, int port) throws IOException {
+        try {
+            socket = new Socket(ip, port);
+        } catch (ConnectException e) {
+            e.printStackTrace();
+            return false;
+        }
+
         serverCommunicator = new ServerSocket(socket, commandQueue);
         serverThread = new Thread(serverCommunicator);
         serverThread.start();
+
+        return true;
     }
 
     public boolean hasConnection() {

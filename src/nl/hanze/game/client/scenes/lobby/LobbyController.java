@@ -195,7 +195,7 @@ public class LobbyController extends Controller implements Initializable {
     protected void gameMatch(Map<String, String> map) {
         Platform.runLater(() -> {
             try {
-                GameController.startOnline(map, fullscreen, PlayerType.LOCAL);
+                GameController.startOnline(map, fullscreen, PlayerType.AI);
             } catch (IOException e) {
                 e.printStackTrace();
             }

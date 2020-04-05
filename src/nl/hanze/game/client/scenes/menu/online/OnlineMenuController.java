@@ -60,9 +60,13 @@ public class OnlineMenuController extends Controller {
             }
         }
 
-        //no errors? connect to server, redirect to the lobby
+        // no errors? try to connect to the server
         if (!error) {
-            Main.serverConnection.connect(ip.getText(), Integer.parseInt(port.getText()));
+            if (!Main.serverConnection.connect(ip.getText(), Integer.parseInt(port.getText()))) {
+                errorMsg.setText("Connection refused");
+                return;
+            }
+
             Main.serverConnection.addObserver(this);
             Main.serverConnection.login(name.getText());
         }
