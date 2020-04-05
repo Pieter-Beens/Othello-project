@@ -66,9 +66,12 @@ public class TicTacToeController extends GameController implements Initializable
     public void gameYourTurn(Map<String, String> map) {
         super.gameYourTurn(map);
 
-        System.out.println(model.getActivePlayer().getPlayerType() + "-----------------");
         if (model.getActivePlayer().getPlayerType() == PlayerType.AI) {
-            move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
+            Move move = model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer());
+            move(move);
+
+            if (Main.serverConnection.hasConnection())
+                Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), model.getBoardSize()));
         } else {
             boardPane.enableAllFields();
         }
