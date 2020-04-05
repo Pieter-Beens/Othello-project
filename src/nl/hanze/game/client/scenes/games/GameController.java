@@ -19,6 +19,7 @@ public abstract class GameController extends Controller {
      */
     public static GameController startOnline(Map<String, String> args, boolean fullscreen, PlayerType playerType) throws IOException {
         String game = args.get("GAMETYPE").toLowerCase().replace("-", "");
+        game = game.equals("reversi") ? "othello" : game;
 
         Player player1;
         if (playerType == PlayerType.AI) {
