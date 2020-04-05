@@ -55,7 +55,7 @@ public class LobbyController extends Controller implements Initializable {
     private static TableUpdater tableUpdater;
 
     // Contains either 'AI' or 'Manual' to indicate as whom the user wants to play as
-    public String playAs = "";
+    public String playAs = "AI";
 
     // Contains the name of the game the user wants to play
     public String selectedGame = "";
@@ -236,7 +236,8 @@ public class LobbyController extends Controller implements Initializable {
 
         Platform.runLater(() -> {
             try {
-                GameController.startOnline(map, fullscreen, PlayerType.AI);
+                PlayerType playerType = playAs.equals("AI") ? PlayerType.AI : PlayerType.LOCAL;
+                GameController.startOnline(map, fullscreen, playerType);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -253,7 +254,8 @@ public class LobbyController extends Controller implements Initializable {
         // If you are the player with the first move, start the game board
         Platform.runLater(() -> {
             try {
-                GameController controller = GameController.startOnline(gameMatchBuffer, fullscreen, PlayerType.AI);
+                PlayerType playerType = playAs.equals("AI") ? PlayerType.AI : PlayerType.LOCAL;
+                GameController controller = GameController.startOnline(gameMatchBuffer, fullscreen, playerType);
                 controller.gameYourTurn(map);
             } catch (IOException e) {
                 e.printStackTrace();
