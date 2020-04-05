@@ -63,7 +63,7 @@ public class TicTacToeController extends GameController implements Initializable
     }
 
     @Override
-    protected void gameYourTurn(Map<String, String> map) {
+    public void gameYourTurn(Map<String, String> map) {
         super.gameYourTurn(map);
 
         System.out.println(model.getActivePlayer().getPlayerType() + "-----------------");
@@ -75,7 +75,7 @@ public class TicTacToeController extends GameController implements Initializable
     }
 
     @Override
-    protected void gameMove(Map<String, String> map) {
+    public void gameMove(Map<String, String> map) {
         super.gameMove(map);
 
         int cell = Integer.parseInt(map.get("MOVE"));
@@ -92,8 +92,6 @@ public class TicTacToeController extends GameController implements Initializable
 
         if (!Main.serverConnection.hasConnection())
             acceptNewMoves();
-
-        super.setup();
     }
 
     @Override

@@ -97,17 +97,17 @@ public abstract class Controller implements Observer {
         System.err.println(response);
     }
 
-    protected void updateGameList(List<String> list) { }
+    public void updateGameList(List<String> list) { }
 
-    protected void updatePlayerList(List<String> list) { }
+    public void updatePlayerList(List<String> list) { }
 
-    protected void gameChallenge(Map<String, String> map) { }
+    public void gameChallenge(Map<String, String> map) { }
 
-    protected void gameMatch(Map<String, String> map) { }
+    public void gameMatch(Map<String, String> map) { }
 
-    protected void gameYourTurn(Map<String, String> map) {
+    public void gameYourTurn(Map<String, String> map) {
         System.out.println("YOUR TURN");
     }
 
-    protected void gameMove(Map<String, String> map) { }
+    public void gameMove(Map<String, String> map) { }
 }

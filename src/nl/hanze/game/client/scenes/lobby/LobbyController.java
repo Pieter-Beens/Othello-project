@@ -65,6 +65,9 @@ public class LobbyController extends Controller implements Initializable {
 
     private ObservableList<PlayerRow> tableList = FXCollections.observableArrayList();
 
+    // Save the game match data, when you are the starting player.
+    private Map<String, String> gameMatchBuffer;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         playersTable.setItems(tableList);
@@ -186,7 +189,7 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     @Override
-    protected void updateGameList(List<String> list) {
+    public void updateGameList(List<String> list) {
         super.updateGameList(list);
 
         gameListString = String.join(", ", list);
@@ -195,18 +198,7 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     @Override
-    protected void gameMatch(Map<String, String> map) {
-        Platform.runLater(() -> {
-            try {
-                GameController.startOnline(map, fullscreen, PlayerType.AI);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    protected void updatePlayerList(List<String> list) {
+    public void updatePlayerList(List<String> list) {
         super.updatePlayerList(list);
 
         PlayerRow playerRow;
@@ -235,14 +227,38 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     @Override
-    protected void gameChallenge(Map<String, String> map) {
+    public void gameMatch(Map<String, String> map) {
+        // If you are the starting player wait for the Your Turn Command
+        if(map.get("PLAYERTOMOVE").equals(GameModel.serverName)) {
+            gameMatchBuffer = map;
+            return;
+        }
+
+        Platform.runLater(() -> {
+            try {
+                GameController.startOnline(map, fullscreen, PlayerType.AI);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void gameChallenge(Map<String, String> map) {
         Platform.runLater(() -> Popup.display("Match from " + map.get("CHALLENGER") + " for a game of " + map.get("GAMETYPE")));
     }
 
     @Override
-    protected void gameYourTurn(Map<String, String> map) {
-        GameController.YOUR_TURN_COMMAND_BUFFER = map;
-        System.out.println(GameController.YOUR_TURN_COMMAND_BUFFER + " IN LOBBY");
+    public void gameYourTurn(Map<String, String> map) {
+        // If you are the player with the first move, start the game board
+        Platform.runLater(() -> {
+            try {
+                GameController controller = GameController.startOnline(gameMatchBuffer, fullscreen, PlayerType.AI);
+                controller.gameYourTurn(map);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void btnStart(ActionEvent event) {
