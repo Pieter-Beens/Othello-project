@@ -52,10 +52,10 @@ public class LobbyController extends Controller implements Initializable {
 
     private String gameListString = "";
 
-    private TableUpdater tableUpdater;
+    private static TableUpdater tableUpdater;
 
     // Contains either 'AI' or 'Manual' to indicate as whom the user wants to play as
-    public String playAs = "";
+    public String playAs = "AI";
 
     // Contains the name of the game the user wants to play
     public String selectedGame = "";
@@ -65,12 +65,18 @@ public class LobbyController extends Controller implements Initializable {
 
     private ObservableList<PlayerRow> tableList = FXCollections.observableArrayList();
 
+    // Save the game match data, when you are the starting player.
+    private Map<String, String> gameMatchBuffer;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         playersTable.setItems(tableList);
 
         Main.serverConnection.getGameList();
         Main.serverConnection.getPlayerList();
+
+        if (tableUpdater != null)
+            tableUpdater.stop();
 
         tableUpdater = new TableUpdater();
         new Thread(tableUpdater).start();
@@ -183,7 +189,7 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     @Override
-    protected void updateGameList(List<String> list) {
+    public void updateGameList(List<String> list) {
         super.updateGameList(list);
 
         gameListString = String.join(", ", list);
@@ -192,18 +198,7 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     @Override
-    protected void gameMatch(Map<String, String> map) {
-        Platform.runLater(() -> {
-            try {
-                GameController.startOnline(map, fullscreen, PlayerType.LOCAL);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    protected void updatePlayerList(List<String> list) {
+    public void updatePlayerList(List<String> list) {
         super.updatePlayerList(list);
 
         PlayerRow playerRow;
@@ -232,13 +227,40 @@ public class LobbyController extends Controller implements Initializable {
     }
 
     @Override
-    protected void gameChallenge(Map<String, String> map) {
+    public void gameMatch(Map<String, String> map) {
+        // If you are the starting player wait for the Your Turn Command
+        if(map.get("PLAYERTOMOVE").equals(GameModel.serverName)) {
+            gameMatchBuffer = map;
+            return;
+        }
+
+        Platform.runLater(() -> {
+            try {
+                PlayerType playerType = playAs.equals("AI") ? PlayerType.AI : PlayerType.LOCAL;
+                GameController.startOnline(map, fullscreen, playerType);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void gameChallenge(Map<String, String> map) {
         Platform.runLater(() -> Popup.display("Match from " + map.get("CHALLENGER") + " for a game of " + map.get("GAMETYPE")));
     }
 
     @Override
-    protected void gameYourTurn(Map<String, String> map) {
-        GameController.YOUR_TURN_COMMAND_BUFFER = map;
+    public void gameYourTurn(Map<String, String> map) {
+        // If you are the player with the first move, start the game board
+        Platform.runLater(() -> {
+            try {
+                PlayerType playerType = playAs.equals("AI") ? PlayerType.AI : PlayerType.LOCAL;
+                GameController controller = GameController.startOnline(gameMatchBuffer, fullscreen, playerType);
+                controller.gameYourTurn(map);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void btnStart(ActionEvent event) {
@@ -270,6 +292,13 @@ public class LobbyController extends Controller implements Initializable {
         tableUpdater.stop();
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        tableUpdater.stop();
+
+        super.finalize();
+    }
+
     private static class TableUpdater implements Runnable {
         volatile boolean running = true;
 
@@ -277,7 +306,7 @@ public class LobbyController extends Controller implements Initializable {
         public void run() {
             while (running) {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(5000);
                     Main.serverConnection.getPlayerList();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

@@ -14,16 +14,13 @@ import nl.hanze.game.client.server.ServerSocket;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * @author Roy Voetman
+ */
 public abstract class GameController extends Controller {
-    // If the your turn command was received in the lobby controller
-    // it will be buffered in this field
-    public static Map<String, String> YOUR_TURN_COMMAND_BUFFER = null;
-
-    /**
-     * @author Roy Voetman
-     */
-    public static void startOnline(Map<String, String> args, boolean fullscreen, PlayerType playerType) throws IOException {
+    public static GameController startOnline(Map<String, String> args, boolean fullscreen, PlayerType playerType) throws IOException {
         String game = args.get("GAMETYPE").toLowerCase().replace("-", "");
+        game = game.equals("reversi") ? "othello" : game;
 
         Player player1;
         if (playerType == PlayerType.AI) {
@@ -44,12 +41,9 @@ public abstract class GameController extends Controller {
         model.setPlayer1(args.get("PLAYERTOMOVE").equals(GameModel.serverName) ? player1 : player2);
         model.setPlayer2(args.get("PLAYERTOMOVE").equals(GameModel.serverName) ? player2 : player1);
 
-        start(controller, fullscreen);
+        return start(controller, fullscreen);
     }
 
-    /**
-     * @author Roy Voetman
-     */
     public static void startOffline(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer) throws IOException {
         game = game.toLowerCase().replace("-", "");
 
@@ -67,10 +61,12 @@ public abstract class GameController extends Controller {
         start(controller, fullscreen);
     }
 
-    private static void start(GameController controller, boolean fullscreen) {
+    private static GameController start(GameController controller, boolean fullscreen) {
         controller.setup();
 
         Main.primaryStage.setFullScreen(fullscreen);
+
+        return controller;
     }
 
     private static AIStrategy determineAIStrategy(String game) {
@@ -91,12 +87,7 @@ public abstract class GameController extends Controller {
         return getModel().getActivePlayer();
     }
 
-    public void setup() {
-        if (YOUR_TURN_COMMAND_BUFFER != null) {
-            gameYourTurn(YOUR_TURN_COMMAND_BUFFER);
-            YOUR_TURN_COMMAND_BUFFER = null;
-        }
-    }
+    public void setup() { }
 
     public void goBack() throws IOException {
         if (Main.serverConnection.hasConnection()) {
