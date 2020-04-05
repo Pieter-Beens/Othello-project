@@ -9,6 +9,7 @@ import nl.hanze.game.client.players.AIPlayer;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.Controller;
+import nl.hanze.game.client.server.ServerSocket;
 
 import java.io.IOException;
 import java.util.Map;

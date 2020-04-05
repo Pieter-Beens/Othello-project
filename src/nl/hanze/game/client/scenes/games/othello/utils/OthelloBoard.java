@@ -13,6 +13,7 @@ import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.AIPlayer;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.Field;
+import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.othello.OthelloController;
 import nl.hanze.game.client.scenes.games.othello.OthelloModel;
 import nl.hanze.game.client.scenes.utils.Colors;
@@ -25,10 +26,10 @@ import java.io.FileNotFoundException;
  */
 
 public class OthelloBoard extends GridPane {
-    OthelloModel model;
+    GameModel model;
     OthelloController controller;
 
-    public OthelloBoard(OthelloModel model, OthelloController controller) {
+    public OthelloBoard(GameModel model, OthelloController controller) {
         this.model = model;
         this.controller = controller;
 

@@ -5,6 +5,10 @@ import nl.hanze.game.client.scenes.utils.Popup;
 
 import java.util.ArrayList;
 
+/**
+ * @author Pieter Beens
+ */
+
 public abstract class GameModel {
     final static int MAX_PLAYERS = 2; // games can have only 2 players!
     public boolean gameHasEnded = false;
@@ -15,10 +19,6 @@ public abstract class GameModel {
     protected ArrayList<Field[][]> boardHistory = new ArrayList<>();
     public static final int[][] DIRECTIONS = {{1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}, {-1,0}, {-1,1}, {0,1}};
     public static String serverName;
-
-    /**
-     * @author Pieter Beens
-     */
 
     public GameModel(int boardSize) {
         this.boardSize = boardSize;
@@ -99,6 +99,11 @@ public abstract class GameModel {
             msg = players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
         }
         System.out.println(msg);
+        Popup.display(msg, "GAME END", 300, 200);
+    }
+
+    public void forfeitGame(Player losingPlayer) {
+        String msg = losingPlayer.getName() + " has forfeited.";
         Popup.display(msg, "GAME END", 300, 200);
     }
 }

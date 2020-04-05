@@ -7,16 +7,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import nl.hanze.game.client.Main;
+import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.othello.OthelloModel;
 import nl.hanze.game.client.scenes.utils.Colors;
 
 public class InfoBox extends HBox {
-    private final OthelloModel model;
+    private final GameModel model;
     private final Label turnLabel;
     private final Label player1ScoreBar;
     private final Label player2ScoreBar;
 
-    public InfoBox(OthelloModel model) {
+    public InfoBox(GameModel model) {
         this.model = model;
 
         turnLabel = new Label();
