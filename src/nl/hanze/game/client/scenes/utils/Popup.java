@@ -16,6 +16,8 @@ public class Popup {
     public static void display(String msg) {
         Stage popupwindow = new Stage();
 
+        popupwindow.initStyle(StageStyle.UNDECORATED);
+
         popupwindow.initModality(Modality.APPLICATION_MODAL);
         popupwindow.setTitle("Oeps, something went wrong");
 
@@ -35,6 +37,8 @@ public class Popup {
 
     public static void display(String msg, String title, int width, int height) {
         Stage popupwindow = new Stage();
+
+        popupwindow.initStyle(StageStyle.UNDECORATED);
 
         popupwindow.initModality(Modality.APPLICATION_MODAL);
         popupwindow.setTitle(title);
