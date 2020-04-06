@@ -1,6 +1,5 @@
 package nl.hanze.game.client.scenes.utils;
 
-
 /**
  * @author Jasper van Dijken
  */
