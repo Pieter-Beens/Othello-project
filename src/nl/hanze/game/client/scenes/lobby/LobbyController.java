@@ -41,9 +41,6 @@ public class LobbyController extends Controller implements Initializable {
     public HBox gameBtnHBox;
 
     @FXML
-    public GridPane gameGrid;
-
-    @FXML
     public ButtonBar gamesBar;
 
     @FXML
@@ -79,8 +76,6 @@ public class LobbyController extends Controller implements Initializable {
 
     private ObservableList<PlayerRow> tableList = FXCollections.observableArrayList();
 
-    private ObservableList<RequestRow> requestList = FXCollections.observableArrayList();
-
     // Save the game match data, when you are the starting player.
     private Map<String, String> gameMatchBuffer;
 
@@ -99,18 +94,13 @@ public class LobbyController extends Controller implements Initializable {
 
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
 
-        final ObservableList<RequestRow> requests = FXCollections.observableArrayList(
-                new RequestRow("Hendrik", "TTT", "4"),
-                new RequestRow("Willem", "TTT", "5"),
-                new RequestRow("Freek", "TTT", "6"),
-                new RequestRow("Jan", "TTT", "7")
-        );
 
+        /**
+         * @author Jasper van Dijken
+         */
         challengerColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("name"));
         challengeNumberColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("challengeID"));
         gameColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("game"));
-
-
 
     }
 
@@ -147,7 +137,6 @@ public class LobbyController extends Controller implements Initializable {
                     });
                 }
             });
-
         }
     }
 
@@ -199,7 +188,7 @@ public class LobbyController extends Controller implements Initializable {
 
     @FXML
     private void btnAcceptChallenge(ActionEvent event) throws IOException {
-        System.out.println("CHALLENGE ACCEPT BTN CLICKED");
+        Main.serverConnection.challengeAccept(Integer.parseInt(requestTable.getSelectionModel().getSelectedItem().getChallengeID()));
     }
 
     /**
@@ -280,25 +269,13 @@ public class LobbyController extends Controller implements Initializable {
 
     @Override
     public void gameChallenge(Map<String, String> map) {
-        //int challengeID = Integer.parseInt(map.get("CHALLENGENUMBER"));
-        //System.out.println("Match from " + map.get("CHALLENGER") + " for a game of " + map.get("GAMETYPE"));
         //Platform.runLater(() -> Popup.display("Match from " + map.get("CHALLENGER") + " for a game of " + map.get("GAMETYPE")));
 
-        /*
-        challengerColumn.setCellValueFactory(new PropertyValueFactory<>(map.get("CHALLENGER")));
-        challengeNumberColumn.setCellValueFactory(new PropertyValueFactory<>(map.get("CHALLENGENUMBER")));
-        gameColumn.setCellValueFactory(new PropertyValueFactory<>(map.get("GAMETYPE")));
-         */
-
+        //Author: Jasper van Dijken
         RequestRow row = new RequestRow(map.get("CHALLENGER"), map.get("CHALLENGENUMBER"), map.get("GAMETYPE"));
-        /*
-        RequestRow row = new RequestRow();
-        row.setName(map.get("CHALLENGER"));
-        row.setChallengeID(map.get("CHALLENGENUMBER"));
-        row.setGame(map.get("GAMETYPE"));
-        */
 
         requestTable.getItems().add(row);
+        //End Author
 
     }
 
