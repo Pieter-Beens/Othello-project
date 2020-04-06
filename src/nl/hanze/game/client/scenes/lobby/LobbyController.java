@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import nl.hanze.game.client.Main;
@@ -17,6 +18,7 @@ import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.utils.PlayerRow;
 import nl.hanze.game.client.scenes.utils.Popup;
+import nl.hanze.game.client.scenes.utils.RequestRow;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,6 +52,18 @@ public class LobbyController extends Controller implements Initializable {
     @FXML
     public TableColumn<PlayerRow, String> nameColumn;
 
+    @FXML
+    public TableView<RequestRow> requestTable;
+
+    @FXML
+    public TableColumn<RequestRow, String> challengerColumn;
+
+    @FXML
+    public TableColumn<RequestRow, String> gameColumn;
+
+    @FXML
+    public TableColumn<RequestRow, String> challengeNumberColumn;
+
     private String gameListString = "";
 
     private static TableUpdater tableUpdater;
@@ -64,6 +78,8 @@ public class LobbyController extends Controller implements Initializable {
     private Boolean fullscreen = false;
 
     private ObservableList<PlayerRow> tableList = FXCollections.observableArrayList();
+
+    private ObservableList<RequestRow> requestList = FXCollections.observableArrayList();
 
     // Save the game match data, when you are the starting player.
     private Map<String, String> gameMatchBuffer;
@@ -82,6 +98,18 @@ public class LobbyController extends Controller implements Initializable {
         new Thread(tableUpdater).start();
 
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
+
+        final ObservableList<RequestRow> requests = FXCollections.observableArrayList(
+                new RequestRow("Hendrik", "TTT", "4"),
+                new RequestRow("Willem", "TTT", "5"),
+                new RequestRow("Freek", "TTT", "6"),
+                new RequestRow("Jan", "TTT", "7")
+        );
+
+        challengerColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("name"));
+        challengeNumberColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("challengeID"));
+        gameColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("game"));
+
 
 
     }
@@ -138,7 +166,7 @@ public class LobbyController extends Controller implements Initializable {
                 bt.setStyle("");
                 bt.applyCss();
                 //bt.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
-        }}
+            }}
     }
 
     @FXML
@@ -168,6 +196,12 @@ public class LobbyController extends Controller implements Initializable {
             btnFullscreen.setText("fullscreen: on");
         }
     }
+
+    @FXML
+    private void btnAcceptChallenge(ActionEvent event) throws IOException {
+        System.out.println("CHALLENGE ACCEPT BTN CLICKED");
+    }
+
     /**
      * END @author Jasper van Dijken
      */
@@ -246,7 +280,26 @@ public class LobbyController extends Controller implements Initializable {
 
     @Override
     public void gameChallenge(Map<String, String> map) {
-        Platform.runLater(() -> Popup.display("Match from " + map.get("CHALLENGER") + " for a game of " + map.get("GAMETYPE")));
+        //int challengeID = Integer.parseInt(map.get("CHALLENGENUMBER"));
+        //System.out.println("Match from " + map.get("CHALLENGER") + " for a game of " + map.get("GAMETYPE"));
+        //Platform.runLater(() -> Popup.display("Match from " + map.get("CHALLENGER") + " for a game of " + map.get("GAMETYPE")));
+
+        /*
+        challengerColumn.setCellValueFactory(new PropertyValueFactory<>(map.get("CHALLENGER")));
+        challengeNumberColumn.setCellValueFactory(new PropertyValueFactory<>(map.get("CHALLENGENUMBER")));
+        gameColumn.setCellValueFactory(new PropertyValueFactory<>(map.get("GAMETYPE")));
+         */
+
+        RequestRow row = new RequestRow(map.get("CHALLENGER"), map.get("CHALLENGENUMBER"), map.get("GAMETYPE"));
+        /*
+        RequestRow row = new RequestRow();
+        row.setName(map.get("CHALLENGER"));
+        row.setChallengeID(map.get("CHALLENGENUMBER"));
+        row.setGame(map.get("GAMETYPE"));
+        */
+
+        requestTable.getItems().add(row);
+
     }
 
     @Override
@@ -273,7 +326,7 @@ public class LobbyController extends Controller implements Initializable {
         //Subscribe for game
         Main.serverConnection.subscribe(selectedGame);
 
-        System.out.println("Play as: " + playAs + " fullscreen: " + fullscreen + " game: " + selectedGame);
+        System.out.println("Play as: " + playAs + ", Fullscreen: " + fullscreen + ", Game: " + selectedGame);
     }
 
     public void btnMatchRequest(ActionEvent event) {

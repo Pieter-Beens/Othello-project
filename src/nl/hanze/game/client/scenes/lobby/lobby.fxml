@@ -4,13 +4,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="950.0" stylesheets="@/resources/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.lobby.LobbyController">
     <children>
-        <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <HBox alignment="CENTER" prefHeight="105.0" prefWidth="950.0">
+                <HBox alignment="CENTER" prefHeight="85.0" prefWidth="950.0">
                <children>
                   <GridPane prefHeight="75.0" prefWidth="842.0">
                     <columnConstraints>
@@ -40,40 +41,104 @@
                   </GridPane>
                </children>
                 </HBox>
-            <HBox fx:id="gameBtnHBox" alignment="TOP_CENTER" focusTraversable="true" prefHeight="119.0" prefWidth="950.0">
+            <HBox fx:id="gameBtnHBox" alignment="CENTER" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="950.0">
                <children>
-                  <ButtonBar fx:id="gamesBar" buttonMinWidth="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" pickOnBounds="false" prefHeight="30.0" prefWidth="240.0" />
+                  <ButtonBar fx:id="gamesBar" buttonMinWidth="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" pickOnBounds="false" prefHeight="0.0" prefWidth="0.0">
+                     <HBox.margin>
+                        <Insets left="-20.0" />
+                     </HBox.margin></ButtonBar>
                </children></HBox>
-            <HBox alignment="CENTER" prefHeight="283.0" prefWidth="950.0">
+            <HBox alignment="BOTTOM_CENTER" prefHeight="65.0" prefWidth="950.0">
                <children>
-                        <TableView fx:id="playersTable" prefHeight="272.0" prefWidth="844.0">
-                            <columns>
-                                <TableColumn fx:id="nameColumn" prefWidth="75.0" resizable="false" text="Name">
-                                    <cellValueFactory>
-                              <PropertyValueFactory property="name" />
-                                    </cellValueFactory>
-                                </TableColumn>
-                            </columns>
-                        </TableView>
+
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnStart" prefHeight="8.0" prefWidth="150.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="Quick Match" />
                </children>
             </HBox>
-                <HBox alignment="CENTER" prefHeight="74.0" prefWidth="950.0">
+            <HBox alignment="CENTER" prefHeight="54.0" prefWidth="950.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e47d21" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="950.0" />
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="75.0" prefWidth="950.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Challenge and get challenged!">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="283.0" prefWidth="950.0">
+               <children>
+                  <GridPane prefHeight="270.0" prefWidth="844.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="410.0" minWidth="10.0" prefWidth="402.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="410.0" minWidth="0.0" prefWidth="30.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="404.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints />
+                      <RowConstraints maxHeight="130.0" minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="254.0" minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                              <TableView fx:id="playersTable" prefHeight="270.0" prefWidth="381.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                  <columns>
+                                      <TableColumn fx:id="nameColumn" minWidth="-Infinity" prefWidth="-1.0" resizable="false" text="Name">
+                                          <cellValueFactory>
+                                    <PropertyValueFactory property="name" />
+                                          </cellValueFactory>
+                                      </TableColumn>
+                                  </columns>
+                              </TableView>
+                        <Text layoutX="181.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Match Requests:" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets bottom="20.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Active players:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets bottom="20.0" />
+                           </GridPane.margin></Text>
+                        <TableView fx:id="requestTable" layoutX="10.0" layoutY="30.0" prefHeight="270.0" prefWidth="234.0" GridPane.rowIndex="2">
+                           <columns>
+                              <TableColumn fx:id="challengerColumn" minWidth="-Infinity" prefWidth="120.0" resizable="false" text="Challenger">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="name" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn fx:id="gameColumn" minWidth="-Infinity" prefWidth="120.0" resizable="false" text="Game">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="name" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn fx:id="challengeNumberColumn" minWidth="-Infinity" prefWidth="120.0" resizable="false" text="ID">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="name" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                           </columns>
+                        </TableView>
+                     </children>
+                  </GridPane>
+               </children>
+            </HBox>
+                <HBox alignment="CENTER" prefHeight="78.0" prefWidth="950.0">
                     <children>
                   <GridPane prefHeight="58.0" prefWidth="846.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="561.0" minWidth="0.0" prefWidth="512.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="0.0" prefWidth="109.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="127.0" minWidth="10.0" prefWidth="107.0" />
+                      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="561.0" minWidth="0.0" prefWidth="297.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="442.0" minWidth="0.0" prefWidth="438.0" />
                         <ColumnConstraints />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                              <Button mnemonicParsing="false" onAction="#btnLogout" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="logout" />
-      
-                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnStart" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="start" GridPane.columnIndex="2" />
-                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnMatchRequest" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="match request" GridPane.columnIndex="3" />
+                              <Button mnemonicParsing="false" onAction="#btnLogout" prefHeight="30.0" prefWidth="141.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="logout" />
+                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnMatchRequest" prefHeight="28.0" prefWidth="133.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="Send request" GridPane.columnIndex="2" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="723.0" layoutY="23.0" mnemonicParsing="false" onAction="#btnAcceptChallenge" prefHeight="28.0" prefWidth="131.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="Accept Challenge" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                     </children>
