@@ -3,6 +3,7 @@ package nl.hanze.game.client.scenes.games.othello.utils;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.games.othello.OthelloController;
@@ -17,7 +18,7 @@ public class FieldButton extends Button {
         this.rowID = rowID;
         this.columnID = columnID;
 
-        setStyle("-fx-background-color: " + Colors.BG_COLOR);
+        setStyle("-fx-background-color: transparent");
 
         setOnMouseClicked(e -> {
             OthelloBoard board = (OthelloBoard) getParent();

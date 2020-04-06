@@ -28,10 +28,13 @@ import java.io.FileNotFoundException;
 public class OthelloBoard extends GridPane {
     GameModel model;
     OthelloController controller;
+    Image validMoveDot;
 
     public OthelloBoard(GameModel model, OthelloController controller) {
         this.model = model;
         this.controller = controller;
+
+        this.validMoveDot = new Image("File:src/resources/validMoveDot.png");
 
         for (int r = 0; r < model.getBoardSize(); r++) {
             for (int c = 0; c < model.getBoardSize(); c++) {
@@ -46,14 +49,18 @@ public class OthelloBoard extends GridPane {
         setStyle("-fx-background-color: " + "#FFFFFF");
     }
 
-    public void enableValidFields() {
+    public void markValidFields() {
         int i = 0;
         for (Field[] row : model.getBoard()) {
             for (Field field : row) {
-                if (field.getValidity()) {
-                    getChildren().get(i).setDisable(false);
-                } else {
-                    getChildren().get(i).setDisable(true);
+                if (field.getOwner() == null) {
+                    if (field.getValidity()) {
+                        FieldButton button = (FieldButton) getChildren().get(i);
+                        button.setGraphic(new ImageView(validMoveDot));
+                    } else {
+                        FieldButton button = (FieldButton) getChildren().get(i);
+                        button.setGraphic(null);
+                    }
                 }
                 i++;
             }
@@ -99,8 +106,6 @@ public class OthelloBoard extends GridPane {
         }
 
         //TODO: mark and unmark recent moves (update Fields field in model.placeStone())
-
-        disableAllFields();
     }
     public OthelloController getController() { return controller; }
 }

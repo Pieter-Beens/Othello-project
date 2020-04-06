@@ -5,7 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.PlayerType;
@@ -15,6 +17,7 @@ import nl.hanze.game.client.scenes.games.othello.utils.InfoBox;
 import nl.hanze.game.client.scenes.games.othello.utils.OthelloBoard;
 import nl.hanze.game.client.server.ServerSocket;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -44,6 +47,9 @@ public class OthelloController extends GameController implements Initializable {
         boardPane = new OthelloBoard(model, this);
         infoBox = new InfoBox(model);
 
+        Image boardImage = new Image("File:src/resources/boardImage.png");
+        boardContainer.setBackground(new Background(new BackgroundImage(boardImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        boardPane.setStyle("-fx-background-color: " + Color.TRANSPARENT);
         boardContainer.getChildren().add(boardPane);
         info.getChildren().add(infoBox);
     }
@@ -51,10 +57,9 @@ public class OthelloController extends GameController implements Initializable {
     @Override
     public void setup() {
         model.setup();
-        boardPane.disableAllFields();
         model.updateFieldValidity();
         updateViews();
-        boardPane.enableValidFields();
+        boardPane.markValidFields();
     }
 
     @Override
@@ -66,9 +71,11 @@ public class OthelloController extends GameController implements Initializable {
     //TODO: refactor to use GameController.move()
     @Override
     public void move(Move move) {
-        forfeitButton.setDisable(true);
-        model.recordMove(move); // includes nextTurn() call
-        Platform.runLater(this::updateViews);
+        if (model.isValidMove(move)) {
+            forfeitButton.setDisable(true);
+            model.recordMove(move); // includes nextTurn() call
+            Platform.runLater(this::updateViews);
+        }
     }
 
     /**
@@ -87,7 +94,7 @@ public class OthelloController extends GameController implements Initializable {
         }
         else if (model.getActivePlayer().getPlayerType() == PlayerType.LOCAL && !model.gameHasEnded) {
             forfeitButton.setDisable(false);
-            boardPane.enableValidFields(); // makes FieldButtons representing valid moves clickable
+            boardPane.markValidFields(); // makes FieldButtons representing valid moves clickable
         }
     }
 

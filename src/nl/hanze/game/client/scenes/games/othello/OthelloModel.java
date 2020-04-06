@@ -144,4 +144,9 @@ public class OthelloModel extends GameModel {
         }
         return captureTally;
     }
+
+    public boolean isValidMove(Move move) {
+        Field field = this.board[move.getRow()][move.getColumn()];
+        return field.getValidity();
+    }
 }
