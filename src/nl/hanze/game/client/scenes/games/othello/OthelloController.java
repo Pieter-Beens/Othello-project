@@ -1,10 +1,8 @@
 package nl.hanze.game.client.scenes.games.othello;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -15,10 +13,8 @@ import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.othello.utils.InfoBox;
 import nl.hanze.game.client.scenes.games.othello.utils.OthelloBoard;
-import nl.hanze.game.client.server.ServerSocket;
+import nl.hanze.game.client.scenes.games.utils.BoardPane;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,9 +28,6 @@ public class OthelloController extends GameController implements Initializable {
 
     @FXML
     public HBox info;
-
-    @FXML
-    public Button forfeitButton;
 
     private OthelloBoard boardPane;
 
@@ -114,5 +107,10 @@ public class OthelloController extends GameController implements Initializable {
         if (Main.serverConnection.hasConnection()) {
             Main.serverConnection.forfeit();
         }
+    }
+
+    @Override
+    public BoardPane getBoardPane() {
+        return boardPane;
     }
 }

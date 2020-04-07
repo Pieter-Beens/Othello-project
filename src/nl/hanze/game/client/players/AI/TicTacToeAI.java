@@ -2,8 +2,8 @@ package nl.hanze.game.client.players.AI;
 
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
-import nl.hanze.game.client.scenes.games.Field;
 import nl.hanze.game.client.scenes.games.tictactoe.TicTacToeModel;
+import nl.hanze.game.client.scenes.games.utils.Field;
 
 /**
  *This class implements the AI for the tic-tac-toe singleplayer game.

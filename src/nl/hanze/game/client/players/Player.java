@@ -1,9 +1,8 @@
 package nl.hanze.game.client.players;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import nl.hanze.game.client.players.AI.utils.Move;
-import nl.hanze.game.client.scenes.games.Field;
+import nl.hanze.game.client.scenes.games.utils.Field;
 import nl.hanze.game.client.scenes.utils.Colors;
 
 import java.io.FileInputStream;

@@ -2,13 +2,15 @@ package nl.hanze.game.client.scenes.games.tictactoe.utils;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.layout.GridPane;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.games.tictactoe.TicTacToeController;
 import nl.hanze.game.client.scenes.games.tictactoe.TicTacToeModel;
+import nl.hanze.game.client.scenes.games.utils.BoardPane;
+import nl.hanze.game.client.scenes.games.utils.FieldButton;
+import nl.hanze.game.client.scenes.utils.Colors;
 
-public class TicTacToeBoard extends GridPane {
+public class TicTacToeBoard extends BoardPane {
     TicTacToeModel model;
     TicTacToeController controller;
 
@@ -18,7 +20,7 @@ public class TicTacToeBoard extends GridPane {
 
         for (int r = 0; r < model.getBoardSize(); r++) {
             for (int c = 0; c < model.getBoardSize(); c++) {
-                FieldButton button = new FieldButton(r, c);
+                FieldButton button = new FieldButton(r, c, Colors.BG_COLOR);
                 this.add(button, c, r);
             }
         }
@@ -58,21 +60,6 @@ public class TicTacToeBoard extends GridPane {
         }
 
         disableAllFields();
-    }
-
-    public void disableAllFields() {
-        setDisablePropertyOnAllFields(true);
-    }
-
-    public void enableAllFields() {
-        setDisablePropertyOnAllFields(false);
-    }
-
-    private void setDisablePropertyOnAllFields(boolean disable) {
-        for (Node node : getChildren()) {
-            FieldButton button = (FieldButton) node;
-            button.setDisable(disable);
-        }
     }
 
     public TicTacToeController getController() { return controller; }

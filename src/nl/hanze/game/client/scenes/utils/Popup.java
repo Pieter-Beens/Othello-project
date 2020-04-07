@@ -1,10 +1,14 @@
 package nl.hanze.game.client.scenes.utils;
 
 import javafx.geometry.Pos;
-import javafx.scene.*;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.stage.*;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.Controller;
 
 import java.io.IOException;
@@ -49,7 +53,11 @@ public class Popup {
         button1.setOnAction(e -> {
             popupwindow.close();
             try {
-                Controller.loadScene("start/start.fxml");
+                if (Main.serverConnection.hasConnection()) {
+                    Controller.loadScene("lobby/lobby.fxml");
+                } else {
+                    Controller.loadScene("start/start.fxml");
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

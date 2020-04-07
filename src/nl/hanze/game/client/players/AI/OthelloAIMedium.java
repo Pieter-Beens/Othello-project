@@ -2,10 +2,9 @@ package nl.hanze.game.client.players.AI;
 
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
-import nl.hanze.game.client.scenes.games.Field;
+import nl.hanze.game.client.scenes.games.utils.Field;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * @author Pieter Beens

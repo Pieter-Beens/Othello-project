@@ -2,8 +2,7 @@ package nl.hanze.game.client.players;
 
 import nl.hanze.game.client.players.AI.AIStrategy;
 import nl.hanze.game.client.players.AI.utils.Move;
-import nl.hanze.game.client.scenes.games.Field;
-import nl.hanze.game.client.scenes.games.GameModel;
+import nl.hanze.game.client.scenes.games.utils.Field;
 
 public class AIPlayer extends Player {
 

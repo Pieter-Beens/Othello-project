@@ -1,23 +1,22 @@
-package nl.hanze.game.client.scenes.games.tictactoe.utils;
+package nl.hanze.game.client.scenes.games.utils;
 
 import javafx.scene.control.Button;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
-import nl.hanze.game.client.scenes.utils.Colors;
 
 public class FieldButton extends Button {
 
     private final int rowID;
     private final int columnID;
 
-    public FieldButton(int rowID, int columnID) {
+    public FieldButton(int rowID, int columnID, String color) {
         this.rowID = rowID;
         this.columnID = columnID;
 
-        setStyle("-fx-background-color: " + Colors.BG_COLOR);
+        setStyle("-fx-background-color: " + color);
 
         setOnMouseClicked(e -> {
-            TicTacToeBoard board = (TicTacToeBoard) getParent();
+            BoardPane board = (BoardPane) getParent();
             Move move = new Move(board.getController().getActivePlayer(), getRowID(), getColumnID());
             board.getController().move(move);
 
@@ -26,6 +25,10 @@ public class FieldButton extends Button {
             else
                 Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), board.getController().getModel().getBoardSize()));
         });
+    }
+
+    public FieldButton(int rowID, int columnID) {
+        this(rowID, columnID, "transparent");
     }
 
     public int getRowID() {

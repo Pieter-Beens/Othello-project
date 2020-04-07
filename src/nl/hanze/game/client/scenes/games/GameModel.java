@@ -1,6 +1,7 @@
 package nl.hanze.game.client.scenes.games;
 
 import nl.hanze.game.client.players.Player;
+import nl.hanze.game.client.scenes.games.utils.Field;
 import nl.hanze.game.client.scenes.utils.Popup;
 
 import java.util.ArrayList;

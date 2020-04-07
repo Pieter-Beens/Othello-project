@@ -1,4 +1,4 @@
-package nl.hanze.game.client.scenes.games;
+package nl.hanze.game.client.scenes.games.utils;
 
 import nl.hanze.game.client.players.Player;
 

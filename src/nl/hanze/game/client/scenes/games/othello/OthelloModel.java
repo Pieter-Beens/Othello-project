@@ -2,9 +2,8 @@ package nl.hanze.game.client.scenes.games.othello;
 
 import javafx.application.Platform;
 import nl.hanze.game.client.players.AI.utils.Move;
-import nl.hanze.game.client.players.Player;
-import nl.hanze.game.client.scenes.games.Field;
 import nl.hanze.game.client.scenes.games.GameModel;
+import nl.hanze.game.client.scenes.games.utils.Field;
 
 import java.util.Stack;
 
@@ -57,7 +56,7 @@ public class OthelloModel extends GameModel {
         updateFieldValidity();
 
         if (!turnHasMoves() && lastTurnWasSkipped) { //TODO: turnHasMoves should only be a check, not a setter!
-            Platform.runLater(() -> endGame());
+            Platform.runLater(this::endGame);
             return;
         }
 

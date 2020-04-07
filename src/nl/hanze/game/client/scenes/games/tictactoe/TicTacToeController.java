@@ -3,19 +3,16 @@ package nl.hanze.game.client.scenes.games.tictactoe;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
-import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.tictactoe.utils.TicTacToeBoard;
+import nl.hanze.game.client.scenes.games.utils.BoardPane;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -27,9 +24,6 @@ public class TicTacToeController extends GameController implements Initializable
 
     @FXML
     public HBox info;
-
-    @FXML
-    public Button forfeitButton;
 
     private TicTacToeBoard boardPane;
 
@@ -86,57 +80,6 @@ public class TicTacToeController extends GameController implements Initializable
     }
 
     @Override
-    public void gameYourTurn(Map<String, String> map) {
-        super.gameYourTurn(map);
-
-        if (model.getActivePlayer().getPlayerType() == PlayerType.AI) {
-            Move move = model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer());
-            move(move);
-
-            if (Main.serverConnection.hasConnection())
-                Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), model.getBoardSize()));
-        } else {
-            forfeitButton.setDisable(false);
-            boardPane.enableAllFields();
-        }
-    }
-
-    @Override
-    public void gameMove(Map<String, String> map) {
-        super.gameMove(map);
-
-        int cell = Integer.parseInt(map.get("MOVE"));
-        int[] cords = Move.cellToCords(cell, model.getBoardSize());
-
-        System.out.println(Arrays.toString(cords) + "----------------------------");
-        move(new Move(model.getPlayerByName(map.get("PLAYER")), cords[0], cords[1]));
-    }
-
-    public void gameWin(Map<String, String> map) {
-        Player player = model.getPlayerByName(GameModel.serverName);
-
-        if (player.getSign().equals("O")) {
-            model.endGame(TicTacToeModel.State.O_WINS);
-        } else {
-            model.endGame(TicTacToeModel.State.X_WINS);
-        }
-    }
-
-    public void gameLoss(Map<String, String> map) {
-        Player player = model.getPlayerByName(GameModel.serverName);
-
-        if (player.getSign().equals("O")) {
-            model.endGame(TicTacToeModel.State.X_WINS);
-        } else {
-            model.endGame(TicTacToeModel.State.O_WINS);
-        }
-    }
-
-    public void gameDraw(Map<String, String> map) {
-        model.endGame(TicTacToeModel.State.DRAW);
-    }
-
-    @Override
     public void updateViews() {
         boardPane.update();
     }
@@ -144,6 +87,11 @@ public class TicTacToeController extends GameController implements Initializable
     @Override
     public GameModel getModel() {
         return model;
+    }
+
+    @Override
+    public BoardPane getBoardPane() {
+        return boardPane;
     }
 
     /**

@@ -4,28 +4,18 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import nl.hanze.game.client.Main;
-import nl.hanze.game.client.players.AI.utils.Move;
-import nl.hanze.game.client.players.AIPlayer;
-import nl.hanze.game.client.players.PlayerType;
-import nl.hanze.game.client.scenes.games.Field;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.othello.OthelloController;
-import nl.hanze.game.client.scenes.games.othello.OthelloModel;
-import nl.hanze.game.client.scenes.utils.Colors;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import nl.hanze.game.client.scenes.games.utils.BoardPane;
+import nl.hanze.game.client.scenes.games.utils.Field;
+import nl.hanze.game.client.scenes.games.utils.FieldButton;
 
 /**
  * @author Pieter Beens
  */
 
-public class OthelloBoard extends GridPane {
+public class OthelloBoard extends BoardPane {
     GameModel model;
     OthelloController controller;
     Image validMoveDot;
