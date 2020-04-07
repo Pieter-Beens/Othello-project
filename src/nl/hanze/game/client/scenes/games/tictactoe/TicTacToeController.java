@@ -1,7 +1,6 @@
 package nl.hanze.game.client.scenes.games.tictactoe;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -13,7 +12,6 @@ import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.tictactoe.utils.TicTacToeBoard;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
@@ -59,6 +57,10 @@ public class TicTacToeController extends GameController implements Initializable
             forfeitButton.setDisable(true);
             model.recordMove(move);
             updateViews();
+
+            if (!Main.serverConnection.hasConnection()) {
+                model.endGameIfFinished();
+            }
             //TODO: updateViews should be Platform.runLater(this::updateViews) because move() is called from non-JavaFX User threads
             //not using runLater here causes the result Popup to malfunction
             //(also because the view is not updated before the Popup, the last move is never seen)
@@ -75,8 +77,11 @@ public class TicTacToeController extends GameController implements Initializable
             //move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
 
             new Thread(() -> {
-                move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
-                acceptNewMoves();
+                Move move = model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer());
+                Platform.runLater(() -> {
+                    move(move);
+                    acceptNewMoves();
+                });
             }).start();
         }
         else if (model.getActivePlayer().getPlayerType() == PlayerType.LOCAL && model.getCurrentState() == TicTacToeModel.State.IN_PROGRESS) {

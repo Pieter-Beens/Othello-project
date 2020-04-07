@@ -39,11 +39,6 @@ public class TicTacToeModel extends GameModel {
     public void nextTurn() {
         currentState = state();
 
-        if(currentState != State.IN_PROGRESS) {
-            endGame(state());
-            return;
-        }
-
         super.nextTurn();
     }
 
@@ -113,17 +108,19 @@ public class TicTacToeModel extends GameModel {
         return currentState;
     }
 
-    public void endGame(State state) {
-        String msg;
-        if (state == State.O_WINS) {
-            msg = players[0].getName() + " has won!";
-        } else if (state == State.X_WINS) {
-            msg = players[1].getName() + " has won!";
-        } else {
-            msg = players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
+    public void endGameIfFinished() {
+        if(currentState != TicTacToeModel.State.IN_PROGRESS) {
+            String msg;
+            if (currentState == State.O_WINS) {
+                msg = players[0].getName() + " has won!";
+            } else if (currentState == State.X_WINS) {
+                msg = players[1].getName() + " has won!";
+            } else {
+                msg = players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
+            }
+
+            Popup.display(msg, "GAME END", 300, 200);
         }
-        System.out.println(msg);
-        Popup.display(msg, "GAME END", 300, 200);
     }
 
     public enum State {

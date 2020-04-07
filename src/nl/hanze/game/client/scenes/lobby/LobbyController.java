@@ -9,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.PlayerType;
@@ -297,8 +296,6 @@ public class LobbyController extends Controller implements Initializable {
         //playAs contains whom the user wants to play as, (String 'AI' or 'Manual')
         //fullscreen contains if the user wants fullscreen, (Boolean 'true' or 'false')
         //selectedGame contains the game the user wants to play, (String 'Reversi' or 'Tic-tac-toe')
-
-        Platform.runLater(() -> System.out.println(playersTable.getSelectionModel().getSelectedItem().getName()));
 
         //Subscribe for game
         Main.serverConnection.subscribe(selectedGame);
