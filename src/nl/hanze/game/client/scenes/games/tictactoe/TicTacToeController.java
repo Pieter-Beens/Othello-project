@@ -1,14 +1,12 @@
 package nl.hanze.game.client.scenes.games.tictactoe;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.GameController;
-import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.tictactoe.utils.TicTacToeBoard;
 import nl.hanze.game.client.scenes.games.utils.BoardPane;
 
@@ -89,23 +87,7 @@ public class TicTacToeController extends GameController {
     }
 
     @Override
-    public GameModel getModel() {
-        return model;
-    }
-
-    @Override
     public BoardPane getBoardPane() {
         return boardPane;
-    }
-
-    /**
-     * @author Pieter Beens
-     */
-    //TODO: refactor to use GameController.forfeit()
-    public void forfeit(ActionEvent e) {
-        model.forfeitGame(model.getActivePlayer());
-        if (Main.serverConnection.hasConnection()) {
-            Main.serverConnection.forfeit();
-        }
     }
 }

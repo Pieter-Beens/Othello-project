@@ -35,7 +35,7 @@ public abstract class GameController extends Controller implements Initializable
     }
 
     public Player getActivePlayer() {
-        return getModel().getActivePlayer();
+        return model.getActivePlayer();
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -56,12 +56,12 @@ public abstract class GameController extends Controller implements Initializable
     public void gameYourTurn(Map<String, String> map) {
         super.gameYourTurn(map);
 
-        if (getModel().getActivePlayer().getPlayerType() == PlayerType.AI) {
-            Move move = getModel().getActivePlayer().calculateMove(getModel().getBoard(), getModel().getInactivePlayer());
+        if (model.getActivePlayer().getPlayerType() == PlayerType.AI) {
+            Move move = model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer());
             move(move);
 
             if (Main.serverConnection.hasConnection())
-                Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), getModel().getBoardSize()));
+                Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), model.getBoardSize()));
         } else {
             forfeitButton.setDisable(false);
             getBoardPane().enableAllFields();
@@ -73,33 +73,43 @@ public abstract class GameController extends Controller implements Initializable
         super.gameMove(map);
 
         int cell = Integer.parseInt(map.get("MOVE"));
-        int[] cords = Move.cellToCords(cell, getModel().getBoardSize());
+        int[] cords = Move.cellToCords(cell, model.getBoardSize());
 
         System.out.println(Arrays.toString(cords) + "----------------------------");
-        move(new Move(getModel().getPlayerByName(map.get("PLAYER")), cords[0], cords[1]));
+        move(new Move(model.getPlayerByName(map.get("PLAYER")), cords[0], cords[1]));
     }
 
     public void gameWin(Map<String, String> map) {
-        getModel().endGame();
+        model.endGame();
     }
 
     public void gameLoss(Map<String, String> map) {
-        getModel().endGame();
+        model.endGame();
     }
 
     public void gameDraw(Map<String, String> map) {
-        getModel().endGame();
+        model.endGame();
+    }
+    
+    public GameModel getModel() {
+        return model;
+    }
+
+    /**
+     * @author Pieter Beens
+     */
+    public void forfeit(ActionEvent e) {
+        model.forfeitGame(model.getActivePlayer());
+        if (Main.serverConnection.hasConnection()) {
+            Main.serverConnection.forfeit();
+        }
     }
 
     public abstract void updateViews();
 
     public abstract void move(Move move);
 
-    public abstract GameModel getModel();
-
     public abstract BoardPane getBoardPane();
 
     public abstract void acceptNewMoves();
-
-    public abstract void forfeit(ActionEvent e);
 }
