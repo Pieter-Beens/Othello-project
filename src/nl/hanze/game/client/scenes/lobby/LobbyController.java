@@ -14,6 +14,7 @@ import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameController;
+import nl.hanze.game.client.scenes.games.GameLoader;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.utils.PlayerRow;
 import nl.hanze.game.client.scenes.utils.Popup;
@@ -259,7 +260,7 @@ public class LobbyController extends Controller implements Initializable {
         Platform.runLater(() -> {
             try {
                 PlayerType playerType = playAs.equals("AI") ? PlayerType.AI : PlayerType.LOCAL;
-                GameController.startOnline(map, fullscreen, playerType);
+                GameLoader.startOnline(map, fullscreen, playerType);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -284,7 +285,7 @@ public class LobbyController extends Controller implements Initializable {
         Platform.runLater(() -> {
             try {
                 PlayerType playerType = playAs.equals("AI") ? PlayerType.AI : PlayerType.LOCAL;
-                GameController controller = GameController.startOnline(gameMatchBuffer, fullscreen, playerType);
+                GameController controller = GameLoader.startOnline(gameMatchBuffer, fullscreen, playerType);
                 controller.gameYourTurn(map);
             } catch (IOException e) {
                 e.printStackTrace();
