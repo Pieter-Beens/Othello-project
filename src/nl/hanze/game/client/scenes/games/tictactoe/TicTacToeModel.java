@@ -108,11 +108,6 @@ public class TicTacToeModel extends GameModel {
         return currentState;
     }
 
-    public void endGameIfFinished() {
-        if(hasGameEnded())
-            endGame();
-    }
-
     public void endGame() {
         String msg;
         if (currentState == State.O_WINS) {

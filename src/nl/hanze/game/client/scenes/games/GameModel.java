@@ -88,6 +88,11 @@ public abstract class GameModel {
         return board;
     }
 
+    public void endGameIfFinished() {
+        if(hasGameEnded())
+            endGame();
+    }
+
     public void endGame() {
         System.out.println("Neither player was able to move, so the game has ended!");
         gameHasEnded = true;
