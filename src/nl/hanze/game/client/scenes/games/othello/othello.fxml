@@ -5,7 +5,6 @@
 <VBox alignment="TOP_CENTER" prefHeight="428.0" prefWidth="435.0" spacing="10"
       xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="nl.hanze.game.client.scenes.games.othello.OthelloController">
-    <Label text="Othello"/>
 
     <HBox alignment="CENTER" spacing="30" fx:id="boardContainer" />
 

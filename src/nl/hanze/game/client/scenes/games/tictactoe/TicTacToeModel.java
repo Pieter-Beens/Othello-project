@@ -3,6 +3,7 @@ package nl.hanze.game.client.scenes.games.tictactoe;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.scenes.games.Field;
 import nl.hanze.game.client.scenes.games.GameModel;
+import nl.hanze.game.client.scenes.utils.Popup;
 
 /**
  * @author Roy Voetman
@@ -39,7 +40,7 @@ public class TicTacToeModel extends GameModel {
         currentState = state();
 
         if(currentState != State.IN_PROGRESS) {
-            System.out.println(state());
+            endGame(state());
             return;
         }
 
@@ -110,6 +111,19 @@ public class TicTacToeModel extends GameModel {
 
     public State getCurrentState() {
         return currentState;
+    }
+
+    public void endGame(State state) {
+        String msg;
+        if (state == State.O_WINS) {
+            msg = players[0].getName() + " has won!";
+        } else if (state == State.X_WINS) {
+            msg = players[1].getName() + " has won!";
+        } else {
+            msg = players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
+        }
+        System.out.println(msg);
+        Popup.display(msg, "GAME END", 300, 200);
     }
 
     public enum State {

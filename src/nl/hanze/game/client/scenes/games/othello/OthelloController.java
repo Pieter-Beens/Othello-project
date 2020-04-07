@@ -62,6 +62,7 @@ public class OthelloController extends GameController implements Initializable {
         boardPane.markValidFields();
     }
 
+    //TODO: refactor to use GameController.updateViews() after Game Views have been made generic
     @Override
     public void updateViews() {
         boardPane.update();
@@ -94,7 +95,7 @@ public class OthelloController extends GameController implements Initializable {
         }
         else if (model.getActivePlayer().getPlayerType() == PlayerType.LOCAL && !model.gameHasEnded) {
             forfeitButton.setDisable(false);
-            boardPane.markValidFields(); // makes FieldButtons representing valid moves clickable
+            boardPane.markValidFields();
         }
     }
 
