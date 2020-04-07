@@ -65,7 +65,7 @@ public abstract class GameController extends Controller implements Initializable
                 Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), model.getBoardSize()));
         } else {
             forfeitButton.setDisable(false);
-            getBoardPane().enableAllFields();
+            getBoardPane().enableValidFields();
         }
     }
 
