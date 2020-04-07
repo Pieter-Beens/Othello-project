@@ -6,6 +6,10 @@ import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * @author Bart van Poele
+ */
+
 public class ServerConnection {
     private BlockingQueue<String> commandQueue;
     private Socket socket;

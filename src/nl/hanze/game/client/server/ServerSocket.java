@@ -11,6 +11,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * @author Bart van Poele
+ */
+
 public class ServerSocket implements Runnable, Observable {
     private final List<Observer> observers;
     private BlockingQueue<String> commandQueue;
