@@ -1,8 +1,8 @@
 package nl.hanze.game.client.scenes.games.othello;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -22,10 +22,7 @@ import java.util.ResourceBundle;
  * @author Pieter Beens
  */
 
-public class OthelloController extends GameController implements Initializable {
-    @FXML
-    public HBox boardContainer;
-
+public class OthelloController extends GameController {
     @FXML
     public HBox info;
 
@@ -37,6 +34,8 @@ public class OthelloController extends GameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+
         boardPane = new OthelloBoard(model, this);
         infoBox = new InfoBox(model);
 
@@ -102,7 +101,7 @@ public class OthelloController extends GameController implements Initializable {
      * @author Pieter Beens
      */
     //TODO: refactor to use GameController.forfeit()
-    public void forfeit() {
+    public void forfeit(ActionEvent e) {
         model.forfeitGame(model.getActivePlayer());
         if (Main.serverConnection.hasConnection()) {
             Main.serverConnection.forfeit();

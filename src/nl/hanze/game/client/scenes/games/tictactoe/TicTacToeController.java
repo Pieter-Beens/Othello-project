@@ -1,8 +1,8 @@
 package nl.hanze.game.client.scenes.games.tictactoe;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
@@ -18,10 +18,7 @@ import java.util.ResourceBundle;
 /**
  * @author Roy Voetman
  */
-public class TicTacToeController extends GameController implements Initializable {
-    @FXML
-    public HBox boardContainer;
-
+public class TicTacToeController extends GameController {
     @FXML
     public HBox info;
 
@@ -31,6 +28,7 @@ public class TicTacToeController extends GameController implements Initializable
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
         boardPane = new TicTacToeBoard(model, this);
 
         boardContainer.getChildren().add(boardPane);
@@ -98,7 +96,7 @@ public class TicTacToeController extends GameController implements Initializable
      * @author Pieter Beens
      */
     //TODO: refactor to use GameController.forfeit()
-    public void forfeit() {
+    public void forfeit(ActionEvent e) {
         model.forfeitGame(model.getActivePlayer());
         if (Main.serverConnection.hasConnection()) {
             Main.serverConnection.forfeit();

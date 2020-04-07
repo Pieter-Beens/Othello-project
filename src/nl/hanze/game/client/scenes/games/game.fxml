@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox alignment="TOP_CENTER" prefHeight="428.0" prefWidth="435.0" spacing="10"
+      xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+
+    <HBox alignment="CENTER" spacing="30" fx:id="boardContainer" />
+
+    <HBox alignment="TOP_CENTER" spacing="30" fx:id="info" />
+    <HBox alignment="TOP_CENTER" spacing="30">
+        <Button fx:id="forfeitButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="FORFEIT" textAlignment="CENTER" />
+    </HBox>
+</VBox>
