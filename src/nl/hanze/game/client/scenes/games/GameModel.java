@@ -107,4 +107,8 @@ public abstract class GameModel {
         String msg = losingPlayer.getName() + " has forfeited.";
         Popup.display(msg, "GAME END", 300, 200);
     }
+
+    public boolean hasGameEnded() {
+        return gameHasEnded;
+    }
 }

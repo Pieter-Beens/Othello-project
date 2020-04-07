@@ -109,9 +109,8 @@ public class TicTacToeModel extends GameModel {
     }
 
     public void endGameIfFinished() {
-        if(currentState != TicTacToeModel.State.IN_PROGRESS) {
+        if(hasGameEnded())
             endGame();
-        }
     }
 
     public void endGame() {
@@ -125,6 +124,11 @@ public class TicTacToeModel extends GameModel {
         }
 
         Popup.display(msg, "GAME END", 300, 200);
+    }
+
+    @Override
+    public boolean hasGameEnded() {
+        return currentState != TicTacToeModel.State.IN_PROGRESS;
     }
 
     public enum State {

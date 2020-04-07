@@ -3,7 +3,6 @@ package nl.hanze.game.client.scenes.games.utils;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
@@ -56,6 +55,8 @@ public abstract class BoardPane extends GridPane {
             button.setDisable(disable);
         }
     }
+
+    public abstract void enableValidFields();
 
     public abstract GameController getController();
 }

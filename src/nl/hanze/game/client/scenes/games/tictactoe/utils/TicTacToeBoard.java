@@ -30,5 +30,9 @@ public class TicTacToeBoard extends BoardPane {
         disableAllFields();
     }
 
+    public void enableValidFields() {
+        enableAllFields();
+    }
+
     public TicTacToeController getController() { return (TicTacToeController) controller; }
 }

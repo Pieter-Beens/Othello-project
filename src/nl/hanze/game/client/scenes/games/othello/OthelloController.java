@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import nl.hanze.game.client.players.AI.utils.Move;
-import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.othello.utils.InfoBox;
 import nl.hanze.game.client.scenes.games.othello.utils.OthelloBoard;
@@ -47,7 +46,7 @@ public class OthelloController extends GameController {
         model.setup();
         model.updateFieldValidity();
         updateViews();
-        boardPane.markValidFields();
+        boardPane.enableValidFields();
     }
 
     //TODO: refactor to use GameController.updateViews() after Game Views have been made generic
@@ -66,26 +65,6 @@ public class OthelloController extends GameController {
             forfeitButton.setDisable(true);
             model.recordMove(move); // includes nextTurn() call
             Platform.runLater(this::updateViews);
-        }
-    }
-
-    /**
-     * @author Pieter Beens
-     */
-    //TODO: refactor to use GameController.acceptNewMoves()
-    public void acceptNewMoves() {
-        // check if the next turn belongs to an AIPlayer and if so, request a move
-        if (model.getActivePlayer().getPlayerType() == PlayerType.AI && !model.gameHasEnded) {
-            //move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
-
-            new Thread(() -> {
-                move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
-                Platform.runLater(this::acceptNewMoves);
-            }).start();
-        }
-        else if (model.getActivePlayer().getPlayerType() == PlayerType.LOCAL && !model.gameHasEnded) {
-            forfeitButton.setDisable(false);
-            boardPane.markValidFields();
         }
     }
 

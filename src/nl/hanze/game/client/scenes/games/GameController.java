@@ -1,5 +1,6 @@
 package nl.hanze.game.client.scenes.games;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -105,11 +106,31 @@ public abstract class GameController extends Controller implements Initializable
         }
     }
 
+    /**
+     * @author Pieter Beens
+     */
+    public void acceptNewMoves() {
+        // check if the next turn belongs to an AIPlayer and if so, request a move
+        if (model.getActivePlayer().getPlayerType() == PlayerType.AI && !model.hasGameEnded()) {
+            //move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
+
+            new Thread(() -> {
+                Move move = model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer());
+                Platform.runLater(() -> {
+                    move(move);
+                    acceptNewMoves();
+                });
+            }).start();
+        }
+        else if (model.getActivePlayer().getPlayerType() == PlayerType.LOCAL && !model.hasGameEnded()) {
+            forfeitButton.setDisable(false);
+            getBoardPane().enableValidFields();
+        }
+    }
+
     public abstract void updateViews();
 
     public abstract void move(Move move);
 
     public abstract BoardPane getBoardPane();
-
-    public abstract void acceptNewMoves();
 }

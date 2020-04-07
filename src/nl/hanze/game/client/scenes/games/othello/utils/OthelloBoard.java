@@ -23,7 +23,7 @@ public class OthelloBoard extends BoardPane {
         this.validMoveDot = new Image("File:src/resources/validMoveDot.png");
     }
 
-    public void markValidFields() {
+    public void enableValidFields() {
         int i = 0;
         for (Field[] row : model.getBoard()) {
             for (Field field : row) {
