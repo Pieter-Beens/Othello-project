@@ -19,10 +19,10 @@ public class OthelloModel extends GameModel {
     @Override
     public void setup() {
         // sets up the opening state of the game with two stones of each color in the middle of the board
-        getField(getBoardSize()/2, getBoardSize()/2).setOwner(getPlayer(1));
-        getField(getBoardSize()/2 - 1, getBoardSize()/2 - 1).setOwner(getPlayer(1));
-        getField(getBoardSize()/2 - 1, getBoardSize()/2).setOwner(getPlayer(0));
-        getField(getBoardSize()/2, getBoardSize()/2 - 1).setOwner(getPlayer(0));
+        getField(getBoardSize()/2, getBoardSize()/2).setOwner(getPlayer(0));
+        getField(getBoardSize()/2 - 1, getBoardSize()/2 - 1).setOwner(getPlayer(0));
+        getField(getBoardSize()/2 - 1, getBoardSize()/2).setOwner(getPlayer(1));
+        getField(getBoardSize()/2, getBoardSize()/2 - 1).setOwner(getPlayer(1));
 
         players[0].changeScore(2);
         players[1].changeScore(2);
