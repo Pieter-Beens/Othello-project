@@ -18,8 +18,8 @@ public class OthelloBoard extends BoardPane {
     Image validMoveDot;
 
     public OthelloBoard(GameModel model, OthelloController controller) {
-        super(model, controller, String.valueOf(Color.TRANSPARENT));
-
+        super(model, controller);
+        super.setPrefSize(680,680);
         this.validMoveDot = new Image("File:src/resources/validMoveDot.png");
     }
 
@@ -29,7 +29,7 @@ public class OthelloBoard extends BoardPane {
             for (Field field : row) {
                 if (field.getOwner() == null) {
                     if (field.getValidity()) {
-                        FieldButton button = (FieldButton) getChildren().get(i);
+                        FieldButton button = (FieldButton) super.getChildren().get(i);
                         button.setGraphic(new ImageView(validMoveDot));
                     } else {
                         FieldButton button = (FieldButton) getChildren().get(i);
@@ -43,17 +43,17 @@ public class OthelloBoard extends BoardPane {
 
     public void update() {
         // update FieldButton colors (or images??)
-        for (Node fieldNode : this.getChildren()) {
-            FieldButton fieldButton = (FieldButton) fieldNode;
-            try {
-//                String[] fieldColors = model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner().getColors();
-//                fieldButton.setStyle("-fx-background-color: " + fieldColors[0] + "; -fx-text-fill: " + fieldColors[1]);
+        for (FieldButton[] row : fieldButtons) for(Node fieldNode : row){
+                FieldButton fieldButton = (FieldButton) fieldNode;
+                try {
+                    //String[] fieldColors = model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner().getColors();
+                    //fieldButton.setStyle("-fx-background-color: " + fieldColors[0] + "; -fx-text-fill: " + fieldColors[1]);
 
-                ImageView iv = new ImageView(model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner().getReversiImage());
-                //iv.setFitHeight(fieldSize);
-                //iv.setFitWidth(fieldSize);
-                fieldButton.setGraphic(iv);
-            } catch (NullPointerException ignore) {}
+                    ImageView iv = new ImageView(model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner().getReversiImage());
+                    //iv.setFitHeight(fieldSize);
+                    //iv.setFitWidth(fieldSize);
+                    fieldButton.setGraphic(iv);
+                } catch (NullPointerException ignore) {}
         }
 
         disableAllFields();

@@ -10,19 +10,30 @@ import nl.hanze.game.client.scenes.games.GameModel;
 public abstract class BoardPane extends GridPane {
     protected GameModel model;
     protected GameController controller;
+    protected FieldButton[][] fieldButtons;
 
-    protected BoardPane(GameModel model, GameController controller, String color) {
+    protected BoardPane(GameModel model, GameController controller) {
         this.model = model;
         this.controller = controller;
 
-        for (int r = 0; r < model.getBoardSize(); r++) {
-            for (int c = 0; c < model.getBoardSize(); c++) {
-                this.add(new FieldButton(r, c, color), c, r);
+        int boardSize = model.getBoardSize();
+        int fieldSize = 680/boardSize;
+        fieldButtons = new FieldButton[boardSize][boardSize];
+
+        for (int r = 0; r < boardSize; r++) {
+            for (int c = 0; c < boardSize; c++) {
+                FieldButton newField = new FieldButton(r, c);
+                newField.setPrefSize(fieldSize,fieldSize);
+                fieldButtons[r][c] = newField;
+                this.add(newField, c, r);
             }
         }
 
         scale();
-        setPadding(new Insets(5, 5, 5, 5));
+        //setPadding(new Insets(5, 5, 5, 5));
+        setVgap(0);
+        setHgap(0);
+        setGridLinesVisible(true);
     }
 
     // called by listener when resizing
@@ -50,7 +61,7 @@ public abstract class BoardPane extends GridPane {
     }
 
     private void setDisablePropertyOnAllFields(boolean disable) {
-        for (Node node : getChildren()) {
+        for (FieldButton[] row : fieldButtons) for(Node node : row){
             FieldButton button = (FieldButton) node;
             button.setDisable(disable);
         }

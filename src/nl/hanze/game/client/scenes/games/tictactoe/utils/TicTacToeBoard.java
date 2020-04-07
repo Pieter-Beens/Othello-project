@@ -10,14 +10,13 @@ import nl.hanze.game.client.scenes.utils.Colors;
 
 public class TicTacToeBoard extends BoardPane {
     public TicTacToeBoard(GameModel model, TicTacToeController controller) {
-        super(model, controller, Colors.BG_COLOR);
-
+        super(model, controller);
         disableAllFields();
     }
 
     public void update() {
         // Update color/ sign of fields
-        for (Node fieldNode : this.getChildren()) {
+        for (FieldButton[] row : fieldButtons) for(Node fieldNode : row){
             FieldButton fieldButton = (FieldButton) fieldNode;
             try {
                 Player fieldOwner  = model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner();

@@ -19,6 +19,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Bart van Poele
+ */
+
 public class OfflineMenuController extends Controller implements Initializable {
     @FXML private VBox container;
     @FXML public HBox players;

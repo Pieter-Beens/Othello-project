@@ -7,13 +7,13 @@ FieldButton {
     -fx-border-color: brown;
 }
 
-OthelloBoard {
+#boardGridPane {
     -fx-background-image: url('/resources/boardImage.png');
     -fx-background-insets: none;
     -fx-background-size: cover;
-    -fx-background-color: rgba(0,0,0,0);
+    /*-fx-background-color: rgba(0,0,0,0);*/
 
 }
-/*
-
-*/
+#rootPane {
+    -fx-background-color: darkgreen;
+}

@@ -10,11 +10,9 @@ public class FieldButton extends Button {
     private final int rowID;
     private final int columnID;
 
-    public FieldButton(int rowID, int columnID, String color) {
+    public FieldButton(int rowID, int columnID) {
         this.rowID = rowID;
         this.columnID = columnID;
-
-        setStyle("-fx-background-color: " + color);
 
         setOnMouseClicked(e -> {
             BoardPane board = (BoardPane) getParent();
@@ -28,9 +26,6 @@ public class FieldButton extends Button {
         });
     }
 
-    public FieldButton(int rowID, int columnID) {
-        this(rowID, columnID, String.valueOf(Color.TRANSPARENT));
-    }
 
     public int getRowID() {
         return rowID;
