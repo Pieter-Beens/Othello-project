@@ -3,6 +3,7 @@ package nl.hanze.game.client.scenes.games.othello.utils;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import nl.hanze.game.client.scenes.games.othello.OthelloController;
 import nl.hanze.game.client.scenes.games.othello.OthelloModel;
 import nl.hanze.game.client.scenes.games.utils.BoardPane;
@@ -17,12 +18,8 @@ public class OthelloBoard extends BoardPane {
     Image validMoveDot;
 
     public OthelloBoard(OthelloModel model, OthelloController controller) {
-        super(model, controller, "transparent");
-
+        super(model, controller, String.valueOf(Color.TRANSPARENT));
         this.validMoveDot = new Image("File:src/resources/validMoveDot.png");
-
-        setStyle("-fx-background-image: url('/resources/logo.png')"); //TODO: put a full board image as background
-        setStyle("-fx-background-color: " + "#FFFFFF");
     }
 
     public void markValidFields() {
