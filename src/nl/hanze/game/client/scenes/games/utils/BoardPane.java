@@ -17,7 +17,7 @@ public abstract class BoardPane extends GridPane {
 
         for (int r = 0; r < model.getBoardSize(); r++) {
             for (int c = 0; c < model.getBoardSize(); c++) {
-                this.add(new FieldButton(r, c, color), r, c);
+                this.add(new FieldButton(r, c, color), c, r);
             }
         }
 
