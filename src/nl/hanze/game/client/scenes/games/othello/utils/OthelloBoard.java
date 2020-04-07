@@ -21,7 +21,7 @@ public class OthelloBoard extends BoardPane {
 
         this.validMoveDot = new Image("File:src/resources/validMoveDot.png");
 
-        setStyle("-fx-background-image: url('src/resources/logo.png')"); //TODO: put a full board image as background
+        setStyle("-fx-background-image: url('/resources/logo.png')"); //TODO: put a full board image as background
         setStyle("-fx-background-color: " + "#FFFFFF");
     }
 
