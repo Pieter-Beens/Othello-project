@@ -92,6 +92,15 @@ public abstract class Controller implements Observer {
             case "GAME MOVE":
                 Platform.runLater(() -> gameMove(resp.getMap()));
                 break;
+            case "GAME WIN":
+                Platform.runLater(() -> gameWin(resp.getMap()));
+                break;
+            case "GAME LOSS":
+                Platform.runLater(() -> gameLoss(resp.getMap()));
+                break;
+            case "GAME DRAW":
+                Platform.runLater(() -> gameDraw(resp.getMap()));
+                break;
         }
 
         System.err.println(response);
@@ -105,9 +114,13 @@ public abstract class Controller implements Observer {
 
     public void gameMatch(Map<String, String> map) { }
 
-    public void gameYourTurn(Map<String, String> map) {
-        System.out.println("YOUR TURN");
-    }
+    public void gameYourTurn(Map<String, String> map) { }
 
     public void gameMove(Map<String, String> map) { }
+
+    public void gameWin(Map<String, String> map) { }
+
+    public void gameLoss(Map<String, String> map) { }
+
+    public void gameDraw(Map<String, String> map) { }
 }

@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class Interpreter {
     public static final String[] LIST_COMMANDS = {"GAMELIST", "PLAYERLIST"};
-    public static final String[] MAP_COMMANDS = {"GAME CHALLENGE", "GAME MATCH", "GAME YOURTURN", "GAME CHALLENGE CANCELLED", "GAME MOVE"};
+    public static final String[] MAP_COMMANDS = {"GAME CHALLENGE", "GAME MATCH", "GAME YOURTURN", "GAME CHALLENGE CANCELLED", "GAME MOVE", "GAME WIN", "GAME LOSS", "GAME DRAW"};
 
     public static ServerResponse parse(String response) {
         for (String command : LIST_COMMANDS) {

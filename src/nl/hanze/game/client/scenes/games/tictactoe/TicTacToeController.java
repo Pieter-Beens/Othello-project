@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
+import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
@@ -61,12 +62,6 @@ public class TicTacToeController extends GameController implements Initializable
             if (!Main.serverConnection.hasConnection()) {
                 model.endGameIfFinished();
             }
-            //TODO: updateViews should be Platform.runLater(this::updateViews) because move() is called from non-JavaFX User threads
-            //not using runLater here causes the result Popup to malfunction
-            //(also because the view is not updated before the Popup, the last move is never seen)
-            //currently however, using runLater breaks the game completely and I don't know why
-            //vs AI, the AI somehow completes the game (and manages to lose to itself?)
-            //in multiplayer, the buttons are never enabled to allow player2 to make a move
         }
     }
 
@@ -115,6 +110,30 @@ public class TicTacToeController extends GameController implements Initializable
 
         System.out.println(Arrays.toString(cords) + "----------------------------");
         move(new Move(model.getPlayerByName(map.get("PLAYER")), cords[0], cords[1]));
+    }
+
+    public void gameWin(Map<String, String> map) {
+        Player player = model.getPlayerByName(GameModel.serverName);
+
+        if (player.getSign().equals("O")) {
+            model.endGame(TicTacToeModel.State.O_WINS);
+        } else {
+            model.endGame(TicTacToeModel.State.X_WINS);
+        }
+    }
+
+    public void gameLoss(Map<String, String> map) {
+        Player player = model.getPlayerByName(GameModel.serverName);
+
+        if (player.getSign().equals("O")) {
+            model.endGame(TicTacToeModel.State.X_WINS);
+        } else {
+            model.endGame(TicTacToeModel.State.O_WINS);
+        }
+    }
+
+    public void gameDraw(Map<String, String> map) {
+        model.endGame(TicTacToeModel.State.DRAW);
     }
 
     @Override
