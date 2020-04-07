@@ -5,7 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
@@ -23,11 +26,12 @@ import java.util.ResourceBundle;
  * @author Roy Voetman
  */
 public abstract class GameController extends Controller implements Initializable {
-    @FXML
-    public Button forfeitButton;
 
-    @FXML
-    public HBox boardContainer;
+    //@FXML public HBox boardContainer;
+    @FXML public Pane gameBoardPane;
+    @FXML public BoardPane boardPane;
+    @FXML public GridPane infoPanel;
+    @FXML public Button forfeitButton;
 
     protected GameModel model;
 

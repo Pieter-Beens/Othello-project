@@ -3,15 +3,13 @@ package nl.hanze.game.client.scenes.games.othello.utils;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.games.GameModel;
-import nl.hanze.game.client.scenes.games.othello.OthelloModel;
-import nl.hanze.game.client.scenes.utils.Colors;
 
-public class InfoBox extends HBox {
+public class InfoBox extends VBox {
     private final GameModel model;
     private final Label turnLabel;
     private final Label player1ScoreBar;

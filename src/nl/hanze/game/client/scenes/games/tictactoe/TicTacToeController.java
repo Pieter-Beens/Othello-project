@@ -1,8 +1,5 @@
 package nl.hanze.game.client.scenes.games.tictactoe;
 
-import javafx.fxml.FXML;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.scenes.games.GameController;
@@ -16,10 +13,6 @@ import java.util.ResourceBundle;
  * @author Roy Voetman
  */
 public class TicTacToeController extends GameController {
-    @FXML public HBox info;
-    @FXML Pane gameBoardPane;
-
-    private TicTacToeBoard boardPane;
 
     public TicTacToeController(TicTacToeModel model) {
         super(model);
@@ -29,7 +22,6 @@ public class TicTacToeController extends GameController {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
         boardPane = new TicTacToeBoard(model, this);
-
         gameBoardPane.getChildren().add(boardPane);
     }
 
@@ -60,7 +52,7 @@ public class TicTacToeController extends GameController {
 
     @Override
     public void updateViews() {
-        boardPane.update();
+        ((TicTacToeBoard)boardPane).update();
     }
 
     @Override

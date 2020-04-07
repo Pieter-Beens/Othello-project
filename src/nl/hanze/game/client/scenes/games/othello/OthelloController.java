@@ -1,9 +1,5 @@
 package nl.hanze.game.client.scenes.games.othello;
 
-import javafx.fxml.FXML;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.scenes.games.GameController;
@@ -19,12 +15,7 @@ import java.util.ResourceBundle;
  */
 
 public class OthelloController extends GameController {
-
-    @FXML private OthelloBoard othelloBoard;
-    @FXML private Pane gameBoardPane;
-    //@FXML private InfoBox infoBox;
-    //@FXML public HBox info;
-
+    InfoBox infoBox;
     public OthelloController(OthelloModel model) {
         super(model);
     }
@@ -32,11 +23,10 @@ public class OthelloController extends GameController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-
-        othelloBoard = new OthelloBoard(model, this);
-        gameBoardPane.getChildren().add(othelloBoard);
-        //infoBox = new InfoBox(model);
-        //info.getChildren().add(infoBox);
+        boardPane = new OthelloBoard(model, this);
+        gameBoardPane.getChildren().add(boardPane);
+        infoBox = new InfoBox(model);
+        infoPanel.getChildren().add(infoBox);
     }
 
     @Override
@@ -54,8 +44,8 @@ public class OthelloController extends GameController {
     //TODO: refactor to use GameController.updateViews() after Game Views have been made generic
     @Override
     public void updateViews() {
-        othelloBoard.update();
-        //infoBox.update();
+        ((OthelloBoard)boardPane).update();
+        infoBox.update();
     }
 
     //TODO: refactor to use GameController.move()
@@ -72,6 +62,6 @@ public class OthelloController extends GameController {
 
     @Override
     public BoardPane getBoardPane() {
-        return othelloBoard;
+        return boardPane;
     }
 }
