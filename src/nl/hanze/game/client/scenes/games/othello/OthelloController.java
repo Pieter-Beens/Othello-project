@@ -1,8 +1,8 @@
 package nl.hanze.game.client.scenes.games.othello;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
+import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.othello.utils.InfoBox;
@@ -46,7 +46,9 @@ public class OthelloController extends GameController {
         model.setup();
         model.updateFieldValidity();
         updateViews();
-        boardPane.enableValidFields();
+
+        if (!Main.serverConnection.hasConnection())
+            acceptNewMoves();
     }
 
     //TODO: refactor to use GameController.updateViews() after Game Views have been made generic
@@ -64,7 +66,7 @@ public class OthelloController extends GameController {
         if (model.isValidMove(move)) {
             forfeitButton.setDisable(true);
             model.recordMove(move); // includes nextTurn() call
-            Platform.runLater(this::updateViews);
+            updateViews();
         }
     }
 

@@ -56,7 +56,23 @@ public class OthelloBoard extends BoardPane {
             } catch (NullPointerException ignore) {}
         }
 
+        disableAllFields();
+
         //TODO: mark and unmark recent moves (update Fields field in model.placeStone())
+    }
+
+    @Override
+    public void disableAllFields() {
+        int i = 0;
+        for (Field[] row : model.getBoard()) {
+            for (Field field : row) {
+                if (field.getOwner() == null) {
+                    FieldButton button = (FieldButton) getChildren().get(i);
+                    button.setGraphic(null);
+                }
+                i++;
+            }
+        }
     }
 
     public OthelloController getController() { return (OthelloController) controller; }
