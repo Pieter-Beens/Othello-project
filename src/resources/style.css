@@ -2,3 +2,18 @@ SelectButton {
     -fx-focus-color: #b5b5b5;
     -fx-faint-focus-color: transparent;
 }
+FieldButton {
+    -fx-background-color: transparent;
+    -fx-border-color: brown;
+}
+
+OthelloBoard {
+    -fx-background-image: url('/resources/boardImage.png');
+    -fx-background-insets: none;
+    -fx-background-size: cover;
+    -fx-background-color: rgba(0,0,0,0);
+
+}
+/*
+
+*/

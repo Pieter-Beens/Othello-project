@@ -3,6 +3,7 @@ package nl.hanze.game.client.scenes.games.utils;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;

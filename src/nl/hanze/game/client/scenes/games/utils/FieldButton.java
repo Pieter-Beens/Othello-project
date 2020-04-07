@@ -1,6 +1,7 @@
 package nl.hanze.game.client.scenes.games.utils;
 
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 
@@ -28,7 +29,7 @@ public class FieldButton extends Button {
     }
 
     public FieldButton(int rowID, int columnID) {
-        this(rowID, columnID, "transparent");
+        this(rowID, columnID, String.valueOf(Color.TRANSPARENT));
     }
 
     public int getRowID() {

@@ -41,9 +41,6 @@ public class OthelloController extends GameController {
         boardPane = new OthelloBoard(model, this);
         infoBox = new InfoBox(model);
 
-        Image boardImage = new Image("File:src/resources/boardImage.png");
-        boardContainer.setBackground(new Background(new BackgroundImage(boardImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-        boardPane.setStyle("-fx-background-color: " + Color.TRANSPARENT);
         boardContainer.getChildren().add(boardPane);
         info.getChildren().add(infoBox);
     }
