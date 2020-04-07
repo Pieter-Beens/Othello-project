@@ -24,7 +24,9 @@ public class TicTacToeController extends GameController {
 
     private TicTacToeBoard boardPane;
 
-    private TicTacToeModel model = new TicTacToeModel(3);
+    public TicTacToeController(TicTacToeModel model) {
+        super(model);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -46,6 +48,8 @@ public class TicTacToeController extends GameController {
     //TODO: refactor to use GameController.move()
     @Override
     public void move(Move move) {
+        TicTacToeModel model = (TicTacToeModel) this.model;
+
         if (model.isValidMove(move)) {
             forfeitButton.setDisable(true);
             model.recordMove(move);
@@ -59,6 +63,8 @@ public class TicTacToeController extends GameController {
 
     //TODO: refactor to use GameController.acceptNewMoves()
     public void acceptNewMoves() {
+        TicTacToeModel model = (TicTacToeModel) this.model;
+
         // check if the next turn belongs to an AIPlayer and if so, request a move
         if (model.getActivePlayer().getPlayerType() == PlayerType.AI && model.getCurrentState() == TicTacToeModel.State.IN_PROGRESS) {
             //move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));

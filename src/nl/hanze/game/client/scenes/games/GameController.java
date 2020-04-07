@@ -28,6 +28,12 @@ public abstract class GameController extends Controller implements Initializable
     @FXML
     public HBox boardContainer;
 
+    protected GameModel model;
+
+    protected GameController(GameModel model) {
+        this.model = model;
+    }
+
     public Player getActivePlayer() {
         return getModel().getActivePlayer();
     }

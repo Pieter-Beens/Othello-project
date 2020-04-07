@@ -3,8 +3,8 @@ package nl.hanze.game.client.scenes.games.othello.utils;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.othello.OthelloController;
-import nl.hanze.game.client.scenes.games.othello.OthelloModel;
 import nl.hanze.game.client.scenes.games.utils.BoardPane;
 import nl.hanze.game.client.scenes.games.utils.Field;
 import nl.hanze.game.client.scenes.games.utils.FieldButton;
@@ -16,7 +16,7 @@ import nl.hanze.game.client.scenes.games.utils.FieldButton;
 public class OthelloBoard extends BoardPane {
     Image validMoveDot;
 
-    public OthelloBoard(OthelloModel model, OthelloController controller) {
+    public OthelloBoard(GameModel model, OthelloController controller) {
         super(model, controller, "transparent");
 
         this.validMoveDot = new Image("File:src/resources/validMoveDot.png");

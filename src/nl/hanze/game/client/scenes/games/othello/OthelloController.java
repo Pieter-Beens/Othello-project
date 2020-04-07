@@ -30,7 +30,9 @@ public class OthelloController extends GameController {
 
     private InfoBox infoBox;
 
-    private OthelloModel model = new OthelloModel(8); //TODO: boardSize should not vary for OthelloModel
+    public OthelloController(OthelloModel model) {
+        super(model);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -48,6 +50,8 @@ public class OthelloController extends GameController {
 
     @Override
     public void setup() {
+        OthelloModel model = (OthelloModel) this.model;
+
         model.setup();
         model.updateFieldValidity();
         updateViews();
@@ -64,6 +68,8 @@ public class OthelloController extends GameController {
     //TODO: refactor to use GameController.move()
     @Override
     public void move(Move move) {
+        OthelloModel model = (OthelloModel) this.model;
+
         if (model.isValidMove(move)) {
             forfeitButton.setDisable(true);
             model.recordMove(move); // includes nextTurn() call

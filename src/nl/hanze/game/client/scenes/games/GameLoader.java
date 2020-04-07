@@ -10,7 +10,9 @@ import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.othello.OthelloController;
+import nl.hanze.game.client.scenes.games.othello.OthelloModel;
 import nl.hanze.game.client.scenes.games.tictactoe.TicTacToeController;
+import nl.hanze.game.client.scenes.games.tictactoe.TicTacToeModel;
 
 import java.io.IOException;
 import java.util.Map;
@@ -75,11 +77,15 @@ public class GameLoader {
 
         switch (game) {
             case "tictactoe":
-                loader.setController(new TicTacToeController());
+                loader.setController(new TicTacToeController(
+                        new TicTacToeModel(3)
+                ));
                 break;
             case "reversi":
             case "othello":
-                loader.setController(new OthelloController());
+                loader.setController(new OthelloController(
+                        new OthelloModel(8)
+                ));
                 break;
         }
 
