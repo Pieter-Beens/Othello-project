@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.AIStrategy;
 import nl.hanze.game.client.players.AI.OthelloAIEasy;
+import nl.hanze.game.client.players.AI.OthelloAIHard;
 import nl.hanze.game.client.players.AI.TicTacToeAI;
 import nl.hanze.game.client.players.AIPlayer;
 import nl.hanze.game.client.players.Player;
