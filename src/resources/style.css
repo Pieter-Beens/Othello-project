@@ -26,3 +26,7 @@ FieldButton {
     -fx-font-family: Verdana;
     /*-fx-border-color: white;*/
 }
+#gameBoardPane Line {
+    -fx-stroke   : saddlebrown;
+
+}
