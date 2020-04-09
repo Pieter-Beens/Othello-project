@@ -37,7 +37,7 @@ public class TicTacToeController extends GameController {
 
     //TODO: refactor to use GameController.move()
     @Override
-    public void move(Move move) {
+    public boolean move(Move move) {
         TicTacToeModel model = (TicTacToeModel) this.model;
 
         if (model.isValidMove(move)) {
@@ -48,7 +48,11 @@ public class TicTacToeController extends GameController {
             if (!Main.serverConnection.hasConnection()) {
                 model.endGameIfFinished();
             }
+
+            return true;
         }
+
+        return false;
     }
 
     @Override

@@ -17,7 +17,9 @@ public class FieldButton extends Button {
         setOnMouseClicked(e -> {
             BoardPane board = (BoardPane) getParent();
             Move move = new Move(board.getController().getActivePlayer(), getRowID(), getColumnID());
-            board.getController().move(move);
+            boolean wasValid = board.getController().move(move);
+
+            if(!wasValid) return;
 
             if (!Main.serverConnection.hasConnection())
                 board.getController().acceptNewMoves();

@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -54,6 +55,9 @@
             </HBox>
             <HBox fx:id="bottomFieldId" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="680.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="150.81" radius="73.4225" spread="0.08" width="144.88" />
+         </effect>
       </GridPane>
       <GridPane fx:id="infoPanel" alignment="CENTER" vgap="20.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
          <columnConstraints>
@@ -102,6 +106,9 @@
          <GridPane.margin>
             <Insets />
          </GridPane.margin>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="150.81" radius="73.4225" spread="0.08" width="144.88" />
+         </effect>
       </GridPane>
    </children>
 </GridPane>
