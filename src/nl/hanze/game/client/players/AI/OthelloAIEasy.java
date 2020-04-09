@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class OthelloAIEasy implements AIStrategy {
 
-    Random rand = new Random();
+    private Random rand = new Random();
 
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
