@@ -4,4 +4,4 @@ out/
 output/
 *.class
 .idea/workspace.xml
-Othello-project.iml
+.iml/
