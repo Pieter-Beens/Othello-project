@@ -42,8 +42,9 @@ public class GameLoader {
         GameModel model = controller.getModel();
 
         // Determine which player should begin (model.player1 always starts)
-        model.setPlayer(0, args.get("PLAYERTOMOVE").equals(GameModel.serverName) ? player1 : player2);
-        model.setPlayer(1, args.get("PLAYERTOMOVE").equals(GameModel.serverName) ? player2 : player1);
+
+        model.setPlayer(0, args.get("PLAYERTOMOVE").equals(GameModel.serverName) ? player2 : player1);
+        model.setPlayer(1, args.get("PLAYERTOMOVE").equals(GameModel.serverName) ? player1 : player2);
 
         return start(controller, fullscreen);
     }
