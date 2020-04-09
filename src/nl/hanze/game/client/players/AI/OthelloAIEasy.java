@@ -26,9 +26,11 @@ public class OthelloAIEasy implements AIStrategy {
                 if (field.getValidity()) validMoves.add(field);
             }
         }
-
-        int i = new Random().nextInt(validMoves.size());
-        Field chosenMove = validMoves.get(i);
-        return new Move(player, chosenMove.getRowID(), chosenMove.getColumnID());
+        if(validMoves.size() > 0) {
+            int i = new Random().nextInt(validMoves.size());
+            Field chosenMove = validMoves.get(i);
+            return new Move(player, chosenMove.getRowID(), chosenMove.getColumnID());
+        }
+        return null;
     }
 }
