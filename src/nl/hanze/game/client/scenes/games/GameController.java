@@ -167,7 +167,7 @@ public abstract class GameController extends Controller implements Initializable
 
     public abstract void updateViews();
 
-    public abstract void move(Move move);
+    public abstract boolean move(Move move);
 
     public abstract BoardPane getBoardPane();
 }
