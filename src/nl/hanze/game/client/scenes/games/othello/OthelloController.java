@@ -1,12 +1,17 @@
 package nl.hanze.game.client.scenes.games.othello;
 
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.scenes.games.GameController;
-import nl.hanze.game.client.scenes.games.othello.utils.InfoBox;
 import nl.hanze.game.client.scenes.games.othello.utils.OthelloBoard;
 import nl.hanze.game.client.scenes.games.utils.BoardPane;
+import nl.hanze.game.client.scenes.menu.online.OnlineMenuController;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,7 +20,9 @@ import java.util.ResourceBundle;
  */
 
 public class OthelloController extends GameController {
-    InfoBox infoBox;
+    @FXML private Label scoreLabel1;
+    @FXML private Label scoreLabel2;
+
     public OthelloController(OthelloModel model) {
         super(model);
     }
@@ -25,8 +32,14 @@ public class OthelloController extends GameController {
         super.initialize(location, resources);
         boardPane = new OthelloBoard(model, this);
         gameBoardPane.getChildren().add(boardPane);
-        infoBox = new InfoBox(model);
-        infoPanel.getChildren().add(infoBox);
+        gameTitle.setText("Othello");
+        Label graphic1 = new Label("Your score");
+        Label graphic2 = new Label("Opponent score");
+        Font font = new Font("System Bold",24);
+        graphic1.setFont(font);
+        graphic2.setFont(font);
+        scoreLabel1.setGraphic(graphic1);
+        scoreLabel2.setGraphic(graphic2);
     }
 
     @Override
@@ -45,7 +58,12 @@ public class OthelloController extends GameController {
     @Override
     public void updateViews() {
         ((OthelloBoard)boardPane).update();
-        infoBox.update();
+        scoreLabel1.setText(String.valueOf(model.getPlayer(0).getScore()));
+        scoreLabel2.setText(String.valueOf(model.getPlayer(1).getScore()));
+        //TODO: namen fixen
+        if(OnlineMenuController.playerName != null && OnlineMenuController.playerName.equals(model.getActivePlayer().getName()))
+            turnLabel.setText("Your turn");
+        else turnLabel.setText(model.getActivePlayer().getName());
     }
 
     //TODO: refactor to use GameController.move()

@@ -23,6 +23,7 @@ public class TicTacToeController extends GameController {
         super.initialize(location, resources);
         boardPane = new TicTacToeBoard(model, this);
         gameBoardPane.getChildren().add(boardPane);
+        gameTitle.setText("Tic Tac Toe");
     }
 
     @Override
@@ -53,6 +54,7 @@ public class TicTacToeController extends GameController {
     @Override
     public void updateViews() {
         ((TicTacToeBoard)boardPane).update();
+        turnLabel.setText(model.getActivePlayer().getName());
     }
 
     @Override

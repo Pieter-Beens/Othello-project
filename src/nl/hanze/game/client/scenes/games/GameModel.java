@@ -48,12 +48,8 @@ public abstract class GameModel {
         return players[i];
     }
 
-    public void setPlayer1(Player player1) {
-        this.players[1] = player1;
-    }
-
-    public void setPlayer2(Player player2) {
-        this.players[0] = player2;
+    public void setPlayer(int index, Player player) {
+        this.players[index] = player;
     }
 
     public Player getActivePlayer() {
