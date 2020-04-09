@@ -21,9 +21,10 @@ public class TicTacToeController extends GameController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        boardPane = new TicTacToeBoard(model, this);
-        gameBoardPane.getChildren().add(boardPane);
+        gameBoard = new TicTacToeBoard(model, this);
+        gameBoardPane.getChildren().add(gameBoard);
         gameTitle.setText("Tic Tac Toe");
+        boardGridPane.setId("TicTacToeBoard");
     }
 
     @Override
@@ -57,12 +58,8 @@ public class TicTacToeController extends GameController {
 
     @Override
     public void updateViews() {
-        ((TicTacToeBoard)boardPane).update();
+        gameBoard.update();
         turnLabel.setText(model.getActivePlayer().getName());
     }
 
-    @Override
-    public BoardPane getBoardPane() {
-        return boardPane;
-    }
 }

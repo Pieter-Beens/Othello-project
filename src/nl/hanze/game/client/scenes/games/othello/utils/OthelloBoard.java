@@ -42,6 +42,7 @@ public class OthelloBoard extends BoardPane {
         }
     }
 
+    @Override
     public void update() {
         // update FieldButton colors (or images??)
         for (FieldButton[] row : fieldButtons) for(Node fieldNode : row){
@@ -71,6 +72,4 @@ public class OthelloBoard extends BoardPane {
             }
         }
     }
-
-    public OthelloController getController() { return (OthelloController) controller; }
 }

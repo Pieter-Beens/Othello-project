@@ -15,6 +15,7 @@ public class TicTacToeBoard extends BoardPane {
         disableAllFields();
     }
 
+    @Override
     public void update() {
         // Update color/ sign of fields
         for (FieldButton[] row : fieldButtons) for(Node fieldNode : row){
@@ -25,7 +26,6 @@ public class TicTacToeBoard extends BoardPane {
                 fieldButton.setGraphic(iv);
             } catch (NullPointerException ignore) {}
         }
-
         disableAllFields();
     }
 
@@ -33,5 +33,4 @@ public class TicTacToeBoard extends BoardPane {
         enableAllFields();
     }
 
-    public TicTacToeController getController() { return (TicTacToeController) controller; }
 }
