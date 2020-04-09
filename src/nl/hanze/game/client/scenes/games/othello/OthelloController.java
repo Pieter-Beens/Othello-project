@@ -69,14 +69,17 @@ public class OthelloController extends GameController {
 
     //TODO: refactor to use GameController.move()
     @Override
-    public void move(Move move) {
+    public boolean move(Move move) {
         OthelloModel model = (OthelloModel) this.model;
 
         if (model.isValidMove(move)) {
             forfeitButton.setDisable(true);
             model.recordMove(move); // includes nextTurn() call
             updateViews();
+
+            return true;
         }
+        return false;
     }
 
     @Override
