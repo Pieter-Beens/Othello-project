@@ -10,11 +10,9 @@ import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.games.GameModel;
 
 public class InfoBox extends VBox {
-    private final GameModel model;
-    private final Label turnLabel;
-    private final Label player1ScoreBar;
-    private final Label player2ScoreBar;
+    //private final GameModel model;
 
+/*
     public InfoBox(GameModel model) {
         this.model = model;
 
@@ -57,5 +55,5 @@ public class InfoBox extends VBox {
         this.turnLabel.setText("  TURN " + model.getTurnCount() + ": " + model.getActivePlayer().getName() + "'s move");
         this.player1ScoreBar.setText(" " + model.getPlayer(1).getScore() + " ");
         this.player2ScoreBar.setText(" " + model.getPlayer(0).getScore() + " ");;
-    }
+    }*/
 }

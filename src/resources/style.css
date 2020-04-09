@@ -4,7 +4,7 @@ SelectButton {
 }
 FieldButton {
     -fx-background-color: transparent;
-    -fx-border-color: brown;
+    /*-fx-border-color: brown;*/
 }
 
 #boardGridPane {
@@ -16,4 +16,17 @@ FieldButton {
 }
 #rootPane {
     -fx-background-color: darkgreen;
+}
+#infoPanel {
+    -fx-background-color: white;
+}
+#boardGridPane Label {
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-font-family: Verdana;
+    /*-fx-border-color: white;*/
+}
+#gameBoardPane Line {
+    -fx-stroke   : saddlebrown;
+
 }

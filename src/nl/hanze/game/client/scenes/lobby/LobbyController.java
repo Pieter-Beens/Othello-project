@@ -310,7 +310,7 @@ public class LobbyController extends Controller implements Initializable {
             return;
         }
 
-        Main.serverConnection.challenge(playersTable.getSelectionModel().getSelectedItem().getName(), "Tic-tac-toe");
+        Main.serverConnection.challenge(playersTable.getSelectionModel().getSelectedItem().getName(), "Reversi");
     }
 
     @Override

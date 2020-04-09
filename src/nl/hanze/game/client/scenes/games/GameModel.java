@@ -48,12 +48,8 @@ public abstract class GameModel {
         return players[i];
     }
 
-    public void setPlayer1(Player player1) {
-        this.players[1] = player1;
-    }
-
-    public void setPlayer2(Player player2) {
-        this.players[0] = player2;
+    public void setPlayer(int index, Player player) {
+        this.players[index] = player;
     }
 
     public Player getActivePlayer() {
@@ -97,15 +93,26 @@ public abstract class GameModel {
         System.out.println("Neither player was able to move, so the game has ended!");
         gameHasEnded = true;
         String msg;
-        if (players[0].getScore() > players[1].getScore()) {
+        int winner = determineWinner();
+        if (winner == 1) {
             msg = players[0].getName() + " has won!";
-        } else if (players[0].getScore() < players[1].getScore()) {
+        } else if (winner == 2) {
             msg = players[1].getName() + " has won!";
         } else {
             msg = players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
         }
         System.out.println(msg);
         Popup.display(msg, "GAME END", 300, 200);
+    }
+
+    public int determineWinner() {
+        if (players[0].getScore() > players[1].getScore()) {
+            return 0;
+        } else if (players[0].getScore() < players[1].getScore()) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 
     public void forfeitGame(Player losingPlayer) {

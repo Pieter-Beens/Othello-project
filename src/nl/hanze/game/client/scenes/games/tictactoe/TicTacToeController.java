@@ -23,6 +23,7 @@ public class TicTacToeController extends GameController {
         super.initialize(location, resources);
         boardPane = new TicTacToeBoard(model, this);
         gameBoardPane.getChildren().add(boardPane);
+        gameTitle.setText("Tic Tac Toe");
     }
 
     @Override
@@ -36,7 +37,7 @@ public class TicTacToeController extends GameController {
 
     //TODO: refactor to use GameController.move()
     @Override
-    public void move(Move move) {
+    public boolean move(Move move) {
         TicTacToeModel model = (TicTacToeModel) this.model;
 
         if (model.isValidMove(move)) {
@@ -47,12 +48,17 @@ public class TicTacToeController extends GameController {
             if (!Main.serverConnection.hasConnection()) {
                 model.endGameIfFinished();
             }
+
+            return true;
         }
+
+        return false;
     }
 
     @Override
     public void updateViews() {
         ((TicTacToeBoard)boardPane).update();
+        turnLabel.setText(model.getActivePlayer().getName());
     }
 
     @Override
