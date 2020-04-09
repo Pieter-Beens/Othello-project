@@ -32,25 +32,8 @@ public abstract class BoardPane extends GridPane {
             }
         }
 
-        scale();
         setVgap(0);
         setHgap(0);
-    }
-
-    // called by listener when resizing
-    public void scale() { //TODO: fix this
-        double smallestDimension = Main.primaryStage.getWidth();
-        if (Main.primaryStage.getHeight() < smallestDimension) smallestDimension = Main.primaryStage.getHeight();
-
-        double fieldSize = (smallestDimension / model.getBoardSize()) * 0.90;
-        for (Node fieldButton : getChildren()) {
-            FieldButton fb = (FieldButton) fieldButton;
-            fb.setMinSize(fieldSize, fieldSize);
-        }
-
-        double fieldSpacing = (smallestDimension / model.getBoardSize()) * 0.05;
-        setVgap(fieldSpacing);
-        setHgap(fieldSpacing);
     }
 
     public void disableAllFields() {
