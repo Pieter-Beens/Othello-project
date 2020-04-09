@@ -1,7 +1,10 @@
 package nl.hanze.game.client;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.server.ServerConnection;
 
@@ -29,5 +32,13 @@ public class Main extends Application {
         primaryStage.setResizable(false);
 
         Controller.loadScene("start/start.fxml");
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
     }
+
 }

@@ -8,9 +8,11 @@ import nl.hanze.game.client.scenes.games.utils.Field;
 /**
  *This class implements the AI for the tic-tac-toe singleplayer game.
  *
+ * Much of this code was inspired by the tic-tac-toe minmax video by CodeTrain
+ * https://www.youtube.com/watch?v=trKjYdBASyQ
  * @author Nick
- * @version 1.0
- * @since 2-4-2020
+ * @version 1.1
+ * @since 9-4-2020
  */
 public class TicTacToeAI implements AIStrategy {
 
@@ -53,7 +55,6 @@ public class TicTacToeAI implements AIStrategy {
         int bestScore; //the score of the best move so far
         int bestRow = -1; //the best row, set to a negative int because it will be overwritten
         int bestCol = -1; //the best column, set to a negative int because it will be overwritten
-        int scoreGetter[]; //array which is used to retrieve the score from a move
 
         //stop condition for the recursive call
         if (TicTacToeModel.state(board) != TicTacToeModel.State.IN_PROGRESS) { //if the game on the board is finished:
@@ -94,14 +95,13 @@ public class TicTacToeAI implements AIStrategy {
                 if (aiPlaying) {
                     field.setOwner(aiPlayer);
                     board[i/3][i%3] = field;
-                    scoreGetter = minimax(board, false);
+                    score = minimax(board, false)[0];
                 }
                 else {
                     field.setOwner(humanPlayer);
                     board[i/3][i%3] = field;
-                    scoreGetter = minimax(board, true);
+                    score = minimax(board, true)[0];
                 }
-                score = scoreGetter[0]; //score is read from the returned int array
                 board[i/3][i%3].setOwner(null); //the cell becomes free again, so the board is kept clear
                 if ((score > bestScore && aiPlaying) || (score < bestScore && !aiPlaying)) { //if this move is better
                     bestScore = score; //than this score becomes the best score

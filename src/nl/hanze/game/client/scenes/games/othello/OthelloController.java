@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
+import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.othello.utils.OthelloBoard;
 import nl.hanze.game.client.scenes.games.utils.BoardPane;
@@ -61,7 +62,7 @@ public class OthelloController extends GameController {
         scoreLabel1.setText(String.valueOf(model.getPlayer(0).getScore()));
         scoreLabel2.setText(String.valueOf(model.getPlayer(1).getScore()));
         //TODO: namen fixen
-        if(OnlineMenuController.playerName != null && OnlineMenuController.playerName.equals(model.getActivePlayer().getName()))
+        if(OnlineMenuController.playerName != null && OnlineMenuController.playerName.equals(model.getActivePlayer().getName()) && model.getActivePlayer().getPlayerType() != PlayerType.REMOTE)
             turnLabel.setText("Your turn");
         else turnLabel.setText(model.getActivePlayer().getName());
     }
