@@ -93,7 +93,7 @@ public abstract class GameModel {
             endGame();
     }
 
-    public void endGame() {
+    public void endGame()  {
         System.out.println("Neither player was able to move, so the game has ended!");
         gameHasEnded = true;
         String msg;
