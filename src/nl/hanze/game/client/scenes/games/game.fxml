@@ -76,7 +76,7 @@
                   <Font name="System Bold" size="32.0" />
                </font>
             </Label>
-            <Label fx:id="scoreLabel1" contentDisplay="TOP" layoutX="102.0" layoutY="27.0" text="999" textAlignment="JUSTIFY" GridPane.rowIndex="2">
+            <Label fx:id="scoreLabel1" contentDisplay="TOP" layoutX="102.0" layoutY="27.0" textAlignment="JUSTIFY" GridPane.rowIndex="2">
                <padding>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>
@@ -84,20 +84,20 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="scoreLabel2" contentDisplay="TOP" text="999" textAlignment="JUSTIFY" GridPane.rowIndex="3">
+            <Label fx:id="scoreLabel2" contentDisplay="TOP" textAlignment="JUSTIFY" GridPane.rowIndex="3">
                <padding>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="turnLabel" contentDisplay="TOP" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
               <Button fx:id="forfeitButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="FORFEIT" textAlignment="CENTER" GridPane.rowIndex="5" />
-            <Label fx:id="turnLabel" text="Turn: " GridPane.rowIndex="4">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Label>
          </children>
          <GridPane.margin>
             <Insets />

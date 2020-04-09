@@ -54,6 +54,7 @@ public class TicTacToeController extends GameController {
     @Override
     public void updateViews() {
         ((TicTacToeBoard)boardPane).update();
+        turnLabel.setText(model.getActivePlayer().getName());
     }
 
     @Override

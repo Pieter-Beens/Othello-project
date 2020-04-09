@@ -9,6 +9,7 @@ import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.othello.utils.OthelloBoard;
 import nl.hanze.game.client.scenes.games.utils.BoardPane;
+import nl.hanze.game.client.scenes.menu.online.OnlineMenuController;
 
 import java.awt.*;
 import java.net.URL;
@@ -59,7 +60,10 @@ public class OthelloController extends GameController {
         ((OthelloBoard)boardPane).update();
         scoreLabel1.setText(String.valueOf(model.getPlayer(0).getScore()));
         scoreLabel2.setText(String.valueOf(model.getPlayer(1).getScore()));
-        turnLabel.setText(model.getActivePlayer().getName());
+        //TODO: namen fixen
+        if(OnlineMenuController.playerName != null && OnlineMenuController.playerName.equals(model.getActivePlayer().getName()))
+            turnLabel.setText("Your turn");
+        else turnLabel.setText(model.getActivePlayer().getName());
     }
 
     //TODO: refactor to use GameController.move()
