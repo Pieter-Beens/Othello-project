@@ -14,9 +14,7 @@ public class Player {
     private PlayerType playerType;
     private String name;
     private int score;
-    private String color;
     private String sign;
-    private String textcolor;
     private Image reversiImage;
     private Image tictactoeImage;
 
@@ -28,11 +26,11 @@ public class Player {
 
         this.name = ign;
         score = 0;
-        color = Colors.BTN_COLOR;
-        textcolor = Colors.BTN_TEXT_COLOR;
+
         this.playerType = playerType;
         try {
             reversiImage = new Image(new FileInputStream("src/resources/whitestone.png"));
+            tictactoeImage = new Image(new FileInputStream("src/resources/O.png"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -50,6 +48,8 @@ public class Player {
         return reversiImage;
     }
 
+    public Image getTictactoeImage() { return tictactoeImage; }
+
     public void changeScore(int score) {
         this.score += score;
     }
@@ -58,15 +58,10 @@ public class Player {
         return score;
     }
 
-    public String[] getColors() {
-        return new String[]{color, textcolor};
-    }
-
     public void setStartingColors() {
-        color = Colors.BTN_ACTIVE_COLOR;
-        textcolor = Colors.BTN_ACTIVE_TEXT_COLOR;
         try {
             reversiImage = new Image(new FileInputStream("src/resources/blackstone.png"));
+            tictactoeImage = new Image(new FileInputStream("src/resources/X.png"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

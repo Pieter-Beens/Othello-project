@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.othello.OthelloController;
 import nl.hanze.game.client.scenes.games.utils.BoardPane;
@@ -46,12 +47,8 @@ public class OthelloBoard extends BoardPane {
         for (FieldButton[] row : fieldButtons) for(Node fieldNode : row){
                 FieldButton fieldButton = (FieldButton) fieldNode;
                 try {
-                    //String[] fieldColors = model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner().getColors();
-                    //fieldButton.setStyle("-fx-background-color: " + fieldColors[0] + "; -fx-text-fill: " + fieldColors[1]);
-
-                    ImageView iv = new ImageView(model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner().getReversiImage());
-                    //iv.setFitHeight(fieldSize);
-                    //iv.setFitWidth(fieldSize);
+                    Player fieldOwner  = model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner();
+                    ImageView iv = new ImageView(fieldOwner.getReversiImage());
                     fieldButton.setGraphic(iv);
                 } catch (NullPointerException ignore) {}
         }

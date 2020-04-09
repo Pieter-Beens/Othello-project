@@ -1,6 +1,7 @@
 package nl.hanze.game.client.scenes.games.tictactoe.utils;
 
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.tictactoe.TicTacToeController;
@@ -20,9 +21,8 @@ public class TicTacToeBoard extends BoardPane {
             FieldButton fieldButton = (FieldButton) fieldNode;
             try {
                 Player fieldOwner  = model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner();
-                String[] fieldColors = fieldOwner.getColors();
-                fieldButton.setStyle("-fx-background-color: " + fieldColors[0] + "; -fx-text-fill: " + fieldColors[1]);
-                fieldButton.setText(fieldOwner.getSign());
+                ImageView iv = new ImageView(fieldOwner.getTictactoeImage());
+                fieldButton.setGraphic(iv);
             } catch (NullPointerException ignore) {}
         }
 
