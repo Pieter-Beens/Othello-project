@@ -36,13 +36,18 @@ public class OthelloAIHard implements AIStrategy {
 
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
+        setupScoreMap(board);
+        int[] move = minMax(board, 0, player, opponent);
+        return new Move(player, move[ROW], move[COLUMN]);
+    }
 
+    public void setupScoreMap(Field[][] board) {
         for(Field[] col : board) {
             for(Field cell : col) {
                 if ((cell.getColumnID() == 0 && cell.getRowID() == 0) ||
-                    (cell.getColumnID() ==7 && cell.getRowID() == 0) ||
-                    (cell.getColumnID() == 0 && cell.getRowID() == 7) ||
-                    (cell.getColumnID() == 7 && cell.getRowID() == 7)) {
+                        (cell.getColumnID() ==7 && cell.getRowID() == 0) ||
+                        (cell.getColumnID() == 0 && cell.getRowID() == 7) ||
+                        (cell.getColumnID() == 7 && cell.getRowID() == 7)) {
                     scoreMap.put(cell, CORNERSCORE);
                 }
                 else if (cell.getColumnID() == 0 || cell.getColumnID() == 7
@@ -60,10 +65,6 @@ public class OthelloAIHard implements AIStrategy {
                 }
             }
         }
-
-        Field[][] boardCopy = board.clone();
-        int[] move = minMax(boardCopy,0, player, opponent);
-        return new Move(player ,move[ROW], move[COLUMN]);
     }
 
     private int[] minMax(Field[][] board, int depth, Player player, Player opponent) {
@@ -98,6 +99,8 @@ public class OthelloAIHard implements AIStrategy {
 
         for (Field cell : validMoves) {
             cell.setOwner(player);
+
+            //DEBUG
             String rt = "";
             for (Field[] row : board) {
                 for (Field field : row) {
@@ -107,6 +110,8 @@ public class OthelloAIHard implements AIStrategy {
             }
             System.out.println("BEFORE FLIPS:");
             System.out.println(rt);
+            //DEBUG
+
             boardCopy = enactCaptures(cell, board, player, opponent);
             rt = "";
             for (Field[] row : boardCopy) {
