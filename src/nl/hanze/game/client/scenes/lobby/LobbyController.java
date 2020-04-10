@@ -10,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.Controller;
@@ -20,6 +19,7 @@ import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.utils.PlayerRow;
 import nl.hanze.game.client.scenes.utils.Popup;
 import nl.hanze.game.client.scenes.utils.RequestRow;
+import nl.hanze.game.client.scenes.utils.SelectButton;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,26 +30,7 @@ import java.util.stream.IntStream;
 public class LobbyController extends Controller implements Initializable {
 
     @FXML
-    public ToggleButton btnPlayAsAI;
-
-    @FXML
-    public ToggleButton btnPlayAsManual;
-
-    @FXML
-    public Button btnFullscreen;
-
-    @FXML
-    public Text lastGameResult;
-
-    public static String lastGameResultMsg = "";
-
-    public static String loggedInAs;
-
-    @FXML
     public HBox gameBtnHBox;
-
-    @FXML
-    public ButtonBar gamesBar;
 
     @FXML
     public TableView<PlayerRow> playersTable;
@@ -69,18 +50,18 @@ public class LobbyController extends Controller implements Initializable {
     @FXML
     public TableColumn<RequestRow, String> challengeNumberColumn;
 
-    private String gameListString = "";
+    private String gameListString;
 
     private static TableUpdater tableUpdater;
 
-    // Contains either 'AI' or 'Manual' to indicate as whom the user wants to play as
-    public String playAs = "AI";
+    // Contains either 'ai' or 'manual' to indicate as whom the user wants to play as
+    @FXML private ToggleGroup playerMode;
 
     // Contains the name of the game the user wants to play
-    public String selectedGame = "";
+    @FXML private ToggleGroup selectedGame;
 
     // Indicates whether the user wants to play fullscreen, default is 'false'
-    private Boolean fullscreen = false;
+    @FXML private CheckBox fullscreen;
 
     private ObservableList<PlayerRow> tableList = FXCollections.observableArrayList();
 
@@ -90,7 +71,7 @@ public class LobbyController extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         playersTable.setItems(tableList);
-
+        selectedGame = new ToggleGroup();
         Main.serverConnection.getGameList();
         Main.serverConnection.getPlayerList();
 
@@ -103,34 +84,12 @@ public class LobbyController extends Controller implements Initializable {
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
 
 
-        //Show the result of the last game
-        String[] arr = lastGameResultMsg.split(" ");
-
-        if (lastGameResultMsg.equals("")) {
-            lastGameResult.setText("");
-        } else {
-            if (arr[0].equals("tie")) {
-                lastGameResult.setText("\n\n\n\nResult of last game:\nTie");
-            }
-            if (loggedInAs.equals(arr[0])) {
-                lastGameResult.setText("\n\n\n\nResult of last game:\nYou won!");
-            }
-            else {
-                lastGameResult.setText("\n\n\n\nResult of last game:\nYou lost :(");
-            }
-        }
-
-        //lastGameResult.setText(lastGameResultMsg);
-
         /**
          * @author Jasper van Dijken
          */
         challengerColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("name"));
         challengeNumberColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("challengeID"));
         gameColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("game"));
-
-        //GameModel gm = new GameModel();
-        //System.out.println(gm.getResult());
 
     }
 
@@ -139,80 +98,24 @@ public class LobbyController extends Controller implements Initializable {
      */
     private void updateGameBtnGroup() {
         //Split gameListString into a list
-        List<String> games = new ArrayList<String>(Arrays.asList(gameListString.split(", ")));
+        List<String> games = new ArrayList<>(Arrays.asList(gameListString.split(", ")));
         //ArrayList which will contain the buttons
-        ArrayList<Button> buttons = new ArrayList<>();
+        ArrayList<SelectButton> buttons = new ArrayList<>();
 
         //For each game, create button and add to buttons array
         for (String game : games) {
-            buttons.add(new Button(game));
+            SelectButton btn = new SelectButton();
+            btn.setText(game);
+            btn.setUserData(game);
+            buttons.add(btn);
         }
 
         //For each button in buttons, add to gameBtnHbox
-        for (Button btn : buttons) {
-            btn.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
-            btn.setPrefWidth(150);
-            btn.setPrefHeight(30);
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
+        for (SelectButton btn : buttons) {
+            gameBtnHBox.getChildren().add(btn);
+            selectedGame.getToggles().add(btn);
+            selectedGame.getToggles().get(0).setSelected(true);
 
-                    gamesBar.getButtons().add(btn);
-                    btn.setOnAction(event -> {
-                        try {
-                            clickedGameBtn(btn);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    @FXML
-    private void clickedGameBtn(Button btn) {
-        selectedGame = btn.getText();
-        ObservableList<Node> b = gamesBar.getButtons();
-
-        for (Node bt : b ) {
-            if(bt != btn) {
-                bt.setStyle("");
-                bt.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF");
-                //bt.getStyleClass().add();
-                bt.applyCss();
-            }else{
-                bt.setStyle("");
-                bt.applyCss();
-                //bt.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
-            }}
-    }
-
-    @FXML
-    private void clickedBtnAsAI(ActionEvent event) throws IOException {
-        //Set playAs to 'AI', make playAsAI button active, make playAsManual inactive
-        playAs = "AI";
-        btnPlayAsAI.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
-        btnPlayAsManual.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
-    }
-
-    @FXML
-    private void clickedBtnAsManual(ActionEvent event) throws IOException {
-        //Set playAs to 'Manual', make playAsManual button active, make playAsAI inactive
-        playAs = "Manual";
-        btnPlayAsManual.setStyle("-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;");
-        btnPlayAsAI.setStyle("-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;");
-    }
-
-    @FXML
-    private void clickedBtnFullscreen(ActionEvent event) throws IOException {
-        //Set true to false, false to true when bntFullscreen is clicked, alter text in btnFullscreen
-        if (fullscreen) {
-            fullscreen = false;
-            btnFullscreen.setText("fullscreen: off");
-        } else {
-            fullscreen = true;
-            btnFullscreen.setText("fullscreen: on");
         }
     }
 
@@ -230,9 +133,7 @@ public class LobbyController extends Controller implements Initializable {
     @FXML
     private void btnLogout(ActionEvent event) throws IOException {
         GameModel.serverName = null;
-
         Main.serverConnection.logout();
-
         goBack();
     }
 
@@ -289,8 +190,8 @@ public class LobbyController extends Controller implements Initializable {
 
         Platform.runLater(() -> {
             try {
-                PlayerType playerType = playAs.equals("AI") ? PlayerType.AI : PlayerType.LOCAL;
-                GameLoader.startOnline(map, fullscreen, playerType);
+                PlayerType playerType = playerMode.getSelectedToggle().getUserData().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
+                GameLoader.startOnline(map, fullscreen.isSelected(), playerType);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -314,8 +215,9 @@ public class LobbyController extends Controller implements Initializable {
         // If you are the player with the first move, start the game board
         Platform.runLater(() -> {
             try {
-                PlayerType playerType = playAs.equals("AI") ? PlayerType.AI : PlayerType.LOCAL;
-                GameController controller = GameLoader.startOnline(gameMatchBuffer, fullscreen, playerType);
+                //TODO:toggleGroup="$selectedGame"
+                PlayerType playerType = playerMode.getSelectedToggle().getUserData().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
+                GameController controller = GameLoader.startOnline(gameMatchBuffer, fullscreen.isSelected(), playerType);
                 controller.gameYourTurn(map);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -329,9 +231,9 @@ public class LobbyController extends Controller implements Initializable {
         //selectedGame contains the game the user wants to play, (String 'Reversi' or 'Tic-tac-toe')
 
         //Subscribe for game
-        Main.serverConnection.subscribe(selectedGame);
+        Main.serverConnection.subscribe((String)selectedGame.getSelectedToggle().getUserData());
 
-        System.out.println("Play as: " + playAs + ", Fullscreen: " + fullscreen + ", Game: " + selectedGame);
+        System.out.println("Play as: " + playerMode.getSelectedToggle().getUserData() + ", Fullscreen: " + fullscreen.isSelected() + ", Game: " + selectedGame.getSelectedToggle().getUserData());
     }
 
     public void btnMatchRequest(ActionEvent event) {
@@ -340,20 +242,18 @@ public class LobbyController extends Controller implements Initializable {
             return;
         }
 
-        Main.serverConnection.challenge(playersTable.getSelectionModel().getSelectedItem().getName(), selectedGame);
+        Main.serverConnection.challenge(playersTable.getSelectionModel().getSelectedItem().getName(), (String)selectedGame.getSelectedToggle().getUserData());
     }
 
     @Override
     public void changeScene() {
         super.changeScene();
-
         tableUpdater.stop();
     }
 
     @Override
     protected void finalize() throws Throwable {
         tableUpdater.stop();
-
         super.finalize();
     }
 

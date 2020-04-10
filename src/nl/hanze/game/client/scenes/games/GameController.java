@@ -52,9 +52,6 @@ public abstract class GameController extends Controller implements Initializable
     public void initialize(URL location, ResourceBundle resources) {
         forfeitButton.setOnAction(this::forfeit);
         Font font = new Font("System Bold",24);
-        Label turn = new Label("Turn: ");
-        turn.setFont(font);
-        turnLabel.setGraphic(turn);
     }
 
     abstract public void setup();
@@ -169,5 +166,12 @@ public abstract class GameController extends Controller implements Initializable
 
     public BoardPane getBoardPane() {
         return gameBoard;
+    }
+
+    public void updateTurnLabel(){
+        if(model.getActivePlayer().isThisMe())
+            turnLabel.setText("Your turn");
+        else
+            turnLabel.setText(model.getActivePlayer().getName()+ "'s turn");
     }
 }

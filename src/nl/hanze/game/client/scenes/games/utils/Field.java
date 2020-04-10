@@ -1,6 +1,7 @@
 package nl.hanze.game.client.scenes.games.utils;
 
 import nl.hanze.game.client.players.Player;
+import nl.hanze.game.client.players.PlayerType;
 
 public class Field {
     int rowID;
@@ -45,5 +46,20 @@ public class Field {
 
     public void unsetRecentMove() {
         recentMove = false;
+    }
+
+    @Override
+    public String toString() {
+        if (owner == null) {
+            return "[ ]";
+        }
+        else {
+            if (owner.getPlayerType().equals(PlayerType.AI)) {
+                return "[B]";
+            }
+            else {
+                return "[W]";
+            }
+        }
     }
 }

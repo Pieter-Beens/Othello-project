@@ -106,11 +106,9 @@ public class OfflineMenuController extends Controller implements Initializable {
     public void gameModeChanged(){
         gameMode = (String) selectedGameMode.getSelectedToggle().getUserData();
         if(gameMode.equals("single-player")){
-            //System.out.println("single");
             setDifficultyVisibility(true);
             setPlayernamesVisibility(false);
         } else if(gameMode.equals("multi-player")){
-            //System.out.println("multi");
             setDifficultyVisibility(false);
             setPlayernamesVisibility(true);
         }
@@ -121,7 +119,7 @@ public class OfflineMenuController extends Controller implements Initializable {
             selectedGameMode.getSelectedToggle().getUserData();
             selectedGame.getSelectedToggle().getUserData();
             start.setDisable(false);
-        }catch(NullPointerException e){}
+        }catch(NullPointerException ignored){}
 
     }
 

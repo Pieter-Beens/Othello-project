@@ -1,61 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.control.cell.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import nl.hanze.game.client.scenes.utils.SelectButton?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="950.0" stylesheets="@/resources/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.lobby.LobbyController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="950.0" stylesheets="@/resources/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.lobby.LobbyController">
     <children>
-        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER_LEFT" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <HBox alignment="CENTER" prefHeight="85.0" prefWidth="950.0">
+                <HBox fx:id="playerModeBtns" alignment="CENTER" prefHeight="85.0" prefWidth="950.0">
                <children>
-                  <GridPane prefHeight="75.0" prefWidth="842.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="415.0" minWidth="0.0" prefWidth="49.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="0.0" prefWidth="67.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="0.0" prefWidth="68.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="10.0" prefWidth="471.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="790.0" minWidth="10.0" prefWidth="186.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Play as:" />
-                        <ToggleButton fx:id="btnPlayAsAI" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickedBtnAsAI" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;" text="AI" GridPane.columnIndex="1">
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin>
-                        </ToggleButton>
-                        <ToggleButton fx:id="btnPlayAsManual" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickedBtnAsManual" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #ACACAC; -fx-text-fill: #FFFF;" text="Manual" GridPane.columnIndex="2">
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin>
-                        </ToggleButton>
-                        <Button fx:id="btnFullscreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickedBtnFullscreen" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #E47D21;" text="fullscreen: off" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
-                        <Text fx:id="lastGameResult" layoutX="10.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" GridPane.columnIndex="4">
-                           <font>
-                              <Font size="17.0" />
-                           </font></Text>
-                     </children>
-                  </GridPane>
-               </children>
-                </HBox>
-            <HBox fx:id="gameBtnHBox" alignment="CENTER" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="950.0">
-               <children>
-                  <ButtonBar fx:id="gamesBar" buttonMinWidth="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" pickOnBounds="false" prefHeight="0.0" prefWidth="0.0">
+                  <SelectButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="100" text="Play as AI" userData="ai">
+                      <toggleGroup>
+                          <ToggleGroup fx:id="playerMode" />
+                      </toggleGroup>
                      <HBox.margin>
-                        <Insets left="-20.0" />
-                     </HBox.margin></ButtonBar>
-               </children></HBox>
+                        <Insets />
+                     </HBox.margin>
+                  </SelectButton>
+                  <SelectButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" selected="true" text="Play manually" toggleGroup="$playerMode" userData="manual" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="40.0" right="40.0" top="5.0" />
+               </VBox.margin>
+                </HBox>
+            <HBox fx:id="gameBtnHBox" alignment="CENTER" focusTraversable="true" minHeight="-Infinity" prefHeight="40.0" prefWidth="950.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="40.0" right="40.0" top="5.0" />
+               </VBox.margin></HBox>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0">
+               <children>
+
+                  <CheckBox fx:id="fullscreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Use Fullscreen">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </CheckBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="40.0" right="40.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
             <HBox alignment="BOTTOM_CENTER" prefHeight="65.0" prefWidth="950.0">
                <children>
-
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnStart" prefHeight="8.0" prefWidth="150.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="Quick Match" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnStart" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="Quick Match" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="54.0" prefWidth="950.0">
@@ -140,9 +142,9 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                              <Button mnemonicParsing="false" onAction="#btnLogout" prefHeight="30.0" prefWidth="141.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="logout" />
-                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnMatchRequest" prefHeight="28.0" prefWidth="133.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="Send request" GridPane.columnIndex="2" />
-                        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="723.0" layoutY="23.0" mnemonicParsing="false" onAction="#btnAcceptChallenge" prefHeight="28.0" prefWidth="131.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="Accept Challenge" GridPane.columnIndex="1" />
+                              <Button mnemonicParsing="false" onAction="#btnLogout" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="Logout" />
+                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnMatchRequest" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="Send request" GridPane.columnIndex="2" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="723.0" layoutY="23.0" mnemonicParsing="false" onAction="#btnAcceptChallenge" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="Accept Challenge" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                     </children>
