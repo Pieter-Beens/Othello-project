@@ -92,21 +92,7 @@ public class LobbyController extends Controller implements Initializable {
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
 
         //Show the result of the last game
-        String[] arr = lastGameResultMsg.split(" ");
-
-        if (lastGameResultMsg.equals("")) {
-            lastGameResult.setText("");
-        } else {
-            if (arr[0].equals("tie")) {
-                lastGameResult.setText("Result of last game:\nTie");
-            }
-            if (loggedInAs.equals(arr[0])) {
-                lastGameResult.setText("Result of last game:\nYou won!");
-            }
-            else {
-                lastGameResult.setText("Result of last game:\nYou lost :(");
-            }
-        }
+        lastGameResult.setText("Result of last game:\n" + lastGameResultMsg);
 
         /**
          * @author Jasper van Dijken
