@@ -34,14 +34,8 @@ public class OthelloAIHard implements AIStrategy {
     private static HashMap<Field, Integer> scoreMap = new HashMap<>();
     private Field lastMove;
 
-    private Player humanPlayer;
-    private Player aiPlayer;
-
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
-
-        this.humanPlayer= opponent;
-        this.aiPlayer = player;
 
         for(Field[] col : board) {
             for(Field cell : col) {
@@ -67,34 +61,62 @@ public class OthelloAIHard implements AIStrategy {
             }
         }
 
-        int[] move = minMax(board,0, player, opponent);
+        Field[][] boardCopy = board.clone();
+        int[] move = minMax(boardCopy,0, player, opponent);
         return new Move(player ,move[ROW], move[COLUMN]);
     }
 
     private int[] minMax(Field[][] board, int depth, Player player, Player opponent) {
         int score;
-        int bestScore = 0;
+        int bestScore = -50000;
         int bestRow = -1;
         int bestCol = -1;
         Field[][] boardCopy;
 
         if (depth >= MAXDEPTH) {
-            score = scoreMap.get(lastMove);
-            return new int[] {score};
-        }
-
-
-
-        ArrayList<Field> validMoves = new ArrayList<>();
-        for (Field[] row : board) {
-            for (Field field : row) {
-                if (field.getValidity()) validMoves.add(field);
+            score = 0;
+            for (Field[] row : board) {
+                for (Field field : row) {
+                    if (field.getOwner() == player) {
+                        score += scoreMap.get(field);
+                    }
+                    else if (field.getOwner() == opponent) {
+                        score -= scoreMap.get(field);
+                    }
+                }
             }
+            return new int[]{score};
         }
+
+        //updateFieldValidity(board, player, opponent);
+        ArrayList<Field> validMoves = checkFieldValidity(board, player, opponent);//new ArrayList<>();
+//        for (Field[] row : board) {
+//            for (Field field : row) {
+//                if (field.getValidity()) validMoves.add(field);
+//            }
+//        }
 
         for (Field cell : validMoves) {
             cell.setOwner(player);
+            String rt = "";
+            for (Field[] row : board) {
+                for (Field field : row) {
+                    rt += field;
+                }
+                rt += "\n";
+            }
+            System.out.println("BEFORE FLIPS:");
+            System.out.println(rt);
             boardCopy = enactCaptures(cell, board, player, opponent);
+            rt = "";
+            for (Field[] row : boardCopy) {
+                for (Field field : row) {
+                    rt += field;
+                }
+                rt += "\n";
+            }
+            System.out.println("AFTER FLIPS:");
+            System.out.println(rt);
             lastMove = cell;
             score = minMax(boardCopy, depth + 1, opponent, player)[SCORE];
             cell.setOwner(null);
@@ -113,7 +135,7 @@ public class OthelloAIHard implements AIStrategy {
 
     private Field[][] enactCaptures(Field field, Field[][] board, Player player, Player opponent) {
         Field[][] boardCopy = board.clone();
-        Stack<Field> captures = getCaptures(field, boardCopy, player, opponent);
+        Stack<Field> captures = getCaptures(field, boardCopy, player, opponent, true);
         for (Field capturedField : captures) {
             capturedField.setOwner(player);
 
@@ -121,16 +143,15 @@ public class OthelloAIHard implements AIStrategy {
         return boardCopy;
     }
 
-    private Stack<Field> getCaptures(Field field, Field[][] board, Player player, Player opponent) {
+    private Stack<Field> getCaptures(Field field, Field[][] board, Player player, Player opponent, Boolean capturing) {
         Stack<Field> allCaptures = new Stack<>();
 
         // occupied Fields are never a valid move - immediately return empty Stack
-        if (field.getOwner() != null) {
+        if (field.getOwner() != null && !capturing) {
             return allCaptures;
         }
 
         for (int[] direction : GameModel.DIRECTIONS) {
-
             Stack<Field> capturesInThisDirection = new Stack<>();
 
             int currentRowID = field.getRowID();
@@ -169,6 +190,19 @@ public class OthelloAIHard implements AIStrategy {
         }
         // returns captures in all directions
         return allCaptures;
+    }
+
+    private ArrayList<Field> checkFieldValidity(Field[][] board, Player player, Player opponent) {
+        ArrayList<Field> returnArray = new ArrayList<>();
+        for (Field[] row : board) {
+            for (Field field : row) {
+                if (!getCaptures(field, board, player, opponent, false).isEmpty()) {
+                    returnArray.add(field);
+                }//field.setValidity(false);
+                //else field.setValidity(true);
+            }
+        }
+        return returnArray;
     }
 
 }
