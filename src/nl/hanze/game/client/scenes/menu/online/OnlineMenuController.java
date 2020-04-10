@@ -100,7 +100,6 @@ public class OnlineMenuController extends Controller {
         if (ip.endsWith(".")) {
             return false;
         }
-
         return true;
     }
 
