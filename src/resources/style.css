@@ -1,10 +1,19 @@
 SelectButton {
-    -fx-focus-color: #b5b5b5;
+    -fx-focus-color: linear-gradient(to bottom, #929292, #b4b4b4);
+    -fx-faint-focus-color: transparent;
+    -fx-min-width: 100;
+    -fx-min-height: 30;
+}
+CheckBox {
+    -fx-focus-color: linear-gradient(to bottom, #929292, #b4b4b4);
     -fx-faint-focus-color: transparent;
 }
 FieldButton {
     -fx-background-color: transparent;
-    /*-fx-border-color: brown;*/
+}
+
+#gameBtnHBox, #playerModeBtns {
+    -fx-spacing: 40;
 }
 
 #OthelloBoard {

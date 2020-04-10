@@ -13,8 +13,6 @@ import java.io.IOException;
 
 public class OnlineMenuController extends Controller {
 
-    public static String playerName;
-
     @FXML
     private TextField name;
 
@@ -68,9 +66,8 @@ public class OnlineMenuController extends Controller {
                 errorMsg.setText("Connection refused");
                 return;
             }
-            playerName = name.getText();
             Main.serverConnection.addObserver(this);
-            Main.serverConnection.login(playerName);
+            Main.serverConnection.login(name.getText());
 
         }
 
