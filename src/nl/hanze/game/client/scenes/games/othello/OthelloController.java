@@ -11,10 +11,12 @@ import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.othello.utils.OthelloBoard;
 import nl.hanze.game.client.scenes.games.utils.BoardPane;
+import nl.hanze.game.client.scenes.lobby.LobbyController;
 import nl.hanze.game.client.scenes.menu.online.OnlineMenuController;
 
 import java.awt.*;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -91,5 +93,4 @@ public class OthelloController extends GameController {
             scoreLabel2.setText(String.valueOf(model.getPlayer(0).getScore()));
         }
     }
-
 }
