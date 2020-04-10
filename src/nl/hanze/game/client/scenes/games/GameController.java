@@ -166,17 +166,16 @@ public abstract class GameController extends Controller implements Initializable
 
     @Override
     public void gameWin(Map<String, String> map) {
-        goToLobby("You won");
+        goToLobby("Result of last game:\nYou won");
     }
 
     @Override
-    public void gameLoss(Map<String, String> map) {
-        goToLobby("You lost");
+    public void gameLoss(Map<String, String> map) { goToLobby("Result of last game:\nYou lost");
     }
 
     @Override
     public void gameDraw(Map<String, String> map) {
-        goToLobby("You came to a draw");
+        goToLobby("Result of last game:\nYou came to a draw");
     }
 
     private void goToLobby(String msg) {

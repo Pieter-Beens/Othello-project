@@ -67,9 +67,8 @@ public class LobbyController extends Controller implements Initializable {
     @FXML
     public Text lastGameResult;
 
+    //Receives the result-message that should be displayed
     public static String lastGameResultMsg = "";
-
-    public static String loggedInAs;
 
     private ObservableList<PlayerRow> tableList = FXCollections.observableArrayList();
 
@@ -92,7 +91,15 @@ public class LobbyController extends Controller implements Initializable {
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
 
         //Show the result of the last game
-        lastGameResult.setText("Result of last game:\n" + lastGameResultMsg);
+        //lastGameResult.setStyle("-fx-text-fill: #46AF4E;");
+        lastGameResult.setStyle("-fx-text-fill: white;");
+        lastGameResult.setText(lastGameResultMsg);
+
+        /*
+        if (lastGameResultMsg.equals("Result of last game:\\nYou won")) {
+            lastGameResult.setStyle("fx-text-fill: #46AF4E;");
+        }
+         */
 
         /**
          * @author Jasper van Dijken

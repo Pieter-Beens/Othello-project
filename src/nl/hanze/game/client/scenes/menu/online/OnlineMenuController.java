@@ -69,14 +69,9 @@ public class OnlineMenuController extends Controller {
             }
             Main.serverConnection.addObserver(this);
             Main.serverConnection.login(name.getText());
-
         }
-
     }
 
-    /**
-     * @author Jasper van Dijken
-     */
     //method that checks for a valid ip address
     public static boolean checkIP (String ip) {
 
@@ -115,7 +110,6 @@ public class OnlineMenuController extends Controller {
             GameModel.serverName = name.getText();
             Platform.runLater(() -> {
                 try {
-                    LobbyController.loggedInAs = name.getText();
                     loadScene("lobby/lobby.fxml");
                 } catch (IOException ignore) { ignore.printStackTrace(); }
             });
