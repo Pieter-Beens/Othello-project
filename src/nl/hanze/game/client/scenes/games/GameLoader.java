@@ -34,11 +34,12 @@ public class GameLoader {
         } else {
             player1 = new Player(GameModel.serverName, playerType);
         }
+        player1.isThisMe(true);
 
         Player player2 = new Player(args.get("OPPONENT"), PlayerType.REMOTE);
+        player2.isThisMe(false);
 
         GameController controller = getController(game);
-
         GameModel model = controller.getModel();
 
         // Determine which player should begin (model.player1 always starts)
@@ -55,10 +56,12 @@ public class GameLoader {
 
         Player player1 = new Player(ignPlayer1, PlayerType.LOCAL);
         Player player2 = (isMultiPlayer) ? new Player(ignPlayer2, PlayerType.LOCAL) : new AIPlayer(ignPlayer2, PlayerType.AI, aiStrategy);
+        player1.isThisMe(!isMultiPlayer);
+        player2.isThisMe(false);
 
         GameController controller = getController(game);
-
         GameModel model = controller.getModel();
+
         model.setPlayer(0, player1);
         model.setPlayer(1, player2);
 

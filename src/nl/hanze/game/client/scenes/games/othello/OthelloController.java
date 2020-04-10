@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
+import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.othello.utils.OthelloBoard;
@@ -62,12 +63,8 @@ public class OthelloController extends GameController {
     @Override
     public void updateViews() {
         gameBoard.update();
-        scoreLabel1.setText(String.valueOf(model.getPlayer(0).getScore()));
-        scoreLabel2.setText(String.valueOf(model.getPlayer(1).getScore()));
-        //TODO: namen fixen
-        if(OnlineMenuController.playerName != null && OnlineMenuController.playerName.equals(model.getActivePlayer().getName()) && model.getActivePlayer().getPlayerType() != PlayerType.REMOTE)
-            turnLabel.setText("Your turn");
-        else turnLabel.setText(model.getActivePlayer().getName());
+        updateScoreLabels();
+        updateTurnLabel();
     }
 
     //TODO: refactor to use GameController.move()
@@ -83,6 +80,16 @@ public class OthelloController extends GameController {
             return true;
         }
         return false;
+    }
+
+    public void updateScoreLabels(){
+        if(model.getPlayer(0).isThisMe()){
+            scoreLabel1.setText(String.valueOf(model.getPlayer(0).getScore()));
+            scoreLabel2.setText(String.valueOf(model.getPlayer(1).getScore()));
+        } else{
+            scoreLabel1.setText(String.valueOf(model.getPlayer(1).getScore()));
+            scoreLabel2.setText(String.valueOf(model.getPlayer(0).getScore()));
+        }
     }
 
 }

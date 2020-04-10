@@ -17,6 +17,7 @@ public class Player {
     private String sign;
     private Image reversiImage;
     private Image tictactoeImage;
+    private boolean isThisMe;
 
     public Player(String ign, PlayerType playerType) {
         Player.counter++;
@@ -42,6 +43,14 @@ public class Player {
 
     public void setSign(String sign) {
         this.sign = sign;
+    }
+
+    public boolean isThisMe(){
+        return isThisMe;
+    }
+
+    public void isThisMe(boolean bool){
+        isThisMe = bool;
     }
 
     public Image getReversiImage() {

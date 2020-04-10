@@ -26,19 +26,17 @@ public class OthelloBoard extends BoardPane {
 
     public void enableValidFields() {
         int i = 0;
-        for (Field[] row : model.getBoard()) {
-            for (Field field : row) {
-                if (field.getOwner() == null) {
-                    if (field.getValidity()) {
-                        FieldButton button = (FieldButton) super.getChildren().get(i);
-                        button.setGraphic(new ImageView(validMoveDot));
-                    } else {
-                        FieldButton button = (FieldButton) getChildren().get(i);
-                        button.setGraphic(null);
-                    }
+        for (Field[] row : model.getBoard()) for (Field field : row) {
+            if (field.getOwner() == null) {
+                if (field.getValidity()) {
+                    FieldButton button = (FieldButton) super.getChildren().get(i);
+                    button.setGraphic(new ImageView(validMoveDot));
+                } else {
+                    FieldButton button = (FieldButton) getChildren().get(i);
+                    button.setGraphic(null);
                 }
-                i++;
             }
+            i++;
         }
     }
 
