@@ -31,37 +31,34 @@ public class OthelloAIHard implements AIStrategy {
     private static final int BORDERSCORE = 5;
     private static final int XCROSSSCORE = -20;
 
-    private static HashMap<Field, Integer> scoreMap = new HashMap<>();
-    private Field lastMove;
+    private static int[][] scoreBoard;
 
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
-        setupScoreMap(board);
+        setupScoreBoard(board);
         int[] move = minMax(board, 0, player, opponent);
         return new Move(player, move[ROW], move[COLUMN]);
     }
 
-    public void setupScoreMap(Field[][] board) {
-        for(Field[] col : board) {
-            for(Field cell : col) {
-                if ((cell.getColumnID() == 0 && cell.getRowID() == 0) ||
-                        (cell.getColumnID() ==7 && cell.getRowID() == 0) ||
-                        (cell.getColumnID() == 0 && cell.getRowID() == 7) ||
-                        (cell.getColumnID() == 7 && cell.getRowID() == 7)) {
-                    scoreMap.put(cell, CORNERSCORE);
-                }
-                else if (cell.getColumnID() == 0 || cell.getColumnID() == 7
-                        || cell.getRowID() == 0 || cell.getRowID() == 7) {
-                    scoreMap.put(cell, BORDERSCORE);
-                }
-                else if ((cell.getColumnID() == 1 && cell.getRowID() == 1) ||
-                        (cell.getColumnID() == 6 && cell.getRowID() == 1) ||
-                        (cell.getColumnID() == 1 && cell.getRowID() == 6) ||
-                        (cell.getColumnID() == 6 && cell.getRowID() == 6)) {
-                    scoreMap.put(cell, XCROSSSCORE);
-                }
-                else {
-                    scoreMap.put(cell, 1);
+    private void setupScoreBoard(Field[][] board) {
+        scoreBoard = new int[board.length][board.length];
+        for (int r = 0; r < board.length; r++) {
+            for (int c = 0; c < board.length; c++) {
+                if ((c == 0 && r == 0) ||
+                        (c == 7 && r == 0) ||
+                        (c == 0 && r == 7) ||
+                        (c == 7 && r == 7)) {
+                    scoreBoard[r][c] = CORNERSCORE;
+                } else if (c == 0 || c == 7
+                        || r == 0 || r == 7) {
+                    scoreBoard[r][c] = BORDERSCORE;
+                } else if ((c == 1 && r == 1) ||
+                        (c == 6 && r == 1) ||
+                        (c == 1 && r == 6) ||
+                        (c == 6 && r == 6)) {
+                    scoreBoard[r][c] = XCROSSSCORE;
+                } else {
+                    scoreBoard[r][c] = 1;
                 }
             }
         }
@@ -78,50 +75,43 @@ public class OthelloAIHard implements AIStrategy {
             for (Field[] row : board) {
                 for (Field field : row) {
                     if (field.getOwner() == player) {
-                        score += scoreMap.get(field);
+                        score += scoreBoard[field.getColumnID()][field.getRowID()];
                     }
                     else if (field.getOwner() == opponent) {
-                        score -= scoreMap.get(field);
+                        score += scoreBoard[field.getColumnID()][field.getRowID()];
                     }
                 }
             }
             return new int[]{score};
         }
 
-        //updateFieldValidity(board, player, opponent);
-        ArrayList<Field> validMoves = checkFieldValidity(board, player, opponent);//new ArrayList<>();
-//        for (Field[] row : board) {
-//            for (Field field : row) {
-//                if (field.getValidity()) validMoves.add(field);
-//            }
-//        }
+        ArrayList<Field> validMoves = checkFieldValidity(board, player, opponent);
 
         for (Field cell : validMoves) {
             cell.setOwner(player);
 
             //=========================DEBUG
-            String rt = "";
-            for (Field[] row : board) {
-                for (Field field : row) {
-                    rt += field;
-                }
-                rt += "\n";
-            }
-            System.out.println("BEFORE FLIPS:");
-            System.out.println(rt);
+//            String rt = "";
+//            for (Field[] row : board) {
+//                for (Field field : row) {
+//                    rt += field;
+//                }
+//                rt += "\n";
+//            }
+//            System.out.println("BEFORE FLIPS:");
+//            System.out.println(rt);
             //=========================DEBUG
 
             Field[][] boardCopy = enactCaptures(cell, board, player, opponent);
-            rt = "";
-            for (Field[] row : boardCopy) {
-                for (Field field : row) {
-                    rt += field;
-                }
-                rt += "\n";
-            }
-            System.out.println("AFTER FLIPS:");
-            System.out.println(rt);
-            lastMove = cell;
+//            rt = "";
+//            for (Field[] row : boardCopy) {
+//                for (Field field : row) {
+//                    rt += field;
+//                }
+//                rt += "\n";
+//            }
+//            System.out.println("AFTER FLIPS:");
+//            System.out.println(rt);
             score = minMax(boardCopy, depth + 1, opponent, player)[SCORE];
             cell.setOwner(null);
 
@@ -140,7 +130,7 @@ public class OthelloAIHard implements AIStrategy {
     }
 
     private Field[][] enactCaptures(Field field, Field[][] board, Player player, Player opponent) {
-        Field[][] boardCopy = board.clone();
+        Field[][] boardCopy = cloneBoard(board);
         Stack<Field> captures = getCaptures(field, boardCopy, player, opponent, true);
         for (Field capturedField : captures) {
             capturedField.setOwner(player);
@@ -209,6 +199,17 @@ public class OthelloAIHard implements AIStrategy {
             }
         }
         return returnArray;
+    }
+
+    private Field[][] cloneBoard(Field[][] board) {
+        Field[][] boardCopy = new Field[8][8];
+        for (int r = 0; r < 8; r++) {
+            for (int c = 0; c < 8; c++) {
+                boardCopy[r][c] = new Field(r,c);
+                boardCopy[r][c].setOwner(board[r][c].getOwner());
+            }
+        }
+        return boardCopy;
     }
 
 }
