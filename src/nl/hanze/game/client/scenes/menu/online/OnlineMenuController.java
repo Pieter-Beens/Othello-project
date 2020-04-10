@@ -116,7 +116,7 @@ public class OnlineMenuController extends Controller {
             GameModel.serverName = name.getText();
             Platform.runLater(() -> {
                 try {
-                    LobbyController.loggedInAs = playerName;
+                    LobbyController.loggedInAs = name.getText();
                     loadScene("lobby/lobby.fxml");
                 } catch (IOException ignore) { ignore.printStackTrace(); }
             });

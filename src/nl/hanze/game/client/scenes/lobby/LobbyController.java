@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.Controller;
@@ -63,6 +64,13 @@ public class LobbyController extends Controller implements Initializable {
     // Indicates whether the user wants to play fullscreen, default is 'false'
     @FXML private CheckBox fullscreen;
 
+    @FXML
+    public Text lastGameResult;
+
+    public static String lastGameResultMsg = "";
+
+    public static String loggedInAs;
+
     private ObservableList<PlayerRow> tableList = FXCollections.observableArrayList();
 
     // Save the game match data, when you are the starting player.
@@ -83,6 +91,22 @@ public class LobbyController extends Controller implements Initializable {
 
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
 
+        //Show the result of the last game
+        String[] arr = lastGameResultMsg.split(" ");
+
+        if (lastGameResultMsg.equals("")) {
+            lastGameResult.setText("");
+        } else {
+            if (arr[0].equals("tie")) {
+                lastGameResult.setText("Result of last game:\nTie");
+            }
+            if (loggedInAs.equals(arr[0])) {
+                lastGameResult.setText("Result of last game:\nYou won!");
+            }
+            else {
+                lastGameResult.setText("Result of last game:\nYou lost :(");
+            }
+        }
 
         /**
          * @author Jasper van Dijken
