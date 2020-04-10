@@ -15,6 +15,7 @@ import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.utils.BoardPane;
+import nl.hanze.game.client.scenes.lobby.LobbyController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -111,18 +112,6 @@ public abstract class GameController extends Controller implements Initializable
         System.out.println(Arrays.toString(cords) + "----------------------------");
         move(new Move(model.getPlayerByName(map.get("PLAYER")), cords[0], cords[1]));
     }
-
-    public void gameWin(Map<String, String> map) {
-        model.endGame();
-    }
-
-    public void gameLoss(Map<String, String> map) {
-        model.endGame();
-    }
-
-    public void gameDraw(Map<String, String> map) {
-        model.endGame();
-    }
     
     public GameModel getModel() {
         return model;
@@ -173,5 +162,31 @@ public abstract class GameController extends Controller implements Initializable
             turnLabel.setText("Your turn");
         else
             turnLabel.setText(model.getActivePlayer().getName()+ "'s turn");
+    }
+
+    @Override
+    public void gameWin(Map<String, String> map) {
+        goToLobby("You won");
+    }
+
+    @Override
+    public void gameLoss(Map<String, String> map) {
+        goToLobby("You lost");
+    }
+
+    @Override
+    public void gameDraw(Map<String, String> map) {
+        goToLobby("You came to a draw");
+    }
+
+    private void goToLobby(String msg) {
+        LobbyController.lastGameResultMsg = msg;
+        goToLobby();
+    }
+
+    private void goToLobby() {
+        try {
+            Controller.loadScene("lobby/lobby.fxml");
+        } catch (IOException ignore) {}
     }
 }

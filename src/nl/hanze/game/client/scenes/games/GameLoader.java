@@ -103,7 +103,8 @@ public class GameLoader {
                 aiStrategy = new TicTacToeAI();
                 break;
             case "othello":
-                aiStrategy = new OthelloAIHard();
+                //aiStrategy = new OthelloAIHard();
+                aiStrategy = new OthelloAIEasy();
                 break;
         }
 

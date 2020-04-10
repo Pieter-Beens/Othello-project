@@ -1,9 +1,14 @@
 package nl.hanze.game.client.scenes.games;
 
+import javafx.application.Platform;
+import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.Player;
+import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.utils.Field;
+import nl.hanze.game.client.scenes.lobby.LobbyController;
 import nl.hanze.game.client.scenes.utils.Popup;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -100,10 +105,21 @@ public abstract class GameModel {
         } else if (winner == 1) {
             msg = players[1].getName() + " has won!";
         } else {
-            msg = players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
+            msg = "tie " + players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
         }
-        System.out.println(msg);
-        Popup.display(msg, "GAME END", 300, 200);
+
+        /**
+         * @author Jasper van Dijken
+         */
+        //Send the result of the game, redirect to lobby
+        try {
+            if (!Main.serverConnection.hasConnection()) {
+                Popup.display(msg); // TODO: remove all pops
+                Controller.loadScene("start/start.fxml");
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public int determineWinner() {

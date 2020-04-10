@@ -8,6 +8,7 @@ import javafx.scene.text.Text;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameModel;
+import nl.hanze.game.client.scenes.lobby.LobbyController;
 
 import java.io.IOException;
 
@@ -99,7 +100,6 @@ public class OnlineMenuController extends Controller {
         if (ip.endsWith(".")) {
             return false;
         }
-
         return true;
     }
 
@@ -114,7 +114,9 @@ public class OnlineMenuController extends Controller {
 
             GameModel.serverName = name.getText();
             Platform.runLater(() -> {
-                try { loadScene("lobby/lobby.fxml");
+                try {
+                    LobbyController.loggedInAs = name.getText();
+                    loadScene("lobby/lobby.fxml");
                 } catch (IOException ignore) { ignore.printStackTrace(); }
             });
         }
