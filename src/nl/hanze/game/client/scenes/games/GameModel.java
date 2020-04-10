@@ -91,7 +91,6 @@ public abstract class GameModel {
 
     public void endGame()  {
 
-        //TODO: get rid of popup, show result in lobby
         System.out.println("Neither player was able to move, so the game has ended!");
         gameHasEnded = true;
         String msg;
