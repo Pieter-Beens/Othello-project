@@ -72,7 +72,6 @@ public class OthelloAIHard implements AIStrategy {
         int bestScore = -50000;
         int bestRow = -1;
         int bestCol = -1;
-        Field[][] boardCopy;
 
         if (depth >= MAXDEPTH) {
             score = 0;
@@ -100,7 +99,7 @@ public class OthelloAIHard implements AIStrategy {
         for (Field cell : validMoves) {
             cell.setOwner(player);
 
-            //DEBUG
+            //=========================DEBUG
             String rt = "";
             for (Field[] row : board) {
                 for (Field field : row) {
@@ -110,9 +109,9 @@ public class OthelloAIHard implements AIStrategy {
             }
             System.out.println("BEFORE FLIPS:");
             System.out.println(rt);
-            //DEBUG
+            //=========================DEBUG
 
-            boardCopy = enactCaptures(cell, board, player, opponent);
+            Field[][] boardCopy = enactCaptures(cell, board, player, opponent);
             rt = "";
             for (Field[] row : boardCopy) {
                 for (Field field : row) {
@@ -134,6 +133,8 @@ public class OthelloAIHard implements AIStrategy {
                 }
             }
         }
+
+        if (validMoves.isEmpty()) bestScore = minMax(board, depth + 1, opponent, player)[SCORE];
 
         return new int[]{bestScore, bestRow, bestCol};
     }
