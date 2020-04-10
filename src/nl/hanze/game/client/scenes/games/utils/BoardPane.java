@@ -2,10 +2,13 @@ package nl.hanze.game.client.scenes.games.utils;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import nl.hanze.game.client.Main;
+import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
+import nl.hanze.game.client.scenes.games.othello.OthelloController;
 
 public abstract class BoardPane extends GridPane {
     protected GameModel model;
@@ -29,27 +32,8 @@ public abstract class BoardPane extends GridPane {
             }
         }
 
-        scale();
-        //setPadding(new Insets(5, 5, 5, 5));
         setVgap(0);
         setHgap(0);
-        setGridLinesVisible(true);
-    }
-
-    // called by listener when resizing
-    public void scale() { //TODO: fix this
-        double smallestDimension = Main.primaryStage.getWidth();
-        if (Main.primaryStage.getHeight() < smallestDimension) smallestDimension = Main.primaryStage.getHeight();
-
-        double fieldSize = (smallestDimension / model.getBoardSize()) * 0.90;
-        for (Node fieldButton : getChildren()) {
-            FieldButton fb = (FieldButton) fieldButton;
-            fb.setMinSize(fieldSize, fieldSize);
-        }
-
-        double fieldSpacing = (smallestDimension / model.getBoardSize()) * 0.05;
-        setVgap(fieldSpacing);
-        setHgap(fieldSpacing);
     }
 
     public void disableAllFields() {
@@ -66,8 +50,10 @@ public abstract class BoardPane extends GridPane {
             button.setDisable(disable);
         }
     }
+    public GameController getController() { return controller; }
 
     public abstract void enableValidFields();
 
-    public abstract GameController getController();
+    public abstract void update();
+
 }

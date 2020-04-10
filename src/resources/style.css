@@ -7,24 +7,24 @@ FieldButton {
     /*-fx-border-color: brown;*/
 }
 
-#boardGridPane {
-    -fx-background-image: url('/resources/boardImage.png');
-    -fx-background-insets: none;
+#OthelloBoard {
+    -fx-background-image: url('/resources/boardImageOthello.png');
     -fx-background-size: cover;
-    /*-fx-background-color: rgba(0,0,0,0);*/
-
 }
+
+#TicTacToeBoard {
+    -fx-background-image: url('/resources/boardImageTTT.png');
+    -fx-background-size: cover;
+}
+
 #rootPane {
     -fx-background-color: darkgreen;
 }
+#coordinates Label{
+    -fx-text-fill: white;-fx-font-size: 20;-fx-font-family: Verdana;
+}
 #infoPanel {
     -fx-background-color: white;
-}
-#boardGridPane Label {
-    -fx-text-fill: white;
-    -fx-font-size: 20;
-    -fx-font-family: Verdana;
-    /*-fx-border-color: white;*/
 }
 #gameBoardPane Line {
     -fx-stroke   : saddlebrown;

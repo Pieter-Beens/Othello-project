@@ -27,10 +27,9 @@ import java.util.ResourceBundle;
  */
 public abstract class GameController extends Controller implements Initializable {
 
-    //@FXML public HBox boardContainer;
     @FXML protected Pane gameBoardPane;
-    @FXML protected BoardPane boardPane;
-    @FXML protected GridPane infoPanel;
+    @FXML protected GridPane boardGridPane;
+    protected BoardPane gameBoard;
     @FXML protected Label turnLabel;
     @FXML protected Button forfeitButton;
     @FXML protected Label gameTitle;
@@ -56,7 +55,6 @@ public abstract class GameController extends Controller implements Initializable
         Label turn = new Label("Turn: ");
         turn.setFont(font);
         turnLabel.setGraphic(turn);
-        drawFieldIds();
     }
 
     abstract public void setup();
@@ -68,7 +66,7 @@ public abstract class GameController extends Controller implements Initializable
 
         super.goBack();
     }
-    private void drawFieldIds(){
+    protected void drawCoordinates(){
         double hPadding = ((680/model.getBoardSize())/2)-6;
         double vPadding = ((680/model.getBoardSize())/2)-12;
         char[] fieldIds = {'A','B','C','D','E','F','G','H'};
@@ -169,5 +167,7 @@ public abstract class GameController extends Controller implements Initializable
 
     public abstract boolean move(Move move);
 
-    public abstract BoardPane getBoardPane();
+    public BoardPane getBoardPane() {
+        return gameBoard;
+    }
 }

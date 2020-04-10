@@ -31,8 +31,9 @@ public class OthelloController extends GameController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        boardPane = new OthelloBoard(model, this);
-        gameBoardPane.getChildren().add(boardPane);
+        gameBoard = new OthelloBoard(model, this);
+        boardGridPane.setId("OthelloBoard");
+        gameBoardPane.getChildren().add(gameBoard);
         gameTitle.setText("Othello");
         Label graphic1 = new Label("Your score");
         Label graphic2 = new Label("Opponent score");
@@ -41,6 +42,8 @@ public class OthelloController extends GameController {
         graphic2.setFont(font);
         scoreLabel1.setGraphic(graphic1);
         scoreLabel2.setGraphic(graphic2);
+        gameBoard.setGridLinesVisible(true);
+        drawCoordinates();
     }
 
     @Override
@@ -58,7 +61,7 @@ public class OthelloController extends GameController {
     //TODO: refactor to use GameController.updateViews() after Game Views have been made generic
     @Override
     public void updateViews() {
-        ((OthelloBoard)boardPane).update();
+        gameBoard.update();
         scoreLabel1.setText(String.valueOf(model.getPlayer(0).getScore()));
         scoreLabel2.setText(String.valueOf(model.getPlayer(1).getScore()));
         //TODO: namen fixen
@@ -82,8 +85,4 @@ public class OthelloController extends GameController {
         return false;
     }
 
-    @Override
-    public BoardPane getBoardPane() {
-        return boardPane;
-    }
 }
