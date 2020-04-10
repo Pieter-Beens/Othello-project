@@ -15,11 +15,11 @@
                <children>
                   <GridPane prefHeight="75.0" prefWidth="842.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="415.0" minWidth="0.0" prefWidth="63.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="0.0" prefWidth="65.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="0.0" prefWidth="102.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="10.0" prefWidth="390.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="10.0" prefWidth="228.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="415.0" minWidth="0.0" prefWidth="49.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="0.0" prefWidth="67.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="0.0" prefWidth="68.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="790.0" minWidth="10.0" prefWidth="471.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="790.0" minWidth="10.0" prefWidth="186.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -37,6 +37,10 @@
                            </GridPane.margin>
                         </ToggleButton>
                         <Button fx:id="btnFullscreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickedBtnFullscreen" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #E47D21;" text="fullscreen: off" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                        <Text fx:id="lastGameResult" layoutX="10.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" GridPane.columnIndex="4">
+                           <font>
+                              <Font size="17.0" />
+                           </font></Text>
                      </children>
                   </GridPane>
                </children>

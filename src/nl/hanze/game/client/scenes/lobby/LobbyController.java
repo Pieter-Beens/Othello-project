@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.Controller;
@@ -36,6 +37,13 @@ public class LobbyController extends Controller implements Initializable {
 
     @FXML
     public Button btnFullscreen;
+
+    @FXML
+    public Text lastGameResult;
+
+    public static String lastGameResultMsg = "";
+
+    public static String loggedInAs;
 
     @FXML
     public HBox gameBtnHBox;
@@ -95,12 +103,34 @@ public class LobbyController extends Controller implements Initializable {
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
 
 
+        //Show the result of the last game
+        String[] arr = lastGameResultMsg.split(" ");
+
+        if (lastGameResultMsg.equals("")) {
+            lastGameResult.setText("");
+        } else {
+            if (arr[0].equals("tie")) {
+                lastGameResult.setText("\n\n\n\nResult of last game:\nTie");
+            }
+            if (loggedInAs.equals(arr[0])) {
+                lastGameResult.setText("\n\n\n\nResult of last game:\nYou won!");
+            }
+            else {
+                lastGameResult.setText("\n\n\n\nResult of last game:\nYou lost :(");
+            }
+        }
+
+        //lastGameResult.setText(lastGameResultMsg);
+
         /**
          * @author Jasper van Dijken
          */
         challengerColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("name"));
         challengeNumberColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("challengeID"));
         gameColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("game"));
+
+        //GameModel gm = new GameModel();
+        //System.out.println(gm.getResult());
 
     }
 
