@@ -31,7 +31,7 @@
                                 <ToggleGroup fx:id="playerMode" />
                            </toggleGroup>
                         </SelectButton>
-                        <SelectButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#gameModeChanged" prefHeight="30.0" prefWidth="100.0" selected="true" text="Play manually" toggleGroup="$playerMode" userData="manual" GridPane.columnIndex="3" />
+                        <SelectButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#gameModeChanged" prefHeight="30.0" prefWidth="100.0" text="Play manually" toggleGroup="$playerMode" userData="manual" GridPane.columnIndex="3" />
                         <Text fx:id="lastGameResult" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" GridPane.columnIndex="4">
                            <font>
                               <Font size="17.0" />
@@ -51,7 +51,7 @@
             <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0">
                <children>
 
-                  <CheckBox fx:id="fullscreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Use Fullscreen">
+                  <CheckBox fx:id="fullscreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseReleased="#fullscreenReleased" prefHeight="30.0" prefWidth="150.0" text="Use Fullscreen">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

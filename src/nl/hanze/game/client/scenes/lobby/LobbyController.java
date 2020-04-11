@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import nl.hanze.game.client.Main;
@@ -136,8 +137,6 @@ public class LobbyController extends Controller implements Initializable {
         for (SelectButton btn : buttons) {
             gameBtnHBox.getChildren().add(btn);
             selectedGame.getToggles().add(btn);
-            selectedGame.getToggles().get(0).setSelected(true);
-
         }
     }
 
@@ -156,6 +155,12 @@ public class LobbyController extends Controller implements Initializable {
     @FXML
     private void gameChanged() {
         //model.setGameMode((String) playerMode.getSelectedToggle().getUserData());
+    }
+
+    //Sets fullscreen in model
+    @FXML
+    public void fullscreenReleased(MouseEvent mouseEvent) {
+        model.setFullscreen(fullscreen.isSelected());
     }
 
     /**
@@ -225,7 +230,7 @@ public class LobbyController extends Controller implements Initializable {
         Platform.runLater(() -> {
             try {
                 PlayerType playerType = model.getGameMode().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
-                GameFacade.startOnline(map, fullscreen.isSelected(), playerType);
+                GameFacade.startOnline(map, model.getFullscreen(), playerType);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -251,7 +256,7 @@ public class LobbyController extends Controller implements Initializable {
             try {
                 //TODO:toggleGroup="$selectedGame"
                 PlayerType playerType = model.getGameMode().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
-                GameController controller = GameFacade.startOnline(gameMatchBuffer, fullscreen.isSelected(), playerType);
+                GameController controller = GameFacade.startOnline(gameMatchBuffer, model.getFullscreen(), playerType);
                 controller.gameYourTurn(map);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -265,9 +270,9 @@ public class LobbyController extends Controller implements Initializable {
         //selectedGame contains the game the user wants to play, (String 'Reversi' or 'Tic-tac-toe')
 
         //Subscribe for game
-        Main.serverConnection.subscribe((String)selectedGame.getSelectedToggle().getUserData());
+        Main.serverConnection.subscribe(model.getGame());
 
-        System.out.println("Play as: " + model.getGameMode() + ", Fullscreen: " + fullscreen.isSelected() + ", Game: " + model.getGame());
+        System.out.println("Play as: " + model.getGameMode() + ", Fullscreen: " + model.getFullscreen() + ", Game: " + model.getGame());
     }
 
     public void btnMatchRequest(ActionEvent event) {

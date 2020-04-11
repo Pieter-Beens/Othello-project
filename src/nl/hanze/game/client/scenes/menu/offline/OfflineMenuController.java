@@ -99,7 +99,7 @@ public class OfflineMenuController extends Controller implements Initializable {
         playernames.setVisible(b);
     }
 
-    //Sets selectedGame in model when altered
+    //Sets selectedGame in model
     @FXML
     public void gameChanged() {
         model.setGame((String) selectedGame.getSelectedToggle().getUserData());
@@ -119,7 +119,7 @@ public class OfflineMenuController extends Controller implements Initializable {
         }
     }
 
-    //Sets difficulty in model when altered
+    //Sets difficulty in model
     @FXML
     public void onDifficultyChanged(MouseEvent mouseEvent) {
         model.setDifficulty((int) difficultySlider.getValue());
