@@ -53,7 +53,6 @@ public class OfflineMenuController extends Controller implements Initializable {
                     return "Hard";
                 }
                 return null;
-
             }
 
             @Override
@@ -82,9 +81,8 @@ public class OfflineMenuController extends Controller implements Initializable {
             difficulty.setManaged(false);
         }
         difficulty.setVisible(b);
-
-
     }
+
     public void setPlayernamesVisibility(boolean b){
 
         if(b) {
@@ -94,10 +92,15 @@ public class OfflineMenuController extends Controller implements Initializable {
             playernames.setManaged(false);
         }
         playernames.setVisible(b);
-
-
     }
 
+    //Sets selectedGame in model when altered
+    @FXML
+    public void gameChanged() {
+        model.setGame((String) selectedGame.getSelectedToggle().getUserData());
+    }
+
+    //Sets gameMode in model, shows or hides difficulty slider accordingly
     @FXML
     public void gameModeChanged() {
         model.setGameMode((String) selectedGameMode.getSelectedToggle().getUserData());
@@ -111,9 +114,16 @@ public class OfflineMenuController extends Controller implements Initializable {
         }
     }
 
+    //Sets difficulty in model when altered
     @FXML
     public void onDifficultyChanged(MouseEvent mouseEvent) {
         model.setDifficulty((int) difficultySlider.getValue());
+    }
+
+    //Sets fullscreen in model when altered
+    @FXML
+    public void fullscreenReleased(MouseEvent mouseEvent) {
+        model.setFullscreen(fullscreen.isSelected());
     }
 
     public void enablePlayButton(){
@@ -142,6 +152,7 @@ public class OfflineMenuController extends Controller implements Initializable {
                     (int) difficultySlider.getValue()
             );
         }
+        System.out.println(selectedGame.getSelectedToggle().getUserData());
     }
 
     public void btnGoBack(ActionEvent actionEvent) throws IOException {

@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import nl.hanze.game.client.scenes.utils.SelectButton?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import nl.hanze.game.client.scenes.utils.*?>
 
-<VBox fx:id="container" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="950.0" stylesheets="@/resources/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.menu.offline.OfflineMenuController">
+<VBox fx:id="container" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="950.0" stylesheets="@/resources/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.menu.offline.OfflineMenuController">
     <children>
        <HBox alignment="CENTER" prefHeight="77.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;">
           <children>
@@ -41,7 +31,7 @@
                         <Insets right="30.0" />
                     </GridPane.margin>
                 </Label>
-                <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefWidth="100.0" text="Tic Tac Toe" userData="tictactoe" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" onMouseClicked="#gameChanged" prefWidth="100.0" text="Tic Tac Toe" userData="tictactoe" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets left="5.0" right="5.0" />
                </GridPane.margin>
@@ -62,7 +52,7 @@
                </GridPane.margin>
                 </SelectButton>
                 <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" onMouseClicked="#gameModeChanged" prefWidth="100.0" text="Multi Player" toggleGroup="$selectedGameMode" userData="multi-player" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" prefWidth="100.0" text="Othello" toggleGroup="$selectedGame" userData="othello" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" onMouseClicked="#gameChanged" prefWidth="100.0" text="Othello" toggleGroup="$selectedGame" userData="othello" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             </children>
             <VBox.margin>
                 <Insets top="30.0" />
@@ -123,7 +113,7 @@
                         <Insets right="30.0" top="10.0" />
                     </GridPane.margin>
                 </Label>
-                <Slider fx:id="difficultySlider" onMouseReleased="#onDifficultyChanged" blockIncrement="1" majorTickUnit="1" max="2" maxWidth="255.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1" GridPane.columnIndex="1">
+                <Slider fx:id="difficultySlider" blockIncrement="1" majorTickUnit="1" max="2" maxWidth="255.0" minorTickCount="0" onMouseReleased="#onDifficultyChanged" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1" GridPane.columnIndex="1">
                     <GridPane.margin>
                         <Insets />
                     </GridPane.margin>
@@ -147,7 +137,7 @@
                         <Insets right="30.0" />
                     </GridPane.margin>
                 </Label>
-                <CheckBox fx:id="fullscreen" mnemonicParsing="false" GridPane.columnIndex="1" />
+                <CheckBox fx:id="fullscreen" mnemonicParsing="false" onMouseReleased="#fullscreenReleased" GridPane.columnIndex="1" />
             </children>
             <VBox.margin>
                 <Insets bottom="20.0" />
