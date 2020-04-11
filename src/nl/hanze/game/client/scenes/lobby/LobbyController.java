@@ -151,12 +151,6 @@ public class LobbyController extends Controller implements Initializable {
         model.setGameMode((String) playerMode.getSelectedToggle().getUserData());
     }
 
-    //Sets selected game in model
-    @FXML
-    private void gameChanged() {
-        //model.setGameMode((String) playerMode.getSelectedToggle().getUserData());
-    }
-
     //Sets fullscreen in model
     @FXML
     public void fullscreenReleased(MouseEvent mouseEvent) {
