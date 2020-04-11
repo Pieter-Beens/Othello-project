@@ -113,6 +113,12 @@ public class TicTacToeAI implements AIStrategy {
         return new int[]{bestScore, bestRow, bestCol}; //the best move is returned at the end of the for loop
     }
 
+    /**
+     * This function copies every field in a given board. Used by tic-tac-toe so that any edits made to the board for the
+     * minmax calculations are made on cloned fields.
+     * @param board a double array of Fields that needs to be cloned.
+     * @return a double array of with cloned Fields
+     */
     private Field[][] cloneBoard(Field[][] board) {
         Field[][] boardCopy = new Field[3][3];
         for (int r = 0; r < 3; r++) {

@@ -133,7 +133,7 @@ public class OthelloAIHard implements AIStrategy {
             System.out.println("SCORE OF THIS BOARD IS: " + score + ", calculated for " + type);
             System.out.println(rt);
             //=========================DEBUG
-            return new int[]{score * -1};
+            return new int[]{score};
         }
 
         ArrayList<Field> validMoves = checkFieldValidity(board, player, opponent);
