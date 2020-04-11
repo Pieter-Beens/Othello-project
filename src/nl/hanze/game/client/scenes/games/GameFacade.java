@@ -34,10 +34,8 @@ public class GameFacade {
         } else {
             player1 = new Player(GameModel.serverName, playerType);
         }
-        player1.isThisMe(true);
 
         Player player2 = new Player(args.get("OPPONENT"), PlayerType.REMOTE);
-        player2.isThisMe(false);
 
         GameController controller = getController(game);
         GameModel model = controller.getModel();
@@ -53,9 +51,7 @@ public class GameFacade {
         game = game.toLowerCase().replace("-", "");
 
         Player player1 = new Player(ignPlayer1, PlayerType.LOCAL);
-        Player player2 = (isMultiPlayer) ? new Player(ignPlayer2, PlayerType.LOCAL) : new AIPlayer(ignPlayer2, PlayerType.AI, aiFactory.create(game, SimpleAIFactory.HARD));
-        player1.isThisMe(!isMultiPlayer);
-        player2.isThisMe(false);
+        Player player2 = (isMultiPlayer) ? new Player(ignPlayer2, PlayerType.LOCAL) : new AIPlayer("Computer", PlayerType.AI, aiFactory.create(game, SimpleAIFactory.HARD));
 
         GameController controller = getController(game);
         GameModel model = controller.getModel();

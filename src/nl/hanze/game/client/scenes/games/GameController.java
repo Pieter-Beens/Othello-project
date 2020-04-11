@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 /**
@@ -159,10 +160,12 @@ public abstract class GameController extends Controller implements Initializable
     }
 
     public void updateTurnLabel(){
-        if(model.getActivePlayer().isThisMe())
-            turnLabel.setText("Your turn");
-        else
-            turnLabel.setText(model.getActivePlayer().getName()+ "'s turn");
+        String playerName = model.getActivePlayer().getName();
+        Player player2 = model.getPlayer(1);
+        if(model.getActivePlayer() == player2 && player2.getPlayerType() == PlayerType.AI){
+            playerName = "computer";
+        }
+        turnLabel.setText(playerName+ "'s turn");
     }
 
     @Override
