@@ -46,6 +46,9 @@ public class TicTacToeModel extends GameModel {
         return state(this.board);
     }
 
+    /**
+     * @author Roy Voetman
+     */
     public static State state(Field[][] board) {
         State state = null;
 
