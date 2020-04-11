@@ -27,6 +27,9 @@ public class OthelloController extends GameController {
     @FXML private Label scoreLabel1;
     @FXML private Label scoreLabel2;
 
+    private Label graphic1;
+    private Label graphic2;
+
     public OthelloController(OthelloModel model) {
         super(model);
     }
@@ -37,9 +40,9 @@ public class OthelloController extends GameController {
         gameBoard = new OthelloBoard(model, this);
         boardGridPane.setId("OthelloBoard");
         gameBoardPane.getChildren().add(gameBoard);
-        gameTitle.setText("Othello");
-        Label graphic1 = new Label(model.getPlayer(0).getName()+"'s score");
-        Label graphic2 = new Label(model.getPlayer(1).getName()+"'s score");
+        gameTitle.setText("Othello");graphic1 = new Label();
+        graphic1 = new Label();
+        graphic2 = new Label();
         Font font = new Font("System Bold",24);
         graphic1.setFont(font);
         graphic2.setFont(font);
@@ -47,6 +50,13 @@ public class OthelloController extends GameController {
         scoreLabel2.setGraphic(graphic2);
         gameBoard.setGridLinesVisible(true);
         drawCoordinates();
+    }
+
+    public void setup() {
+        graphic1.setText(model.getPlayer(0).getName()+"'s score");
+        graphic1.setText(model.getPlayer(1).getName()+"'s score");
+
+        super.setup();
     }
 
     @Override
