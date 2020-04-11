@@ -49,7 +49,7 @@ public class GameLoader {
         return start(controller, fullscreen);
     }
 
-    public static void startOffline(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer) throws IOException {
+    public static void startOffline(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer, int difficulty) throws IOException {
         game = game.toLowerCase().replace("-", "");
 
         AIStrategy aiStrategy = determineAIStrategy(game);

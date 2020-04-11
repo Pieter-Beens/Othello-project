@@ -103,7 +103,7 @@ public class OfflineMenuController extends Controller implements Initializable {
 
     }
 
-
+    @FXML
     public void gameModeChanged() {
         model.setGameMode((String) selectedGameMode.getSelectedToggle().getUserData());
 
@@ -116,6 +116,11 @@ public class OfflineMenuController extends Controller implements Initializable {
         }
     }
 
+    @FXML
+    public void onDifficultyChanged(MouseEvent mouseEvent) {
+        model.setDifficulty((int) difficultySlider.getValue());
+    }
+
     public void enablePlayButton(){
         try{
             selectedGameMode.getSelectedToggle().getUserData();
@@ -126,9 +131,16 @@ public class OfflineMenuController extends Controller implements Initializable {
     }
 
     public void startBtnClicked(ActionEvent event) throws IOException {
-        boolean multiplayer = model.getGameMode().equals("multi-player")
+        boolean multiplayer = model.getGameMode().equals("multi-player");
 
-        GameLoader.startOffline(player1.getText(), player2.getText(), (String)selectedGame.getSelectedToggle().getUserData(), fullscreen.isSelected(), multiplayer);
+        GameLoader.startOffline(
+                player1.getText(),
+                player2.getText(),
+                (String)selectedGame.getSelectedToggle().getUserData(),
+                fullscreen.isSelected(),
+                multiplayer,
+                model.getDifficulty()
+        );
     }
 
     public void btnGoBack(ActionEvent actionEvent) throws IOException {
