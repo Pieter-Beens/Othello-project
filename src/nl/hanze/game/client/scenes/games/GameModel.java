@@ -152,7 +152,7 @@ public abstract class GameModel {
                 if (field.getOwner() == null) {
                     field.setValidity(true);
                 } else {
-                    field.setValidity(true);
+                    field.setValidity(false);
                 }
             }
         }
