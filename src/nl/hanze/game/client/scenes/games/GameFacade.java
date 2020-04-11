@@ -22,15 +22,15 @@ import java.util.Map;
  * @author Roy Voetman
  */
 public class GameFacade {
+    private static final SimpleAIFactory aiFactory = new SimpleAIFactory();
+
     public static GameController startOnline(Map<String, String> args, boolean fullscreen, PlayerType playerType) throws IOException {
         String game = args.get("GAMETYPE").toLowerCase().replace("-", "");
         game = game.equals("reversi") ? "othello" : game;
 
         Player player1;
         if (playerType == PlayerType.AI) {
-            AIStrategy aiStrategy = determineAIStrategy(game, 2);
-
-            player1 = new AIPlayer(GameModel.serverName, playerType, aiStrategy);
+            player1 = new AIPlayer(GameModel.serverName, playerType, aiFactory.create(game, 2));
         } else {
             player1 = new Player(GameModel.serverName, playerType);
         }
@@ -52,10 +52,8 @@ public class GameFacade {
     public static void startOffline(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer, int difficulty) throws IOException {
         game = game.toLowerCase().replace("-", "");
 
-        AIStrategy aiStrategy = determineAIStrategy(game, difficulty);
-
         Player player1 = new Player(ignPlayer1, PlayerType.LOCAL);
-        Player player2 = (isMultiPlayer) ? new Player(ignPlayer2, PlayerType.LOCAL) : new AIPlayer(ignPlayer2, PlayerType.AI, aiStrategy);
+        Player player2 = (isMultiPlayer) ? new Player(ignPlayer2, PlayerType.LOCAL) : new AIPlayer(ignPlayer2, PlayerType.AI, aiFactory.create(game, SimpleAIFactory.HARD));
         player1.isThisMe(!isMultiPlayer);
         player2.isThisMe(false);
 
@@ -96,20 +94,34 @@ public class GameFacade {
         return (GameController) Controller.loadScene("games/game.fxml", loader);
     }
 
-    private static AIStrategy determineAIStrategy(String game, int difficulty) {
-        AIStrategy aiStrategy = null;
-        switch (game) {
-            case "tictactoe":
-                aiStrategy = new TicTacToeAI();
-                break;
-            case "reversi":
-            case "othello":
-                if (difficulty == 0) aiStrategy = new OthelloAIEasy();
-                if (difficulty == 1) aiStrategy = new OthelloAIMedium();
-                if (difficulty == 2) aiStrategy = new OthelloAIHard();
-                break;
-        }
+    /**
+     * This SimpleAIFactory class serves as a Simple AIStrategy Factory.
+     * Providing different AIs based on the given game and difficulty
+     * (Simple Factory)
+     *
+     * @author Roy Voetman
+     */
+    private static class SimpleAIFactory {
+        public static final int EASY = 0;
+        public static final int MEDIUM = 1;
+        public static final int HARD = 2;
 
-        return aiStrategy;
+        public  AIStrategy create(String game, int difficulty) {
+            AIStrategy aiStrategy = null;
+
+            switch (game) {
+                case "tictactoe":
+                    aiStrategy = new TicTacToeAI();
+                    break;
+                case "reversi":
+                case "othello":
+                    if (difficulty == EASY) aiStrategy = new OthelloAIEasy();
+                    if (difficulty == MEDIUM) aiStrategy = new OthelloAIMedium();
+                    if (difficulty == HARD) aiStrategy = new OthelloAIHard();
+                    break;
+            }
+
+            return aiStrategy;
+        }
     }
 }
