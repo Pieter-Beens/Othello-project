@@ -13,28 +13,26 @@ public class OfflineMenuModel {
     public String getGame() { return game; }
 
     //GameMode
-    public String getGameMode() {
-        return gameMode;
-    }
-
     public void setGameMode(String gameMode) {
         this.gameMode = gameMode;
     }
 
-    //Difficulty
-    public int getDifficulty() {
-        return difficulty;
+    public String getGameMode() {
+        return gameMode;
     }
 
+    //Difficulty
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
 
-    //Fullscreen
-    public boolean getFullscreen() { return fullscreen; }
+    public int getDifficulty() {
+        return difficulty;
+    }
 
+    //Fullscreen
     public void setFullscreen(boolean fullscreen) { this.fullscreen = fullscreen; }
 
-
+    public boolean getFullscreen() { return fullscreen; }
 
 }

@@ -16,6 +16,7 @@ import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameFacade;
 import nl.hanze.game.client.scenes.games.GameModel;
+import nl.hanze.game.client.scenes.menu.offline.OfflineMenuModel;
 import nl.hanze.game.client.scenes.utils.PlayerRow;
 import nl.hanze.game.client.scenes.utils.Popup;
 import nl.hanze.game.client.scenes.utils.RequestRow;
@@ -73,6 +74,8 @@ public class LobbyController extends Controller implements Initializable {
 
     // Save the game match data, when you are the starting player.
     private Map<String, String> gameMatchBuffer;
+
+    private LobbyModel model = new LobbyModel();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -138,6 +141,12 @@ public class LobbyController extends Controller implements Initializable {
     @FXML
     private void btnAcceptChallenge(ActionEvent event) throws IOException {
         Main.serverConnection.challengeAccept(Integer.parseInt(requestTable.getSelectionModel().getSelectedItem().getChallengeID()));
+    }
+
+    //Sets gameMode in model
+    @FXML
+    private void gameModeChanged() {
+        model.setGameMode((String) playerMode.getSelectedToggle().getUserData());
     }
 
     /**
@@ -206,7 +215,7 @@ public class LobbyController extends Controller implements Initializable {
 
         Platform.runLater(() -> {
             try {
-                PlayerType playerType = playerMode.getSelectedToggle().getUserData().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
+                PlayerType playerType = model.getGameMode().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
                 GameFacade.startOnline(map, fullscreen.isSelected(), playerType);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -232,7 +241,7 @@ public class LobbyController extends Controller implements Initializable {
         Platform.runLater(() -> {
             try {
                 //TODO:toggleGroup="$selectedGame"
-                PlayerType playerType = playerMode.getSelectedToggle().getUserData().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
+                PlayerType playerType = model.getGameMode().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
                 GameController controller = GameFacade.startOnline(gameMatchBuffer, fullscreen.isSelected(), playerType);
                 controller.gameYourTurn(map);
             } catch (IOException e) {
@@ -249,7 +258,7 @@ public class LobbyController extends Controller implements Initializable {
         //Subscribe for game
         Main.serverConnection.subscribe((String)selectedGame.getSelectedToggle().getUserData());
 
-        System.out.println("Play as: " + playerMode.getSelectedToggle().getUserData() + ", Fullscreen: " + fullscreen.isSelected() + ", Game: " + selectedGame.getSelectedToggle().getUserData());
+        System.out.println("Play as: " + model.getGameMode() + ", Fullscreen: " + fullscreen.isSelected() + ", Game: " + selectedGame.getSelectedToggle().getUserData());
     }
 
     public void btnMatchRequest(ActionEvent event) {
