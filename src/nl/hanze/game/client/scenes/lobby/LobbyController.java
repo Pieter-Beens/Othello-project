@@ -126,6 +126,9 @@ public class LobbyController extends Controller implements Initializable {
             SelectButton btn = new SelectButton();
             btn.setText(game);
             btn.setUserData(game);
+            btn.setOnMouseClicked(event -> {
+                model.setGame(game);
+            });
             buttons.add(btn);
         }
 
@@ -147,6 +150,12 @@ public class LobbyController extends Controller implements Initializable {
     @FXML
     private void gameModeChanged() {
         model.setGameMode((String) playerMode.getSelectedToggle().getUserData());
+    }
+
+    //Sets selected game in model
+    @FXML
+    private void gameChanged() {
+        //model.setGameMode((String) playerMode.getSelectedToggle().getUserData());
     }
 
     /**
@@ -258,7 +267,7 @@ public class LobbyController extends Controller implements Initializable {
         //Subscribe for game
         Main.serverConnection.subscribe((String)selectedGame.getSelectedToggle().getUserData());
 
-        System.out.println("Play as: " + model.getGameMode() + ", Fullscreen: " + fullscreen.isSelected() + ", Game: " + selectedGame.getSelectedToggle().getUserData());
+        System.out.println("Play as: " + model.getGameMode() + ", Fullscreen: " + fullscreen.isSelected() + ", Game: " + model.getGame());
     }
 
     public void btnMatchRequest(ActionEvent event) {
@@ -267,7 +276,7 @@ public class LobbyController extends Controller implements Initializable {
             return;
         }
 
-        Main.serverConnection.challenge(playersTable.getSelectionModel().getSelectedItem().getName(), (String)selectedGame.getSelectedToggle().getUserData());
+        Main.serverConnection.challenge(playersTable.getSelectionModel().getSelectedItem().getName(), model.getGame());
     }
 
     @Override
