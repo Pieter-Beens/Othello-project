@@ -166,7 +166,10 @@ public abstract class GameController extends Controller implements Initializable
     }
 
     public void updateTurnLabel(){
-        turnLabel.setText(model.getActivePlayer().getName()+ "'s turn");
+        String player = model.getActivePlayer().getName();
+
+        if(player.equals("You")) turnLabel.setText("Your turn");
+        else turnLabel.setText(player+"'s score");
     }
 
     @Override
