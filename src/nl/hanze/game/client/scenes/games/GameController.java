@@ -61,7 +61,13 @@ public abstract class GameController extends Controller implements Initializable
         Font font = new Font("System Bold",24);
     }
 
-    abstract public void setup();
+    public void setup() {
+        model.setup();
+        updateViews();
+
+        if (!Main.serverConnection.hasConnection())
+            acceptNewMoves();
+    }
 
     public void goBack() throws IOException {
         if (Main.serverConnection.hasConnection()) {
@@ -188,7 +194,10 @@ public abstract class GameController extends Controller implements Initializable
         } catch (IOException ignore) {}
     }
 
-    public abstract void updateViews();
+    public void updateViews() {
+        gameBoard.update();
+        updateTurnLabel();
+    }
 
     public abstract boolean move(Move move);
 }

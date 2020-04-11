@@ -2,6 +2,7 @@ package nl.hanze.game.client.scenes.games;
 
 import javafx.application.Platform;
 import nl.hanze.game.client.Main;
+import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.utils.Field;
@@ -41,12 +42,16 @@ public abstract class GameModel {
         turnCounter++;
 
         boardHistory.add(board); // at the end of every turn, save the new turn's board data to boardHistory ArrayList
+
+        updateFieldValidity();
     }
 
     public void setup() {
         players[turnCounter%2].setStartingColors();
 
         boardHistory.add(board); // save first turn's board data to boardHistory ArrayList
+
+        updateFieldValidity();
     }
 
     public Player getPlayer(int i) {
@@ -139,5 +144,24 @@ public abstract class GameModel {
 
     public boolean hasGameEnded() {
         return gameHasEnded;
+    }
+
+    public void updateFieldValidity() {
+        for (Field[] row : board) {
+            for (Field field : row) {
+                if (field.getOwner() == null) {
+                    field.setValidity(true);
+                } else {
+                    field.setValidity(true);
+                }
+            }
+        }
+    }
+
+    public boolean isValidMove(Move move) {
+        if(move == null) return false;
+        Field field = this.board[move.getRow()][move.getColumn()];
+
+        return field.getValidity();
     }
 }

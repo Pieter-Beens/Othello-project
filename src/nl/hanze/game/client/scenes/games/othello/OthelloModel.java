@@ -13,8 +13,8 @@ import java.util.Stack;
  */
 
 public class OthelloModel extends GameModel {
-    public OthelloModel(int boardSize) {
-        super(boardSize);
+    public OthelloModel() {
+        super(8);
     }
 
     @Override
@@ -53,8 +53,6 @@ public class OthelloModel extends GameModel {
     // Note this is not an override! The parent class' nextTurn() accepts no parameters...
     public void nextTurn(boolean lastTurnWasSkipped) {
         super.nextTurn();
-
-        updateFieldValidity();
 
         if (!turnHasMoves() && lastTurnWasSkipped) { //TODO: turnHasMoves should only be a check, not a setter!
             if (!Main.serverConnection.hasConnection()) {
@@ -145,11 +143,5 @@ public class OthelloModel extends GameModel {
             captureTally++;
         }
         return captureTally;
-    }
-
-    public boolean isValidMove(Move move) {
-        if(move == null) return false;
-        Field field = this.board[move.getRow()][move.getColumn()];
-        return field.getValidity();
     }
 }

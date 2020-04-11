@@ -53,23 +53,9 @@ public class OthelloController extends GameController {
     }
 
     @Override
-    public void setup() {
-        OthelloModel model = (OthelloModel) this.model;
-
-        model.setup();
-        model.updateFieldValidity();
-        updateViews();
-
-        if (!Main.serverConnection.hasConnection())
-            acceptNewMoves();
-    }
-
-    //TODO: refactor to use GameController.updateViews() after Game Views have been made generic
-    @Override
     public void updateViews() {
-        gameBoard.update();
+        super.updateViews();
         updateScoreLabels();
-        updateTurnLabel();
     }
 
     //TODO: refactor to use GameController.move()

@@ -49,7 +49,7 @@ public class GameFacade {
 
     public static void startOffline(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen) throws IOException {
         game = game.toLowerCase().replace("-", "");
-
+        
         GameController controller = getController(game);
         GameModel model = controller.getModel();
 
@@ -90,13 +90,13 @@ public class GameFacade {
         switch (game) {
             case "tictactoe":
                 loader.setController(new TicTacToeController(
-                        new TicTacToeModel(3)
+                        new TicTacToeModel()
                 ));
                 break;
             case "reversi":
             case "othello":
                 loader.setController(new OthelloController(
-                        new OthelloModel(8)
+                        new OthelloModel()
                 ));
                 break;
         }
