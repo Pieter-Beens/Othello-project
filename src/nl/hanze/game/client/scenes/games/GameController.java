@@ -24,6 +24,11 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
+ * This class serves as a template class (Template method pattern)
+ * for all GameControllers.
+ * A concrete implementation of this Controller only requires
+ * the controller to implement the move() and updateViews() methods.
+ *
  * @author Roy Voetman
  */
 public abstract class GameController extends Controller implements Initializable {
@@ -149,10 +154,6 @@ public abstract class GameController extends Controller implements Initializable
         }
     }
 
-    public abstract void updateViews();
-
-    public abstract boolean move(Move move);
-
     public BoardPane getBoardPane() {
         return gameBoard;
     }
@@ -188,4 +189,8 @@ public abstract class GameController extends Controller implements Initializable
             Controller.loadScene("lobby/lobby.fxml");
         } catch (IOException ignore) {}
     }
+
+    public abstract void updateViews();
+
+    public abstract boolean move(Move move);
 }
