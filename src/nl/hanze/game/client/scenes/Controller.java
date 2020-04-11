@@ -44,7 +44,7 @@ public abstract class Controller implements Observer {
 
         // Don't push game scenes to the stack
         // Don't push the same scene twice
-        if (!(currentController instanceof GameController) && fxml.equals(sceneHistory.peek())) {
+        if (!(currentController instanceof GameController) && (sceneHistory.isEmpty() || !fxml.equals(sceneHistory.peek()))) {
             sceneHistory.push(fxml);
         }
 
