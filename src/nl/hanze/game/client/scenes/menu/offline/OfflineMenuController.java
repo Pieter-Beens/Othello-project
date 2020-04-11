@@ -35,7 +35,8 @@ public class OfflineMenuController extends Controller implements Initializable {
     @FXML public Button start;
     @FXML public ToggleGroup selectedGame;
     @FXML public ToggleGroup selectedGameMode;
-    private String gameMode;
+
+    private OfflineMenuModel model = new OfflineMenuModel();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -103,12 +104,13 @@ public class OfflineMenuController extends Controller implements Initializable {
     }
 
 
-    public void gameModeChanged(){
-        gameMode = (String) selectedGameMode.getSelectedToggle().getUserData();
-        if(gameMode.equals("single-player")){
+    public void gameModeChanged() {
+        model.setGameMode((String) selectedGameMode.getSelectedToggle().getUserData());
+
+        if(model.getGameMode().equals("single-player")){
             setDifficultyVisibility(true);
             setPlayernamesVisibility(false);
-        } else if(gameMode.equals("multi-player")){
+        } else if(model.getGameMode().equals("multi-player")){
             setDifficultyVisibility(false);
             setPlayernamesVisibility(true);
         }
@@ -124,8 +126,8 @@ public class OfflineMenuController extends Controller implements Initializable {
     }
 
     public void startBtnClicked(ActionEvent event) throws IOException {
-        boolean multiplayer = false;
-        if(selectedGameMode.getSelectedToggle().getUserData().equals("multi-player")) multiplayer =true;
+        boolean multiplayer = model.getGameMode().equals("multi-player")
+
         GameLoader.startOffline(player1.getText(), player2.getText(), (String)selectedGame.getSelectedToggle().getUserData(), fullscreen.isSelected(), multiplayer);
     }
 
