@@ -71,11 +71,6 @@ public class OfflineMenuController extends Controller implements Initializable {
         difficultySlider.setShowTickLabels(true);
         setDifficultyVisibility(false);
         setPlayernamesVisibility(false);
-            // Styling
-        //start.setStyle("-fx-background-color: " + Colors.BTN_COLOR + "; -fx-text-fill: " + Colors.BTN_TEXT_COLOR);
-        //container.setStyle("-fx-background-color: " + Colors.BG_COLOR);
-
-
     }
 
     public void setDifficultyVisibility(boolean b){
@@ -143,15 +138,21 @@ public class OfflineMenuController extends Controller implements Initializable {
     public void startBtnClicked(ActionEvent event) throws IOException {
         boolean multiplayer = model.getGameMode().equals("multi-player");
 
+        if(multiplayer){
         GameFacade.startOffline(
                 player1.getText(),
                 player2.getText(),
-                model.getGame(),
-                model.getFullscreen(),
-                multiplayer,
-                model.getDifficulty()
+                (String)selectedGame.getSelectedToggle().getUserData(),
+                fullscreen.isSelected()
         );
-        System.out.println(selectedGame.getSelectedToggle());
+        } else {
+            GameFacade.startOffline(
+                    (String)selectedGame.getSelectedToggle().getUserData(),
+                    fullscreen.isSelected(),
+                    (int) difficultySlider.getValue()
+            );
+        }
+        System.out.println(selectedGame.getSelectedToggle().getUserData());
     }
 
     public void btnGoBack(ActionEvent actionEvent) throws IOException {
