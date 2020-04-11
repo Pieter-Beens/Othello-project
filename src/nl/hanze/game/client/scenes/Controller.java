@@ -126,5 +126,7 @@ public abstract class Controller implements Observer {
 
     public void gameLoss(Map<String, String> map) { }
 
-    public void gameDraw(Map<String, String> map) { }
+    public void gameDraw(Map<String, String> map) {
+        System.out.println(map);
+    }
 }

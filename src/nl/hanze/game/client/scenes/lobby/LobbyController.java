@@ -211,6 +211,9 @@ public class LobbyController extends Controller implements Initializable {
         allIndexes.removeAll(foundIndexes);
         for (int index : allIndexes)
             tableList.remove(index);
+
+        //When the match-requesting player is not on server, remove any match-requests from that player
+        requestTable.getItems().removeIf(r -> !list.contains(r.getName()));
     }
 
     @Override
@@ -233,14 +236,21 @@ public class LobbyController extends Controller implements Initializable {
 
     @Override
     public void gameChallenge(Map<String, String> map) {
-        //Platform.runLater(() -> Popup.display("Match from " + map.get("CHALLENGER") + " for a game of " + map.get("GAMETYPE")));
-
         //Author: Jasper van Dijken
         RequestRow row = new RequestRow(map.get("CHALLENGER"), map.get("CHALLENGENUMBER"), map.get("GAMETYPE"));
 
-        requestTable.getItems().add(row);
+        //When there are multiple requests from the same player, show only the latest one, delete older ones
+        if (!requestTable.getItems().isEmpty()) {
+            for (RequestRow r : requestTable.getItems()) {
+                if (r.getName().equals(map.get("CHALLENGER"))) {
+                    requestTable.getItems().remove(r);
+                    requestTable.getItems().add(row);
+                }
+            }
+        } else {
+            requestTable.getItems().add(row);
+        }
         //End Author
-
     }
 
     @Override
@@ -269,6 +279,8 @@ public class LobbyController extends Controller implements Initializable {
         System.out.println("Play as: " + model.getGameMode() + ", Fullscreen: " + model.getFullscreen() + ", Game: " + model.getGame());
     }
 
+
+
     public void btnMatchRequest(ActionEvent event) {
         if (playersTable.getSelectionModel().getSelectedItem() == null) {
             Platform.runLater(() -> Popup.display("First select an opponent"));
@@ -276,6 +288,7 @@ public class LobbyController extends Controller implements Initializable {
         }
 
         Main.serverConnection.challenge(playersTable.getSelectionModel().getSelectedItem().getName(), model.getGame());
+
     }
 
     @Override
