@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import nl.hanze.game.client.Main;
+import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.utils.Popup;
 import nl.hanze.game.client.server.interpreter.Interpreter;
 import nl.hanze.game.client.server.Observer;
@@ -33,17 +34,19 @@ public abstract class Controller implements Observer {
     }
 
     public static Controller loadScene(String fxml, FXMLLoader loader) throws IOException {
-        sceneHistory.add(fxml);
-
-        fxml = "src/nl/hanze/game/client/scenes/" + fxml;
-
-        FileInputStream fileInputStream = new FileInputStream(new File(fxml));
+        FileInputStream fileInputStream = new FileInputStream(new File("src/nl/hanze/game/client/scenes/" + fxml));
         Parent parent = loader.load(fileInputStream);
 
         if (currentController != null)
             currentController.changeScene();
 
         currentController = loader.getController();
+
+        // Don't push game scenes to the stack
+        // Don't push the same scene twice
+        if (!(currentController instanceof GameController) && fxml.equals(sceneHistory.peek())) {
+            sceneHistory.push(fxml);
+        }
 
         Scene scene = new Scene(parent);
         scene.getStylesheets().add("/resources/style.css");
