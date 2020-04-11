@@ -93,7 +93,8 @@ public abstract class Controller implements Observer {
                 Platform.runLater(() -> gameYourTurn(resp.getMap()));
                 break;
             case "GAME MOVE":
-                Platform.runLater(() -> gameMove(resp.getMap()));
+                if (!resp.getMap().get("DETAILS").equals("Illegal move"))
+                    Platform.runLater(() -> gameMove(resp.getMap()));
                 break;
             case "GAME WIN":
                 Platform.runLater(() -> gameWin(resp.getMap()));
