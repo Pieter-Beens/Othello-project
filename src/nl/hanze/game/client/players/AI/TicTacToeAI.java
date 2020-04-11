@@ -32,6 +32,8 @@ public class TicTacToeAI implements AIStrategy {
         humanPlayer = opponent;
         aiPlayer = player;
 
+        board = cloneBoard(board);
+
         int[] move = minimax(board, true);
 
         return new Move(aiPlayer, move[1], move[2]);
@@ -111,5 +113,16 @@ public class TicTacToeAI implements AIStrategy {
             }
         }
         return new int[]{bestScore, bestRow, bestCol}; //the best move is returned at the end of the for loop
+    }
+
+    private Field[][] cloneBoard(Field[][] board) {
+        Field[][] boardCopy = new Field[3][3];
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                boardCopy[r][c] = new Field(r,c);
+                boardCopy[r][c].setOwner(board[r][c].getOwner());
+            }
+        }
+        return boardCopy;
     }
 }

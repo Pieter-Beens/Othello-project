@@ -11,8 +11,8 @@ import nl.hanze.game.client.scenes.utils.Popup;
 public class TicTacToeModel extends GameModel {
     private State currentState;
 
-    public TicTacToeModel(int boardSize) {
-        super(boardSize);
+    public TicTacToeModel() {
+        super(3);
 
         currentState = State.IN_PROGRESS;
     }
@@ -22,12 +22,6 @@ public class TicTacToeModel extends GameModel {
 
         players[0].setSign("O");
         players[1].setSign("X");
-    }
-
-    public boolean isValidMove(Move move) {
-        Field field = this.board[move.getRow()][move.getColumn()];
-
-        return (field.getOwner() == null);
     }
 
     public void recordMove(Move move) {

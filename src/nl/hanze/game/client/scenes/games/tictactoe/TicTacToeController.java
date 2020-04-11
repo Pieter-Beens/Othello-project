@@ -27,15 +27,6 @@ public class TicTacToeController extends GameController {
         boardGridPane.setId("TicTacToeBoard");
     }
 
-    @Override
-    public void setup() {
-        model.setup();
-        updateViews();
-
-        if (!Main.serverConnection.hasConnection())
-            acceptNewMoves();
-    }
-
     //TODO: refactor to use GameController.move()
     @Override
     public boolean move(Move move) {
@@ -55,12 +46,4 @@ public class TicTacToeController extends GameController {
 
         return false;
     }
-
-    @Override
-    public void updateViews() {
-        gameBoard.update();
-        updateTurnLabel();
-    }
-
-
 }

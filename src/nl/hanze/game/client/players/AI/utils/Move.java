@@ -35,4 +35,13 @@ public class Move {
     public int getColumn() {
         return column;
     }
+
+    @Override
+    public String toString() {
+        return "Move{" +
+                "player=" + player +
+                ", row=" + row +
+                ", column=" + column +
+                '}';
+    }
 }

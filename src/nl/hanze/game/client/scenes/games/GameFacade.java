@@ -52,8 +52,8 @@ public class GameFacade {
     public static void startOffline(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer, int difficulty) throws IOException {
         game = game.toLowerCase().replace("-", "");
 
-        Player player1 = new Player(ignPlayer1, PlayerType.LOCAL);
-        Player player2 = (isMultiPlayer) ? new Player(ignPlayer2, PlayerType.LOCAL) : new AIPlayer(ignPlayer2, PlayerType.AI, aiFactory.create(game, SimpleAIFactory.HARD));
+        Player player1 = (isMultiPlayer) ? new Player(ignPlayer2, PlayerType.LOCAL) : new AIPlayer(ignPlayer2, PlayerType.AI, aiFactory.create(game, SimpleAIFactory.HARD));
+        Player player2 = new Player(ignPlayer1, PlayerType.LOCAL);
         player1.isThisMe(!isMultiPlayer);
         player2.isThisMe(false);
 
@@ -80,13 +80,13 @@ public class GameFacade {
         switch (game) {
             case "tictactoe":
                 loader.setController(new TicTacToeController(
-                        new TicTacToeModel(3)
+                        new TicTacToeModel()
                 ));
                 break;
             case "reversi":
             case "othello":
                 loader.setController(new OthelloController(
-                        new OthelloModel(8)
+                        new OthelloModel()
                 ));
                 break;
         }
