@@ -11,8 +11,8 @@ import java.io.FileNotFoundException;
 public class Player {
     public static int counter = 0;
 
-    private PlayerType playerType;
-    private String name;
+    private final PlayerType playerType;
+    private final String name;
     private int score;
     private String sign;
     private Image reversiImage;

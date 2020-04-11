@@ -47,11 +47,25 @@ public class GameFacade {
         return start(controller, fullscreen);
     }
 
-    public static void startOffline(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer, int difficulty) throws IOException {
+    public static void startOffline(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen) throws IOException {
         game = game.toLowerCase().replace("-", "");
 
+        GameController controller = getController(game);
+        GameModel model = controller.getModel();
+
         Player player1 = new Player(ignPlayer1, PlayerType.LOCAL);
-        Player player2 = (isMultiPlayer) ? new Player(ignPlayer2, PlayerType.LOCAL) : new AIPlayer("Computer", PlayerType.AI, aiFactory.create(game, SimpleAIFactory.HARD));
+        Player player2 = new Player(ignPlayer2, PlayerType.LOCAL);
+        model.setPlayer(0, player1);
+        model.setPlayer(1, player2);
+
+        start(controller, fullscreen);
+    }
+
+    public static void startOffline(String game, boolean fullscreen, int difficulty) throws IOException {
+        game = game.toLowerCase().replace("-", "");
+
+        Player player1 = new Player("You", PlayerType.LOCAL);
+        Player player2 = new AIPlayer("Computer", PlayerType.AI, aiFactory.create(game, SimpleAIFactory.HARD));
 
         GameController controller = getController(game);
         GameModel model = controller.getModel();
