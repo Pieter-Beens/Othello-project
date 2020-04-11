@@ -53,8 +53,13 @@ public class OthelloController extends GameController {
     }
 
     public void setup() {
-        graphic1.setText(model.getPlayer(0).getName()+"'s score");
-        graphic1.setText(model.getPlayer(1).getName()+"'s score");
+        String player1Name = model.getPlayer(0).getName();
+        String player2Name = model.getPlayer(1).getName();
+        if(player1Name.equals("You")) graphic1.setText("Your score");
+        else graphic1.setText(player1Name+"'s score");
+
+        if(player2Name.equals("You")) graphic2.setText("Your score");
+        else graphic2.setText(player2Name+"'s score");
 
         super.setup();
     }
