@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
@@ -44,6 +45,7 @@ public abstract class GameController extends Controller implements Initializable
     @FXML protected HBox bottomFieldId;
     @FXML protected VBox leftFieldId;
     @FXML protected VBox rightFieldId;
+    @FXML protected Text skippedTurnText;
 
 
     protected GameModel model;
@@ -170,6 +172,8 @@ public abstract class GameController extends Controller implements Initializable
 
         if(player.equals("You")) turnLabel.setText("Your turn");
         else turnLabel.setText(player+"'s score");
+
+        skippedTurnText.setText(GameModel.getSkippedTurnText());
     }
 
     @Override

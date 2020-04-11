@@ -26,6 +26,7 @@ public abstract class GameModel {
     protected ArrayList<Field[][]> boardHistory = new ArrayList<>();
     public static final int[][] DIRECTIONS = {{1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}, {-1,0}, {-1,1}, {0,1}};
     public static String serverName;
+    public static String skippedTurnText;
 
     public GameModel(int boardSize) {
         this.boardSize = boardSize;
@@ -97,6 +98,10 @@ public abstract class GameModel {
     public void endGameIfFinished() {
         if(hasGameEnded())
             endGame();
+    }
+
+    public static String getSkippedTurnText() {
+        return skippedTurnText;
     }
 
     public void endGame()  {

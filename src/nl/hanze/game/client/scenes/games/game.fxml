@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<GridPane id="rootPane" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane id="rootPane" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="30.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="760.0" />
@@ -38,10 +32,10 @@
             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" valignment="CENTER" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Pane fx:id="gameBoardPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="680.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER"/>
-            <VBox id="coordinates" fx:id="leftFieldId" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="40.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER"/>
+            <Pane fx:id="gameBoardPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="680.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <VBox id="coordinates" fx:id="leftFieldId" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="40.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <VBox id="coordinates" fx:id="rightFieldId" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="40.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <HBox id="coordinates" fx:id="topFieldId" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="680.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
+            <HBox id="coordinates" fx:id="topFieldId" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="680.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <HBox id="coordinates" fx:id="bottomFieldId" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="680.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
          <effect>
@@ -58,7 +52,8 @@
             <RowConstraints maxHeight="-Infinity" minHeight="0.0" prefHeight="100.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="-Infinity" minHeight="0.0" prefHeight="100.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="370.0" minHeight="10.0" prefHeight="134.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="96.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="370.0" minHeight="10.0" prefHeight="195.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
             <Label fx:id="gameTitle" contentDisplay="TOP" text="GameName" textAlignment="JUSTIFY" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
@@ -90,7 +85,12 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-              <Button fx:id="forfeitButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="FORFEIT" textAlignment="CENTER" GridPane.rowIndex="5" />
+            <Text fx:id="skippedTurnText" strokeType="OUTSIDE" strokeWidth="0.0" text="Test" GridPane.rowIndex="5">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+              <Button fx:id="forfeitButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="FORFEIT" textAlignment="CENTER" GridPane.rowIndex="6" />
          </children>
          <GridPane.margin>
             <Insets />

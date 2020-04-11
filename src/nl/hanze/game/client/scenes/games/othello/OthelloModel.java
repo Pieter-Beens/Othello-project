@@ -62,6 +62,7 @@ public class OthelloModel extends GameModel {
         }
 
         if (!turnHasMoves()) {
+            GameModel.skippedTurnText = getActivePlayer().getName() + " skipped his turn!";
             System.out.println(getActivePlayer().getName() + " was unable to move, and had to skip their turn!");
             this.nextTurn(true);
         }
