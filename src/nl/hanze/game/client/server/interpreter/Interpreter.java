@@ -7,9 +7,9 @@ import nl.hanze.game.client.server.interpreter.parsers.ParseStrategy;
 import java.util.*;
 
 /**
- * This Interpreter class serves as a ServerResponse Factory.
+ * This Interpreter class serves as a Simple ServerResponse Factory.
  * Using different parsing strategies based on the send command
- * (Factory Pattern)
+ * (Simple Factory)
  *
  * @author Roy Voetman
  */
