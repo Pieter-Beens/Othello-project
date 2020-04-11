@@ -38,8 +38,8 @@ public class OthelloController extends GameController {
         boardGridPane.setId("OthelloBoard");
         gameBoardPane.getChildren().add(gameBoard);
         gameTitle.setText("Othello");
-        Label graphic1 = new Label("Your score");
-        Label graphic2 = new Label("Opponent score");
+        Label graphic1 = new Label(model.getPlayer(0).getName()+"'s score");
+        Label graphic2 = new Label(model.getPlayer(1).getName()+"'s score");
         Font font = new Font("System Bold",24);
         graphic1.setFont(font);
         graphic2.setFont(font);
@@ -71,12 +71,7 @@ public class OthelloController extends GameController {
     }
 
     public void updateScoreLabels(){
-        if(model.getPlayer(0).isThisMe()){
-            scoreLabel1.setText(String.valueOf(model.getPlayer(0).getScore()));
-            scoreLabel2.setText(String.valueOf(model.getPlayer(1).getScore()));
-        } else{
-            scoreLabel1.setText(String.valueOf(model.getPlayer(1).getScore()));
-            scoreLabel2.setText(String.valueOf(model.getPlayer(0).getScore()));
-        }
+        scoreLabel1.setText(String.valueOf(model.getPlayer(0).getScore()));
+        scoreLabel2.setText(String.valueOf(model.getPlayer(1).getScore()));
     }
 }
