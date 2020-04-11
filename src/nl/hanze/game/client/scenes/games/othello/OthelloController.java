@@ -55,6 +55,7 @@ public class OthelloController extends GameController {
     public void setup() {
         String player1Name = model.getPlayer(0).getName();
         String player2Name = model.getPlayer(1).getName();
+
         if(player1Name.equals("You")) graphic1.setText("Your score");
         else graphic1.setText(player1Name+"'s score");
 
