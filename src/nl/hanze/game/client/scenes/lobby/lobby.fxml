@@ -26,12 +26,12 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <SelectButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="100" text="Play as AI" userData="ai" GridPane.columnIndex="1">
+                        <SelectButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#gameModeChanged" prefHeight="30.0" prefWidth="100" text="Play as AI" userData="ai" GridPane.columnIndex="1">
                            <toggleGroup>
                                 <ToggleGroup fx:id="playerMode" />
                            </toggleGroup>
                         </SelectButton>
-                        <SelectButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" selected="true" text="Play manually" toggleGroup="$playerMode" userData="manual" GridPane.columnIndex="3" />
+                        <SelectButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#gameModeChanged" prefHeight="30.0" prefWidth="100.0" selected="true" text="Play manually" toggleGroup="$playerMode" userData="manual" GridPane.columnIndex="3" />
                         <Text fx:id="lastGameResult" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" GridPane.columnIndex="4">
                            <font>
                               <Font size="17.0" />
