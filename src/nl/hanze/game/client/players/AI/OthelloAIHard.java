@@ -2,6 +2,7 @@ package nl.hanze.game.client.players.AI;
 
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
+import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.utils.Field;
 import nl.hanze.game.client.scenes.games.othello.OthelloModel;
 import nl.hanze.game.client.scenes.games.GameModel;
@@ -25,7 +26,7 @@ public class OthelloAIHard implements AIStrategy {
     private static final int ROW = 1;
     private static final int COLUMN = 2;
 
-    private static final int MAXDEPTH = 5;
+    private static final int MAXDEPTH = 6;
 
     private static final int CORNERSCORE = 20;
     private static final int BORDERSCORE = 5;
@@ -76,13 +77,63 @@ public class OthelloAIHard implements AIStrategy {
                 for (Field field : row) {
                     if (field.getOwner() == player) {
                         score += scoreBoard[field.getColumnID()][field.getRowID()];
+                        if ((field.getColumnID() == 1 && field.getRowID() == 1) &&
+                                (board[0][0].getOwner() == player)) {
+                            score -= XCROSSSCORE; //it's okay to have the XCross if we also have the associated corner
+                        }
+                        else if ((field.getColumnID() == 6 && field.getRowID() == 1) &&
+                                (board[7][0].getOwner() == player)) {
+                            score -= XCROSSSCORE;
+                        }
+                        else if ((field.getColumnID() == 1 && field.getRowID() == 6) &&
+                                (board[0][7].getOwner() == player)) {
+                            score -= XCROSSSCORE;
+                        }
+                        else if ((field.getColumnID() == 6 && field.getRowID() == 6) &&
+                                (board[7][7].getOwner() == player)) {
+                            score -= XCROSSSCORE;
+                        }
                     }
                     else if (field.getOwner() == opponent) {
-                        score += scoreBoard[field.getColumnID()][field.getRowID()];
+                        score -= scoreBoard[field.getColumnID()][field.getRowID()];
+                        if ((field.getColumnID() == 1 && field.getRowID() == 1) &&
+                                (board[0][0].getOwner() == opponent)) {
+                            score += XCROSSSCORE; //same as above, but mirrored for the opponent
+                        }
+                        else if ((field.getColumnID() == 6 && field.getRowID() == 1) &&
+                                (board[7][0].getOwner() == opponent)) {
+                            score += XCROSSSCORE;
+                        }
+                        else if ((field.getColumnID() == 1 && field.getRowID() == 6) &&
+                                (board[0][7].getOwner() == opponent)) {
+                            score += XCROSSSCORE;
+                        }
+                        else if ((field.getColumnID() == 6 && field.getRowID() == 6) &&
+                                (board[7][7].getOwner() == opponent)) {
+                            score += XCROSSSCORE;
+                        }
                     }
                 }
             }
-            return new int[]{score};
+            //=========================DEBUG
+            String rt = "";
+            for (Field[] row : board) {
+                for (Field field : row) {
+                    rt += field;
+                }
+                rt += "\n";
+            }
+            String type;
+            if (player.getPlayerType() == PlayerType.AI) {
+                type = "an AI";
+            }
+            else {
+                type = "a human person";
+            }
+            System.out.println("SCORE OF THIS BOARD IS: " + score + ", calculated for " + type);
+            System.out.println(rt);
+            //=========================DEBUG
+            return new int[]{score * -1};
         }
 
         ArrayList<Field> validMoves = checkFieldValidity(board, player, opponent);

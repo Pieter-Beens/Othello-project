@@ -32,9 +32,7 @@ public class TicTacToeAI implements AIStrategy {
         humanPlayer = opponent;
         aiPlayer = player;
 
-        board = cloneBoard(board);
-
-        int[] move = minimax(board, true);
+        int[] move = minimax(cloneBoard(board), true);
 
         return new Move(aiPlayer, move[1], move[2]);
     }
