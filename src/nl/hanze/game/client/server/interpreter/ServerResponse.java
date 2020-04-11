@@ -1,4 +1,4 @@
-package nl.hanze.game.client.server;
+package nl.hanze.game.client.server.interpreter;
 
 import java.util.List;
 import java.util.Map;

@@ -6,9 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.utils.Popup;
-import nl.hanze.game.client.server.Interpreter;
+import nl.hanze.game.client.server.interpreter.Interpreter;
 import nl.hanze.game.client.server.Observer;
-import nl.hanze.game.client.server.ServerResponse;
+import nl.hanze.game.client.server.interpreter.ServerResponse;
 
 import java.io.File;
 import java.io.FileInputStream;
