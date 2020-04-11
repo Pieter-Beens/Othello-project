@@ -13,7 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import nl.hanze.game.client.scenes.Controller;
-import nl.hanze.game.client.scenes.games.GameLoader;
+import nl.hanze.game.client.scenes.games.GameFacade;
 
 import java.io.IOException;
 import java.net.URL;
@@ -133,7 +133,7 @@ public class OfflineMenuController extends Controller implements Initializable {
     public void startBtnClicked(ActionEvent event) throws IOException {
         boolean multiplayer = model.getGameMode().equals("multi-player");
 
-        GameLoader.startOffline(
+        GameFacade.startOffline(
                 player1.getText(),
                 player2.getText(),
                 (String)selectedGame.getSelectedToggle().getUserData(),

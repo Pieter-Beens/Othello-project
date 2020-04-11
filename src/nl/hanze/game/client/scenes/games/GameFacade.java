@@ -2,10 +2,7 @@ package nl.hanze.game.client.scenes.games;
 
 import javafx.fxml.FXMLLoader;
 import nl.hanze.game.client.Main;
-import nl.hanze.game.client.players.AI.AIStrategy;
-import nl.hanze.game.client.players.AI.OthelloAIEasy;
-import nl.hanze.game.client.players.AI.OthelloAIHard;
-import nl.hanze.game.client.players.AI.TicTacToeAI;
+import nl.hanze.game.client.players.AI.*;
 import nl.hanze.game.client.players.AIPlayer;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.players.PlayerType;
@@ -21,14 +18,14 @@ import java.util.Map;
 /**
  * @author Roy Voetman
  */
-public class GameLoader {
+public class GameFacade {
     public static GameController startOnline(Map<String, String> args, boolean fullscreen, PlayerType playerType) throws IOException {
         String game = args.get("GAMETYPE").toLowerCase().replace("-", "");
         game = game.equals("reversi") ? "othello" : game;
 
         Player player1;
         if (playerType == PlayerType.AI) {
-            AIStrategy aiStrategy = determineAIStrategy(game);
+            AIStrategy aiStrategy = determineAIStrategy(game, 2);
 
             player1 = new AIPlayer(GameModel.serverName, playerType, aiStrategy);
         } else {
@@ -52,7 +49,7 @@ public class GameLoader {
     public static void startOffline(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, boolean isMultiPlayer, int difficulty) throws IOException {
         game = game.toLowerCase().replace("-", "");
 
-        AIStrategy aiStrategy = determineAIStrategy(game);
+        AIStrategy aiStrategy = determineAIStrategy(game, difficulty);
 
         Player player1 = new Player(ignPlayer1, PlayerType.LOCAL);
         Player player2 = (isMultiPlayer) ? new Player(ignPlayer2, PlayerType.LOCAL) : new AIPlayer(ignPlayer2, PlayerType.AI, aiStrategy);
@@ -96,15 +93,17 @@ public class GameLoader {
         return (GameController) Controller.loadScene("games/game.fxml", loader);
     }
 
-    private static AIStrategy determineAIStrategy(String game) {
-        AIStrategy aiStrategy = null; //TODO: support multiple AI's/difficulties per game
+    private static AIStrategy determineAIStrategy(String game, int difficulty) {
+        AIStrategy aiStrategy = null;
         switch (game) {
             case "tictactoe":
                 aiStrategy = new TicTacToeAI();
                 break;
+            case "reversi":
             case "othello":
-                //aiStrategy = new OthelloAIHard();
-                aiStrategy = new OthelloAIEasy();
+                if (difficulty == 0) aiStrategy = new OthelloAIEasy();
+                if (difficulty == 1) aiStrategy = new OthelloAIMedium();
+                if (difficulty == 2) aiStrategy = new OthelloAIHard();
                 break;
         }
 

@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
@@ -15,7 +14,7 @@ import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameController;
-import nl.hanze.game.client.scenes.games.GameLoader;
+import nl.hanze.game.client.scenes.games.GameFacade;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.utils.PlayerRow;
 import nl.hanze.game.client.scenes.utils.Popup;
@@ -208,7 +207,7 @@ public class LobbyController extends Controller implements Initializable {
         Platform.runLater(() -> {
             try {
                 PlayerType playerType = playerMode.getSelectedToggle().getUserData().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
-                GameLoader.startOnline(map, fullscreen.isSelected(), playerType);
+                GameFacade.startOnline(map, fullscreen.isSelected(), playerType);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -234,7 +233,7 @@ public class LobbyController extends Controller implements Initializable {
             try {
                 //TODO:toggleGroup="$selectedGame"
                 PlayerType playerType = playerMode.getSelectedToggle().getUserData().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
-                GameController controller = GameLoader.startOnline(gameMatchBuffer, fullscreen.isSelected(), playerType);
+                GameController controller = GameFacade.startOnline(gameMatchBuffer, fullscreen.isSelected(), playerType);
                 controller.gameYourTurn(map);
             } catch (IOException e) {
                 e.printStackTrace();
