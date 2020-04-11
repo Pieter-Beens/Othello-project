@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
+ * This class masks the more complex underlying logic of starting a Game.
+ * (Facade Pattern)
+ *
  * @author Roy Voetman
  */
 public class GameFacade {
