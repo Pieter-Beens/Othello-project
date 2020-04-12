@@ -2,9 +2,10 @@ package nl.hanze.game.client.scenes;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.utils.Popup;
@@ -15,10 +16,8 @@ import nl.hanze.game.client.server.interpreter.ServerResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Stack;
 
 /**
@@ -32,8 +31,8 @@ public abstract class Controller implements Observer {
         Main.serverConnection.addObserver(this);
     }
 
-    public static Controller loadScene(String fxml) throws IOException {
-        return loadScene(fxml, new FXMLLoader());
+    public static void loadScene(String fxml) throws IOException {
+        loadScene(fxml, new FXMLLoader());
     }
 
     public static Controller loadScene(String fxml, FXMLLoader loader) throws IOException {
@@ -51,10 +50,11 @@ public abstract class Controller implements Observer {
             sceneHistory.push(fxml);
         }
 
-        Scene scene = new Scene(parent);
-        scene.getStylesheets().add("/resources/style.css");
+        //Scene scene = new Scene(parent);
+        //
 
-        Main.primaryStage.setScene(scene);
+        //Main.primaryStage.setScene(scene);
+        Main.primaryStage.getScene().setRoot(parent);
         Main.primaryStage.show();
         return loader.getController();
     }

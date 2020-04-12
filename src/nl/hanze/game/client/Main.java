@@ -3,10 +3,17 @@ package nl.hanze.game.client;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.server.ServerConnection;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 /**
  * @author Roy Voetman
@@ -26,12 +33,17 @@ public class Main extends Application {
         primaryStage.setMinWidth(300);
         primaryStage.setMinHeight(350);
         primaryStage.setTitle("Two Player Games");
+        primaryStage.setResizable(true);
 
         Main.primaryStage = primaryStage;
-
-        primaryStage.setResizable(false);
-
+        Scene scene = new Scene(new Pane());
+        scene.getStylesheets().add("/resources/style.css");
+        Main.primaryStage.setScene(scene);
+        Main.primaryStage.setMinHeight(800);
+        Main.primaryStage.setMinWidth(1265);
         Controller.loadScene("start/start.fxml");
+
+
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
