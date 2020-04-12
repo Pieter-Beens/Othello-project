@@ -60,7 +60,7 @@ public abstract class GameController extends Controller implements Initializable
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 int time = model.getElapsedTime();
-                Platform.runLater(() -> timerLabel.setText("Timer:" + time));
+                Platform.runLater(() -> timerLabel.setText("Turn Timer: " + time));
 
                 if(time > 0) {
                     model.decreaseElapsedTime();
@@ -158,7 +158,7 @@ public abstract class GameController extends Controller implements Initializable
     public void acceptNewMoves() {
         // check if the next turn belongs to an AIPlayer and if so, request a move
         if (model.getActivePlayer().getPlayerType() == PlayerType.AI && !model.hasGameEnded()) {
-            //move(model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer()));
+            System.out.println("Paging Julius...");
 
             new Thread(() -> {
                 Move move = model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer());

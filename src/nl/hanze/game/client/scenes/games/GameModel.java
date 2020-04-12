@@ -112,9 +112,10 @@ public abstract class GameModel {
     }
 
     public void endGame()  {
-
-        System.out.println("Neither player was able to move, so the game has ended!");
+        System.out.println("<GAME END>");
         gameHasEnded = true;
+
+
         String msg;
         int winner = determineWinner();
         if (winner == 0) {
@@ -151,7 +152,7 @@ public abstract class GameModel {
     }
 
     public boolean isValidMove(Move move) {
-        if(move == null) return false;
+        if (move == null) return false;
         Field field = this.board[move.getRow()][move.getColumn()];
 
         return field.getValidity();
@@ -167,8 +168,8 @@ public abstract class GameModel {
     }
 
     public void setTurnTime(int turnTime) {
-        this.elapsedTime = turnTime;
-        this.turnTime = turnTime;
+        this.elapsedTime = turnTime - 1;
+        this.turnTime = turnTime - 1;
     }
 
     public int getElapsedTime() {

@@ -37,6 +37,7 @@ public class OthelloController extends GameController {
         graphic2.setFont(font);
         scoreLabel1.setGraphic(graphic1);
         scoreLabel2.setGraphic(graphic2);
+        skippedTurnText.setText("");
         gameBoard.setGridLinesVisible(true);
         drawCoordinates();
     }
