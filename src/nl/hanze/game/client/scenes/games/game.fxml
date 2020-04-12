@@ -85,6 +85,11 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
+            <Label fx:id="timerLabel" contentDisplay="TOP" GridPane.rowIndex="5">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
             <Text fx:id="skippedTurnText" strokeType="OUTSIDE" strokeWidth="0.0" text="Test" GridPane.rowIndex="5">
                <font>
                   <Font name="System Bold" size="24.0" />

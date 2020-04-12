@@ -90,13 +90,13 @@ public class GameFacade {
         switch (game) {
             case "tictactoe":
                 loader.setController(new TicTacToeController(
-                        new TicTacToeModel()
+                        new TicTacToeModel(), 10
                 ));
                 break;
             case "reversi":
             case "othello":
                 loader.setController(new OthelloController(
-                        new OthelloModel()
+                        new OthelloModel(), 10
                 ));
                 break;
         }

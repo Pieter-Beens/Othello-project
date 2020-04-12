@@ -13,17 +13,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * This class serves as a template class (Template method pattern)
+ * for all GameModels.
+ * A concrete implementation of this Model only requires
+ * the controller to implement the recordMove() and updateFieldValidity() methods.
+ *
  * @author Pieter Beens
  */
-
 public abstract class GameModel {
     final static int MAX_PLAYERS = 2; // games can have only 2 players!
+
     public boolean gameHasEnded = false;
+
     protected Player[] players = new Player[MAX_PLAYERS];
     protected int boardSize;
     protected int turnCounter = 1;
     protected Field[][] board;
     protected ArrayList<Field[][]> boardHistory = new ArrayList<>();
+    protected int turnTime;
+    protected int elapsedTime;
+
     public static final int[][] DIRECTIONS = {{1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}, {-1,0}, {-1,1}, {0,1}};
     public static String serverName;
     public static String skippedTurnText;
@@ -40,6 +49,8 @@ public abstract class GameModel {
     }
 
     public void nextTurn() {
+        elapsedTime = turnTime;
+
         turnCounter++;
 
         boardHistory.add(board); // at the end of every turn, save the new turn's board data to boardHistory ArrayList
@@ -106,7 +117,7 @@ public abstract class GameModel {
         String msg;
         int winner = determineWinner();
         if (winner == 0) {
-            msg = players[0].getName() + " has won with " + players[1].getScore() + " points!";
+            msg = players[0].getName() + " has won with " + players[0].getScore() + " points!";
         } else if (winner == 1) {
             msg = players[1].getName() + " has won with " + players[1].getScore() + " points!";
         } else {
@@ -137,6 +148,13 @@ public abstract class GameModel {
         }
     }
 
+    public boolean isValidMove(Move move) {
+        if(move == null) return false;
+        Field field = this.board[move.getRow()][move.getColumn()];
+
+        return field.getValidity();
+    }
+
     public void forfeitGame(Player losingPlayer) {
         String msg = losingPlayer.getName() + " has forfeited.";
         Popup.display(msg, "GAME END", 300, 200);
@@ -146,11 +164,17 @@ public abstract class GameModel {
         return gameHasEnded;
     }
 
-    public boolean isValidMove(Move move) {
-        if(move == null) return false;
-        Field field = this.board[move.getRow()][move.getColumn()];
+    public void setTurnTime(int turnTime) {
+        this.elapsedTime = turnTime;
+        this.turnTime = turnTime;
+    }
 
-        return field.getValidity();
+    public int getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public int decreaseElapsedTime() {
+        return elapsedTime--;
     }
 
     public abstract void recordMove(Move move);

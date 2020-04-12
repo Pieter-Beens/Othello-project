@@ -19,8 +19,8 @@ public class OthelloController extends GameController {
     @FXML private Label graphic1;
     @FXML private Label graphic2;
 
-    public OthelloController(OthelloModel model) {
-        super(model);
+    public OthelloController(OthelloModel model, int turnTime) {
+        super(model, turnTime);
     }
 
     @Override
