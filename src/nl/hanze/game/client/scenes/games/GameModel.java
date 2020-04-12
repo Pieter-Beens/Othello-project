@@ -34,6 +34,7 @@ public abstract class GameModel {
     protected int elapsedTime;
 
     public static final int[][] DIRECTIONS = {{1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}, {-1,0}, {-1,1}, {0,1}};
+    public static int serverTurnTime;
     public static String serverName;
     public static String skippedTurnText;
 
@@ -117,7 +118,7 @@ public abstract class GameModel {
         String msg;
         int winner = determineWinner();
         if (winner == 0) {
-            msg = players[0].getName() + " won with " + players[1].getScore() + " points!";
+            msg = players[0].getName() + " won with " + players[0].getScore() + " points!";
         } else if (winner == 1) {
             msg = players[1].getName() + " won with " + players[1].getScore() + " points!";
         } else {
