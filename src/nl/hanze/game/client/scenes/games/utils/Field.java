@@ -50,6 +50,12 @@ public class Field {
 
     public boolean getRecentMove() { return recentMove; }
 
+    /**
+     * toString functioned, mostly used for debugging purposes.
+     * @return A string containing a cell that, depending on the owner, is either empty, marked C for Computer, or H for
+     * human.
+     * @author Nick
+     */
     @Override
     public String toString() {
         if (owner == null) {
@@ -57,10 +63,10 @@ public class Field {
         }
         else {
             if (owner.getPlayerType().equals(PlayerType.AI)) {
-                return "[B]";
+                return "[C]";
             }
             else {
-                return "[W]";
+                return "[H]";
             }
         }
     }

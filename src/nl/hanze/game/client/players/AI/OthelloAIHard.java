@@ -8,7 +8,6 @@ import nl.hanze.game.client.scenes.games.othello.OthelloModel;
 import nl.hanze.game.client.scenes.games.GameModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Stack;
 
 /**
@@ -34,6 +33,13 @@ public class OthelloAIHard implements AIStrategy {
 
     private static int[][] scoreBoard;
 
+    /**
+     * Main method for this class.
+     * @param board the board for which a move needs to be determined.
+     * @param player the ai.
+     * @param opponent it's opponent.
+     * @return a valid move on the board, which will be the best move according to this class.
+     */
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
         Field[][] boardCopy = board.clone();
@@ -69,76 +75,20 @@ public class OthelloAIHard implements AIStrategy {
 
     private int[] minMax(Field[][] board, int depth, Player player, Player opponent) {
         int score;
-        int bestScore = -50000;
+        int humanScore;
+        int bestScore = -5000;
+        int humanBestScore = -5000;
         int bestRow = -1;
         int bestCol = -1;
 
         if (depth >= MAXDEPTH) {
-            score = 0;
-            for (Field[] row : board) {
-                for (Field field : row) {
-                    if (field.getOwner() == player) {
-                        score += scoreBoard[field.getColumnID()][field.getRowID()];
-                        if ((field.getColumnID() == 1 && field.getRowID() == 1) &&
-                                (board[0][0].getOwner() == player)) {
-                            score -= XCROSSSCORE; //it's okay to have the XCross if we also have the associated corner
-                        }
-                        else if ((field.getColumnID() == 6 && field.getRowID() == 1) &&
-                                (board[7][0].getOwner() == player)) {
-                            score -= XCROSSSCORE;
-                        }
-                        else if ((field.getColumnID() == 1 && field.getRowID() == 6) &&
-                                (board[0][7].getOwner() == player)) {
-                            score -= XCROSSSCORE;
-                        }
-                        else if ((field.getColumnID() == 6 && field.getRowID() == 6) &&
-                                (board[7][7].getOwner() == player)) {
-                            score -= XCROSSSCORE;
-                        }
-                    }
-                    else if (field.getOwner() == opponent) {
-                        score -= scoreBoard[field.getColumnID()][field.getRowID()];
-                        if ((field.getColumnID() == 1 && field.getRowID() == 1) &&
-                                (board[0][0].getOwner() == opponent)) {
-                            score += XCROSSSCORE; //same as above, but mirrored for the opponent
-                        }
-                        else if ((field.getColumnID() == 6 && field.getRowID() == 1) &&
-                                (board[7][0].getOwner() == opponent)) {
-                            score += XCROSSSCORE;
-                        }
-                        else if ((field.getColumnID() == 1 && field.getRowID() == 6) &&
-                                (board[0][7].getOwner() == opponent)) {
-                            score += XCROSSSCORE;
-                        }
-                        else if ((field.getColumnID() == 6 && field.getRowID() == 6) &&
-                                (board[7][7].getOwner() == opponent)) {
-                            score += XCROSSSCORE;
-                        }
-                    }
-                }
-            }
-            //=========================DEBUG
-            String rt = "";
-            for (Field[] row : board) {
-                for (Field field : row) {
-                    rt += field;
-                }
-                rt += "\n";
-            }
-            String type;
-            if (player.getPlayerType() == PlayerType.AI) {
-                type = "an AI";
-            }
-            else {
-                type = "a human person";
-            }
-            System.out.println("SCORE OF THIS BOARD IS: " + score + ", calculated for " + type);
-            System.out.println(rt);
-            //=========================DEBUG
+            score = calculateScore(board, player, opponent);
             return new int[]{score};
         }
 
         ArrayList<Field> validMoves = checkFieldValidity(board, player, opponent);
+
+        //player.getPlayerType() == PlayerType.AI ? bestScore = -5000 : bestScore = 5000;  //Dit mag niet!?
 
         for (Field cell : validMoves) {
             cell.setOwner(player);
@@ -165,7 +115,20 @@ public class OthelloAIHard implements AIStrategy {
 //            }
 //            System.out.println("AFTER FLIPS:");
 //            System.out.println(rt);
-            score = minMax(boardCopy, depth + 1, opponent, player)[SCORE];
+            if (player.getPlayerType() == PlayerType.AI) {
+                score = minMax(boardCopy, depth + 1, opponent, player)[SCORE];
+            }
+            else {
+                humanScore = calculateScore(boardCopy, player, opponent);
+                if (humanScore > humanBestScore) {
+                    humanBestScore = humanScore;
+                    score = minMax(boardCopy, depth + 1, opponent, player)[SCORE]; //this is a proper human move,
+                    //so it will be used to calculate the next move
+                }
+                else {
+                    score = -5001; //this human move is trash, and so it won't be used.
+                }
+            }
             cell.setOwner(null);
 
             if (score > bestScore) {
@@ -247,8 +210,7 @@ public class OthelloAIHard implements AIStrategy {
             for (Field field : row) {
                 if (!getCaptures(field, board, player, opponent, false).isEmpty()) {
                     returnArray.add(field);
-                }//field.setValidity(false);
-                //else field.setValidity(true);
+                }
             }
         }
         return returnArray;
@@ -263,6 +225,64 @@ public class OthelloAIHard implements AIStrategy {
             }
         }
         return boardCopy;
+    }
+
+    private int calculateScore(Field[][] board, Player player, Player opponent) {
+        int score = 0;
+        for (Field[] row : board) {
+            for (Field field : row) {
+                if (field.getOwner() == player) {
+                    score += scoreBoard[field.getColumnID()][field.getRowID()];
+                    if ((field.getColumnID() == 1 && field.getRowID() == 1) &&
+                            (board[0][0].getOwner() == player)) {
+                        score -= XCROSSSCORE; //it's okay to have the XCross if we also have the associated corner
+                    } else if ((field.getColumnID() == 6 && field.getRowID() == 1) &&
+                            (board[7][0].getOwner() == player)) {
+                        score -= XCROSSSCORE;
+                    } else if ((field.getColumnID() == 1 && field.getRowID() == 6) &&
+                            (board[0][7].getOwner() == player)) {
+                        score -= XCROSSSCORE;
+                    } else if ((field.getColumnID() == 6 && field.getRowID() == 6) &&
+                            (board[7][7].getOwner() == player)) {
+                        score -= XCROSSSCORE;
+                    }
+                } else if (field.getOwner() == opponent) {
+                    score -= scoreBoard[field.getColumnID()][field.getRowID()];
+                    if ((field.getColumnID() == 1 && field.getRowID() == 1) &&
+                            (board[0][0].getOwner() == opponent)) {
+                        score += XCROSSSCORE; //same as above, but mirrored for the opponent
+                    } else if ((field.getColumnID() == 6 && field.getRowID() == 1) &&
+                            (board[7][0].getOwner() == opponent)) {
+                        score += XCROSSSCORE;
+                    } else if ((field.getColumnID() == 1 && field.getRowID() == 6) &&
+                            (board[0][7].getOwner() == opponent)) {
+                        score += XCROSSSCORE;
+                    } else if ((field.getColumnID() == 6 && field.getRowID() == 6) &&
+                            (board[7][7].getOwner() == opponent)) {
+                        score += XCROSSSCORE;
+                    }
+                }
+            }
+        }
+        //=========================DEBUG
+//        String rt = "";
+//        for (Field[] row : board) {
+//            for (Field field : row) {
+//                rt += field;
+//            }
+//            rt += "\n";
+//        }
+//        String type;
+//        if (player.getPlayerType() == PlayerType.AI) {
+//            type = "an AI";
+//        }
+//        else {
+//            type = "a human person";
+//        }
+//        System.out.println("SCORE OF THIS BOARD IS: " + score + ", calculated for " + type);
+//        System.out.println(rt);
+        //=========================DEBUG
+        return score;
     }
 
 }
