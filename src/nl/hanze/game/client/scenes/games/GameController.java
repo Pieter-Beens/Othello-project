@@ -15,6 +15,8 @@ import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.Controller;
+import nl.hanze.game.client.scenes.games.othello.OthelloModel;
+import nl.hanze.game.client.scenes.games.tictactoe.TicTacToeModel;
 import nl.hanze.game.client.scenes.games.utils.BoardPane;
 import nl.hanze.game.client.scenes.lobby.LobbyController;
 
@@ -206,5 +208,14 @@ public abstract class GameController extends Controller implements Initializable
         updateTurnLabel();
     }
 
-    public abstract boolean move(Move move);
+    public boolean move(Move move) {
+        if (model.isValidMove(move)) {
+            forfeitButton.setDisable(true);
+            model.recordMove(move);
+            updateViews();
+
+            return true;
+        }
+        return false;
+    }
 }

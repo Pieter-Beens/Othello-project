@@ -95,11 +95,6 @@ public abstract class GameModel {
         return board;
     }
 
-    public void endGameIfFinished() {
-        if(hasGameEnded())
-            endGame();
-    }
-
     public static String getSkippedTurnText() {
         return skippedTurnText;
     }
@@ -151,22 +146,14 @@ public abstract class GameModel {
         return gameHasEnded;
     }
 
-    public void updateFieldValidity() {
-        for (Field[] row : board) {
-            for (Field field : row) {
-                if (field.getOwner() == null) {
-                    field.setValidity(true);
-                } else {
-                    field.setValidity(false);
-                }
-            }
-        }
-    }
-
     public boolean isValidMove(Move move) {
         if(move == null) return false;
         Field field = this.board[move.getRow()][move.getColumn()];
 
         return field.getValidity();
     }
+
+    public abstract void recordMove(Move move);
+
+    public abstract void updateFieldValidity();
 }

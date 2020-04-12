@@ -1,24 +1,12 @@
 package nl.hanze.game.client.scenes.games.othello;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import nl.hanze.game.client.Main;
-import nl.hanze.game.client.players.AI.utils.Move;
-import nl.hanze.game.client.players.Player;
-import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.GameController;
-import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.othello.utils.OthelloBoard;
-import nl.hanze.game.client.scenes.games.utils.BoardPane;
-import nl.hanze.game.client.scenes.lobby.LobbyController;
-import nl.hanze.game.client.scenes.menu.online.OnlineMenuController;
 
-import java.awt.*;
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -74,21 +62,6 @@ public class OthelloController extends GameController {
 
         OthelloModel othelloModel = (OthelloModel) model;
         System.out.println("BOARDSCORE: " + othelloModel.getBoardScore());
-    }
-
-    //TODO: refactor to use GameController.move()
-    @Override
-    public boolean move(Move move) {
-        OthelloModel model = (OthelloModel) this.model;
-
-        if (model.isValidMove(move)) {
-            forfeitButton.setDisable(true);
-            model.recordMove(move); // includes nextTurn() call
-            updateViews();
-
-            return true;
-        }
-        return false;
     }
 
     public void updateScoreLabels(){

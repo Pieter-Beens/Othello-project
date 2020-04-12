@@ -1,5 +1,7 @@
 package nl.hanze.game.client.scenes.games.tictactoe;
 
+import javafx.application.Platform;
+import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.utils.Field;
@@ -17,6 +19,7 @@ public class TicTacToeModel extends GameModel {
         currentState = State.IN_PROGRESS;
     }
 
+    @Override
     public void setup() {
         super.setup();
 
@@ -24,16 +27,39 @@ public class TicTacToeModel extends GameModel {
         players[1].setSign("X");
     }
 
+    @Override
     public void recordMove(Move move) {
         board[move.getRow()][move.getColumn()].setOwner(move.getPlayer());
 
         nextTurn();
     }
 
+    @Override
     public void nextTurn() {
         currentState = state();
 
+        if (currentState != State.IN_PROGRESS) {
+            gameHasEnded = true;
+        }
+
         super.nextTurn();
+
+        if (!Main.serverConnection.hasConnection() && hasGameEnded()) {
+            Platform.runLater(this::endGame);
+        }
+    }
+
+    @Override
+    public void updateFieldValidity() {
+        for (Field[] row : board) {
+            for (Field field : row) {
+                if (field.getOwner() == null) {
+                    field.setValidity(true);
+                } else {
+                    field.setValidity(false);
+                }
+            }
+        }
     }
 
     public State state() {
@@ -101,10 +127,7 @@ public class TicTacToeModel extends GameModel {
         }
     }
 
-    public State getCurrentState() {
-        return currentState;
-    }
-
+    @Override
     public void endGame() {
         String msg;
         if (currentState == State.O_WINS) {
@@ -116,11 +139,6 @@ public class TicTacToeModel extends GameModel {
         }
 
         Popup.display(msg, "GAME END", 300, 200);
-    }
-
-    @Override
-    public boolean hasGameEnded() {
-        return currentState != TicTacToeModel.State.IN_PROGRESS;
     }
 
     public enum State {

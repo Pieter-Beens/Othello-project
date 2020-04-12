@@ -33,6 +33,7 @@ public class OthelloModel extends GameModel {
         super.setup();
     }
 
+    @Override
     public void recordMove(Move move) {
         Field targetField = board[move.getRow()][move.getColumn()];
 
@@ -48,6 +49,16 @@ public class OthelloModel extends GameModel {
         System.out.println(getActivePlayer().getName() + " captured " + captureTally + " Field(s)!");
 
         nextTurn(false);
+    }
+
+    @Override
+    public void updateFieldValidity() {
+        for (Field[] row : board) {
+            for (Field field : row) {
+                if (getCaptures(field).isEmpty()) field.setValidity(false);
+                else field.setValidity(true);
+            }
+        }
     }
 
     // Note this is not an override! The parent class' nextTurn() accepts no parameters...
@@ -75,15 +86,6 @@ public class OthelloModel extends GameModel {
             }
         }
         return false;
-    }
-
-    public void updateFieldValidity() {
-        for (Field[] row : board) {
-            for (Field field : row) {
-                if (getCaptures(field).isEmpty()) field.setValidity(false);
-                else field.setValidity(true);
-            }
-        }
     }
 
     public Stack<Field> getCaptures(Field field) {
