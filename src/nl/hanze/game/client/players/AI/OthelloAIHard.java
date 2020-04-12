@@ -109,7 +109,8 @@ public class OthelloAIHard implements AIStrategy {
         int bestCol = -1; //the column associated with the best move.
 
         if (depth >= MAXDEPTH) { //base case for the recursive call
-            score = calculateScore(board, player, opponent); //calculate the value of this current board
+            //TODO score = calculateScore(board, player, opponent); //calculate the value of this current board
+            score = OthelloModel.getBoardScore(board);
             return new int[]{score}; //the score is returned
         }
 
@@ -124,7 +125,8 @@ public class OthelloAIHard implements AIStrategy {
                 score = minMax(boardCopy, depth + 1, opponent, player)[SCORE]; //we continue as normal
             }
             else { //if Julius's opponent is playing
-                humanScore = calculateScore(boardCopy, player, opponent); //we want to know the score
+                //TODO humanScore = calculateScore(boardCopy, player, opponent); //we want to know the score
+                humanScore = OthelloModel.getBoardScore(boardCopy);
                 if (humanScore > humanBestScore) { //and we check if it's better than previous non-Julius player moves.
                     humanBestScore = humanScore;
                     score = minMax(boardCopy, depth + 1, opponent, player)[SCORE]; //this is a proper human move,
@@ -330,7 +332,7 @@ public class OthelloAIHard implements AIStrategy {
             for (int c = 0; c < 8; c++) {
                 boardCopy[r][c] = new Field(r,c);
                 boardCopy[r][c].setOwner(board[r][c].getOwner());
-            } //the other fields of Field are not relevant to this class, and so won't be copied.
+            }
         }
         return boardCopy;
     }
