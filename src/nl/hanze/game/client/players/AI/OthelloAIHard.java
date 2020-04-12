@@ -82,7 +82,8 @@ public class OthelloAIHard implements AIStrategy {
         int bestCol = -1;
 
         if (depth >= MAXDEPTH) {
-            score = calculateScore(board, player, opponent);
+            //TODO: score = calculateScore(board, player, opponent);
+            score = OthelloModel.getBoardScore(board);
             return new int[]{score};
         }
 
@@ -119,7 +120,8 @@ public class OthelloAIHard implements AIStrategy {
                 score = minMax(boardCopy, depth + 1, opponent, player)[SCORE];
             }
             else {
-                humanScore = calculateScore(boardCopy, player, opponent);
+                //TODO: humanScore = calculateScore(boardCopy, player, opponent);
+                humanScore = OthelloModel.getBoardScore(boardCopy);
                 if (humanScore > humanBestScore) {
                     humanBestScore = humanScore;
                     score = minMax(boardCopy, depth + 1, opponent, player)[SCORE]; //this is a proper human move,
