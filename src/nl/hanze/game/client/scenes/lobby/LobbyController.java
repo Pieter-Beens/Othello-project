@@ -96,7 +96,7 @@ public class LobbyController extends Controller implements Initializable {
         //Show the result of the last game
         //lastGameResult.setStyle("-fx-text-fill: #46AF4E;");
         lastGameResult.setStyle("-fx-text-fill: white;");
-        lastGameResult.setText(lastGameResultMsg);
+        lastGameResult.setText("\n" + lastGameResultMsg);
 
         /*
         if (lastGameResultMsg.equals("Result of last game:\\nYou won")) {
