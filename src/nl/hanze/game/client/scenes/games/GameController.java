@@ -67,7 +67,7 @@ public abstract class GameController extends Controller implements Initializable
                 } else {
                     timer.cancel();
 
-                    if (!Main.serverConnection.hasConnection())
+                    if (!Main.serverConnection.hasConnection() && !model.hasGameEnded())
                         Platform.runLater(() -> model.endGame());
                 }
             }
@@ -232,6 +232,13 @@ public abstract class GameController extends Controller implements Initializable
     public void updateViews() {
         gameBoard.update();
         updateTurnLabel();
+    }
+
+    @Override
+    public void changeScene() {
+        timer.cancel();
+
+        super.changeScene();
     }
 
     public boolean move(Move move) {
