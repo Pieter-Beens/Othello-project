@@ -39,7 +39,6 @@ public abstract class GameController extends Controller implements Initializable
 
     @FXML protected Pane gameBoardPane;
     @FXML protected GridPane boardGridPane;
-    protected BoardPane gameBoard;
     @FXML protected Label turnLabel;
     @FXML protected Button forfeitButton;
     @FXML protected Label gameTitle;
@@ -49,7 +48,7 @@ public abstract class GameController extends Controller implements Initializable
     @FXML protected VBox rightFieldId;
     @FXML protected Text skippedTurnText;
 
-
+    protected BoardPane gameBoard;
     protected GameModel model;
 
     protected GameController(GameModel model) {

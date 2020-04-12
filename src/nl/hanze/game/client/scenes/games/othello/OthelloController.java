@@ -16,9 +16,8 @@ import java.util.ResourceBundle;
 public class OthelloController extends GameController {
     @FXML private Label scoreLabel1;
     @FXML private Label scoreLabel2;
-
-    private Label graphic1;
-    private Label graphic2;
+    @FXML private Label graphic1;
+    @FXML private Label graphic2;
 
     public OthelloController(OthelloModel model) {
         super(model);
