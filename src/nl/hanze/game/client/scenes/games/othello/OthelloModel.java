@@ -44,7 +44,9 @@ public class OthelloModel extends GameModel {
 
         // ...before the stone is placed: this is because placing the stone first would affect enactCaptures>getCaptures calculation
         targetField.setOwner(move.getPlayer());
+        updateRecentMove(targetField);
         getActivePlayer().changeScore(1);
+
 
         System.out.println(getActivePlayer().getName() + " captured " + captureTally + " Field(s)!");
 
@@ -146,6 +148,15 @@ public class OthelloModel extends GameModel {
             captureTally++;
         }
         return captureTally;
+    }
+
+    public void updateRecentMove(Field recentMove) {
+        for (Field[] row : board) {
+            for (Field field : row) {
+                field.unsetRecentMove();
+            }
+        }
+        recentMove.setRecentMove();
     }
 
     public int getBoardScore() {
