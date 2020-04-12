@@ -122,7 +122,7 @@ public abstract class GameModel {
         } else if (winner == 1) {
             msg = players[1].getName() + " won with " + players[1].getScore() + " points!";
         } else {
-            msg = "tie " + players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
+            msg = "DRAW: " + players[1].getName() + " and " + players[0].getName() + " tied for second place!";
         }
 
         /**

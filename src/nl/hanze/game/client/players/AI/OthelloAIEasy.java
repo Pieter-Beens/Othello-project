@@ -17,6 +17,7 @@ public class OthelloAIEasy implements AIStrategy {
 
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
+        System.out.println("RNGesus is blessing us with His wisdom...");
         try {
             Thread.sleep(200);
         } catch (InterruptedException ignore) {}
