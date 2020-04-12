@@ -180,16 +180,23 @@ public abstract class GameController extends Controller implements Initializable
 
     @Override
     public void gameWin(Map<String, String> map) {
-        goToLobby("Result of last game:\nYou won");
+        goToLobby("Result of last game:"+
+                "\nYou won with " + model.getPlayerByName(GameModel.serverName).getScore() + " points!" +
+                "\n" + map.get("COMMENT"));
     }
 
     @Override
-    public void gameLoss(Map<String, String> map) { goToLobby("Result of last game:\nYou lost");
+    public void gameLoss(Map<String, String> map) {
+        goToLobby("Result of last game:"+
+                "\nYou lost with " + model.getPlayerByName(GameModel.serverName).getScore() + " points!" +
+                "\n" + map.get("COMMENT"));
     }
 
     @Override
     public void gameDraw(Map<String, String> map) {
-        goToLobby("Result of last game:\nYou came to a draw");
+        goToLobby("Result of last game:" +
+                "\nYou came to a draw at "+ model.getPlayerByName(GameModel.serverName).getScore() + " points!" +
+                "\n" + map.get("COMMENT"));
     }
 
     private void goToLobby(String msg) {
