@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class OnlineMenuController extends Controller implements Initializable {
+public class OnlineMenuController extends Controller {
     @FXML
     private TextField name;
 
@@ -31,14 +31,6 @@ public class OnlineMenuController extends Controller implements Initializable {
     @FXML
     private Text errorMsg;
 
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        turnTimeField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) newValue = newValue.replaceAll("[^\\d]", "");
-
-            turnTimeField.setText(newValue);
-        });
-    }
-
     /**
      * @author Jasper van Dijken
      */
@@ -49,7 +41,7 @@ public class OnlineMenuController extends Controller implements Initializable {
         boolean error = false;
 
         //Check if fields are filled in
-        if (name.getText().isEmpty() | ip.getText().isEmpty() | port.getText().isEmpty()) {
+        if (name.getText().isEmpty() || ip.getText().isEmpty() || port.getText().isEmpty() || turnTimeField.getText().isEmpty()) {
             errorMsg.setText("Please fill in all fields");
             error = true;
         }
@@ -65,6 +57,12 @@ public class OnlineMenuController extends Controller implements Initializable {
             //check for valid port number
             if (!port.getText().matches("^[0-9]*$")) {
                 errorMsg.setText("Invalid Port Number");
+                error = true;
+            }
+
+            // check turn time
+            if (!turnTimeField.getText().matches("\\d*")) {
+                errorMsg.setText("Turn time is not a number");
                 error = true;
             }
         }
