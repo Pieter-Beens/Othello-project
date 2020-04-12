@@ -158,7 +158,6 @@ public abstract class GameController extends Controller implements Initializable
     public void acceptNewMoves() {
         // check if the next turn belongs to an AIPlayer and if so, request a move
         if (model.getActivePlayer().getPlayerType() == PlayerType.AI && !model.hasGameEnded()) {
-            System.out.println("Paging Julius...");
 
             new Thread(() -> {
                 Move move = model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer());
@@ -237,7 +236,7 @@ public abstract class GameController extends Controller implements Initializable
     @Override
     public void changeScene() {
         timer.cancel();
-
+        GameModel.skippedTurnText = "";
         super.changeScene();
     }
 
