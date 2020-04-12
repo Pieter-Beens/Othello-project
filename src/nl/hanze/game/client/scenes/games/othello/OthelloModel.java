@@ -28,8 +28,6 @@ public class OthelloModel extends GameModel {
         players[0].changeScore(2);
         players[1].changeScore(2);
 
-        //TODO: get starting player from server in online games
-
         super.setup();
     }
 
