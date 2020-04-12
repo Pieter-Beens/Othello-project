@@ -180,27 +180,26 @@ public abstract class GameController extends Controller implements Initializable
 
     @Override
     public void gameWin(Map<String, String> map) {
-        goToLobby("Result of last game:"+
-                "\nYou won with " + model.getPlayerByName(GameModel.serverName).getScore() + " points!" +
-                "\n" + map.get("COMMENT"));
+        goToLobby(map, "You won with " + model.getPlayerByName(GameModel.serverName).getScore() + " points!");
     }
 
     @Override
     public void gameLoss(Map<String, String> map) {
-        goToLobby("Result of last game:"+
-                "\nYou lost with " + model.getPlayerByName(GameModel.serverName).getScore() + " points!" +
-                "\n" + map.get("COMMENT"));
+        goToLobby(map, "You lost with " + model.getPlayerByName(GameModel.serverName).getScore() + " points!");
     }
 
     @Override
     public void gameDraw(Map<String, String> map) {
-        goToLobby("Result of last game:" +
-                "\nYou came to a draw at "+ model.getPlayerByName(GameModel.serverName).getScore() + " points!" +
-                "\n" + map.get("COMMENT"));
+        goToLobby(map, "You came to a draw at "+ model.getPlayerByName(GameModel.serverName).getScore() + " points!");
     }
 
-    private void goToLobby(String msg) {
-        LobbyController.lastGameResultMsg = msg;
+    private void goToLobby(Map<String, String> map, String msg) {
+        String serverComment = map.get("COMMENT");
+        if (!serverComment.equals("")) {
+            msg += "\n" + serverComment;
+        }
+
+        LobbyController.lastGameResultMsg = "Result of last game:\n" + msg;
         goToLobby();
     }
 
