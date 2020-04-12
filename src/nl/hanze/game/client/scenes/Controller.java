@@ -50,10 +50,6 @@ public abstract class Controller implements Observer {
             sceneHistory.push(fxml);
         }
 
-        //Scene scene = new Scene(parent);
-        //
-
-        //Main.primaryStage.setScene(scene);
         Main.primaryStage.getScene().setRoot(parent);
         Main.primaryStage.show();
         return loader.getController();
