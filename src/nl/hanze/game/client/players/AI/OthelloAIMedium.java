@@ -2,9 +2,12 @@ package nl.hanze.game.client.players.AI;
 
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
+import nl.hanze.game.client.scenes.games.GameModel;
+import nl.hanze.game.client.scenes.games.othello.OthelloModel;
 import nl.hanze.game.client.scenes.games.utils.Field;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * @author Pieter Beens
@@ -14,51 +17,96 @@ public class OthelloAIMedium implements AIStrategy {
 
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
+        Field[][] boardCopy = board.clone();
+
         ArrayList<Field> validMoves = new ArrayList<>();
+        Move chosenMove = null;
+        int bestScore = -100;
 
-        //==================================================
+        for (Field[] row : boardCopy) {
+            for (Field field : row) {
+                if (field.getValidity()) validMoves.add(field);
+            }
+        }
 
-        //TODO: WRITE ALGORITHM ANEW AND DON'T RELY ON THIS SHIT
+        for (Field field : validMoves) {
+            Field[][] boardPostMove = enactCaptures(field, boardCopy, player, opponent);
+            boardPostMove[field.getRowID()][field.getColumnID()].setOwner(player);
+            int boardScore = OthelloModel.getBoardScore(boardPostMove);
+            if (boardScore > bestScore) {
+                bestScore = boardScore;
+                chosenMove = new Move(player, field.getRowID(), field.getColumnID());
+            }
+        }
+        return chosenMove;
+    }
 
-//        for (Field[] row : board) {
-//            for (Field field : row) {
-//                if (field.getValidity()) validMoves.add(field);
-//            }
-//        }
-//
-//        private Time maxTurnTime; //TODO: use .now() comparison check as condition for continued calculation
-//
-//    public AI(int maxTurnTime) {
-//            this.maxTurnTime = new Time(maxTurnTime);
-//        }
-//
-//        public Field getMove(ArrayList<ArrayList<Field>> fields) {
-//            //TODO: use own version of loopCheck, use recursively for up to 4 moves, store results in temp field and choose
-//            //      the best one (only consider valid moves, and drop the worst half every step!)
-//            int topCaptures = 0;
-//            Field chosenMove = null;
-//            for (ArrayList<Field> row : fields) {
-//                for (Field field : row) {
-//                    if (field.getCaptureData().size() > topCaptures) {
-//                        chosenMove = field;
-//                        topCaptures = field.getCaptureData().size();
-//                    }
-//                }
-//            }
-//            return chosenMove;
-//        }
-//
-//        public void decideMove() {
-//
-//        }
-        //TODO: make multiple threads, one for every initial valid move, use temp arrays and store to shared array at the end (synchronized)
-        // (or maybe just let the main thread handle this part)
+    private Field[][] cloneBoard(Field[][] board) {
+        Field[][] boardCopy = new Field[8][8];
+        for (int r = 0; r < 8; r++) {
+            for (int c = 0; c < 8; c++) {
+                boardCopy[r][c] = new Field(r,c);
+                boardCopy[r][c].setOwner(board[r][c].getOwner());
+            }
+        }
+        return boardCopy;
+    }
 
-        //==========================
+    private Field[][] enactCaptures(Field field, Field[][] board, Player player, Player opponent) {
+        Field[][] boardCopy = cloneBoard(board);
+        Stack<Field> captures = getCaptures(field, boardCopy, player, opponent);
+        for (Field capturedField : captures) {
+            capturedField.setOwner(player);
+        }
+        return boardCopy;
+    }
 
-        System.out.println("MEDIUM AI SAYS NO");
+    private Stack<Field> getCaptures(Field field, Field[][] board, Player player, Player opponent) {
+        Stack<Field> allCaptures = new Stack<>();
 
-        Field chosenMove = new Field(0,0); //PLACEHOLDER MOVE
-        return new Move(player, chosenMove.getRowID(), chosenMove.getColumnID());
+        // occupied Fields are never a valid move - immediately return empty Stack
+        if (field.getOwner() != null) {
+            return allCaptures;
+        }
+
+        for (int[] direction : GameModel.DIRECTIONS) {
+            Stack<Field> capturesInThisDirection = new Stack<>();
+
+            int currentRowID = field.getRowID();
+            int currentColumnID = field.getColumnID();
+
+            while (true) {
+                int nextRowID = currentRowID + direction[0];
+                int nextColumnID = currentColumnID + direction[1];
+
+                // start with all cases where a direction will never make a move valid, so no further checks are necessary
+                // directly borders a place outside the board > NO CAPTURES HERE
+                if (nextRowID >= board.length || nextColumnID >= board.length || nextRowID < 0 || nextColumnID < 0) break;
+                Field nextField = board[nextRowID][nextColumnID];
+
+                // directly borders an empty Field > NO CAPTURES HERE
+                if (nextField.getOwner() == null) break;
+                // directly borders a Field with the same owner > NO CAPTURES HERE
+                if (nextField.getOwner() == player && capturesInThisDirection.size() == 0) break;
+
+                // success condition: if the loop has looped at least once and the next Field has the same owner, the captures are added to allCaptures
+                if (nextField.getOwner() == player) {
+                    while (!capturesInThisDirection.isEmpty()) {
+                        allCaptures.push(capturesInThisDirection.pop());
+                    }
+                    break;
+                }
+
+                // if the next Field has another owner, this might be a capture!
+                if (nextField.getOwner() == opponent) {
+                    currentRowID = nextRowID;
+                    currentColumnID = nextColumnID;
+                    capturesInThisDirection.push(nextField);
+                }
+                // if the loop got this far, it means there is potential for a capture; the next iteration will check one Field further...
+            }
+        }
+        // returns captures in all directions
+        return allCaptures;
     }
 }

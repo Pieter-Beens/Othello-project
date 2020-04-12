@@ -157,26 +157,40 @@ public class OthelloModel extends GameModel {
         recentMove.setRecentMove();
     }
 
-    public int getBoardScore() {
+    public static int getBoardScore(Field[][] board) {
         int score = 0;
 
-        // score for number of valid moves: 1
+        // SOURCE 1: number of valid moves ==========================================================================
         for (Field[] row : board) {
             for (Field field : row) {
                 if (field.getValidity()) score += 1;
             }
         }
 
-        //TODO: negative for opponent's valid moves
+        //TODO: implement negative score for opponent's valid moves on this board
 
-        //TODO: score for edges
-        //hardcoded score for patterns
+        // SOURCE 2: edge patterns (hardcoded) =====================================================================
 
-        //TODO: score for corners and x-corners
-        //cornerscore = 10 for every distance from stable stones (yours or opponent's)
+        String string = "";
+        for (int i = 0; i < 8; i++) {
+            try { string += board[0][i].getOwner().getSign(); } catch (NullPointerException e) { string += "-"; }
+        }
 
-        //TODO: score for stable stones: 10
-        //count from corners, what about eyes and side pyramids?
+        if (string.equals("-X-XX-X-")) score += 10;
+        //TODO: MORE PATTERNS HERE
+
+        // SOURCE 3: corners and x-corners ========================================================================
+
+        //TODO: cornerscore = 10 for every distance from stable stones (yours or opponent's)
+
+        //TODO: x-cornerscore = -10 unless associated corner is occupied
+
+        // SOURCE 4: stable stones ================================================================================
+
+        //TODO: score per stable stone: 10
+        //count from corners... what about eyes and side pyramids?
+
+        // SOURCE 5: ?????????????? ===============================================================================
 
         return score;
     }

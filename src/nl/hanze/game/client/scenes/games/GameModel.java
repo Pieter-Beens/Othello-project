@@ -106,9 +106,9 @@ public abstract class GameModel {
         String msg;
         int winner = determineWinner();
         if (winner == 0) {
-            msg = players[0].getName() + " has won with " + players[1].getScore() + " points!";
+            msg = players[0].getName() + " won with " + players[1].getScore() + " points!";
         } else if (winner == 1) {
-            msg = players[1].getName() + " has won with " + players[1].getScore() + " points!";
+            msg = players[1].getName() + " won with " + players[1].getScore() + " points!";
         } else {
             msg = "tie " + players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
         }
