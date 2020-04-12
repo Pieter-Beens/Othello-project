@@ -6,7 +6,7 @@ import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.utils.Field;
-import nl.hanze.game.client.scenes.lobby.LobbyController;
+import nl.hanze.game.client.scenes.menu.offline.OfflineMenuModel;
 import nl.hanze.game.client.scenes.utils.Popup;
 
 import java.io.IOException;
@@ -130,8 +130,9 @@ public abstract class GameModel {
         //Send the result of the game, redirect to lobby
         try {
             if (!Main.serverConnection.hasConnection()) {
-                Popup.display(msg);
-                Controller.loadScene("start/start.fxml");
+                //Popup.display(msg);
+                OfflineMenuModel.setResultMessage(msg);
+                Controller.loadScene("menu/offline/offline.fxml");
             }
         } catch (IOException ex) {
             ex.printStackTrace();
