@@ -61,7 +61,7 @@ public class OthelloController extends GameController {
         updateScoreLabels();
 
         OthelloModel othelloModel = (OthelloModel) model;
-        System.out.println("BOARDSCORE: " + othelloModel.getBoardScore(model.getBoard()));
+        System.out.println("BOARDSCORE: " + OthelloModel.getBoardScore(model.getBoard()));
     }
 
     public void updateScoreLabels(){

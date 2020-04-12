@@ -19,7 +19,7 @@ public class OthelloAIEasy implements AIStrategy {
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
         System.out.println("RNGesus is blessing us with His wisdom...");
         try {
-            Thread.sleep(200);
+            Thread.sleep(500);
         } catch (InterruptedException ignore) {}
 
         ArrayList<Field> validMoves = new ArrayList<>();

@@ -36,8 +36,8 @@ public class GameFacade {
     public static void startOffline(String game, int difficulty, boolean fullscreen, int turnTime) throws IOException {
         game = game.toLowerCase().replace("-", "");
 
-        Player player1 = new AIPlayer("Computer", PlayerType.AI, aiFactory.create(game, difficulty));
-        Player player2 = new Player("You", PlayerType.LOCAL);
+        Player player2 = new AIPlayer("Computer", PlayerType.AI, aiFactory.create(game, difficulty));
+        Player player1 = new Player("You", PlayerType.LOCAL);
 
         startOffline(player1, player2, game, fullscreen, turnTime);
     }

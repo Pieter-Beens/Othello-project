@@ -248,6 +248,7 @@ public abstract class GameController extends Controller implements Initializable
 
             return true;
         }
+        System.out.println(getActivePlayer().getName() + " made an ILLEGAL MOVE!!!");
         return false;
     }
 }
