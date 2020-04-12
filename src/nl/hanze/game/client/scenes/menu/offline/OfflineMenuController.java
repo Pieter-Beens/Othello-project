@@ -78,6 +78,8 @@ public class OfflineMenuController extends Controller implements Initializable {
         setPlayernamesVisibility(false);
 
         turnTimeField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) newValue = newValue.replaceAll("[^\\d]", "");
+
             int turnTime = Integer.parseInt(newValue);
             model.setTurnTime(turnTime);
             turnTimeField.setText(String.valueOf(model.getTurnTime()));

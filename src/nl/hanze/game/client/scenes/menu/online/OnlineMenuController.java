@@ -33,7 +33,9 @@ public class OnlineMenuController extends Controller implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         turnTimeField.textProperty().addListener((observable, oldValue, newValue) -> {
-            turnTimeField.setText(String.valueOf(Integer.parseInt(newValue)));
+            if (!newValue.matches("\\d*")) newValue = newValue.replaceAll("[^\\d]", "");
+
+            turnTimeField.setText(newValue);
         });
     }
 
