@@ -46,8 +46,10 @@ public class OthelloBoard extends BoardPane {
         for (FieldButton[] row : fieldButtons) for(Node fieldNode : row){
                 FieldButton fieldButton = (FieldButton) fieldNode;
                 try {
-                    Player fieldOwner  = model.getField(fieldButton.getRowID(), fieldButton.getColumnID()).getOwner();
+                    Field fieldModel = model.getField(fieldButton.getRowID(), fieldButton.getColumnID());
+                    Player fieldOwner  = fieldModel.getOwner();
                     ImageView iv = new ImageView(fieldOwner.getReversiImage());
+                    fieldButton.setStyle((fieldModel.getRecentMove()) ? "-fx-background-color: #FFFFFF" : "-fx-background-color: transparent");
                     fieldButton.setGraphic(iv);
                 } catch (NullPointerException ignore) {}
         }

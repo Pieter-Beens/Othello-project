@@ -48,6 +48,8 @@ public class Field {
         recentMove = false;
     }
 
+    public boolean getRecentMove() { return recentMove; }
+
     @Override
     public String toString() {
         if (owner == null) {
