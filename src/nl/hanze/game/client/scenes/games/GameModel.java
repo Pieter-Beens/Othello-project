@@ -119,7 +119,7 @@ public abstract class GameModel {
         //Send the result of the game, redirect to lobby
         try {
             if (!Main.serverConnection.hasConnection()) {
-                Popup.display(msg); // TODO: remove all pops
+                Popup.display(msg);
                 Controller.loadScene("start/start.fxml");
             }
         } catch (IOException ex) {

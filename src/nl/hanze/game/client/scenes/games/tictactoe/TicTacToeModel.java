@@ -131,8 +131,12 @@ public class TicTacToeModel extends GameModel {
     public void endGame() {
         String msg;
         if (currentState == State.O_WINS) {
+            players[0].changeScore(1);
+            players[1].changeScore(0);
             msg = players[0].getName() + " has won!";
         } else if (currentState == State.X_WINS) {
+            players[0].changeScore(0);
+            players[1].changeScore(1);
             msg = players[1].getName() + " has won!";
         } else {
             msg = players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
