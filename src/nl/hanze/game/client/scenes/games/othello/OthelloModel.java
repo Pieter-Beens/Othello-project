@@ -72,6 +72,11 @@ public class OthelloModel extends GameModel {
             return;
         }
 
+        //LastTurnWasSkipped, when current turn has a move, remove the skippedTurn message
+        if (turnHasMoves() && lastTurnWasSkipped) {
+            GameModel.skippedTurnText = "";
+        }
+
         if (!turnHasMoves()) {
             GameModel.skippedTurnText = getActivePlayer().getName() + " had to skip a turn!";
             System.out.println(getActivePlayer().getName() + " was unable to move, and had to skip their turn!");

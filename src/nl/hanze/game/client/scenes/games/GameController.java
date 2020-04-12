@@ -15,31 +15,20 @@ import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.Controller;
-import nl.hanze.game.client.scenes.games.othello.OthelloModel;
-import nl.hanze.game.client.scenes.games.tictactoe.TicTacToeModel;
 import nl.hanze.game.client.scenes.games.utils.BoardPane;
 import nl.hanze.game.client.scenes.lobby.LobbyController;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
- * This class serves as a template class (Template method pattern)
- * for all GameControllers.
- * A concrete implementation of this Controller only requires
- * the controller to implement the move() and updateViews() methods.
- *
  * @author Roy Voetman
  */
 public abstract class GameController extends Controller implements Initializable {
 
     @FXML protected Pane gameBoardPane;
     @FXML protected GridPane boardGridPane;
-    protected BoardPane gameBoard;
     @FXML protected Label turnLabel;
     @FXML protected Button forfeitButton;
     @FXML protected Label gameTitle;
@@ -48,12 +37,16 @@ public abstract class GameController extends Controller implements Initializable
     @FXML protected VBox leftFieldId;
     @FXML protected VBox rightFieldId;
     @FXML protected Text skippedTurnText;
+    @FXML protected Label timerLabel;
 
-
+    protected BoardPane gameBoard;
     protected GameModel model;
+    protected Timer timer;
 
-    protected GameController(GameModel model) {
+    protected GameController(GameModel model, int turnTime) {
         this.model = model;
+
+        model.setTurnTime(turnTime);
     }
 
     public Player getActivePlayer() {
@@ -62,7 +55,23 @@ public abstract class GameController extends Controller implements Initializable
 
     public void initialize(URL location, ResourceBundle resources) {
         forfeitButton.setOnAction(this::forfeit);
-        Font font = new Font("System Bold",24);
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                int time = model.getElapsedTime();
+                Platform.runLater(() -> timerLabel.setText("Timer:" + time));
+
+                if(time > 0) {
+                    model.decreaseElapsedTime();
+                } else {
+                    timer.cancel();
+
+                    if (!Main.serverConnection.hasConnection())
+                        Platform.runLater(() -> model.endGame());
+                }
+            }
+        }, 0,1000);
     }
 
     public void setup() {
@@ -180,12 +189,23 @@ public abstract class GameController extends Controller implements Initializable
 
     @Override
     public void gameWin(Map<String, String> map) {
-        goToLobby(map, "You won with " + model.getPlayerByName(GameModel.serverName).getScore() + " points!");
+        String msg = "You won";
+        if (!map.get("COMMENT").equals("Turn time limit reached")) {
+            msg += " with " + model.getPlayerByName(GameModel.serverName).getScore() + " points!";
+        }
+
+        goToLobby(map, msg);
     }
 
     @Override
     public void gameLoss(Map<String, String> map) {
-        goToLobby(map, "You lost with " + model.getPlayerByName(GameModel.serverName).getScore() + " points!");
+        String msg = "You lost";
+
+        if (!map.get("COMMENT").equals("Turn time limit reached")) {
+            msg += " with " + model.getPlayerByName(GameModel.serverName).getScore() + " points!";
+        }
+
+        goToLobby(map, msg);
     }
 
     @Override

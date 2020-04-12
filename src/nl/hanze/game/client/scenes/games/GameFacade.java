@@ -30,7 +30,7 @@ public class GameFacade {
 
         Player player1;
         if (playerType == PlayerType.AI) {
-            player1 = new AIPlayer(GameModel.serverName, playerType, aiFactory.create(game, 2));
+            player1 = new AIPlayer(GameModel.serverName, playerType, aiFactory.create(game, 0));
         } else {
             player1 = new Player(GameModel.serverName, playerType);
         }
@@ -90,13 +90,13 @@ public class GameFacade {
         switch (game) {
             case "tictactoe":
                 loader.setController(new TicTacToeController(
-                        new TicTacToeModel()
+                        new TicTacToeModel(), 10
                 ));
                 break;
             case "reversi":
             case "othello":
                 loader.setController(new OthelloController(
-                        new OthelloModel()
+                        new OthelloModel(), 10
                 ));
                 break;
         }

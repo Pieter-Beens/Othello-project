@@ -54,7 +54,7 @@ public class LobbyController extends Controller implements Initializable {
 
     private String gameListString;
 
-    private static TableUpdater tableUpdater;
+    private static Timer playersTableUpdater;
 
     // Contains either 'ai' or 'manual' to indicate as whom the user wants to play as
     @FXML private ToggleGroup playerMode;
@@ -85,18 +85,22 @@ public class LobbyController extends Controller implements Initializable {
         Main.serverConnection.getGameList();
         Main.serverConnection.getPlayerList();
 
-        if (tableUpdater != null)
-            tableUpdater.stop();
+        if (playersTableUpdater != null)
+            playersTableUpdater.cancel();
 
-        tableUpdater = new TableUpdater();
-        new Thread(tableUpdater).start();
+        playersTableUpdater = new Timer();
+        playersTableUpdater.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                Main.serverConnection.getPlayerList();
+            }
+        }, 5000,5000);
 
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
 
         //Show the result of the last game
         //lastGameResult.setStyle("-fx-text-fill: #46AF4E;");
         lastGameResult.setStyle("-fx-text-fill: white;");
-        lastGameResult.setText(lastGameResultMsg);
+        lastGameResult.setText("\n" + lastGameResultMsg);
 
         /*
         if (lastGameResultMsg.equals("Result of last game:\\nYou won")) {
@@ -294,32 +298,6 @@ public class LobbyController extends Controller implements Initializable {
     @Override
     public void changeScene() {
         super.changeScene();
-        tableUpdater.stop();
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        tableUpdater.stop();
-        super.finalize();
-    }
-
-    private static class TableUpdater implements Runnable {
-        volatile boolean running = true;
-
-        @Override
-        public void run() {
-            while (running) {
-                try {
-                    Thread.sleep(5000);
-                    Main.serverConnection.getPlayerList();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        public void stop() {
-            running = false;
-        }
+        playersTableUpdater.cancel();
     }
 }

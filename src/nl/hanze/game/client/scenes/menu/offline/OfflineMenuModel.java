@@ -6,6 +6,7 @@ public class OfflineMenuModel {
     private String gameMode;
     private int difficulty = 1; //difficulty defaults to Medium
     private boolean fullscreen;
+    private static String resultMessage;
 
     //Game
     public void setGame(String game) { this.game = game; }
@@ -35,4 +36,7 @@ public class OfflineMenuModel {
 
     public boolean getFullscreen() { return fullscreen; }
 
+    public static void setResultMessage(String msg) { resultMessage = msg; }
+
+    public String getResultMessage() { return resultMessage; }
 }

@@ -53,6 +53,7 @@
             <RowConstraints maxHeight="-Infinity" minHeight="0.0" prefHeight="100.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="96.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="96.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="370.0" minHeight="10.0" prefHeight="195.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
@@ -85,12 +86,17 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Text fx:id="skippedTurnText" strokeType="OUTSIDE" strokeWidth="0.0" text="Test" GridPane.rowIndex="5">
+            <Label fx:id="timerLabel" contentDisplay="TOP" GridPane.rowIndex="5">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Text fx:id="skippedTurnText" strokeType="OUTSIDE" strokeWidth="0.0" text="Test" GridPane.rowIndex="6">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Text>
-              <Button fx:id="forfeitButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="FORFEIT" textAlignment="CENTER" GridPane.rowIndex="6" />
+              <Button fx:id="forfeitButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="FORFEIT" textAlignment="CENTER" GridPane.rowIndex="7" />
          </children>
          <GridPane.margin>
             <Insets />

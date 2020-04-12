@@ -53,7 +53,6 @@ public abstract class Controller implements Observer {
 
         Main.primaryStage.setScene(scene);
         Main.primaryStage.show();
-
         return loader.getController();
     }
 

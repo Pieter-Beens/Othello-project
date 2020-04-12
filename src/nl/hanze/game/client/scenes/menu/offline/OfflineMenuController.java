@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameFacade;
@@ -25,6 +26,7 @@ import java.util.ResourceBundle;
 
 public class OfflineMenuController extends Controller implements Initializable {
     @FXML private VBox container;
+    @FXML private Text resultMessage;
     @FXML public HBox players;
     @FXML public GridPane playernames;
     @FXML public TextField player1;
@@ -71,6 +73,12 @@ public class OfflineMenuController extends Controller implements Initializable {
         difficultySlider.setShowTickLabels(true);
         setDifficultyVisibility(false);
         setPlayernamesVisibility(false);
+
+
+        //Set resultMessage
+        resultMessage.setText(model.getResultMessage());
+
+
             // Styling
         //start.setStyle("-fx-background-color: " + Colors.BTN_COLOR + "; -fx-text-fill: " + Colors.BTN_TEXT_COLOR);
         //container.setStyle("-fx-background-color: " + Colors.BG_COLOR);

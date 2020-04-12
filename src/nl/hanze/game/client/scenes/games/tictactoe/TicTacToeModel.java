@@ -3,9 +3,13 @@ package nl.hanze.game.client.scenes.games.tictactoe;
 import javafx.application.Platform;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
+import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.utils.Field;
+import nl.hanze.game.client.scenes.menu.offline.OfflineMenuModel;
 import nl.hanze.game.client.scenes.utils.Popup;
+
+import java.io.IOException;
 
 /**
  * @author Roy Voetman
@@ -142,7 +146,20 @@ public class TicTacToeModel extends GameModel {
             msg = players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
         }
 
-        Popup.display(msg, "GAME END", 300, 200);
+        //Popup.display(msg, "GAME END", 300, 200);
+
+        /**
+         * @author Jasper van Dijken
+         */
+        //Send the result of the game, redirect to lobby
+        try {
+            if (!Main.serverConnection.hasConnection()) {
+                OfflineMenuModel.setResultMessage(msg);
+                Controller.loadScene("menu/offline/offline.fxml");
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public enum State {
