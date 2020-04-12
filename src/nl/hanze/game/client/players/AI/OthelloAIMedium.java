@@ -56,6 +56,8 @@ public class OthelloAIMedium implements AIStrategy {
 
         //==========================
 
+        System.out.println("MEDIUM AI SAYS NO");
+
         Field chosenMove = new Field(0,0); //PLACEHOLDER MOVE
         return new Move(player, chosenMove.getRowID(), chosenMove.getColumnID());
     }

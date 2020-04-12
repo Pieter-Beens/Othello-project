@@ -30,7 +30,7 @@ public class GameFacade {
 
         Player player1;
         if (playerType == PlayerType.AI) {
-            player1 = new AIPlayer(GameModel.serverName, playerType, aiFactory.create(game, 0));
+            player1 = new AIPlayer(GameModel.serverName, playerType, aiFactory.create(game, 2));
         } else {
             player1 = new Player(GameModel.serverName, playerType);
         }
@@ -116,7 +116,7 @@ public class GameFacade {
         public static final int MEDIUM = 1;
         public static final int HARD = 2;
 
-        public  AIStrategy create(String game, int difficulty) {
+        public AIStrategy create(String game, int difficulty) {
             AIStrategy aiStrategy = null;
 
             switch (game) {

@@ -4,7 +4,7 @@ public class OfflineMenuModel {
 
     private String game;
     private String gameMode;
-    private int difficulty;
+    private int difficulty = 1; //difficulty defaults to Medium
     private boolean fullscreen;
 
     //Game
