@@ -5,6 +5,7 @@ public class OfflineMenuModel {
     private String game;
     private String gameMode;
     private int difficulty = 1; //difficulty defaults to Medium
+    private int turnTime = 10; //difficulty defaults to Medium
     private boolean fullscreen;
     private static String resultMessage;
 
@@ -29,6 +30,15 @@ public class OfflineMenuModel {
 
     public int getDifficulty() {
         return difficulty;
+    }
+
+    // Turn time
+    public int getTurnTime() {
+        return turnTime;
+    }
+
+    public void setTurnTime(int turnTime) {
+        this.turnTime = turnTime;
     }
 
     //Fullscreen

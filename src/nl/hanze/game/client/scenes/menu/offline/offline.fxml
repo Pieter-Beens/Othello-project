@@ -142,6 +142,30 @@
                 <Insets bottom="20.0" top="20.0" />
             </padding>
         </GridPane>
+        <GridPane fx:id="turnTime" alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Difficulty" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                    <GridPane.margin>
+                        <Insets right="30.0" top="10.0" />
+                    </GridPane.margin>
+                </Label>
+                <Slider fx:id="turnTimeSlider" blockIncrement="1" majorTickUnit="1" max="120" maxWidth="255.0" minorTickCount="0" onMouseReleased="#onTurnTimeChanged" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10" GridPane.columnIndex="1">
+                    <GridPane.margin>
+                        <Insets />
+                    </GridPane.margin>
+                </Slider>
+            </children>
+            <padding>
+                <Insets bottom="20.0" top="20.0" />
+            </padding>
+        </GridPane>
         <GridPane alignment="CENTER" layoutX="10.0" layoutY="190.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="100.0" />

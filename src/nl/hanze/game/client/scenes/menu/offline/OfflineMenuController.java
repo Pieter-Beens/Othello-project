@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
  */
 
 public class OfflineMenuController extends Controller implements Initializable {
+    @FXML private Slider turnTimeSlider;
     @FXML private VBox container;
     @FXML private Text resultMessage;
     @FXML public HBox players;
@@ -133,6 +134,11 @@ public class OfflineMenuController extends Controller implements Initializable {
         model.setDifficulty((int) difficultySlider.getValue());
     }
 
+    @FXML
+    public void onTurnTimeChanged(MouseEvent mouseEvent) {
+        model.setTurnTime((int) turnTimeSlider.getValue());
+    }
+
     //Sets fullscreen in model when altered
     @FXML
     public void fullscreenReleased(MouseEvent mouseEvent) {
@@ -156,13 +162,15 @@ public class OfflineMenuController extends Controller implements Initializable {
                     player1.getText(),
                     player2.getText(),
                     model.getGame(),
-                    model.getFullscreen()
+                    model.getFullscreen(),
+                    model.getTurnTime()
             );
         } else {
             GameFacade.startOffline(
                     model.getGame(),
+                    model.getDifficulty(),
                     model.getFullscreen(),
-                    model.getDifficulty()
+                    model.getTurnTime()
             );
         }
     }
