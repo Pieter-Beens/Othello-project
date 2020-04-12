@@ -54,7 +54,7 @@ public class OthelloModel extends GameModel {
     public void nextTurn(boolean lastTurnWasSkipped) {
         super.nextTurn();
 
-        if (!turnHasMoves() && lastTurnWasSkipped) { //TODO: turnHasMoves should only be a check, not a setter!
+        if (!turnHasMoves() && lastTurnWasSkipped) {
             if (!Main.serverConnection.hasConnection()) {
                 Platform.runLater(this::endGame);
             }
@@ -62,7 +62,7 @@ public class OthelloModel extends GameModel {
         }
 
         if (!turnHasMoves()) {
-            GameModel.skippedTurnText = getActivePlayer().getName() + " skipped his turn!";
+            GameModel.skippedTurnText = getActivePlayer().getName() + " had to skip a turn!";
             System.out.println(getActivePlayer().getName() + " was unable to move, and had to skip their turn!");
             this.nextTurn(true);
         }
@@ -144,5 +144,29 @@ public class OthelloModel extends GameModel {
             captureTally++;
         }
         return captureTally;
+    }
+
+    public int getBoardScore() {
+        int score = 0;
+
+        // score for number of valid moves: 1
+        for (Field[] row : board) {
+            for (Field field : row) {
+                if (field.getValidity()) score += 1;
+            }
+        }
+
+        //TODO: negative for opponent's valid moves
+
+        //TODO: score for edges
+        //hardcoded score for patterns
+
+        //TODO: score for corners and x-corners
+        //cornerscore = 10 for every distance from stable stones (yours or opponent's)
+
+        //TODO: score for stable stones: 10
+        //count from corners, what about eyes and side pyramids?
+
+        return score;
     }
 }

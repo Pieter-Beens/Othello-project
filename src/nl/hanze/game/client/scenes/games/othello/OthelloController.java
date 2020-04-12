@@ -35,7 +35,6 @@ public class OthelloController extends GameController {
     public OthelloController(OthelloModel model) {
         super(model);
     }
-    public OthelloModel othelloModel = new OthelloModel();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -72,6 +71,9 @@ public class OthelloController extends GameController {
     public void updateViews() {
         super.updateViews();
         updateScoreLabels();
+
+        OthelloModel othelloModel = (OthelloModel) model;
+        System.out.println("BOARDSCORE: " + othelloModel.getBoardScore());
     }
 
     //TODO: refactor to use GameController.move()
