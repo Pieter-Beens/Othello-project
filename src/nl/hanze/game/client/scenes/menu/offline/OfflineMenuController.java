@@ -3,6 +3,8 @@
  */
 package nl.hanze.game.client.scenes.menu.offline;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,7 +27,7 @@ import java.util.ResourceBundle;
  */
 
 public class OfflineMenuController extends Controller implements Initializable {
-    @FXML private Slider turnTimeSlider;
+    @FXML private TextField turnTimeField;
     @FXML private VBox container;
     @FXML private Text resultMessage;
     @FXML public HBox players;
@@ -75,16 +77,14 @@ public class OfflineMenuController extends Controller implements Initializable {
         setDifficultyVisibility(false);
         setPlayernamesVisibility(false);
 
+        turnTimeField.textProperty().addListener((observable, oldValue, newValue) -> {
+            int turnTime = Integer.parseInt(newValue);
+            model.setTurnTime(turnTime);
+            turnTimeField.setText(String.valueOf(model.getTurnTime()));
+        });
 
         //Set resultMessage
         resultMessage.setText(model.getResultMessage());
-
-
-            // Styling
-        //start.setStyle("-fx-background-color: " + Colors.BTN_COLOR + "; -fx-text-fill: " + Colors.BTN_TEXT_COLOR);
-        //container.setStyle("-fx-background-color: " + Colors.BG_COLOR);
-
-
     }
 
     public void setDifficultyVisibility(boolean b){
@@ -132,11 +132,6 @@ public class OfflineMenuController extends Controller implements Initializable {
     @FXML
     public void onDifficultyChanged(MouseEvent mouseEvent) {
         model.setDifficulty((int) difficultySlider.getValue());
-    }
-
-    @FXML
-    public void onTurnTimeChanged(MouseEvent mouseEvent) {
-        model.setTurnTime((int) turnTimeSlider.getValue());
     }
 
     //Sets fullscreen in model when altered

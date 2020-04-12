@@ -51,6 +51,10 @@
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
                            </GridPane.margin></TextField>
+                         <TextField text="10" fx:id="turnTimeField" alignment="CENTER" promptText="Turn time" GridPane.rowIndex="3">
+                             <GridPane.margin>
+                                 <Insets left="20.0" right="20.0" />
+                             </GridPane.margin></TextField>
                         <Text fx:id="errorMsg" fill="RED" layoutX="107.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                            <font>
                               <Font name="Arial" size="12.0" />

@@ -2,6 +2,7 @@ package nl.hanze.game.client.scenes;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import nl.hanze.game.client.Main;
@@ -14,8 +15,10 @@ import nl.hanze.game.client.server.interpreter.ServerResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Stack;
 
 /**
@@ -125,7 +128,5 @@ public abstract class Controller implements Observer {
 
     public void gameLoss(Map<String, String> map) { }
 
-    public void gameDraw(Map<String, String> map) {
-        System.out.println(map);
-    }
+    public void gameDraw(Map<String, String> map) { }
 }

@@ -52,11 +52,11 @@ public class GameFacade {
         start(controller, fullscreen);
     }
 
-    public static GameController startOnline(Map<String, String> args, boolean fullscreen, PlayerType playerType, int turnTime) throws IOException {
+    public static GameController startOnline(Map<String, String> args, boolean fullscreen, PlayerType playerType) throws IOException {
         String game = args.get("GAMETYPE").toLowerCase().replace("-", "");
         game = game.equals("reversi") ? "othello" : game;
 
-        GameController controller = getController(game, turnTime);
+        GameController controller = getController(game, GameModel.serverTurnTime);
         GameModel model = controller.getModel();
 
         Player player1;
