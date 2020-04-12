@@ -3,6 +3,10 @@ package nl.hanze.game.client.scenes.games.othello.utils;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.paint.Color;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.games.GameModel;
@@ -42,21 +46,21 @@ public class OthelloBoard extends BoardPane {
 
     @Override
     public void update() {
-        // update FieldButton colors (or images??)
         for (FieldButton[] row : fieldButtons) for(Node fieldNode : row){
                 FieldButton fieldButton = (FieldButton) fieldNode;
                 try {
+                    // mark fields with the proper stone png
                     Field fieldModel = model.getField(fieldButton.getRowID(), fieldButton.getColumnID());
                     Player fieldOwner  = fieldModel.getOwner();
                     ImageView iv = new ImageView(fieldOwner.getReversiImage());
-                    fieldButton.setStyle((fieldModel.getRecentMove()) ? "-fx-background-color: #FFFFFF" : "-fx-background-color: transparent");
                     fieldButton.setGraphic(iv);
+
+                    // mark the most recently occupied field
+                    fieldButton.setStyle((fieldModel.getRecentMove()) ? "-fx-background-color: #CA5007" : "-fx-background-color: transparent");
                 } catch (NullPointerException ignore) {}
         }
 
         disableAllFields();
-
-        //TODO: mark and unmark recent moves (update Fields field in model.placeStone())
     }
 
     @Override
