@@ -30,7 +30,7 @@ public class GameFacade {
 
         Player player1;
         if (playerType == PlayerType.AI) {
-            player1 = new AIPlayer(GameModel.serverName, playerType, aiFactory.create(game, 2));
+            player1 = new AIPlayer(GameModel.serverName, playerType, aiFactory.create(game, 0));
         } else {
             player1 = new Player(GameModel.serverName, playerType);
         }

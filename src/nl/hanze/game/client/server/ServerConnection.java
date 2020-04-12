@@ -41,6 +41,7 @@ public class ServerConnection {
     public void logout() throws IOException {
         serverCommunicator.logout();
         if(!serverThread.isAlive()) socket.close();
+        socket = null;
     }
 
     public void login(String ign) {
