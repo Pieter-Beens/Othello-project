@@ -112,17 +112,18 @@ public abstract class GameModel {
     }
 
     public void endGame()  {
-
-        System.out.println("Neither player was able to move, so the game has ended!");
+        System.out.println("<GAME END>");
         gameHasEnded = true;
+
+
         String msg;
         int winner = determineWinner();
         if (winner == 0) {
-            msg = players[0].getName() + " won with " + players[1].getScore() + " points!";
+            msg = players[0].getName() + " won with " + players[0].getScore() + " points!";
         } else if (winner == 1) {
             msg = players[1].getName() + " won with " + players[1].getScore() + " points!";
         } else {
-            msg = "tie " + players[1].getName() + " and " + players[0].getName() + " have tied for second place!";
+            msg = "DRAW: " + players[1].getName() + " and " + players[0].getName() + " tied for second place!";
         }
 
         /**
@@ -151,7 +152,7 @@ public abstract class GameModel {
     }
 
     public boolean isValidMove(Move move) {
-        if(move == null) return false;
+        if (move == null) return false;
         Field field = this.board[move.getRow()][move.getColumn()];
 
         return field.getValidity();
@@ -167,8 +168,8 @@ public abstract class GameModel {
     }
 
     public void setTurnTime(int turnTime) {
-        this.elapsedTime = turnTime;
-        this.turnTime = turnTime;
+        this.elapsedTime = turnTime - 1;
+        this.turnTime = turnTime - 1;
     }
 
     public int getElapsedTime() {

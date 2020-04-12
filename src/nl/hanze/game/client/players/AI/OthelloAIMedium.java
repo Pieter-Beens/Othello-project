@@ -17,6 +17,7 @@ public class OthelloAIMedium implements AIStrategy {
 
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
+        System.out.println("RoboPieter is thinking...");
         Field[][] boardCopy = board.clone();
 
         ArrayList<Field> validMoves = new ArrayList<>();
