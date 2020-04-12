@@ -22,6 +22,12 @@ public class MapParser implements ParseStrategy<Map<String, String>> {
             map.put(segments[0], segments.length == 2 ? segments[1] : "");
         }
 
+        // Fix typo from server response
+        String comment = map.get("COMMENT");
+        if (comment != null && comment.equals("Turn timelimit reached")) {
+            map.put("COMMENT", "Turn time limit reached");
+        }
+
         return map;
     }
 }

@@ -3,13 +3,32 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import nl.hanze.game.client.scenes.utils.*?>
 
 <VBox fx:id="container" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="950.0" stylesheets="@/resources/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.menu.offline.OfflineMenuController">
     <children>
        <HBox alignment="CENTER" prefHeight="77.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;">
           <children>
-             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnGoBack" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="back" textAlignment="CENTER" />
+            <GridPane prefHeight="37.0" prefWidth="931.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="334.0" minWidth="10.0" prefWidth="334.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="471.0" minWidth="10.0" prefWidth="262.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="176.0" minWidth="7.0" prefWidth="28.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="307.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                   <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnGoBack" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="back" textAlignment="CENTER" GridPane.columnIndex="1" />
+                  <Text fx:id="resultMessage" strokeType="OUTSIDE" strokeWidth="0.0" text="The opponent has won with 22 points :(" GridPane.columnIndex="3">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Text>
+               </children>
+            </GridPane>
           </children>
           <padding>
              <Insets bottom="20.0" top="20.0" />
@@ -114,6 +133,30 @@
                     </GridPane.margin>
                 </Label>
                 <Slider fx:id="difficultySlider" blockIncrement="1" majorTickUnit="1" max="2" maxWidth="255.0" minorTickCount="0" onMouseReleased="#onDifficultyChanged" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1" GridPane.columnIndex="1">
+                    <GridPane.margin>
+                        <Insets />
+                    </GridPane.margin>
+                </Slider>
+            </children>
+            <padding>
+                <Insets bottom="20.0" top="20.0" />
+            </padding>
+        </GridPane>
+        <GridPane fx:id="turnTime" alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Difficulty" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                    <GridPane.margin>
+                        <Insets right="30.0" top="10.0" />
+                    </GridPane.margin>
+                </Label>
+                <Slider fx:id="turnTimeSlider" blockIncrement="1" majorTickUnit="1" max="120" maxWidth="255.0" minorTickCount="0" onMouseReleased="#onTurnTimeChanged" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10" GridPane.columnIndex="1">
                     <GridPane.margin>
                         <Insets />
                     </GridPane.margin>

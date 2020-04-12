@@ -42,8 +42,10 @@ public class OthelloAIHard implements AIStrategy {
      */
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
-        setupScoreBoard(board);
-        int[] move = minMax(board, 0, player, opponent);
+        Field[][] boardCopy = board.clone();
+        setupScoreBoard(boardCopy);
+
+        int[] move = minMax(boardCopy, 0, player, opponent);
         return new Move(player, move[ROW], move[COLUMN]);
     }
 

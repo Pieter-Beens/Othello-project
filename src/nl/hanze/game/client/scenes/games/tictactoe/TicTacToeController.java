@@ -11,8 +11,8 @@ import java.util.ResourceBundle;
  */
 public class TicTacToeController extends GameController {
 
-    public TicTacToeController(TicTacToeModel model) {
-        super(model);
+    public TicTacToeController(TicTacToeModel model, int turnTime) {
+        super(model, turnTime);
     }
 
     @Override

@@ -24,56 +24,55 @@ import java.util.Map;
 public class GameFacade {
     private static final SimpleAIFactory aiFactory = new SimpleAIFactory();
 
-    public static GameController startOnline(Map<String, String> args, boolean fullscreen, PlayerType playerType) throws IOException {
+    public static void startOffline(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen, int turnTime) throws IOException {
+        game = game.toLowerCase().replace("-", "");
+
+        Player player1 = new Player(ignPlayer1, PlayerType.LOCAL);
+        Player player2 = new Player(ignPlayer2, PlayerType.LOCAL);
+
+        startOffline(player1, player2, game, fullscreen, turnTime);
+    }
+
+    public static void startOffline(String game, int difficulty, boolean fullscreen, int turnTime) throws IOException {
+        game = game.toLowerCase().replace("-", "");
+
+        Player player1 = new AIPlayer("Computer", PlayerType.AI, aiFactory.create(game, difficulty));
+        Player player2 = new Player("You", PlayerType.LOCAL);
+
+        startOffline(player1, player2, game, fullscreen, turnTime);
+    }
+
+    private static void startOffline(Player player1, Player player2, String game, boolean fullscreen, int turnTime) throws IOException {
+        GameController controller = getController(game, turnTime);
+        GameModel model = controller.getModel();
+
+        model.setPlayer(0, player1);
+        model.setPlayer(1, player2);
+
+        start(controller, fullscreen);
+    }
+
+    public static GameController startOnline(Map<String, String> args, boolean fullscreen, PlayerType playerType, int turnTime) throws IOException {
         String game = args.get("GAMETYPE").toLowerCase().replace("-", "");
         game = game.equals("reversi") ? "othello" : game;
 
+        GameController controller = getController(game, turnTime);
+        GameModel model = controller.getModel();
+
         Player player1;
         if (playerType == PlayerType.AI) {
-            player1 = new AIPlayer(GameModel.serverName, playerType, aiFactory.create(game, 2));
+            player1 = new AIPlayer(GameModel.serverName, playerType, aiFactory.create(game, 0));
         } else {
             player1 = new Player(GameModel.serverName, playerType);
         }
 
         Player player2 = new Player(args.get("OPPONENT"), PlayerType.REMOTE);
 
-        GameController controller = getController(game);
-        GameModel model = controller.getModel();
-
         // Determine which player should begin (model.player1 always starts)
         model.setPlayer(0, args.get("PLAYERTOMOVE").equals(GameModel.serverName) ? player2 : player1);
         model.setPlayer(1, args.get("PLAYERTOMOVE").equals(GameModel.serverName) ? player1 : player2);
 
         return start(controller, fullscreen);
-    }
-
-    public static void startOffline(String ignPlayer1, String ignPlayer2, String game, boolean fullscreen) throws IOException {
-        game = game.toLowerCase().replace("-", "");
-        
-        GameController controller = getController(game);
-        GameModel model = controller.getModel();
-
-        Player player1 = new Player(ignPlayer1, PlayerType.LOCAL);
-        Player player2 = new Player(ignPlayer2, PlayerType.LOCAL);
-        model.setPlayer(0, player1);
-        model.setPlayer(1, player2);
-
-        start(controller, fullscreen);
-    }
-
-    public static void startOffline(String game, boolean fullscreen, int difficulty) throws IOException {
-        game = game.toLowerCase().replace("-", "");
-
-        Player player1 = new AIPlayer("Computer", PlayerType.AI, aiFactory.create(game, difficulty));
-        Player player2 = new Player("You", PlayerType.LOCAL);
-
-        GameController controller = getController(game);
-        GameModel model = controller.getModel();
-
-        model.setPlayer(0, player1);
-        model.setPlayer(1, player2);
-
-        start(controller, fullscreen);
     }
 
     private static GameController start(GameController controller, boolean fullscreen) {
@@ -84,19 +83,19 @@ public class GameFacade {
         return controller;
     }
 
-    private static GameController getController(String game) throws IOException {
+    private static GameController getController(String game, int turnTime) throws IOException {
         FXMLLoader loader = new FXMLLoader();
 
         switch (game) {
             case "tictactoe":
                 loader.setController(new TicTacToeController(
-                        new TicTacToeModel()
+                        new TicTacToeModel(), turnTime
                 ));
                 break;
             case "reversi":
             case "othello":
                 loader.setController(new OthelloController(
-                        new OthelloModel()
+                        new OthelloModel(), turnTime
                 ));
                 break;
         }
