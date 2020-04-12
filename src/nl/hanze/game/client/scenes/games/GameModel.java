@@ -34,6 +34,7 @@ public abstract class GameModel {
     protected int elapsedTime;
 
     public static final int[][] DIRECTIONS = {{1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}, {-1,0}, {-1,1}, {0,1}};
+    public static int serverTurnTime;
     public static String serverName;
     public static String skippedTurnText;
 

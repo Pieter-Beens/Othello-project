@@ -3,6 +3,7 @@ package nl.hanze.game.client.scenes.menu.online;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import nl.hanze.game.client.Main;
@@ -11,9 +12,10 @@ import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.lobby.LobbyController;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class OnlineMenuController extends Controller {
-
     @FXML
     private TextField name;
 
@@ -24,12 +26,10 @@ public class OnlineMenuController extends Controller {
     private TextField port;
 
     @FXML
-    private Text errorMsg;
+    private TextField turnTimeField;
 
     @FXML
-    private void btnGoBack(ActionEvent event) throws IOException {
-        goBack();//loadScene("start/start.fxml");
-    }
+    private Text errorMsg;
 
     /**
      * @author Jasper van Dijken
@@ -41,7 +41,7 @@ public class OnlineMenuController extends Controller {
         boolean error = false;
 
         //Check if fields are filled in
-        if (name.getText().isEmpty() | ip.getText().isEmpty() | port.getText().isEmpty()) {
+        if (name.getText().isEmpty() || ip.getText().isEmpty() || port.getText().isEmpty() || turnTimeField.getText().isEmpty()) {
             errorMsg.setText("Please fill in all fields");
             error = true;
         }
@@ -57,6 +57,12 @@ public class OnlineMenuController extends Controller {
             //check for valid port number
             if (!port.getText().matches("^[0-9]*$")) {
                 errorMsg.setText("Invalid Port Number");
+                error = true;
+            }
+
+            // check turn time
+            if (!turnTimeField.getText().matches("\\d*")) {
+                errorMsg.setText("Turn time is not a number");
                 error = true;
             }
         }
@@ -108,11 +114,17 @@ public class OnlineMenuController extends Controller {
         if (response.equals("OK")) {
 
             GameModel.serverName = name.getText();
+            GameModel.serverTurnTime = Integer.parseInt(turnTimeField.getText());
             Platform.runLater(() -> {
                 try {
                     loadScene("lobby/lobby.fxml");
                 } catch (IOException ignore) { ignore.printStackTrace(); }
             });
         }
+    }
+
+    @FXML
+    private void btnGoBack(ActionEvent event) throws IOException {
+        goBack();
     }
 }

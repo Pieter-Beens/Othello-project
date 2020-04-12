@@ -151,16 +151,19 @@
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label text="Difficulty" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                <Label text="Turn time" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                     <GridPane.margin>
                         <Insets right="30.0" top="10.0" />
                     </GridPane.margin>
                 </Label>
-                <Slider fx:id="turnTimeSlider" blockIncrement="1" majorTickUnit="1" max="120" maxWidth="255.0" minorTickCount="0" onMouseReleased="#onTurnTimeChanged" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10" GridPane.columnIndex="1">
-                    <GridPane.margin>
-                        <Insets />
-                    </GridPane.margin>
-                </Slider>
+                <TextField fx:id="turnTimeField" maxHeight="35" maxWidth="243.0" prefHeight="26.0" prefWidth="240.0" text="10" GridPane.columnIndex="1">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                </TextField>
             </children>
             <padding>
                 <Insets bottom="20.0" top="20.0" />

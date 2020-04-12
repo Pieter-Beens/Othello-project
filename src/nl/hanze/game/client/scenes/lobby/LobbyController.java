@@ -231,7 +231,7 @@ public class LobbyController extends Controller implements Initializable {
         Platform.runLater(() -> {
             try {
                 PlayerType playerType = model.getGameMode().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
-                GameFacade.startOnline(map, model.getFullscreen(), playerType, 10);
+                GameFacade.startOnline(map, model.getFullscreen(), playerType);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -264,7 +264,7 @@ public class LobbyController extends Controller implements Initializable {
             try {
                 //TODO:toggleGroup="$selectedGame"
                 PlayerType playerType = model.getGameMode().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
-                GameController controller = GameFacade.startOnline(gameMatchBuffer, model.getFullscreen(), playerType, 10);
+                GameController controller = GameFacade.startOnline(gameMatchBuffer, model.getFullscreen(), playerType);
                 controller.gameYourTurn(map);
             } catch (IOException e) {
                 e.printStackTrace();
