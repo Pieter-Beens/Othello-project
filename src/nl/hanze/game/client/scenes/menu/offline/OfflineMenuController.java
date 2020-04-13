@@ -42,9 +42,7 @@ public class OfflineMenuController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        container.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> enablePlayButton());
-
-        StringConverter tickLabelFormatter = new StringConverter<Double>() {
+        StringConverter<Double> tickLabelFormatter = new StringConverter<>() {
             @Override
             public String toString(Double tickLabel) {
                 if (tickLabel == 0) {
@@ -59,12 +57,13 @@ public class OfflineMenuController extends Controller implements Initializable {
 
             @Override
             public Double fromString(String string) {
-                if (string.equals("Easy")) {
-                    return 0d;
-                } else if (string.equals("Normal")) {
-                    return 1d;
-                } else if (string.equals("Hard")) {
-                    return 2d;
+                switch (string) {
+                    case "Easy":
+                        return 0d;
+                    case "Normal":
+                        return 1d;
+                    case "Hard":
+                        return 2d;
                 }
                 return null;
             }
@@ -122,11 +121,7 @@ public class OfflineMenuController extends Controller implements Initializable {
 
         if(model.getGameMode().equals("single-player")){
             setPlayernamesVisibility(false);
-            if(model.getGame().equals("othello")) {
-                setDifficultyVisibility(true);
-            } else {
-                setDifficultyVisibility(false);
-            }
+            setDifficultyVisibility(model.getGame().equals("othello"));
         } else if(model.getGameMode().equals("multi-player")){
             setDifficultyVisibility(false);
             setPlayernamesVisibility(true);
@@ -143,19 +138,12 @@ public class OfflineMenuController extends Controller implements Initializable {
         model.setFullscreen(fullscreen.isSelected());
     }
 
-    //Enable the play button once all options are valid
-    public void enablePlayButton(){
-        try{
-            selectedGameMode.getSelectedToggle().getUserData();
-            selectedGame.getSelectedToggle().getUserData();
-            start.setDisable(false);
-        }catch(NullPointerException ignored){}
-
-    }
-
-
     //Play button clicked -> start game
     public void startBtnClicked() throws IOException {
+        gameChanged();
+        onDifficultyChanged();
+        fullscreenReleased();
+
         boolean multiplayer = model.getGameMode().equals("multi-player");
 
         if(multiplayer){
