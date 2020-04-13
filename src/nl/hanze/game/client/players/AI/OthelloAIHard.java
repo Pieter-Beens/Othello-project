@@ -46,13 +46,13 @@ public class OthelloAIHard implements AIStrategy {
         Field[][] boardCopy = board.clone();
 
         // check to see if it's the final 10 turns, at which point the game can be solved by brute force
-        int fieldsLeft = 0;
-        for (Field[] row : boardCopy) {
-            for (Field field : row) {
-                if (field.getOwner() == null) fieldsLeft++;
-            }
-        }
-        if (fieldsLeft < 11) return perfectEnding(boardCopy, player, opponent);
+//        int fieldsLeft = 0;
+//        for (Field[] row : boardCopy) {
+//            for (Field field : row) {
+//                if (field.getOwner() == null) fieldsLeft++;
+//            }
+//        }
+//        if (fieldsLeft < 11) return perfectEnding(boardCopy, player, opponent);
 
         setupScoreBoard(boardCopy);
 
