@@ -119,9 +119,9 @@ public abstract class GameController extends Controller implements Initializable
             new Thread(() -> {
                 Move move = model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer());
                 Platform.runLater(() -> {
-                    boolean wasValid = move(move);
+                    move(move);
 
-                    if (Main.serverConnection.hasConnection() && wasValid)
+                    if (Main.serverConnection.hasConnection())
                         Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), model.getBoardSize()));
                 });
             }).start();
