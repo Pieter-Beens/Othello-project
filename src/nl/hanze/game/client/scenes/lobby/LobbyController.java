@@ -52,7 +52,7 @@ public class LobbyController extends Controller implements Initializable {
     @FXML
     public TableColumn<RequestRow, String> challengeNumberColumn;
 
-    private String gameListString;
+    private List<String> gameList;
 
     private static Timer playersTableUpdater;
 
@@ -82,18 +82,25 @@ public class LobbyController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         playersTable.setItems(tableList);
         selectedGame = new ToggleGroup();
+
+        /** @author Roy Voetman */
+        // Retrieve game list and player list
         Main.serverConnection.getGameList();
         Main.serverConnection.getPlayerList();
 
+        // Cancel player table updater Task if it was still running
+        // Note: this is only a precaution the timer should already be canceled at this point
         if (playersTableUpdater != null)
             playersTableUpdater.cancel();
 
+        // Start a TimerTask that will retrieve the player list every 5 seconds
         playersTableUpdater = new Timer();
         playersTableUpdater.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 Main.serverConnection.getPlayerList();
             }
         }, 5000,5000);
+        /** end Roy Voetman */
 
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
 
@@ -122,7 +129,7 @@ public class LobbyController extends Controller implements Initializable {
      */
     private void updateGameBtnGroup() {
         //Split gameListString into a list
-        List<String> games = new ArrayList<>(Arrays.asList(gameListString.split(", ")));
+        List<String> games = gameList;
         //ArrayList which will contain the buttons
         ArrayList<SelectButton> buttons = new ArrayList<>();
 
@@ -166,7 +173,14 @@ public class LobbyController extends Controller implements Initializable {
      */
 
 
-
+    /**
+     * Logout of the game server by sending the "logout" command and
+     * go back to the previous scene.
+     *
+     * @author Roy Voetman
+     * @param event Action event of the button click.
+     * @throws IOException When previous scene FXML can not be found.
+     */
     @FXML
     private void btnLogout(ActionEvent event) throws IOException {
         GameModel.serverName = null;
@@ -174,38 +188,58 @@ public class LobbyController extends Controller implements Initializable {
         goBack();
     }
 
-    @Override
-    public void update(String response) {
-        super.update(response);
-    }
 
+    /**
+     * Received the game list from the Game Server.
+     *
+     * @author Roy Voetman
+     * @param list A list of all the supported games.
+     */
     @Override
     public void updateGameList(List<String> list) {
         super.updateGameList(list);
 
-        gameListString = String.join(", ", list);
-        //method that makes sure the game buttons are created
+        // Save the game list
+        gameList = list;
+
+        // Create the game buttons in the GUI
         updateGameBtnGroup();
     }
 
+    /**
+     * Received the player list from the Game Server.
+     * Update the player table in the scene.
+     *
+     * @author Roy Voetman
+     * @param list A list of all the players currently in the Lobby.
+     */
     @Override
     public void updatePlayerList(List<String> list) {
         super.updatePlayerList(list);
 
+        // Declare a player row object.
         PlayerRow playerRow;
 
+        // A set that will contain all indexes that a currently in the table
+        // and correspond to a player in the received list.
         Set<Integer> foundIndexes = new HashSet<>();
+        // A set with a range from 0 to the size of the current list (exclusive). (i.e. 0, 1, 2, 3 .... list.size() - 1)
         Set<Integer> allIndexes = IntStream.range(0, tableList.size()).boxed().collect(Collectors.toSet());
 
+        // Loop trough all the currently online players
         for (String player : list) {
+            // Create a player row object for this player.
             playerRow = new PlayerRow(player);
+            // Determine if this player is already in the table.
             int indexOf = tableList.indexOf(playerRow);
 
-            // Ignore self
+            // Ignore yourself
             if (!GameModel.serverName.equals(player)) {
+                // If player is not in table add it.
                 if (indexOf == -1) {
                     tableList.add(new PlayerRow(player));
                 } else {
+                    // If player is already in the table save it.
                     foundIndexes.add(indexOf);
                 }
             }
@@ -213,10 +247,11 @@ public class LobbyController extends Controller implements Initializable {
 
         // Subtract sets to get all players that "left" to lobby
         allIndexes.removeAll(foundIndexes);
+        // Remove all left players
         for (int index : allIndexes)
             tableList.remove(index);
 
-        //When the match-requesting player is not on server, remove any match-requests from that player
+        // When the match-requesting player is not on server, remove any match-requests from that player
         requestTable.getItems().removeIf(r -> !list.contains(r.getName()));
     }
 
