@@ -7,8 +7,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * @author Bart van Poele
  * This class provides a simplified way of sending the server commands
+ * @author Bart van Poele
  */
 
 public class ServerConnection {
