@@ -22,7 +22,7 @@ public class OthelloAIMedium implements AIStrategy {
 
         ArrayList<Field> validMoves = new ArrayList<>();
         Move chosenMove = null;
-        int bestScore = -100;
+        int bestScore = -50000;
 
         for (Field[] row : boardCopy) {
             for (Field field : row) {

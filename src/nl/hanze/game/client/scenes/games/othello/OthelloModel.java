@@ -202,47 +202,47 @@ public class OthelloModel extends GameModel {
 
         if (board[0][0].getOwner() == null) {
             if (board[1][1].getOwner() != null) {
-                if (board[1][1].getOwner() == player) score += -10;
-                else score += +10;
+                if (board[1][1].getOwner() == player) score += -100;
+                else score += +100;
             }
         }
-        else if (board[0][0].getOwner() == player) score += 25;
-        else score += -25;
+        else if (board[0][0].getOwner() == player) score += 250;
+        else score += -250;
 
         if (board[7][0].getOwner() == null) {
             if (board[6][1].getOwner() != null) {
-                if (board[6][1].getOwner() == player) score += -10;
-                else score += +10;
+                if (board[6][1].getOwner() == player) score += -100;
+                else score += +100;
             }
         }
-        else if (board[7][0].getOwner() == player) score += 25;
-        else score += -25;
+        else if (board[7][0].getOwner() == player) score += 250;
+        else score += -250;
 
         if (board[0][7].getOwner() == null) {
             if (board[1][6].getOwner() != null) {
-                if (board[1][6].getOwner() == player) score += -10;
-                else if (board[1][6].getOwner() == opponent) score += +10;
+                if (board[1][6].getOwner() == player) score += -100;
+                else score += +100;
             }
         }
-        else if (board[0][7].getOwner() == player) score += 25;
-        else score += -25;
+        else if (board[0][7].getOwner() == player) score += 250;
+        else score += -250;
 
         if (board[7][7].getOwner() == null) {
             if (board[6][6].getOwner() != null) {
-                if (board[6][6].getOwner() == player) score += -10;
-                else score += +10;
+                if (board[6][6].getOwner() == player) score += -100;
+                else score += +100;
             }
         }
-        else if (board[7][7].getOwner() == player) score += 25;
-        else score += -25;
+        else if (board[7][7].getOwner() == player) score += 250;
+        else score += -250;
 
         // SOURCE 4: edge patterns (hardcoded) =====================================================================
 
         // every edge field is worth 3 points
         for (int i = 2; i < 6; i++) {
             if (board[0][i].getOwner() != null) {
-                if (board[0][i].getOwner() == player) score += 3;
-                else score += -3;
+                if (board[0][i].getOwner() == player) score += 20;
+                else score += -20;
             }
         }
 

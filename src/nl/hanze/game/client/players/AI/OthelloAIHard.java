@@ -46,6 +46,7 @@ public class OthelloAIHard implements AIStrategy {
         Field[][] boardCopy = board.clone();
 
         // check to see if it's the final 10 turns, at which point the game can be solved by brute force
+        //TODO: make perfect ending minmax AI
 //        int fieldsLeft = 0;
 //        for (Field[] row : boardCopy) {
 //            for (Field field : row) {
@@ -62,7 +63,7 @@ public class OthelloAIHard implements AIStrategy {
 
     /**
      * This method creates a score based on the squares of an othello board
-     * @param board the board for which a score needs to be made. Only relevant for it's length. A double array of
+     * @param board the board for which a score needs to be made. Only relevant for its length. A double array of
      *              Fields.
      */
     private void setupScoreBoard(Field[][] board) {

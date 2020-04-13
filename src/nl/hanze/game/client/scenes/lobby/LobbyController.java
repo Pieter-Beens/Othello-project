@@ -378,7 +378,7 @@ public class LobbyController extends Controller implements Initializable {
 
     public void btnMatchRequest(ActionEvent event) {
         if (playersTable.getSelectionModel().getSelectedItem() == null) {
-            Platform.runLater(() -> Popup.display("First select an opponent"));
+            challengeErrorText.setText("ERROR: SELECT AN OPPONENT FIRST!");
             return;
         }
 
