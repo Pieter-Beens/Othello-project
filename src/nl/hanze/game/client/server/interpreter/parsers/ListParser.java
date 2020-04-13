@@ -20,32 +20,11 @@ public class ListParser implements ParseStrategy<List<String>> {
      */
     @Override
     public List<String> parse(String response, String command) {
-        String string = response
+        String string = response.replace("SVR " + command + " ", "")
                 .replace("[", "")
-                .replace("]", "");
+                .replace("]", "")
+                .replace("\"", "");
 
-        List<String> list = new ArrayList<>();
-        boolean foundString = false;
-        int index = 0;
-
-        // Loop trough all characters
-        for (char charater : string.toCharArray()) {
-            // If a string starts or ends
-            if ( charater == '"') {
-                // Toggle boolean
-                foundString = !foundString;
-
-                // Increase list index if a string ending is found
-                if (!foundString) index++;
-            } else if (foundString) {
-                // Create new empty string if index does not exist in list.
-                if (list.size() == index) list.add("");
-
-                // Append character to current String at: index
-                list.set(index, list.get(index) + charater);
-            }
-        }
-
-        return list;
+        return new ArrayList<>(Arrays.asList(string.split(", ")));
     }
 }
