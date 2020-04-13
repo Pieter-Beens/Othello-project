@@ -25,10 +25,10 @@ public class OthelloAIHard implements AIStrategy {
     private static final int ROW = 1;
     private static final int COLUMN = 2;
 
-    private static final int MAXDEPTH = 7;
+    private static final int MAXDEPTH = 6;
     private static final int LASTPHASE = 0;
 
-    private static final int CORNERSCORE = 20;
+    private static final int CORNERSCORE = 60;
     private static final int BORDERSCORE = 5;
     private static final int XCROSSSCORE = -20;
 
@@ -48,9 +48,9 @@ public class OthelloAIHard implements AIStrategy {
 
         if (scoreBoard == null) setupScoreBoard(boardCopy);
 
-        int[] move = new int[]{};
+        int[] move;
         if (emptyFields(board) < LASTPHASE) { //if the amount of empty fields left is less than the lastphase field
-            move = minMaxAllTheWayBaby(boardCopy, true, player, opponent);
+            move = minMaxNotHeuristic(boardCopy, true, player, opponent);
         } //then we've reached the final phase and can calculate a win all the way
         else {
             move = minMax(boardCopy, 0, player, opponent); //otherwise, just use the regular minmax
@@ -119,7 +119,8 @@ public class OthelloAIHard implements AIStrategy {
         int bestCol = -1; //the column associated with the best move.
 
         if (depth >= MAXDEPTH) { //base case for the recursive call
-            score = OthelloModel.getBoardScore(board, player, opponent); //calculate the value of this current board
+            //score = OthelloModel.getBoardScore(board, player, opponent); //calculate the value of this current board
+            score = calculateScore(board, player, opponent);
             if (MAXDEPTH % 2 != 0) { //if the max depth is an odd number, we need to invert the score for the ai to work
                 score = score * -1;
             }
@@ -128,6 +129,11 @@ public class OthelloAIHard implements AIStrategy {
 
         //valid moves for the active player are put in an array.
         ArrayList<Field> validMoves = checkFieldValidity(board, player, opponent);
+
+        if (!validMoves.isEmpty()) { //failsafe in case things muck up
+            bestRow = validMoves.get(0).getRowID();
+            bestCol = validMoves.get(0).getColumnID();
+        }
 
         //for every valid move, a stone is put, and the appropriate captures are enacted.
         for (Field cell : validMoves) {
@@ -178,7 +184,7 @@ public class OthelloAIHard implements AIStrategy {
      * @return Returns an int array containing the score of the best move, the row of the best move, and the column of
      *      * the best move.
      */
-    private int[] minMaxAllTheWayBaby(Field[][] board, boolean lastMoveWasValid, Player player, Player opponent) {
+    private int[] minMaxNotHeuristic(Field[][] board, boolean lastMoveWasValid, Player player, Player opponent) {
 
         int score;
         int bestScore = -5000;
@@ -192,7 +198,7 @@ public class OthelloAIHard implements AIStrategy {
         for(Field cell : validMoves) {
             cell.setOwner(player);
             Field[][] boardCopy = enactCaptures(cell, board, player, opponent);
-            score = minMaxAllTheWayBaby(boardCopy, true, opponent, player)[SCORE];
+            score = minMaxNotHeuristic(boardCopy, true, opponent, player)[SCORE];
             cell.setOwner(null);
             if ((score > bestScore && player.getPlayerType() == PlayerType.AI) ||
                     (score < bestScore && player.getPlayerType() != PlayerType.AI)) {
@@ -204,7 +210,7 @@ public class OthelloAIHard implements AIStrategy {
 
         if (validMoves.isEmpty()) {
             if (lastMoveWasValid) {
-                bestScore = minMaxAllTheWayBaby(board, false, opponent, player)[SCORE];
+                bestScore = minMaxNotHeuristic(board, false, opponent, player)[SCORE];
             }
             else { //2 invalid moves in a row? Game has ended!
                 String boardWinCondition = didPlayerWin(board, player);
