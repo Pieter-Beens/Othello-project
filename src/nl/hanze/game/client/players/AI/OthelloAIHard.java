@@ -16,8 +16,8 @@ import java.util.Stack;
  * Its name is Julius.
  *
  * @Author Nick
- * @version 1.0
- * @since 9-4-2020
+ * @version 1.4
+ * @since 13-4-2020
  */
 public class OthelloAIHard implements AIStrategy {
 
@@ -25,7 +25,8 @@ public class OthelloAIHard implements AIStrategy {
     private static final int ROW = 1;
     private static final int COLUMN = 2;
 
-    private static final int MAXDEPTH = 6;
+    private static final int MAXDEPTH = 7;
+    private static final int LASTPHASE = 0;
 
     private static final int CORNERSCORE = 20;
     private static final int BORDERSCORE = 5;
@@ -45,19 +46,15 @@ public class OthelloAIHard implements AIStrategy {
         System.out.println("Julius is thinking...");
         Field[][] boardCopy = board.clone();
 
-        // check to see if it's the final 10 turns, at which point the game can be solved by brute force
-        //TODO: make perfect ending minmax AI
-//        int fieldsLeft = 0;
-//        for (Field[] row : boardCopy) {
-//            for (Field field : row) {
-//                if (field.getOwner() == null) fieldsLeft++;
-//            }
-//        }
-//        if (fieldsLeft < 11) return perfectEnding(boardCopy, player, opponent);
-
         if (scoreBoard == null) setupScoreBoard(boardCopy);
 
-        int[] move = minMax(boardCopy, 0, player, opponent);
+        int[] move = new int[]{};
+        if (emptyFields(board) < LASTPHASE) { //if the amount of empty fields left is less than the lastphase field
+            move = minMaxAllTheWayBaby(boardCopy, true, player, opponent);
+        } //then we've reached the final phase and can calculate a win all the way
+        else {
+            move = minMax(boardCopy, 0, player, opponent); //otherwise, just use the regular minmax
+        }
         return new Move(player, move[ROW], move[COLUMN]);
     }
 
@@ -89,7 +86,7 @@ public class OthelloAIHard implements AIStrategy {
             }
         }
 
-        //TODO: see if you can't make this method more efficient using model commented below
+        //TODO: see if I can't make this method more efficient using model commented below
 
 //        scoreBoard[0][0] = CORNERSCORE;
 //        scoreBoard[7][0] = CORNERSCORE;
@@ -123,6 +120,9 @@ public class OthelloAIHard implements AIStrategy {
 
         if (depth >= MAXDEPTH) { //base case for the recursive call
             score = OthelloModel.getBoardScore(board, player, opponent); //calculate the value of this current board
+            if (MAXDEPTH % 2 != 0) { //if the max depth is an odd number, we need to invert the score for the ai to work
+                score = score * -1;
+            }
             return new int[]{score}; //the score is returned
         }
 
@@ -163,6 +163,90 @@ public class OthelloAIHard implements AIStrategy {
         if (validMoves.isEmpty()) bestScore = minMax(board, depth + 1, opponent, player)[SCORE];
 
         return new int[]{bestScore, bestRow, bestCol}; //the best move is returned!
+    }
+
+    /**
+     * Alternative min-max method, which calculates the best move for the ai based on what will win them the game,
+     * without bothering with any of that heurism nonsense. This method should not be used unless there are only a few
+     * moves left, due to time constraints!
+     * @param board A double array of Fields, on which the othello game is played.
+     * @param lastMoveWasValid A boolean that keeps track on whether or not the previous player could play their last
+     *                         move. 2 players unable to play in a row constitutes a game end.
+     * @param player An instance of the Player class, representing the current player, for which the best score will be
+     *               calculated.
+     * @param opponent An instance of the Player class, representing the opponent of the player.
+     * @return Returns an int array containing the score of the best move, the row of the best move, and the column of
+     *      * the best move.
+     */
+    private int[] minMaxAllTheWayBaby(Field[][] board, boolean lastMoveWasValid, Player player, Player opponent) {
+
+        int score;
+        int bestScore = -5000;
+        int bestRow = -1;
+        int bestCol = -1;
+
+        //if winny the game: do shit
+
+        ArrayList<Field> validMoves = checkFieldValidity(board, player, opponent);
+
+        for(Field cell : validMoves) {
+            cell.setOwner(player);
+            Field[][] boardCopy = enactCaptures(cell, board, player, opponent);
+            score = minMaxAllTheWayBaby(boardCopy, true, opponent, player)[SCORE];
+            cell.setOwner(null);
+            if ((score > bestScore && player.getPlayerType() == PlayerType.AI) ||
+                    (score < bestScore && player.getPlayerType() != PlayerType.AI)) {
+                bestScore = score;
+                bestRow = cell.getRowID();
+                bestCol = cell.getRowID();
+            }
+        }
+
+        if (validMoves.isEmpty()) {
+            if (lastMoveWasValid) {
+                bestScore = minMaxAllTheWayBaby(board, false, opponent, player)[SCORE];
+            }
+            else { //2 invalid moves in a row? Game has ended!
+                String boardWinCondition = didPlayerWin(board, player);
+                if (boardWinCondition.equals("win")) {
+                    if (player.getPlayerType() == PlayerType.AI) {
+                        return new int[] {1}; //Julius has won
+                    }
+                    else {
+                        return new int[] {-1}; //Julius has lost
+                    }
+                }
+                else if (boardWinCondition.equals("lose")) {
+                    if (player.getPlayerType() == PlayerType.AI) {
+                        return new int[] {-1}; //Julius has lost
+                    }
+                    else {
+                        return new int[] {1}; //Julius has won
+                    }
+                }
+                else {//draw
+                    return new int[] {0};
+                }
+            }
+        }
+        return new int[]{bestScore, bestRow, bestCol};
+    }
+
+    /**
+     * Simple helper method which counts how many empty fields are left on a given board.
+     * @param board A double array of Fields for which the number of unoccupied cells will be counted.
+     * @return an int, representing the number of unoccupied fields on the given board.
+     */
+    private int emptyFields(Field[][] board) {
+        int returnInt = 0;
+        for (Field[] row : board) {
+            for (Field field : row) {
+                if (field.getOwner() == null) {
+                    returnInt++;
+                }
+            }
+        }
+        return returnInt;
     }
 
     /**
@@ -228,6 +312,39 @@ public class OthelloAIHard implements AIStrategy {
 //        System.out.println(rt);
         //=========================DEBUG
         return score;
+    }
+
+    /**
+     * Method which looks at the given board and calculates if the given player has won, lost, or if the match resulted
+     * in a draw.
+     * @param board A double array of Fields representing the Othello board that we're going to look at to see who won.
+     *              This board should contain a game that has finished.
+     * @param player An instance of the player class, which should be a player that's on the given board.
+     * @return A string consisting of "win", if the given player has won on that board; "loss" if the given player has
+     * lost; or "draw" if neither player won.
+     */
+    private String didPlayerWin(Field[][] board, Player player) {
+        int playerScore = 0;
+        int opponentScore = 0;
+        for (Field[] row : board) {
+            for (Field field : row) {
+                if (field.getOwner() == player) {
+                    playerScore++;
+                }
+                else if (field.getOwner() != player && field.getOwner() != null) {
+                    opponentScore++;
+                }
+            }
+        }
+        if (playerScore > opponentScore) {
+            return "win";
+        }
+        else if (playerScore == opponentScore) {
+            return "draw";
+        }
+        else {
+            return "loss";
+        }
     }
 
 
