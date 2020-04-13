@@ -255,14 +255,24 @@ public class LobbyController extends Controller implements Initializable {
         requestTable.getItems().removeIf(r -> !list.contains(r.getName()));
     }
 
+    /**
+     * When the server sends a Game Match start the game when you are not the starting player.
+     * Starting players will start the game when the "your turn" command is send.
+     *
+     * @author Roy Voetman
+     * @see #gameYourTurn
+     * @param map Map containing all the argument that came with this command.
+     */
     @Override
     public void gameMatch(Map<String, String> map) {
         // If you are the starting player wait for the Your Turn Command
         if(map.get("PLAYERTOMOVE").equals(GameModel.serverName)) {
+            // Buffer this map so it can be used in your turn.
             gameMatchBuffer = map;
             return;
         }
 
+        // Start the requested game based on the currently applied settings.
         Platform.runLater(() -> {
             try {
                 PlayerType playerType = model.getGameMode().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
@@ -292,14 +302,27 @@ public class LobbyController extends Controller implements Initializable {
         //End Author
     }
 
+    /**
+     * When the server informs you it is your turn, start the game.
+     * Game is started here because the GameController can not
+     * be created in time to receive the "your turn" command.
+     *
+     * @author Roy Voetman
+     * @see #gameMatch
+     * @param map Map containing all the argument that came with this command.
+     */
     @Override
     public void gameYourTurn(Map<String, String> map) {
-        // If you are the player with the first move, start the game board
+        // If you are the player with the first move, start the game.
         Platform.runLater(() -> {
             try {
-                //TODO:toggleGroup="$selectedGame"
+                // Determine player type
                 PlayerType playerType = model.getGameMode().equals("ai") ? PlayerType.AI : PlayerType.LOCAL;
+
+                // Create the game
                 GameController controller = GameFacade.startOnline(gameMatchBuffer, model.getFullscreen(), playerType);
+
+                // Call your turn method on the GameController.
                 controller.gameYourTurn(map);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -330,6 +353,11 @@ public class LobbyController extends Controller implements Initializable {
 
     }
 
+    /**
+     * When scene is changed cancel the playersTableUpdater Task
+     *
+     * @author Roy Voetman
+     */
     @Override
     public void changeScene() {
         super.changeScene();
