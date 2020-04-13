@@ -96,12 +96,12 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Text>
-            <Label fx:id="boardScoreLabel" contentDisplay="TOP" GridPane.rowIndex="6">
+            <Label fx:id="boardScoreLabel" contentDisplay="TOP" GridPane.rowIndex="7" textFill="blueviolet">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-              <Button fx:id="forfeitButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="FORFEIT" textAlignment="CENTER" GridPane.rowIndex="7" />
+              <Button fx:id="forfeitButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="FORFEIT" textAlignment="CENTER" GridPane.rowIndex="8" />
          </children>
          <GridPane.margin>
             <Insets />
