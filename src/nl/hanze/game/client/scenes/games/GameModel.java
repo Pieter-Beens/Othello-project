@@ -124,19 +124,23 @@ public abstract class GameModel {
         return skippedTurnText;
     }
 
-    public void endGame()  {
+    public void endGame(boolean timedOut)  {
         System.out.println("<GAME END>");
         gameHasEnded = true;
 
 
-        String msg;
-        int winner = determineWinner();
+        String msg = "";
+        int winner = determineOthelloWinner();
+        if (timedOut) {
+            winner = (turnCounter+1)%2;
+            msg += "TIME-OUT: ";
+        }
         if (winner == 0) {
-            msg = players[0].getName() + " won with " + players[0].getScore() + " points!";
+            msg += players[0].getName() + " won with " + players[0].getScore() + " points!";
         } else if (winner == 1) {
-            msg = players[1].getName() + " won with " + players[1].getScore() + " points!";
+            msg += players[1].getName() + " won with " + players[1].getScore() + " points!";
         } else {
-            msg = "DRAW: " + players[1].getName() + " and " + players[0].getName() + " tied for second place!";
+            msg += "DRAW: " + players[1].getName() + " and " + players[0].getName() + " tied for second place!";
         }
 
         /**
@@ -154,7 +158,7 @@ public abstract class GameModel {
         }
     }
 
-    public int determineWinner() {
+    public int determineOthelloWinner() {
         if (players[0].getScore() > players[1].getScore()) {
             return 0;
         } else if (players[0].getScore() < players[1].getScore()) {
@@ -172,7 +176,7 @@ public abstract class GameModel {
     }
 
     public void forfeitGame(Player losingPlayer) {
-        String msg = losingPlayer.getName() + " has forfeited.";
+        String msg = losingPlayer.getName() + " forfeited, losing by default.";
         Popup.display(msg, "GAME END", 300, 200);
     }
 

@@ -89,7 +89,7 @@ public abstract class GameController extends Controller implements Initializable
                     timer.cancel();
 
                     if (!Main.serverConnection.hasConnection() && !model.hasGameEnded())
-                        Platform.runLater(() -> model.endGame());
+                        Platform.runLater(() -> model.endGame(true));
                 }
             }
         }, 0,1000);
