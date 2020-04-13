@@ -25,10 +25,10 @@ public class OthelloAIHard implements AIStrategy {
     private static final int ROW = 1;
     private static final int COLUMN = 2;
 
-    private static final int MAXDEPTH = 6;
+    private static final int MAXDEPTH = 7;
     private static final int LASTPHASE = 0;
 
-    private static final int CORNERSCORE = 60;
+    private static final int CORNERSCORE = 20;
     private static final int BORDERSCORE = 5;
     private static final int XCROSSSCORE = -20;
 
@@ -119,10 +119,13 @@ public class OthelloAIHard implements AIStrategy {
         int bestCol = -1; //the column associated with the best move.
 
         if (depth >= MAXDEPTH) { //base case for the recursive call
-            //score = OthelloModel.getBoardScore(board, player, opponent); //calculate the value of this current board
-            score = calculateScore(board, player, opponent);
-            if (MAXDEPTH % 2 != 0) { //if the max depth is an odd number, we need to invert the score for the ai to work
-                score = score * -1;
+            if (MAXDEPTH % 2 == 0) {
+                score = OthelloModel.getBoardScore(board, player, opponent); //calculate the value of this current board
+                //score = calculateScore(board, player, opponent);
+            }
+            else { //if the max depth is an odd number, Julius is the opponent instead of the player
+                score = OthelloModel.getBoardScore(board, opponent, player);
+                //score = calculateScore(board, opponent, player);
             }
             return new int[]{score}; //the score is returned
         }
@@ -182,7 +185,7 @@ public class OthelloAIHard implements AIStrategy {
      *               calculated.
      * @param opponent An instance of the Player class, representing the opponent of the player.
      * @return Returns an int array containing the score of the best move, the row of the best move, and the column of
-     *      * the best move.
+     * the best move.
      */
     private int[] minMaxNotHeuristic(Field[][] board, boolean lastMoveWasValid, Player player, Player opponent) {
 
@@ -190,8 +193,6 @@ public class OthelloAIHard implements AIStrategy {
         int bestScore = -5000;
         int bestRow = -1;
         int bestCol = -1;
-
-        //if winny the game: do shit
 
         ArrayList<Field> validMoves = checkFieldValidity(board, player, opponent);
 
