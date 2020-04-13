@@ -8,7 +8,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
@@ -306,6 +305,7 @@ public abstract class GameController extends Controller implements Initializable
     private void goToLobby(Map<String, String> map, String msg) {
         String serverComment = map.get("COMMENT");
         if (!serverComment.equals("")) {
+            // Add comment from args map to the message.
             msg += "\n" + serverComment;
         }
 
