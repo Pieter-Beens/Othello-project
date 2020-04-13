@@ -72,7 +72,7 @@ public class OthelloModel extends GameModel {
         if (!turnHasMoves() && lastTurnWasSkipped) {
             if (!Main.serverConnection.hasConnection()) {
                 System.out.println("Neither player was able to move, so the game has ended!");
-                Platform.runLater(this::endGame);
+                Platform.runLater(() -> endGame(false));
             }
             return;
         }

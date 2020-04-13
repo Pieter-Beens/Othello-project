@@ -38,7 +38,7 @@ public class OfflineMenuController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        StringConverter<Double> tickLabelFormatter = new StringConverter<>() {
+        StringConverter<Double> tickLabelFormatter = new StringConverter<Double>() {
             @Override
             public String toString(Double tickLabel) {
                 if (tickLabel == 0) {
