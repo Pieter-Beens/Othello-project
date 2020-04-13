@@ -29,11 +29,12 @@ public class OthelloAIEasy implements AIStrategy {
                 if (field.getValidity()) validMoves.add(field);
             }
         }
-        if(validMoves.size() > 0) {
+        if (validMoves.size() > 0) {
             int i = rand.nextInt(validMoves.size());
             Field chosenMove = validMoves.get(i);
             return new Move(player, chosenMove.getRowID(), chosenMove.getColumnID());
         }
+        System.out.println("RNGesus decided the only valid move was to die for our sins");
         return null;
     }
 }
