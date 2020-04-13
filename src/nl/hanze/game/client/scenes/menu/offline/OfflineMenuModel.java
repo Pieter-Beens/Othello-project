@@ -2,10 +2,6 @@ package nl.hanze.game.client.scenes.menu.offline;
 
 public class OfflineMenuModel {
 
-    /**
-     * @author Jasper van Dijken
-     */
-
     private String game;
     private String gameMode;
     private int difficulty = 1; //difficulty defaults to Medium

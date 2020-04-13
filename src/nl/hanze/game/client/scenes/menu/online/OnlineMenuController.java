@@ -32,7 +32,10 @@ public class OnlineMenuController extends Controller {
     private Text errorMsg;
 
     /**
+     * Button that starts the login process
+     *
      * @author Jasper van Dijken
+     * @param event the event mouse-click
      */
     @FXML
     private void connect(ActionEvent event) throws IOException {
@@ -40,12 +43,12 @@ public class OnlineMenuController extends Controller {
         //error indicator
         boolean error = false;
 
-        //Check if fields are filled in
+        //Check if all fields are filled in
         if (name.getText().isEmpty() || ip.getText().isEmpty() || port.getText().isEmpty() || turnTimeField.getText().isEmpty()) {
             errorMsg.setText("Please fill in all fields");
             error = true;
         }
-        //if so, check for valid input
+        //if all fields are filled in, check for valid input
         else {
 
             //check for valid ip
@@ -78,7 +81,13 @@ public class OnlineMenuController extends Controller {
         }
     }
 
-    //method that checks for a valid ip address
+    /**
+     * Method that checks if the passed IP-address is valid
+     *
+     * @author Jasper van Dijken
+     * @param ip the ip-address that will be checked for validity
+     * @return true if ip is valid, false if ip is invalid
+     */
     public static boolean checkIP (String ip) {
 
         //checking the length, split at each dot
