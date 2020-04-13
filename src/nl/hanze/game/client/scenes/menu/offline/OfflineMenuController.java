@@ -3,6 +3,8 @@ package nl.hanze.game.client.scenes.menu.offline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -11,6 +13,8 @@ import javafx.util.StringConverter;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameFacade;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,6 +24,8 @@ import java.util.ResourceBundle;
  * This Controller handles use input from the Offline game menu
  */
 public class OfflineMenuController extends Controller implements Initializable {
+    @FXML private ImageView resultIconLeft;
+    @FXML private ImageView resultIconRight;
     @FXML private TextField turnTimeField;
     @FXML private VBox container;
     @FXML private Text resultMessage;
@@ -35,9 +41,16 @@ public class OfflineMenuController extends Controller implements Initializable {
     @FXML public ToggleGroup selectedGameMode;
 
     private OfflineMenuModel model = new OfflineMenuModel();
+    public String resultIconPath = "";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        String resultMsg = model.getResultMessage();
+        //System.out.println("Result: " + model.getResultMessage());
+
+
+
         StringConverter<Double> tickLabelFormatter = new StringConverter<Double>() {
             @Override
             public String toString(Double tickLabel) {
@@ -76,8 +89,36 @@ public class OfflineMenuController extends Controller implements Initializable {
             turnTimeField.setText(String.valueOf(model.getTurnTime()));
         });
 
-        //Set resultMessage
-        resultMessage.setText(model.getResultMessage());
+
+        /** @author Jasper van Dijken */
+        //Game result messages
+        if (resultMsg == null) {
+            resultMessage.setText("Offline\nGame Settings:");
+        } else {
+            resultMessage.setText(resultMsg);
+            if (resultMsg.contains("Julius")) {
+                resultIconPath = "src/resources/lost.gif";
+            }
+            if (!resultMsg.contains("Julius")) {
+                resultIconPath = "src/resources/win.gif";
+            }
+            if (resultMsg.contains("tied")) {
+                resultIconPath = "src/resources/tie.gif";
+            }
+
+            if (!resultIconPath.equals("")) {
+                //Inserting icon
+                Image image;
+                try {
+                    image = new Image(new FileInputStream(resultIconPath));
+                    resultIconLeft.setImage(image);
+                    resultIconRight.setImage(image);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        /** end @author Jasper van Dijken */
     }
 
     /**

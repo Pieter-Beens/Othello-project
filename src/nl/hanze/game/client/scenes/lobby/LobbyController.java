@@ -121,7 +121,7 @@ public class LobbyController extends Controller implements Initializable {
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
 
         /** @author Jasper van Dijken */
-        //If there is a result to be displayer
+        //If there is a result to be displayed
         if (!lastGameResultMsg.isEmpty()) {
             //Show the result of the last game
             lastGameResult.setText("\n" + lastGameResultMsg);
@@ -201,9 +201,7 @@ public class LobbyController extends Controller implements Initializable {
         model.setFullscreen(fullscreen.isSelected());
     }
 
-    /**
-     * END @author Jasper van Dijken
-     */
+    /** end @author Jasper van Dijken */
 
 
     /**
