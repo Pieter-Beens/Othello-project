@@ -185,6 +185,7 @@ public class TicTacToeModel extends GameModel {
     /**
      * When the game has ended build the result message.
      *
+     * @author Roy Voetman
      * @param timedOut Boolean indicating if the game stopped because of a time out.
      */
     @Override
