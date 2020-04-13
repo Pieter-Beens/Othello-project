@@ -52,6 +52,9 @@ public class LobbyController extends Controller implements Initializable {
     @FXML
     public TableColumn<RequestRow, String> challengeNumberColumn;
 
+    @FXML
+    public Text challengeErrorText;
+
     private List<String> gameList;
 
     private static Timer playersTableUpdater;
@@ -153,7 +156,8 @@ public class LobbyController extends Controller implements Initializable {
 
     @FXML
     private void btnAcceptChallenge(ActionEvent event) throws IOException {
-        Main.serverConnection.challengeAccept(Integer.parseInt(requestTable.getSelectionModel().getSelectedItem().getChallengeID()));
+        try { Main.serverConnection.challengeAccept(Integer.parseInt(requestTable.getSelectionModel().getSelectedItem().getChallengeID())); }
+        catch (NullPointerException e) { challengeErrorText.setText("ERROR: SELECT A CHALLENGE FIRST!");}
     }
 
     //Sets gameMode in model

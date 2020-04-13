@@ -41,13 +41,13 @@ public class OthelloModel extends GameModel {
         getActivePlayer().changeScore(captureTally);
         players[(turnCounter+1)%2].changeScore(-captureTally);
 
-        // ...before the stone is placed: this is because placing the stone first would affect enactCaptures>getCaptures calculation
+        // ...before the stone is placed: this is because placing the stone first would affect enactCaptures() > getCaptures() calculation
         targetField.setOwner(move.getPlayer());
         updateRecentMove(targetField);
         getActivePlayer().changeScore(1);
 
 
-        System.out.println(getActivePlayer().getName() + " captured " + captureTally + " Field(s)!");
+        System.out.println(getActivePlayer().getName() + " moved to " + Main.alphabet[move.getRow()] + move.getColumn() + ", capturing " + captureTally + " Field(s)!");
 
         nextTurn(false);
     }
@@ -195,7 +195,7 @@ public class OthelloModel extends GameModel {
         // x-cornerscore = -10 unless associated corner is occupied
 
         if (board[0][0].getOwner() == null) {
-            if (board[1][1] != null) {
+            if (board[1][1].getOwner() != null) {
                 if (board[1][1].getOwner() == player) score += -10;
                 else score += +10;
             }
@@ -204,7 +204,7 @@ public class OthelloModel extends GameModel {
         else score += -15;
 
         if (board[7][0].getOwner() == null) {
-            if (board[6][1] != null) {
+            if (board[6][1].getOwner() != null) {
                 if (board[6][1].getOwner() == player) score += -10;
                 else score += +10;
             }
@@ -213,7 +213,7 @@ public class OthelloModel extends GameModel {
         else score += -10;
 
         if (board[0][7].getOwner() == null) {
-            if (board[1][6] != null) {
+            if (board[1][6].getOwner() != null) {
                 if (board[1][6].getOwner() == player) score += -10;
                 else if (board[1][6].getOwner() == opponent) score += +10;
             }
@@ -222,7 +222,7 @@ public class OthelloModel extends GameModel {
         else score += -10;
 
         if (board[7][7].getOwner() == null) {
-            if (board[6][6] != null) {
+            if (board[6][6].getOwner() != null) {
                 if (board[6][6].getOwner() == player) score += -10;
                 else score += +10;
             }
@@ -232,15 +232,11 @@ public class OthelloModel extends GameModel {
 
         // SOURCE 4: edge patterns (hardcoded) =====================================================================
 
-        for (int i = 0; i < 8; i++) {
-            if (board[0][i].getOwner() == null) {
-                if (board[1][1] != null) {
-                    if (board[1][1].getOwner() == player) score += -10;
-                    else score += +10;
-                }
+        for (int i = 2; i < 6; i++) {
+            if (board[0][i].getOwner() != null) {
+                if (board[0][i].getOwner() == player) score += 2;
+                else score += -2;
             }
-            else if (board[0][0].getOwner() == player) score += 15;
-            else score += -15;
         }
 
         String string = "";

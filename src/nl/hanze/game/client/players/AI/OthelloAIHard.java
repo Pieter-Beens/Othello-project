@@ -31,7 +31,7 @@ public class OthelloAIHard implements AIStrategy {
     private static final int BORDERSCORE = 5;
     private static final int XCROSSSCORE = -20;
 
-    private static int[][] scoreBoard;
+    private static int[][] scoreBoard = null;
 
     /**
      * Main method for this class.
@@ -54,7 +54,7 @@ public class OthelloAIHard implements AIStrategy {
 //        }
 //        if (fieldsLeft < 11) return perfectEnding(boardCopy, player, opponent);
 
-        setupScoreBoard(boardCopy);
+        if (scoreBoard == null) setupScoreBoard(boardCopy);
 
         int[] move = minMax(boardCopy, 0, player, opponent);
         return new Move(player, move[ROW], move[COLUMN]);
@@ -121,8 +121,7 @@ public class OthelloAIHard implements AIStrategy {
         int bestCol = -1; //the column associated with the best move.
 
         if (depth >= MAXDEPTH) { //base case for the recursive call
-            score = calculateScore(board, player, opponent); //calculate the value of this current board
-            // TODO score = OthelloModel.getBoardScore(board);
+            score = OthelloModel.getBoardScore(board, player, opponent); //calculate the value of this current board
             return new int[]{score}; //the score is returned
         }
 
@@ -137,8 +136,7 @@ public class OthelloAIHard implements AIStrategy {
                 score = minMax(boardCopy, depth + 1, opponent, player)[SCORE]; //we continue as normal
             }
             else { //if Julius's opponent is playing
-                humanScore = calculateScore(boardCopy, player, opponent); //we want to know the score
-                //TODO humanScore = OthelloModel.getBoardScore(boardCopy);
+                humanScore = OthelloModel.getBoardScore(boardCopy, player, opponent); //we want to know the score
                 if (humanScore > humanBestScore) { //and we check if it's better than previous non-Julius player moves.
                     humanBestScore = humanScore;
                     score = minMax(boardCopy, depth + 1, opponent, player)[SCORE]; //this is a proper human move,

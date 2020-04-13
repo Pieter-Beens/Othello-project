@@ -18,6 +18,7 @@ import java.io.IOException;
 public class Main extends Application {
     public static Stage primaryStage;
     public static ServerConnection serverConnection;
+    public final static char[] alphabet = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'};
 
     /**
      * Hanzehogeschool Groningen University of Applied Sciences HBO-ICT
