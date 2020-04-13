@@ -23,6 +23,8 @@ import java.net.URL;
 import java.util.*;
 
 /**
+ * Abstract game controller that all concrete games controllers should extend.
+ *
  * @author Roy Voetman
  */
 public abstract class GameController extends Controller implements Initializable {
@@ -43,16 +45,33 @@ public abstract class GameController extends Controller implements Initializable
     protected GameModel model;
     protected Timer timer;
 
+    /**
+     * Constructs a GameController.
+     *
+     * @param model The model for the game.
+     * @param turnTime The time players have to do a move.
+     */
     protected GameController(GameModel model, int turnTime) {
         this.model = model;
 
         model.setTurnTime(turnTime);
     }
 
+    /**
+     * Getter for the active player in the model.
+     *
+     * @return Active Player object.
+     */
     public Player getActivePlayer() {
         return model.getActivePlayer();
     }
 
+    /**
+     * When all FXML elements are set in their Fields bootstrap all elements here.
+     *
+     * @param location Uniform Resource of the FXML
+     * @param resources Locale-specific objects
+     */
     public void initialize(URL location, ResourceBundle resources) {
         forfeitButton.setOnAction(this::forfeit);
 
@@ -74,6 +93,9 @@ public abstract class GameController extends Controller implements Initializable
         }, 0,1000);
     }
 
+    /**
+     * When players are defined in the model bootstrap the player logic.
+     */
     public void setup() {
         model.setup();
         updateViews();
@@ -82,13 +104,6 @@ public abstract class GameController extends Controller implements Initializable
             acceptNewMoves();
     }
 
-    public void goBack() throws IOException {
-        if (Main.serverConnection.hasConnection()) {
-            Main.serverConnection.forfeit();
-        }
-
-        super.goBack();
-    }
     protected void drawCoordinates(){
         double hPadding = ((680/model.getBoardSize())/2)-6;
         double vPadding = ((680/model.getBoardSize())/2)-12;
@@ -193,6 +208,27 @@ public abstract class GameController extends Controller implements Initializable
     }
 
     @Override
+    public void changeScene() {
+        timer.cancel();
+        GameModel.skippedTurnText = "";
+        super.changeScene();
+    }
+
+    /**
+     * Load the previous scene and forfeit the game.
+     *
+     * @throws IOException When previous scene FXML can not be found.
+     */
+    @Override
+    public void goBack() throws IOException {
+        if (Main.serverConnection.hasConnection()) {
+            Main.serverConnection.forfeit();
+        }
+
+        super.goBack();
+    }
+
+    @Override
     public void gameWin(Map<String, String> map) {
         String msg = "You won";
         if (!map.get("COMMENT").equals("Turn time limit reached")) {
@@ -237,13 +273,6 @@ public abstract class GameController extends Controller implements Initializable
     public void updateViews() {
         gameBoard.update();
         updateTurnLabel();
-    }
-
-    @Override
-    public void changeScene() {
-        timer.cancel();
-        GameModel.skippedTurnText = "";
-        super.changeScene();
     }
 
     public boolean move(Move move) {
