@@ -252,7 +252,7 @@ public class OthelloAIHard implements AIStrategy {
 
     /**
      * Method which checks all the possible captures from a given position.
-     * Copied from the eponymous method made by Pieter Beens in OthelloModel, and slightly edited by me.
+     * Copied from the eponymous method made by Pieter Beens in OthelloModel, and slightly edited by Nick Nickerty Nick.
      * @param field The position from which captures are checked.
      * @param board The othello board on which we're playing. A double array of Fields.
      * @param player The player for which we're trying to find captures.
@@ -261,7 +261,7 @@ public class OthelloAIHard implements AIStrategy {
      *                  if it's possible to flip some stones from a given position.
      * @return A stack containing instances of the Field class, which are positions on which captures are possible.
      */
-    private Stack<Field> getCaptures(Field field, Field[][] board, Player player, Player opponent, Boolean capturing) {
+    public static Stack<Field> getCaptures(Field field, Field[][] board, Player player, Player opponent, Boolean capturing) {
         Stack<Field> allCaptures = new Stack<>();
 
         // occupied Fields are never a valid move - immediately return empty Stack
