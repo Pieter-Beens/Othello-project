@@ -56,6 +56,7 @@ public class Main extends Application {
         Controller.loadScene("start/start.fxml");
 
 
+        //Close background process on close
         primaryStage.setOnCloseRequest(t -> {
             Platform.exit();
             System.exit(0);
