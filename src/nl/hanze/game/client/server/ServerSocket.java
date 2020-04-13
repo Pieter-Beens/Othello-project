@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * @author Bart van Poele
  * This Runnable sends commands and notifies the Observers of inbound server responses
+ * @author Bart van Poele
  */
 
 public class ServerSocket implements Runnable, Observable {
