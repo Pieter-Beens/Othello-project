@@ -111,7 +111,7 @@ public abstract class Controller implements Observer {
     public void update(String response) {
         // When it is an error show a popup window.
         if (response.contains("ERR")) {
-            Platform.runLater(() -> Popup.display(response));
+            System.err.println(response);
         }
 
         // Parse the response
@@ -151,7 +151,7 @@ public abstract class Controller implements Observer {
         }
 
         // Log command being send.
-        System.err.println(response);
+        System.out.println("----" + response + "----");
     }
 
     /**

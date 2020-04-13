@@ -1,15 +1,13 @@
 package nl.hanze.game.client.scenes.games.utils;
 
-import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import nl.hanze.game.client.Main;
-import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.scenes.games.GameController;
 import nl.hanze.game.client.scenes.games.GameModel;
-import nl.hanze.game.client.scenes.games.othello.OthelloController;
 
+/**
+ * @author Pieter Beens
+ */
 public abstract class BoardPane extends GridPane {
     protected GameModel model;
     protected GameController controller;
@@ -50,6 +48,7 @@ public abstract class BoardPane extends GridPane {
             button.setDisable(disable);
         }
     }
+
     public GameController getController() { return controller; }
 
     public abstract void enableValidFields();

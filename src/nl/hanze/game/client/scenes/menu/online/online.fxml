@@ -44,7 +44,7 @@
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
                            </GridPane.margin></TextField>
-                        <TextField text="127.0.0.1" fx:id="ip" alignment="CENTER" promptText="IP-address..." GridPane.rowIndex="2">
+                        <TextField text="145.33.225.170" fx:id="ip" alignment="CENTER" promptText="IP-address..." GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
                            </GridPane.margin></TextField>

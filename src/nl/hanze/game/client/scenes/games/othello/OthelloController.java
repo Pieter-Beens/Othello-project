@@ -38,6 +38,7 @@ public class OthelloController extends GameController {
         graphic2.setFont(font);
         scoreLabel1.setGraphic(graphic1);
         scoreLabel2.setGraphic(graphic2);
+        boardScoreLabel.setText("Intelligent score: ");
         gameBoard.setGridLinesVisible(true);
         drawCoordinates();
     }
@@ -46,10 +47,10 @@ public class OthelloController extends GameController {
         String player1Name = model.getPlayer(0).getName();
         String player2Name = model.getPlayer(1).getName();
 
-        if(player1Name.equals("You")) graphic1.setText("Your score");
+        if (player1Name.equals("You")) graphic1.setText("Your score");
         else graphic1.setText(player1Name+"'s score");
 
-        if(player2Name.equals("You")) graphic2.setText("Your score");
+        if (player2Name.equals("You")) graphic2.setText("Your score");
         else graphic2.setText(player2Name+"'s score");
 
         super.setup();
@@ -60,8 +61,11 @@ public class OthelloController extends GameController {
         super.updateViews();
         updateScoreLabels();
 
-        OthelloModel othelloModel = (OthelloModel) model;
-        System.out.println("BOARDSCORE: " + OthelloModel.getBoardScore(model.getBoard(), getActivePlayer(), model.getInactivePlayer()));
+        int boardScore = OthelloModel.getBoardScore(model.getBoard(), getActivePlayer(), model.getInactivePlayer());
+
+        boardScoreLabel.setText("Intelligent score: " + boardScore);
+
+        System.out.println("=====Turn " + model.getTurnCount() + ": how is the board looking for " + getActivePlayer().getName() + "? " + boardScore);
     }
 
     public void updateScoreLabels(){
