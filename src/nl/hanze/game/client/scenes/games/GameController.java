@@ -37,8 +37,10 @@ public abstract class GameController extends Controller implements Initializable
     @FXML protected HBox bottomFieldId;
     @FXML protected VBox leftFieldId;
     @FXML protected VBox rightFieldId;
-    @FXML protected Text skippedTurnText;
     @FXML protected Label timerLabel;
+    @FXML protected Text skippedTurnText;
+    @FXML protected Label boardScoreLabel;
+
 
     protected BoardPane gameBoard;
     protected GameModel model;
