@@ -8,6 +8,7 @@ import nl.hanze.game.client.scenes.games.othello.OthelloModel;
 import nl.hanze.game.client.scenes.games.GameModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 
 /**
@@ -44,16 +45,16 @@ public class OthelloAIHard implements AIStrategy {
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
         System.out.println("Julius is thinking...");
-        Field[][] boardCopy = board.clone();
 
-        if (scoreBoard == null) setupScoreBoard(boardCopy);
+        board = cloneBoard(board);
+        if (scoreBoard == null) setupScoreBoard(board);
 
         int[] move;
         if (emptyFields(board) < LASTPHASE) { //if the amount of empty fields left is less than the lastphase field
-            move = minMaxNotHeuristic(boardCopy, true, player, opponent);
+            move = minMaxNotHeuristic(board, true, player, opponent);
         } //then we've reached the final phase and can calculate a win all the way
         else {
-            move = minMax(boardCopy, 0, player, opponent); //otherwise, just use the regular minmax
+            move = minMax(board, 0, player, opponent); //otherwise, just use the regular minmax
         }
         return new Move(player, move[ROW], move[COLUMN]);
     }
@@ -104,59 +105,48 @@ public class OthelloAIHard implements AIStrategy {
      * it, by attempting every move, and backtracking out to see which one is best.
      * @param board The Othello board on which we're playing. A double array of Fields.
      * @param depth The depth of the iteration. Vital due to the recursive nature of this method.
-     * @param player The player for which the best score is calculated.
-     * @param opponent The opponent of the player.
+     * @param activePlayer The player for which the best score is calculated.
+     * @param inactivePlayer The opponent of the active player.
      * @return Returns an int array containing the score of the best move, the row of the best move, and the column of
      * the best move.
      */
-    private int[] minMax(Field[][] board, int depth, Player player, Player opponent) {
+    private int[] minMax(Field[][] board, int depth, Player activePlayer, Player inactivePlayer) {
 
         int score; //the score of a move.
-        int humanScore; //used to calculate the opponent's response.
+        int opponentScore; //used to calculate the opponent's response.
         int bestScore = -5000; //the best score, set to an arbitrarily low amount so that at least one move is always returned
-        int humanBestScore = -5000; //same as bestScore, but for the opponent
+        int opponentBestScore = -5000; //same as bestScore, but for the opponent
         int bestRow = -1; //the row associated with the best move.
         int bestCol = -1; //the column associated with the best move.
+        HashMap<Integer, Field> opponentResponse = new HashMap<>();
 
         if (depth >= MAXDEPTH) { //base case for the recursive call
             if (MAXDEPTH % 2 == 0) {
-                score = OthelloModel.getBoardScore(board, player, opponent); //calculate the value of this current board
-                //score = calculateScore(board, player, opponent);
+                score = OthelloModel.getBoardScore(board, activePlayer, inactivePlayer); //calculate the value of this current board
+                //score = calculateScore(board, activePlayer, inactivePlayer);
             }
             else { //if the max depth is an odd number, Julius is the opponent instead of the player
-                score = OthelloModel.getBoardScore(board, opponent, player);
-                //score = calculateScore(board, opponent, player);
+                score = OthelloModel.getBoardScore(board, inactivePlayer, activePlayer);
+                //score = calculateScore(board, inactivePlayer, activePlayer);
             }
             return new int[]{score}; //the score is returned
         }
 
         //valid moves for the active player are put in an array.
-        ArrayList<Field> validMoves = checkFieldValidity(board, player, opponent);
-
-        if (!validMoves.isEmpty()) { //failsafe in case things muck up
-            bestRow = validMoves.get(0).getRowID();
-            bestCol = validMoves.get(0).getColumnID();
-        }
+        ArrayList<Field> validMoves = checkFieldValidity(board, activePlayer, inactivePlayer);
 
         //for every valid move, a stone is put, and the appropriate captures are enacted.
         for (Field cell : validMoves) {
-            cell.setOwner(player);
-            Field[][] boardCopy = enactCaptures(cell, board, player, opponent);
-            if (player.getPlayerType() == PlayerType.AI) { //if Julius is playing
-                score = minMax(boardCopy, depth + 1, opponent, player)[SCORE]; //we continue as normal
+            Field[][] boardCopy = enactCaptures(cell, board, activePlayer, inactivePlayer);
+            boardCopy[cell.getRowID()][cell.getColumnID()].setOwner(activePlayer);
+            if (activePlayer.getPlayerType() == PlayerType.AI) { //if Julius is playing
+                score = minMax(boardCopy, depth + 1, inactivePlayer, activePlayer)[SCORE]; //we continue as normal
             }
             else { //if Julius's opponent is playing
-                humanScore = OthelloModel.getBoardScore(boardCopy, player, opponent); //we want to know the score
-                if (humanScore > humanBestScore) { //and we check if it's better than previous non-Julius player moves.
-                    humanBestScore = humanScore;
-                    score = minMax(boardCopy, depth + 1, opponent, player)[SCORE]; //this is a proper human move,
-                    //so it will be used to calculate the next move.
-                }
-                else {
-                    score = -5001; //this human move is trash, and so it won't be used.
-                }
+                opponentScore = OthelloModel.getBoardScore(boardCopy, activePlayer, inactivePlayer); //we want to know the score
+                opponentResponse.put(opponentScore, cell); //and we put it in a scoremap
+                score = -5001; //this move won't be used tho
             }
-            cell.setOwner(null); //the stone is removed again, so we have a clear board again.
 
             if (score > bestScore) { //if the score we have so far is better than previous ones, we use this move.
                 bestScore = score;
@@ -166,10 +156,20 @@ public class OthelloAIHard implements AIStrategy {
                 }
             }
         }
-
+        if (!opponentResponse.isEmpty()) { //if the non-julius is playing
+            for(int key : opponentResponse.keySet()) {
+                if (key > opponentBestScore) {
+                    opponentBestScore = key; //we grab the highest-scoring key
+                }
+            }
+            Field[][] boardCopy = enactCaptures(opponentResponse.get(opponentBestScore), board, activePlayer, inactivePlayer);
+            boardCopy[opponentResponse.get(opponentBestScore).getRowID()][opponentResponse.get(opponentBestScore).getColumnID()].setOwner(activePlayer);
+            bestScore = minMax(boardCopy, depth +1, inactivePlayer, activePlayer)[SCORE]; // we know this is the
+            // best move for the non-Julius, so no need to compare them, this is the best score
+        }
         //If the player had to skip a turn, the opponent might still be able to play, if not this method keeps being
         //invoked anyway until we reach the max depth.
-        if (validMoves.isEmpty()) bestScore = minMax(board, depth + 1, opponent, player)[SCORE];
+        if (validMoves.isEmpty()) bestScore = minMax(board, depth + 1, inactivePlayer, activePlayer)[SCORE];
 
         return new int[]{bestScore, bestRow, bestCol}; //the best move is returned!
     }
@@ -357,7 +357,7 @@ public class OthelloAIHard implements AIStrategy {
 
     /**
      * This method makes a copy of the given board, and flips all stones captured on it.
-     * Copied from the homonymous method made by Pieter Beens in OthelloModel, and slightly edited by me.
+     * Copied from the eponymous method made by Pieter Beens in OthelloModel, and slightly edited by me.
      * @param field The field on which a move was just made.
      * @param board The board on which the move was made. A double array of Fields.
      * @param player The player that just made the move.
@@ -367,7 +367,7 @@ public class OthelloAIHard implements AIStrategy {
      */
     private Field[][] enactCaptures(Field field, Field[][] board, Player player, Player opponent) {
         Field[][] boardCopy = cloneBoard(board);
-        Stack<Field> captures = getCaptures(field, boardCopy, player, opponent, true);
+        Stack<Field> captures = getCaptures(field, boardCopy, player, opponent);
         for (Field capturedField : captures) {
             capturedField.setOwner(player);
 
@@ -377,20 +377,19 @@ public class OthelloAIHard implements AIStrategy {
 
     /**
      * Method which checks all the possible captures from a given position.
-     * Copied from the eponymous method made by Pieter Beens in OthelloModel, and slightly edited by Nick Nickerty Nick.
+     * Copied from the eponymous method made by Pieter Beens in OthelloModel.
+     * @author Pieter Beens
      * @param field The position from which captures are checked.
      * @param board The othello board on which we're playing. A double array of Fields.
      * @param player The player for which we're trying to find captures.
      * @param opponent The player's opponent.
-     * @param capturing boolean used to see if we're actually trying to flip stones here or are just trying to see
-     *                  if it's possible to flip some stones from a given position.
      * @return A stack containing instances of the Field class, which are positions on which captures are possible.
      */
-    public static Stack<Field> getCaptures(Field field, Field[][] board, Player player, Player opponent, Boolean capturing) {
+    public static Stack<Field> getCaptures(Field field, Field[][] board, Player player, Player opponent) {
         Stack<Field> allCaptures = new Stack<>();
 
         // occupied Fields are never a valid move - immediately return empty Stack
-        if (field.getOwner() != null && !capturing) {
+        if (field.getOwner() != null) {
             return allCaptures;
         }
 
@@ -448,7 +447,7 @@ public class OthelloAIHard implements AIStrategy {
         ArrayList<Field> returnArray = new ArrayList<>();
         for (Field[] row : board) {
             for (Field field : row) {
-                if (!getCaptures(field, board, player, opponent, false).isEmpty()) {
+                if (!getCaptures(field, board, player, opponent).isEmpty()) {
                     returnArray.add(field);
                 }
             }
