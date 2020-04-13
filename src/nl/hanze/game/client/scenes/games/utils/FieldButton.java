@@ -24,7 +24,7 @@ public class FieldButton extends Button {
 
             if(!wasValid) return;
 
-            if (!Main.serverConnection.hasConnection())
+            if (!Main.serverConnection.hasConnection() && !board.getController().getModel().hasGameEnded())
                 board.getController().acceptNewMoves();
             else
                 Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), board.getController().getModel().getBoardSize()));
