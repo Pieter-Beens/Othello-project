@@ -44,6 +44,16 @@ public class OthelloAIHard implements AIStrategy {
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
         System.out.println("Julius is thinking...");
         Field[][] boardCopy = board.clone();
+
+        // check to see if it's the final 10 turns, at which point the game can be solved by brute force
+//        int fieldsLeft = 0;
+//        for (Field[] row : boardCopy) {
+//            for (Field field : row) {
+//                if (field.getOwner() == null) fieldsLeft++;
+//            }
+//        }
+//        if (fieldsLeft < 11) return perfectEnding(boardCopy, player, opponent);
+
         setupScoreBoard(boardCopy);
 
         int[] move = minMax(boardCopy, 0, player, opponent);
@@ -78,7 +88,7 @@ public class OthelloAIHard implements AIStrategy {
             }
         }
 
-        //TODO see if you can't make this method more efficient using model commented below
+        //TODO: see if you can't make this method more efficient using model commented below
 
 //        scoreBoard[0][0] = CORNERSCORE;
 //        scoreBoard[7][0] = CORNERSCORE;
@@ -244,7 +254,7 @@ public class OthelloAIHard implements AIStrategy {
 
     /**
      * Method which checks all the possible captures from a given position.
-     * Copied from the homonymous method made by Pieter Beens in OthelloModel, and slightly edited by me.
+     * Copied from the eponymous method made by Pieter Beens in OthelloModel, and slightly edited by me.
      * @param field The position from which captures are checked.
      * @param board The othello board on which we're playing. A double array of Fields.
      * @param player The player for which we're trying to find captures.
@@ -303,7 +313,7 @@ public class OthelloAIHard implements AIStrategy {
     }
 
     /**
-     * This method is a modified version of the homonymous method used in OthelloModel. It finds all the valid moves
+     * This method is a modified version of the eponymous method used in OthelloModel. It finds all the valid moves
      * on a field, by seeing from which field(s) captures are possible. Any field from which you can capture some of
      * your opponent's stones is a valid move in Othello.
      * @param board The othello board on which we're playing. A double array of Fields.
@@ -324,7 +334,7 @@ public class OthelloAIHard implements AIStrategy {
     }
 
     /**
-     * Method which properly clones the board by cloning all the Field classes inside it.
+     * Method which properly clones the board array by also cloning all the Field classes inside it.
      * @param board A double array of Field instances, which needs to be cloned.
      * @return A double array of Field instances, every field instance a copy of the ones in the given board.
      */
@@ -339,4 +349,10 @@ public class OthelloAIHard implements AIStrategy {
         return boardCopy;
     }
 
+    private Move perfectEnding(Field[][] board, Player player, Player opponent) {
+
+        //TODO: insert minmax to win/loss, or perhaps better... maximum captures!
+
+        return new Move(player, 0, 0); //PLACEHOLDER
+    }
 }

@@ -27,10 +27,10 @@ FieldButton {
 }
 
 #rootPane {
-    -fx-background-color: darkgreen;
+    -fx-background-color: #1C590A;
 }
 #coordinates Label{
-    -fx-text-fill: white;-fx-font-size: 20;-fx-font-family: Verdana;
+    -fx-text-fill: #EFEFEF;-fx-font-size: 20;-fx-font-family: Verdana;
 }
 #infoPanel {
     -fx-background-color: white;

@@ -19,7 +19,7 @@ public class OthelloAIEasy implements AIStrategy {
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
         System.out.println("RNGesus is blessing us with His wisdom...");
         try {
-            Thread.sleep(200);
+            Thread.sleep(500);
         } catch (InterruptedException ignore) {}
 
         ArrayList<Field> validMoves = new ArrayList<>();
@@ -29,11 +29,12 @@ public class OthelloAIEasy implements AIStrategy {
                 if (field.getValidity()) validMoves.add(field);
             }
         }
-        if(validMoves.size() > 0) {
+        if (validMoves.size() > 0) {
             int i = rand.nextInt(validMoves.size());
             Field chosenMove = validMoves.get(i);
             return new Move(player, chosenMove.getRowID(), chosenMove.getColumnID());
         }
+        System.out.println("RNGesus decided the only valid move was to die for our sins");
         return null;
     }
 }

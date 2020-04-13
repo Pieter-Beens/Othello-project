@@ -116,11 +116,15 @@ public abstract class GameController extends Controller implements Initializable
         super.gameYourTurn(map);
 
         if (model.getActivePlayer().getPlayerType() == PlayerType.AI) {
-            Move move = model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer());
-            move(move);
+            new Thread(() -> {
+                Move move = model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer());
+                Platform.runLater(() -> {
+                    move(move);
 
-            if (Main.serverConnection.hasConnection())
-                Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), model.getBoardSize()));
+                    if (Main.serverConnection.hasConnection())
+                        Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), model.getBoardSize()));
+                });
+            }).start();
         } else {
             forfeitButton.setDisable(false);
             getBoardPane().enableValidFields();
@@ -129,6 +133,8 @@ public abstract class GameController extends Controller implements Initializable
 
     @Override
     public void gameMove(Map<String, String> map) {
+        if (map.get("PLAYER").equals(GameModel.serverName)) return;
+
         super.gameMove(map);
 
         int cell = Integer.parseInt(map.get("MOVE"));
@@ -248,6 +254,7 @@ public abstract class GameController extends Controller implements Initializable
 
             return true;
         }
+        System.out.println(getActivePlayer().getName() + " made an ILLEGAL MOVE!!!");
         return false;
     }
 }

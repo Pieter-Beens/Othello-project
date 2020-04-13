@@ -172,7 +172,19 @@ public class OthelloModel extends GameModel {
 
         //TODO: implement negative score for opponent's valid moves on this board
 
-        // SOURCE 2: edge patterns (hardcoded) =====================================================================
+        // SOURCE 2: stable stones ================================================================================
+
+        //TODO: score per stable stone: 10
+        // identify stable stones: count from corners... what about eyes and side pyramids?
+
+        // SOURCE 3: corners and x-corners ========================================================================
+
+        //TODO: cornerscore = 10 for every distance from stable stones (yours or opponent's)
+        // amazing depending on empty fields to build with...
+
+        //TODO: x-cornerscore = -10 unless associated corner is occupied
+
+        // SOURCE 4: edge patterns (hardcoded) =====================================================================
 
         String string = "";
         for (int i = 0; i < 8; i++) {
@@ -180,18 +192,7 @@ public class OthelloModel extends GameModel {
         }
 
         if (string.equals("-X-XX-X-")) score += 10;
-        //TODO: MORE PATTERNS HERE
-
-        // SOURCE 3: corners and x-corners ========================================================================
-
-        //TODO: cornerscore = 10 for every distance from stable stones (yours or opponent's)
-
-        //TODO: x-cornerscore = -10 unless associated corner is occupied
-
-        // SOURCE 4: stable stones ================================================================================
-
-        //TODO: score per stable stone: 10
-        //count from corners... what about eyes and side pyramids?
+        //TODO: USE REGEX FOR MORE PATTERNS
 
         // SOURCE 5: ?????????????? ===============================================================================
 
