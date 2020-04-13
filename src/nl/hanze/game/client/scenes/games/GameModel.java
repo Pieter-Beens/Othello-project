@@ -79,10 +79,23 @@ public abstract class GameModel {
         return players[turnCounter%2];
     }
 
+    /**
+     * Returns the player that is currently waiting on its opponent.
+     *
+     * @author Roy Voetman
+     * @return The inactive player.
+     */
     public Player getInactivePlayer() {
         return players[(turnCounter+1)%2];
     }
 
+    /**
+     * Returns player 0 or 1 based on the given name.
+     *
+     * @author Roy Voetman
+     * @param name The searched player name
+     * @return A player object corresponding with the given name.
+     */
     public Player getPlayerByName(String name) {
         if (players[0].getName().equals(name)) {
             return players[0];
@@ -172,12 +185,23 @@ public abstract class GameModel {
         this.turnTime = turnTime - 1;
     }
 
+    /**
+     * Getter for elapsed time value, used in the timer.
+     *
+     * @author Roy Voetman
+     * @return The current value of elapsed time
+     */
     public int getElapsedTime() {
         return elapsedTime;
     }
 
-    public int decreaseElapsedTime() {
-        return elapsedTime--;
+    /**
+     * Decreases the value of the elapsed time field.
+     *
+     * @author Roy Voetman
+     */
+    public void decreaseElapsedTime() {
+        elapsedTime--;
     }
 
     public abstract void recordMove(Move move);

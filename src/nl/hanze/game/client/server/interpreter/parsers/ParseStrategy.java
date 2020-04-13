@@ -9,5 +9,13 @@ package nl.hanze.game.client.server.interpreter.parsers;
  * @author Roy Voetman
  */
 public interface ParseStrategy<E> {
-    public E parse(String response, String command);
+    /**
+     * Parses the given string by returning E
+     *
+     * @author Roy Voetman
+     * @param response The response from the server.
+     * @param command The matched command.
+     * @return A parsed object E that represents the data.
+     */
+    E parse(String response, String command);
 }

@@ -11,6 +11,8 @@ import nl.hanze.game.client.server.ServerConnection;
 import java.io.IOException;
 
 /**
+ * Main class that bootstraps the entire Application.
+ *
  * @author Roy Voetman
  */
 public class Main extends Application {
