@@ -123,19 +123,19 @@ public class LobbyController extends Controller implements Initializable {
             //Show the result of the last game
             lastGameResult.setText("\n" + lastGameResultMsg);
 
-            //If player won, icon = cup
+            //If player won, icon = win
             if (lastGameResultMsg.contains("You won")) {
-                resultIconPath = "src/resources/O.png";
+                resultIconPath = "src/resources/win.gif";
             }
 
             //If player lost, icon = lost
             if (lastGameResultMsg.contains("You lost")) {
-                resultIconPath = "src/resources/X.png";
+                resultIconPath = "src/resources/lost.gif";
             }
 
             //If the game resulted in a draw, icon = tie
             if (lastGameResultMsg.contains("draw")) {
-                resultIconPath = "src/resources/whitestone.png";
+                resultIconPath = "src/resources/tie.gif";
             }
 
             //Inserting icon
