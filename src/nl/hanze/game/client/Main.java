@@ -28,6 +28,8 @@ public class Main extends Application {
         launch(args);
     }
 
+
+    //Setup Stage and its attributes
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setMinWidth(300);
@@ -44,6 +46,7 @@ public class Main extends Application {
         Controller.loadScene("start/start.fxml");
 
 
+        //Close background process on close
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {

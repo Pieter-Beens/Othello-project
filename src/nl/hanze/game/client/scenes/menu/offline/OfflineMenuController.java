@@ -1,6 +1,3 @@
-/*
- * @author Bart van Poele
- */
 package nl.hanze.game.client.scenes.menu.offline;
 
 import javafx.beans.value.ChangeListener;
@@ -24,8 +21,8 @@ import java.util.ResourceBundle;
 
 /**
  * @author Bart van Poele
+ * @description This Controller handles use input in the Offline game manu
  */
-
 public class OfflineMenuController extends Controller implements Initializable {
     @FXML private TextField turnTimeField;
     @FXML private VBox container;
@@ -74,7 +71,6 @@ public class OfflineMenuController extends Controller implements Initializable {
         };
         difficultySlider.setLabelFormatter(tickLabelFormatter);
         difficultySlider.setShowTickLabels(true);
-        //setDifficultyVisibility(false);
         setPlayernamesVisibility(false);
 
         turnTimeField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -89,6 +85,10 @@ public class OfflineMenuController extends Controller implements Initializable {
         resultMessage.setText(model.getResultMessage());
     }
 
+    /**
+     * Display or hide the difficulty slider
+     * @param b: show or hide the difficulty slider
+     */
     public void setDifficultyVisibility(boolean b){
         if(b) {
             difficulty.managedProperty().bind(container.visibleProperty());
@@ -99,6 +99,10 @@ public class OfflineMenuController extends Controller implements Initializable {
         difficulty.setVisible(b);
     }
 
+    /**
+     * Display or hide the player name input fields
+     * @param b: show or hide the player name input fields
+     */
     public void setPlayernamesVisibility(boolean b){
 
         if(b) {
@@ -111,7 +115,7 @@ public class OfflineMenuController extends Controller implements Initializable {
     }
 
 
-    //Sets game & gameMode in model, shows or hides difficulty slider accordingly
+    //Updates selected game & gameMode in model, shows or hides difficulty slider accordingly
     public void gameChanged() {
         model.setGame((String) selectedGame.getSelectedToggle().getUserData());
         model.setGameMode((String) selectedGameMode.getSelectedToggle().getUserData());
@@ -130,17 +134,16 @@ public class OfflineMenuController extends Controller implements Initializable {
     }
 
     //Sets difficulty in model
-    @FXML
-    public void onDifficultyChanged(MouseEvent mouseEvent) {
+    @FXML public void onDifficultyChanged() {
         model.setDifficulty((int) difficultySlider.getValue());
     }
 
     //Sets fullscreen in model when altered
-    @FXML
-    public void fullscreenReleased(MouseEvent mouseEvent) {
+    @FXML public void fullscreenReleased() {
         model.setFullscreen(fullscreen.isSelected());
     }
 
+    //Enable the play button once all options are valid
     public void enablePlayButton(){
         try{
             selectedGameMode.getSelectedToggle().getUserData();
@@ -150,7 +153,9 @@ public class OfflineMenuController extends Controller implements Initializable {
 
     }
 
-    public void startBtnClicked(ActionEvent event) throws IOException {
+
+    //Play button clicked -> start game
+    public void startBtnClicked() throws IOException {
         boolean multiplayer = model.getGameMode().equals("multi-player");
 
         if(multiplayer){
@@ -175,10 +180,9 @@ public class OfflineMenuController extends Controller implements Initializable {
      * Redirect to the previous scene when go back button is clicked.
      *
      * @author Roy Voetman
-     * @param event Action event of the button click.
      * @throws IOException When previous scene FXML can not be found.
      */
-    public void btnGoBack(ActionEvent event) throws IOException {
+    public void btnGoBack() throws IOException {
         goBack();
     }
 }
