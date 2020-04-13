@@ -69,14 +69,18 @@ public class LobbyController extends Controller implements Initializable {
 
     private static Timer playersTableUpdater;
 
+
     // Contains either 'ai' or 'manual' to indicate as whom the user wants to play as
     @FXML private ToggleGroup playerMode;
 
     // Contains the name of the game the user wants to play
     @FXML private ToggleGroup selectedGame;
 
+
     // Indicates whether the user wants to play fullscreen, default is 'false'
     @FXML private CheckBox fullscreen;
+
+
 
     @FXML
     public Text lastGameResult;
@@ -153,12 +157,18 @@ public class LobbyController extends Controller implements Initializable {
 
         }
 
+        //Preparing the requests-table
         challengerColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("name"));
         challengeNumberColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("challengeID"));
         gameColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("game"));
 
     }
 
+    /**
+     * Takes all the games from the gameList and displays them as buttons
+     *
+     * @author Jasper van Dijken
+     */
     private void updateGameBtnGroup() {
         //Split gameListString into a list
         List<String> games = gameList;
@@ -183,24 +193,39 @@ public class LobbyController extends Controller implements Initializable {
         }
     }
 
+    /**
+     * Handles the process of accepting a challenge
+     *
+     * @author Jasper van Dijken
+     * @param event is the mouse-click action
+     */
     @FXML
     private void btnAcceptChallenge(ActionEvent event) throws IOException {
         try { Main.serverConnection.challengeAccept(Integer.parseInt(requestTable.getSelectionModel().getSelectedItem().getChallengeID())); }
         catch (NullPointerException e) { challengeErrorText.setText("ERROR: SELECT A CHALLENGE FIRST!");}
     }
 
-    //Sets gameMode in model
+    /**
+     * Changes the selected game mode in the LobbyModel
+     *
+     * @author Jasper van Dijken
+     */
     @FXML
     private void gameModeChanged() {
         model.setGameMode((String) playerMode.getSelectedToggle().getUserData());
     }
 
-    //Sets fullscreen in model
+    /**
+     * Changes the preference of fullscreen in the LobbyModel
+     *
+     * @author Jasper van Dijken
+     * @param mouseEvent is the mouse-click action
+     */
     @FXML
     public void fullscreenReleased(MouseEvent mouseEvent) {
+
         model.setFullscreen(fullscreen.isSelected());
     }
-
     /** end @author Jasper van Dijken */
 
 
@@ -314,23 +339,33 @@ public class LobbyController extends Controller implements Initializable {
         });
     }
 
+    /**
+     * Handles incoming game-requests, adds them to the requests-table
+     *
+     * @author Jasper van Dijken
+     * @param map Map containing all the arguments that came with this command.
+     */
     @Override
     public void gameChallenge(Map<String, String> map) {
-        //Author: Jasper van Dijken
+        //Create new row for the incoming request
         RequestRow row = new RequestRow(map.get("CHALLENGER"), map.get("CHALLENGENUMBER"), map.get("GAMETYPE"));
 
         //When there are multiple requests from the same player, show only the latest one, delete older ones
         if (!requestTable.getItems().isEmpty()) {
+            //For every row
             for (RequestRow r : requestTable.getItems()) {
+                //If there are any old requests from the challenger
                 if (r.getName().equals(map.get("CHALLENGER"))) {
+                    //Remove the old request
                     requestTable.getItems().remove(r);
+                    //Add the new request
                     requestTable.getItems().add(row);
                 }
             }
         } else {
+            //If the table is empty, simply add the request
             requestTable.getItems().add(row);
         }
-        //End Author
     }
 
     /**
@@ -340,7 +375,7 @@ public class LobbyController extends Controller implements Initializable {
      *
      * @author Roy Voetman
      * @see #gameMatch
-     * @param map Map containing all the argument that came with this command.
+     * @param map Map containing all the arguments that came with this command.
      */
     @Override
     public void gameYourTurn(Map<String, String> map) {
@@ -361,10 +396,13 @@ public class LobbyController extends Controller implements Initializable {
         });
     }
 
+    /**
+     * Button that subscribes the player for a certain game, with certain preferences
+     *
+     * @author Jasper van Dijken
+     * @param event the event of mouse-click
+     */
     public void btnStart(ActionEvent event) {
-        //playAs contains whom the user wants to play as, (String 'AI' or 'Manual')
-        //fullscreen contains if the user wants fullscreen, (Boolean 'true' or 'false')
-        //selectedGame contains the game the user wants to play, (String 'Reversi' or 'Tic-tac-toe')
 
         //Subscribe for game
         Main.serverConnection.subscribe(model.getGame());
@@ -372,16 +410,12 @@ public class LobbyController extends Controller implements Initializable {
         System.out.println("Play as: " + model.getGameMode() + ", Fullscreen: " + model.getFullscreen() + ", Game: " + model.getGame());
     }
 
-
-
     public void btnMatchRequest(ActionEvent event) {
         if (playersTable.getSelectionModel().getSelectedItem() == null) {
             challengeErrorText.setText("ERROR: SELECT AN OPPONENT FIRST!");
             return;
         }
-
         Main.serverConnection.challenge(playersTable.getSelectionModel().getSelectedItem().getName(), model.getGame());
-
     }
 
     /**

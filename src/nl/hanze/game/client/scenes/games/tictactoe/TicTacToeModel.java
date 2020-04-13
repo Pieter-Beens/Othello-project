@@ -209,10 +209,9 @@ public class TicTacToeModel extends GameModel {
 
         }
 
-        /**
-         * @author Jasper van Dijken
-         */
-        //Send the result of the game, redirect to lobby
+        /** @author Jasper van Dijken */
+        //If the game did not take place on the server
+        //Set the result of the game, redirect to the offline menu
         try {
             if (!Main.serverConnection.hasConnection()) {
                 OfflineMenuModel.setResultMessage(msg);

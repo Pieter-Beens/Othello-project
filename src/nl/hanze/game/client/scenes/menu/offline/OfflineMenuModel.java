@@ -2,6 +2,10 @@ package nl.hanze.game.client.scenes.menu.offline;
 
 public class OfflineMenuModel {
 
+    /**
+     * @author Jasper van Dijken
+     */
+
     private String game;
     private String gameMode;
     private int difficulty = 1; //difficulty defaults to Medium
@@ -46,6 +50,7 @@ public class OfflineMenuModel {
 
     public boolean getFullscreen() { return fullscreen; }
 
+    //Result Message
     public static void setResultMessage(String msg) { resultMessage = msg; }
 
     public String getResultMessage() { return resultMessage; }

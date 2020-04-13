@@ -2,6 +2,10 @@ package nl.hanze.game.client.scenes.lobby;
 
 public class LobbyModel {
 
+    /**
+     * @author Jasper van Dijken
+     */
+
     private String gameMode = "ai";
     private String game;
     private boolean fullscreen;

@@ -68,7 +68,9 @@ public class OthelloModel extends GameModel {
     public void nextTurn(boolean lastTurnWasSkipped) {
         super.nextTurn();
 
+        //Default of skippedTurnText is ""
         GameModel.skippedTurnText = "";
+        //When the last turn was skipped, set skippedTurnText
         if (lastTurnWasSkipped) GameModel.skippedTurnText = getInactivePlayer().getName() + " skipped a turn!";
 
         if (!turnHasMoves() && lastTurnWasSkipped) {
