@@ -34,6 +34,7 @@ public class PlayerRow {
     /**
      * Getter for the player property value.
      *
+     * @author Roy Voetman
      * @return The player name.
      */
     public String getNameValue() {
@@ -43,6 +44,7 @@ public class PlayerRow {
     /**
      * Getter for the player property data.
      *
+     * @author Roy Voetman
      * @return The player name.
      */
     public String getName() {
@@ -52,6 +54,7 @@ public class PlayerRow {
     /**
      * Setter for the player name property
      *
+     * @author Roy Voetman
      * @param name Name of the player
      */
     public void setName(String name) {
@@ -61,6 +64,7 @@ public class PlayerRow {
     /**
      * Objects are equal if the have the same Player name.
      *
+     * @author Roy Voetman
      * @param o Object to compare
      * @return boolean indicating if object are the same.
      */
@@ -76,6 +80,7 @@ public class PlayerRow {
     /**
      * Hash the player name.
      *
+     * @author Roy Voetman
      * @return a hash value of the player name.
      */
     @Override
