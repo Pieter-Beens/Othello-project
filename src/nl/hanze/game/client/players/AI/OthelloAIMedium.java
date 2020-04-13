@@ -33,7 +33,7 @@ public class OthelloAIMedium implements AIStrategy {
         for (Field field : validMoves) {
             Field[][] boardPostMove = enactCaptures(field, boardCopy, player, opponent);
             boardPostMove[field.getRowID()][field.getColumnID()].setOwner(player);
-            int boardScore = OthelloModel.getBoardScore(boardPostMove);
+            int boardScore = OthelloModel.getBoardScore(boardPostMove, player, opponent);
             if (boardScore > bestScore) {
                 bestScore = boardScore;
                 chosenMove = new Move(player, field.getRowID(), field.getColumnID());

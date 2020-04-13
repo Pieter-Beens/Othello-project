@@ -3,6 +3,7 @@ package nl.hanze.game.client.scenes.games.othello;
 import javafx.application.Platform;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
+import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.utils.Field;
 
@@ -160,7 +161,7 @@ public class OthelloModel extends GameModel {
         recentMove.setRecentMove();
     }
 
-    public static int getBoardScore(Field[][] board) {
+    public static int getBoardScore(Field[][] board, Player player, Player opponent) {
         int score = 0;
 
         // SOURCE 1: number of valid moves ==========================================================================
@@ -175,27 +176,92 @@ public class OthelloModel extends GameModel {
         // SOURCE 2: stable stones ================================================================================
 
         //TODO: score per stable stone: 10
-        // identify stable stones: count from corners... what about eyes and side pyramids?
+
+        for (Field[] row : board) {
+            for (Field field : row) {
+                if (isStable(field)) {
+                    if (field.getOwner() == player) score += 0;
+                    else score -= 0;
+                }
+            }
+        }
 
         // SOURCE 3: corners and x-corners ========================================================================
 
+        // cornerscore = 15
         //TODO: cornerscore = 10 for every distance from stable stones (yours or opponent's)
         // amazing depending on empty fields to build with...
 
-        //TODO: x-cornerscore = -10 unless associated corner is occupied
+        // x-cornerscore = -10 unless associated corner is occupied
+
+        if (board[0][0].getOwner() == null) {
+            if (board[1][1] != null) {
+                if (board[1][1].getOwner() == player) score += -10;
+                else score += +10;
+            }
+        }
+        else if (board[0][0].getOwner() == player) score += 15;
+        else score += -15;
+
+        if (board[7][0].getOwner() == null) {
+            if (board[6][1] != null) {
+                if (board[6][1].getOwner() == player) score += -10;
+                else score += +10;
+            }
+        }
+        else if (board[7][0].getOwner() == player) score += 10;
+        else score += -10;
+
+        if (board[0][7].getOwner() == null) {
+            if (board[1][6] != null) {
+                if (board[1][6].getOwner() == player) score += -10;
+                else if (board[1][6].getOwner() == opponent) score += +10;
+            }
+        }
+        else if (board[0][7].getOwner() == player) score += 10;
+        else score += -10;
+
+        if (board[7][7].getOwner() == null) {
+            if (board[6][6] != null) {
+                if (board[6][6].getOwner() == player) score += -10;
+                else score += +10;
+            }
+        }
+        else if (board[7][7].getOwner() == player) score += 10;
+        else score += -10;
 
         // SOURCE 4: edge patterns (hardcoded) =====================================================================
+
+        for (int i = 0; i < 8; i++) {
+            if (board[0][i].getOwner() == null) {
+                if (board[1][1] != null) {
+                    if (board[1][1].getOwner() == player) score += -10;
+                    else score += +10;
+                }
+            }
+            else if (board[0][0].getOwner() == player) score += 15;
+            else score += -15;
+        }
 
         String string = "";
         for (int i = 0; i < 8; i++) {
             try { string += board[0][i].getOwner().getSign(); } catch (NullPointerException e) { string += "-"; }
         }
 
-        if (string.equals("-X-XX-X-")) score += 10;
-        //TODO: USE REGEX FOR MORE PATTERNS
+        //if (string.equals("-O-OO-O-")) score += 10;
+        //TODO: USE REGEX FOR PATTERNS
 
         // SOURCE 5: ?????????????? ===============================================================================
 
         return score;
+    }
+
+    public static boolean isStable(Field field) {
+        boolean result = true;
+
+        //TODO: check all directions in sets of two opposites:
+        // if no empty fields on either side, or only same color (and no empty) on one side, field is stable
+
+        return result;
     }
 }
