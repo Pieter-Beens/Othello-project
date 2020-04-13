@@ -172,7 +172,14 @@ public class OfflineMenuController extends Controller implements Initializable {
         }
     }
 
-    public void btnGoBack(ActionEvent actionEvent) throws IOException {
+    /**
+     * Redirect to the previous scene when go back button is clicked.
+     *
+     * @author Roy Voetman
+     * @param event Action event of the button click.
+     * @throws IOException When previous scene FXML can not be found.
+     */
+    public void btnGoBack(ActionEvent event) throws IOException {
         goBack();
     }
 }
