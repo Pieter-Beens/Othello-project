@@ -2,18 +2,11 @@ package nl.hanze.game.client;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import nl.hanze.game.client.scenes.Controller;
 import nl.hanze.game.client.server.ServerConnection;
-
-import java.io.File;
-import java.io.FileInputStream;
 
 /**
  * @author Roy Voetman
