@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 public class Main extends Application {
     public static Stage primaryStage;
     public static ServerConnection serverConnection;
+    public final static char[] alphabet = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'};
 
     public static void main(String[] args) {
         serverConnection = new ServerConnection();

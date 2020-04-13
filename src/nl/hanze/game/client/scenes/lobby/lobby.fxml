@@ -155,6 +155,9 @@
                   </GridPane>
                     </children>
                 </HBox>
+                <HBox alignment="CENTER">
+                    <Text fx:id="challengeErrorText" text="" fill="firebrick" textAlignment="CENTER"/>
+                </HBox>
             </children>
         </VBox>
     </children>
