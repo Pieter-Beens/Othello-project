@@ -1,12 +1,8 @@
 package nl.hanze.game.client.scenes.menu.offline;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,7 +17,7 @@ import java.util.ResourceBundle;
 
 /**
  * @author Bart van Poele
- * @description This Controller handles use input in the Offline game manu
+ * This Controller handles use input from the Offline game menu
  */
 public class OfflineMenuController extends Controller implements Initializable {
     @FXML private TextField turnTimeField;

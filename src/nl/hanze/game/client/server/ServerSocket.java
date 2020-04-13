@@ -13,7 +13,7 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * @author Bart van Poele
- * @description This Runnable sends commands and notifies the Observers of inbound server responses
+ * This Runnable sends commands and notifies the Observers of inbound server responses
  */
 
 public class ServerSocket implements Runnable, Observable {
