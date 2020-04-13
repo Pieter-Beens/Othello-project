@@ -48,6 +48,7 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * Constructs a GameController.
      *
+     * @author Roy Voetman
      * @param model The model for the game.
      * @param turnTime The time players have to do a move.
      */
@@ -60,6 +61,7 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * Getter for the active player in the model.
      *
+     * @author Roy Voetman
      * @return Active Player object.
      */
     public Player getActivePlayer() {
@@ -69,6 +71,7 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * When all FXML elements are set in their Fields bootstrap all elements here.
      *
+     * @author Roy Voetman
      * @param location Uniform Resource of the FXML
      * @param resources Locale-specific objects
      */
@@ -95,6 +98,8 @@ public abstract class GameController extends Controller implements Initializable
 
     /**
      * When players are defined in the model bootstrap the player logic.
+     *
+     * @author Roy Voetman
      */
     public void setup() {
         model.setup();
@@ -104,6 +109,9 @@ public abstract class GameController extends Controller implements Initializable
             acceptNewMoves();
     }
 
+    /**
+     * @author Pieter Beens
+     */
     protected void drawCoordinates(){
         double hPadding = ((680/model.getBoardSize())/2)-6;
         double vPadding = ((680/model.getBoardSize())/2)-12;
@@ -126,41 +134,59 @@ public abstract class GameController extends Controller implements Initializable
             rightFieldId.getChildren().add(label2);
         }
     }
+
+    /**
+     * Ask AI to calculate move or enable valid fields so local player is able to click in the GUI.
+     *
+     * @author Roy Voetman
+     * @param map A map with all the argument from this response.
+     */
     @Override
     public void gameYourTurn(Map<String, String> map) {
         super.gameYourTurn(map);
 
+        // If player is an AI calculate a new move.
         if (model.getActivePlayer().getPlayerType() == PlayerType.AI) {
+            // Calculate the move in a separate thread.
             new Thread(() -> {
                 Move move = model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer());
+
+                // Record move in the model and on the game board.
                 Platform.runLater(() -> {
                     move(move);
 
+                    // Send move to the server.
                     if (Main.serverConnection.hasConnection())
                         Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), model.getBoardSize()));
                 });
             }).start();
         } else {
+            // Enable GUI elements to click on valid moves.
             forfeitButton.setDisable(false);
             getBoardPane().enableValidFields();
         }
     }
 
+    /**
+     * When an opponent's move is received record it.
+     *
+     * @author Roy Voetman
+     * @param map A map with all the argument from this response.
+     */
     @Override
     public void gameMove(Map<String, String> map) {
+        // Ignore move of yourself.
         if (map.get("PLAYER").equals(GameModel.serverName)) return;
 
         super.gameMove(map);
 
+        // Determine coordinates.
         int cell = Integer.parseInt(map.get("MOVE"));
         int[] cords = Move.cellToCords(cell, model.getBoardSize());
 
         System.out.println(Arrays.toString(cords) + "----------------------------");
+        // Record move in the model and on the game board.
         move(new Move(model.getPlayerByName(map.get("PLAYER")), cords[0], cords[1]));
-    }
-    
-    public GameModel getModel() {
-        return model;
     }
 
     /**
@@ -192,10 +218,6 @@ public abstract class GameController extends Controller implements Initializable
             forfeitButton.setDisable(false);
             getBoardPane().enableValidFields();
         }
-    }
-
-    public BoardPane getBoardPane() {
-        return gameBoard;
     }
 
     public void updateTurnLabel(){
@@ -285,5 +307,25 @@ public abstract class GameController extends Controller implements Initializable
         }
         System.out.println(getActivePlayer().getName() + " made an ILLEGAL MOVE!!!");
         return false;
+    }
+
+    /**
+     * Getter for the game model
+     *
+     * @author Roy Voetman
+     * @return The game model
+     */
+    public GameModel getModel() {
+        return model;
+    }
+
+    /**
+     * Getter for the BoardPane
+     *
+     * @author Roy Voetman
+     * @return The BoardPane.
+     */
+    public BoardPane getBoardPane() {
+        return gameBoard;
     }
 }
