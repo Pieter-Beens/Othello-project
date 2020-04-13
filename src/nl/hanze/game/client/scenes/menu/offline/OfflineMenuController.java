@@ -74,7 +74,7 @@ public class OfflineMenuController extends Controller implements Initializable {
         };
         difficultySlider.setLabelFormatter(tickLabelFormatter);
         difficultySlider.setShowTickLabels(true);
-        setDifficultyVisibility(false);
+        //setDifficultyVisibility(false);
         setPlayernamesVisibility(false);
 
         turnTimeField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -110,20 +110,19 @@ public class OfflineMenuController extends Controller implements Initializable {
         playernames.setVisible(b);
     }
 
-    //Sets selectedGame in model
-    @FXML
+
+    //Sets game & gameMode in model, shows or hides difficulty slider accordingly
     public void gameChanged() {
         model.setGame((String) selectedGame.getSelectedToggle().getUserData());
-    }
-
-    //Sets gameMode in model, shows or hides difficulty slider accordingly
-    @FXML
-    public void gameModeChanged() {
         model.setGameMode((String) selectedGameMode.getSelectedToggle().getUserData());
 
         if(model.getGameMode().equals("single-player")){
-            setDifficultyVisibility(true);
             setPlayernamesVisibility(false);
+            if(model.getGame().equals("othello")) {
+                setDifficultyVisibility(true);
+            } else {
+                setDifficultyVisibility(false);
+            }
         } else if(model.getGameMode().equals("multi-player")){
             setDifficultyVisibility(false);
             setPlayernamesVisibility(true);
@@ -172,7 +171,14 @@ public class OfflineMenuController extends Controller implements Initializable {
         }
     }
 
-    public void btnGoBack(ActionEvent actionEvent) throws IOException {
+    /**
+     * Redirect to the previous scene when go back button is clicked.
+     *
+     * @author Roy Voetman
+     * @param event Action event of the button click.
+     * @throws IOException When previous scene FXML can not be found.
+     */
+    public void btnGoBack(ActionEvent event) throws IOException {
         goBack();
     }
 }

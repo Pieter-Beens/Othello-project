@@ -105,24 +105,39 @@ public class OnlineMenuController extends Controller {
     }
 
     /**
+     * This method is called whenever the game server send a response.
+     *
      * @author Roy Voetman
+     * @param response The response from the server
      */
     @Override
     public void update(String response) {
         super.update(response);
 
+        // The only command that is sent in this controller is the "login" command
+        // When an "OK" response is received it should correspond the login (i.e. Login successful).
         if (response.equals("OK")) {
 
+            // Save the settings to the GameModel static fields.
             GameModel.serverName = name.getText();
             GameModel.serverTurnTime = Integer.parseInt(turnTimeField.getText());
+
+            // Load the lobby
             Platform.runLater(() -> {
                 try {
                     loadScene("lobby/lobby.fxml");
-                } catch (IOException ignore) { ignore.printStackTrace(); }
+                } catch (IOException ignore) { }
             });
         }
     }
 
+    /**
+     * Redirect to the previous scene when go back button is clicked.
+     *
+     * @author Roy Voetman
+     * @param event Action event of the button click.
+     * @throws IOException When previous scene FXML can not be found.
+     */
     @FXML
     private void btnGoBack(ActionEvent event) throws IOException {
         goBack();
