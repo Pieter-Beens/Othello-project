@@ -15,6 +15,7 @@ public class Move {
     /**
      * Constructs a Move object.
      *
+     * @author Roy Voetman
      * @param player The player is performing this move.
      * @param row The row in the grid.
      * @param column The column in the grid.
@@ -28,6 +29,7 @@ public class Move {
     /**
      * Calculate the coordinates based on the cell number and board size.
      *
+     * @author Roy Voetman
      * @param cell Cell number.
      * @param boardSize Size of the board.
      * @return An array of the coordinates where index 0 = row and index 1 = column.
@@ -39,6 +41,7 @@ public class Move {
     /**
      * Calculate the cell numbers based on the coordinates and board size.
      *
+     * @author Roy Voetman
      * @param row The row number.
      * @param column The column number.
      * @param boardSize Size of the board.
@@ -51,6 +54,7 @@ public class Move {
     /**
      * Getter for the Player
      *
+     * @author Roy Voetman
      * @return The Player performing this move.
      */
     public Player getPlayer() {
@@ -60,6 +64,7 @@ public class Move {
     /**
      * Getter for the row number
      *
+     * @author Roy Voetman
      * @return The row number
      */
     public int getRow() {
@@ -69,6 +74,7 @@ public class Move {
     /**
      * Getter for the column number
      *
+     * @author Roy Voetman
      * @return The column number
      */
     public int getColumn() {
@@ -78,6 +84,7 @@ public class Move {
     /**
      * Create a string representation of the Object.
      *
+     * @author Roy Voetman
      * @return String representation.
      */
     @Override
