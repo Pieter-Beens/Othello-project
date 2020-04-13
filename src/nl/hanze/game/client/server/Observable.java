@@ -2,7 +2,7 @@ package nl.hanze.game.client.server;
 
 /**
  * @author Bart van Poele
- * @description Implemented by the class that receives server data
+ * Implemented by the class that receives server data
  * Based on the Observer Pattern
  */
 
