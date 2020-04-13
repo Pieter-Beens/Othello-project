@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -23,6 +25,8 @@ import nl.hanze.game.client.scenes.utils.Popup;
 import nl.hanze.game.client.scenes.utils.RequestRow;
 import nl.hanze.game.client.scenes.utils.SelectButton;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -30,6 +34,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class LobbyController extends Controller implements Initializable {
+
+    @FXML
+    public ImageView resultIconLeft;
+
+    @FXML
+    public ImageView resultIconRight;
 
     @FXML
     public HBox gameBtnHBox;
@@ -68,6 +78,8 @@ public class LobbyController extends Controller implements Initializable {
     @FXML
     public Text lastGameResult;
 
+    public String resultIconPath;
+
     //Receives the result-message that should be displayed
     public static String lastGameResultMsg = "";
 
@@ -82,6 +94,7 @@ public class LobbyController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         playersTable.setItems(tableList);
         selectedGame = new ToggleGroup();
+        lastGameResult.setText("\nLobby\nSubscribe for a game:");
 
         /** @author Roy Voetman */
         // Retrieve game list and player list
@@ -104,29 +117,45 @@ public class LobbyController extends Controller implements Initializable {
 
         nameColumn.prefWidthProperty().bind(playersTable.widthProperty().multiply(0.8));
 
-        //Show the result of the last game
-        //lastGameResult.setStyle("-fx-text-fill: #46AF4E;");
-        lastGameResult.setStyle("-fx-text-fill: white;");
-        lastGameResult.setText("\n" + lastGameResultMsg);
+        /** @author Jasper van Dijken */
+        //If there is a result to be displayer
+        if (!lastGameResultMsg.isEmpty()) {
+            //Show the result of the last game
+            lastGameResult.setText("\n" + lastGameResultMsg);
 
-        /*
-        if (lastGameResultMsg.equals("Result of last game:\\nYou won")) {
-            lastGameResult.setStyle("fx-text-fill: #46AF4E;");
+            //If player won, icon = cup
+            if (lastGameResultMsg.contains("You won")) {
+                resultIconPath = "src/resources/O.png";
+            }
+
+            //If player lost, icon = lost
+            if (lastGameResultMsg.contains("You lost")) {
+                resultIconPath = "src/resources/X.png";
+            }
+
+            //If the game resulted in a draw, icon = tie
+            if (lastGameResultMsg.contains("draw")) {
+                resultIconPath = "src/resources/whitestone.png";
+            }
+
+            //Inserting icon
+            Image image;
+            try {
+                image = new Image(new FileInputStream(resultIconPath));
+                resultIconLeft.setImage(image);
+                resultIconRight.setImage(image);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
         }
-         */
 
-        /**
-         * @author Jasper van Dijken
-         */
         challengerColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("name"));
         challengeNumberColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("challengeID"));
         gameColumn.setCellValueFactory(new PropertyValueFactory<RequestRow, String>("game"));
 
     }
 
-    /**
-     * @author Jasper van Dijken
-     */
     private void updateGameBtnGroup() {
         //Split gameListString into a list
         List<String> games = gameList;
