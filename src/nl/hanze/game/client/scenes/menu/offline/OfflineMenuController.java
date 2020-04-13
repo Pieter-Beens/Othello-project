@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 
 /**
  * @author Bart van Poele
- * This Controller handles use input from the Offline game menu
+ * This Controller handles user input from the Offline game menu
  */
 public class OfflineMenuController extends Controller implements Initializable {
     @FXML private ImageView resultIconLeft;
@@ -46,10 +46,8 @@ public class OfflineMenuController extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        //Get the resultMessage from the model, save as the variable ResultMsg
         String resultMsg = model.getResultMessage();
-        //System.out.println("Result: " + model.getResultMessage());
-
-
 
         StringConverter<Double> tickLabelFormatter = new StringConverter<Double>() {
             @Override
@@ -92,22 +90,28 @@ public class OfflineMenuController extends Controller implements Initializable {
 
         /** @author Jasper van Dijken */
         //Game result messages
+        //If there is no result to be displayed, set a title
         if (resultMsg == null) {
             resultMessage.setText("Offline\nGame Settings:");
         } else {
+            //Else, set display the resultMsg
             resultMessage.setText(resultMsg);
+            //If the AI won, set gif path to lost.gif
             if (resultMsg.contains("Julius")) {
                 resultIconPath = "src/resources/lost.gif";
             }
+            //If the AI didn't win, set gif path to win.gif
             if (!resultMsg.contains("Julius")) {
                 resultIconPath = "src/resources/win.gif";
             }
+            //If the game resulted in a tie, set gif path to tie.gif
             if (resultMsg.contains("tied")) {
                 resultIconPath = "src/resources/tie.gif";
             }
 
+            //If the gif path has been set
             if (!resultIconPath.equals("")) {
-                //Inserting icon
+                //Inserting the gifs
                 Image image;
                 try {
                     image = new Image(new FileInputStream(resultIconPath));

@@ -146,7 +146,8 @@ public abstract class GameModel {
         /**
          * @author Jasper van Dijken
          */
-        //Send the result of the game, redirect to lobby
+        //If the game did not take place on the server
+        //Set the result of the game, redirect to the offline menu
         try {
             if (!Main.serverConnection.hasConnection()) {
                 //Popup.display(msg);

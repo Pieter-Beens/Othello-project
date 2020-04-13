@@ -46,6 +46,7 @@ public class OfflineMenuModel {
 
     public boolean getFullscreen() { return fullscreen; }
 
+    //Result Message
     public static void setResultMessage(String msg) { resultMessage = msg; }
 
     public String getResultMessage() { return resultMessage; }

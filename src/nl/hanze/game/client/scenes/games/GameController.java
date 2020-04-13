@@ -235,6 +235,8 @@ public abstract class GameController extends Controller implements Initializable
 
     /**
      * When the scene is changed, cancel the turn timer and empty the skippedTurnText field.
+     *
+     * @author Roy Voetman
      */
     @Override
     public void changeScene() {
@@ -246,6 +248,7 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * Load the previous scene and forfeit the game.
      *
+     * @author Roy Voetman
      * @throws IOException When previous scene FXML can not be found.
      */
     @Override
@@ -260,6 +263,7 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * When a win occurs go to the lobby with a win message.
      *
+     * @author Roy Voetman
      * @param map A map with all the argument from this response.
      */
     @Override
@@ -275,6 +279,7 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * When a loss occurs go to the lobby with a loss message.
      *
+     * @author Roy Voetman
      * @param map A map with all the argument from this response.
      */
     @Override
@@ -291,6 +296,7 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * When a draw occurs go to the lobby with a draw message.
      *
+     * @author Roy Voetman
      * @param map A map with all the argument from this response.
      */
     @Override
@@ -301,6 +307,7 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * Load the lobby scene with a game result message.
      *
+     * @author Roy Voetman
      * @param map A map with all the argument from this response.
      * @param msg Message to be shown in the lobby.
      */
@@ -317,6 +324,8 @@ public abstract class GameController extends Controller implements Initializable
 
     /**
      * Load the lobby scene.
+     *
+     * @author Roy Voetman
      */
     private void goToLobby() {
         try {
@@ -327,6 +336,8 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * All views that should be updated when a move has been recorded.
      * Child classes are open to extend this method.
+     *
+     * @author Roy Voetman
      */
     public void updateViews() {
         gameBoard.update();
@@ -336,6 +347,7 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * Record the move if it was valid in the model and update all the views.
      *
+     * @author Roy Voetman
      * @param move The move that has been done by the active player.
      * @return A boolean indicating if the move was valid.
      */
@@ -347,7 +359,7 @@ public abstract class GameController extends Controller implements Initializable
 
             return true;
         }
-        System.out.println(getActivePlayer().getName() + " made an ILLEGAL MOVE: " + Main.alphabet[move.getRow()] + "," + move.getColumn());
+        System.out.println(getActivePlayer().getName() + " made an ILLEGAL MOVE");
         return false;
     }
 
