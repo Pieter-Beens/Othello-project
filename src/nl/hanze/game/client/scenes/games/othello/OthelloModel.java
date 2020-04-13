@@ -5,6 +5,7 @@ import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.OthelloAIHard;
 import nl.hanze.game.client.players.AI.utils.Move;
 import nl.hanze.game.client.players.Player;
+import nl.hanze.game.client.players.PlayerType;
 import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.utils.Field;
 
@@ -30,6 +31,10 @@ public class OthelloModel extends GameModel {
 
         players[0].changeScore(2);
         players[1].changeScore(2);
+
+        // Tic-Tac-Toe signs are used to calculate the relative value of a player's position in OthelloModel.getBoardScore()
+        players[0].setSign("O");
+        players[1].setSign("X");
 
         super.setup();
     }
@@ -68,7 +73,7 @@ public class OthelloModel extends GameModel {
     public void nextTurn(boolean lastTurnWasSkipped) {
         super.nextTurn();
 
-        GameModel.skippedTurnText = "";
+        if (getActivePlayer().getPlayerType() != PlayerType.LOCAL) GameModel.skippedTurnText = "";
         if (lastTurnWasSkipped) GameModel.skippedTurnText = getInactivePlayer().getName() + " skipped a turn!";
 
         if (!turnHasMoves() && lastTurnWasSkipped) {
@@ -246,10 +251,26 @@ public class OthelloModel extends GameModel {
             }
         }
 
-        String string = "";
+        String northEdge = "";
         for (int i = 0; i < 8; i++) {
-            try { string += board[0][i].getOwner().getSign(); } catch (NullPointerException e) { string += "-"; }
+            try { northEdge += board[0][i].getOwner().getSign(); } catch (NullPointerException e) { northEdge += "-"; }
         }
+
+        String southEdge = "";
+        for (int i = 0; i < 8; i++) {
+            try { southEdge += board[7][i].getOwner().getSign(); } catch (NullPointerException e) { southEdge += "-"; }
+        }
+
+        String westEdge = "";
+        for (int i = 0; i < 8; i++) {
+            try { westEdge += board[i][0].getOwner().getSign(); } catch (NullPointerException e) { westEdge += "-"; }
+        }
+
+        String eastEdge = "";
+        for (int i = 0; i < 8; i++) {
+            try { eastEdge += board[i][7].getOwner().getSign(); } catch (NullPointerException e) { eastEdge += "-"; }
+        }
+
 
         //if (string.equals("-O-OO-O-")) score += 10;
         //TODO: USE REGEX TO SCORE EDGE PATTERNS
