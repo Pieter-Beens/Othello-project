@@ -1,67 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800" prefWidth="1265" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.menu.online.OnlineMenuController">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800" prefWidth="1265" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.menu.online.OnlineMenuController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="10.0" minHeight="463.0" minWidth="600.0" prefHeight="463.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="10.0" minHeight="463.0" minWidth="600.0" prefHeight="463.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER" prefHeight="77.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;">
-               <children>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnGoBack" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="back" textAlignment="CENTER" />
-               </children>
                <padding>
                   <Insets bottom="20.0" top="20.0" />
                </padding></HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" spacing="20.0" style="-fx-background-color: #EDEDED; -fx-background-radius: 20px;" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="300.0" spacing="20.0" style="-fx-background-color: #EDEDED; -fx-background-radius: 20px;" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets left="150.0" right="150.0" />
                </VBox.margin>
                <children>
-                  <GridPane HBox.hgrow="ALWAYS">
+                  <GridPane prefHeight="387.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="40.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="40.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="40.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="40.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="61.0" minHeight="60.0" prefHeight="70.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Server login" textAlignment="CENTER" GridPane.halignment="CENTER">
                            <font>
-                              <Font name="Arial" size="20.0" />
+                              <Font name="System Bold" size="20.0" />
                            </font>
                         </Text>
-                        <TextField fx:id="name" alignment="CENTER" promptText="Player Name..." GridPane.rowIndex="1">
+                        <TextField fx:id="name" alignment="CENTER" minHeight="30.0" promptText="Player Name..." GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
-                           </GridPane.margin></TextField>
-                        <TextField text="145.33.225.170" fx:id="ip" alignment="CENTER" promptText="IP-address..." GridPane.rowIndex="2">
+                           </GridPane.margin>
+                           <font>
+                              <Font size="16.0" />
+                           </font></TextField>
+                        <TextField fx:id="ip" alignment="CENTER" minHeight="30.0" promptText="IP-address..." text="145.33.225.170" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
-                           </GridPane.margin></TextField>
-                        <TextField text="7789" fx:id="port" alignment="CENTER" promptText="Port Number..." GridPane.rowIndex="3">
+                           </GridPane.margin>
+                           <font>
+                              <Font size="16.0" />
+                           </font></TextField>
+                        <TextField fx:id="port" alignment="CENTER" minHeight="30.0" promptText="Port Number..." text="7789" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
-                           </GridPane.margin></TextField>
-                         <TextField fx:id="turnTimeField" alignment="CENTER" promptText="Turn time" GridPane.rowIndex="4">
+                           </GridPane.margin>
+                           <font>
+                              <Font size="16.0" />
+                           </font></TextField>
+                         <TextField fx:id="turnTimeField" alignment="CENTER" minHeight="30.0" promptText="Turn time" GridPane.rowIndex="4">
                              <GridPane.margin>
                                  <Insets left="20.0" right="20.0" />
-                             </GridPane.margin></TextField>
-                        <Text fx:id="errorMsg" fill="RED" layoutX="107.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+                             </GridPane.margin>
                            <font>
-                              <Font name="Arial" size="12.0" />
-                           </font>
-                        </Text>
-                        <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="180.0" mnemonicParsing="false" onAction="#connect" prefHeight="30.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="connect" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+                              <Font size="16.0" />
+                           </font></TextField>
+                        <GridPane GridPane.rowIndex="5">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="145.0" minWidth="10.0" prefWidth="75.0" />
+                            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="229.0" minWidth="10.0" prefWidth="185.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="40.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Button alignment="CENTER" contentDisplay="CENTER" minHeight="30.0" mnemonicParsing="false" onAction="#btnGoBack" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="Back" textAlignment="CENTER" />
+                              <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="180.0" minHeight="30.0" mnemonicParsing="false" onAction="#connect" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: #46AF4E; -fx-text-fill: #FFFF;" text="CONNECT" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <GridPane.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </GridPane.margin>
+                        </GridPane>
                      </children>
                   </GridPane>
                </children>

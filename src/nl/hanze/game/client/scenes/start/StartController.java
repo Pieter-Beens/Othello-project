@@ -13,7 +13,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
+/**
+ * Controller class for the main menu
+ * @author Pieter Beens, Roy Voetman, Jasper van Dijken, Nick Scholma, Bart van Poele
+ */
 public class StartController extends Controller implements Initializable {
     @FXML
     public HBox mode;

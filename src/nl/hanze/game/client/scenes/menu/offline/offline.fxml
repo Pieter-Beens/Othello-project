@@ -1,34 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import nl.hanze.game.client.scenes.utils.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import nl.hanze.game.client.scenes.utils.SelectButton?>
 
-<VBox fx:id="container" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800" prefWidth="1265" stylesheets="@/resources/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.menu.offline.OfflineMenuController">
+<VBox fx:id="container" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800" prefWidth="1265" stylesheets="@/resources/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.hanze.game.client.scenes.menu.offline.OfflineMenuController">
     <children>
-       <HBox alignment="CENTER" prefHeight="77.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;">
-          <children>
-            <GridPane prefHeight="37.0" prefWidth="931.0">
-              <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="334.0" minWidth="10.0" prefWidth="334.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="471.0" minWidth="10.0" prefWidth="262.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="176.0" minWidth="7.0" prefWidth="28.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="307.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                   <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnGoBack" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="back" textAlignment="CENTER" GridPane.columnIndex="1" />
-               </children>
-            </GridPane>
-          </children>
-          <padding>
-             <Insets bottom="20.0" top="20.0" />
-          </padding></HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
             <GridPane prefHeight="100.0" prefWidth="807.0">
@@ -52,15 +43,15 @@
             </GridPane>
          </children>
       </HBox>
-        <GridPane alignment="CENTER">
+        <GridPane alignment="CENTER" prefHeight="205.0" prefWidth="1265.0">
             <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="111.0" minHeight="27.0" prefHeight="111.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="93.0" minHeight="9.0" prefHeight="9.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
 
@@ -68,24 +59,42 @@
                     <GridPane.margin>
                         <Insets right="30.0" />
                     </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
                 </Label>
                 <Label text="Select Game Mode" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets right="30.0" />
                 </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
             </Label>
-                <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" onMouseClicked="#gameChanged" prefWidth="100.0" text="Tic Tac Toe" userData="tictactoe" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" onMouseClicked="#gameChanged" prefHeight="50.0" prefWidth="120.0" text="Tic Tac Toe" userData="tictactoe" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                    <toggleGroup>
                             <ToggleGroup fx:id="selectedGame" />
                    </toggleGroup>
+               <font>
+                  <Font size="16.0" />
+               </font>
                 </SelectButton>
-                <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" onMouseClicked="#gameChanged" prefWidth="100.0" selected="true" text="Single Player" userData="single-player" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" onMouseClicked="#gameChanged" prefHeight="50.0" prefWidth="120.0" selected="true" text="Single Player" userData="single-player" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                     <toggleGroup>
                         <ToggleGroup fx:id="selectedGameMode" />
                     </toggleGroup>
+               <font>
+                  <Font size="16.0" />
+               </font>
                 </SelectButton>
-                <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" onMouseClicked="#gameChanged" prefWidth="100.0" text="Multi Player" toggleGroup="$selectedGameMode" userData="multi-player" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" onMouseClicked="#gameChanged" prefWidth="100.0" selected="true" text="Othello" toggleGroup="$selectedGame" userData="othello" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" onMouseClicked="#gameChanged" prefHeight="50.0" prefWidth="120.0" text="Multi Player" toggleGroup="$selectedGameMode" userData="multi-player" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <font>
+                  <Font size="16.0" />
+               </font></SelectButton>
+                <SelectButton accessibleRole="RADIO_BUTTON" mnemonicParsing="false" onMouseClicked="#gameChanged" prefHeight="50.0" prefWidth="120.0" selected="true" text="Othello" toggleGroup="$selectedGame" userData="othello" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font></SelectButton>
             </children>
             <VBox.margin>
                 <Insets top="30.0" />
@@ -105,6 +114,9 @@
                   <GridPane.margin>
                      <Insets right="30.0" top="10.0" />
                   </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
                </Label>
                <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <children>
@@ -115,6 +127,9 @@
                             <VBox.margin>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </VBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                         </TextField>
                         <TextField fx:id="player2" maxHeight="35" maxWidth="242.0" prefHeight="26.0" prefWidth="240.0" promptText="Enter player name">
                             <padding>
@@ -123,6 +138,9 @@
                             <VBox.margin>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </VBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                         </TextField>
                     </children>
                 </VBox>
@@ -145,6 +163,9 @@
                     <GridPane.margin>
                         <Insets right="30.0" top="10.0" />
                     </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
                 </Label>
                 <Slider fx:id="difficultySlider" blockIncrement="1" majorTickUnit="1" max="2" maxWidth="255.0" minorTickCount="0" onMouseReleased="#onDifficultyChanged" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1" GridPane.columnIndex="1">
                     <GridPane.margin>
@@ -169,6 +190,9 @@
                     <GridPane.margin>
                         <Insets right="30.0" top="10.0" />
                     </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
                 </Label>
                 <TextField fx:id="turnTimeField" maxHeight="35" maxWidth="243.0" prefHeight="26.0" prefWidth="240.0" text="10" GridPane.columnIndex="1">
                     <padding>
@@ -177,6 +201,9 @@
                     <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>
+               <font>
+                  <Font size="16.0" />
+               </font>
                 </TextField>
             </children>
             <padding>
@@ -196,6 +223,9 @@
                     <GridPane.margin>
                         <Insets right="30.0" />
                     </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
                 </Label>
                 <CheckBox fx:id="fullscreen" mnemonicParsing="false" onMouseReleased="#fullscreenReleased" GridPane.columnIndex="1" />
             </children>
@@ -209,12 +239,35 @@
         <HBox alignment="CENTER" prefHeight="38.0" prefWidth="350.0" spacing="40.0">
             <children>
                 <Separator prefWidth="200.0" />
-                <Button fx:id="start" contentDisplay="CENTER" maxHeight="50.0" minHeight="40.0" minWidth="200.0" onAction="#startBtnClicked" prefHeight="40.0" prefWidth="200.0" text="Play!" textAlignment="CENTER" />
+                <Button fx:id="start" contentDisplay="CENTER" maxHeight="50.0" minHeight="40.0" minWidth="200.0" onAction="#startBtnClicked" prefHeight="40.0" prefWidth="200.0" text="Play!" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font></Button>
                 <Separator prefWidth="200.0" />
             </children>
             <VBox.margin>
                 <Insets top="20.0" />
             </VBox.margin>
         </HBox>
+       <HBox alignment="CENTER" prefHeight="77.0" prefWidth="600.0">
+          <children>
+            <GridPane prefHeight="37.0" prefWidth="931.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="334.0" minWidth="10.0" prefWidth="334.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="471.0" minWidth="10.0" prefWidth="262.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="176.0" minWidth="7.0" prefWidth="28.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="307.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                   <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnGoBack" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #CB1519; -fx-text-fill: #FFFF;" text="back" textAlignment="CENTER" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+          </children>
+          <padding>
+             <Insets bottom="20.0" top="20.0" />
+          </padding></HBox>
     </children>
 </VBox>
