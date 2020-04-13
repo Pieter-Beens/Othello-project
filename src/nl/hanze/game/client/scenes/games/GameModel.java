@@ -176,8 +176,8 @@ public abstract class GameModel {
         return elapsedTime;
     }
 
-    public int decreaseElapsedTime() {
-        return elapsedTime--;
+    public void decreaseElapsedTime() {
+        elapsedTime--;
     }
 
     public abstract void recordMove(Move move);
