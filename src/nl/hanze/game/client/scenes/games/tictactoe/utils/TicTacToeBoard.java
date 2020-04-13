@@ -7,7 +7,6 @@ import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.tictactoe.TicTacToeController;
 import nl.hanze.game.client.scenes.games.utils.BoardPane;
 import nl.hanze.game.client.scenes.games.utils.FieldButton;
-import nl.hanze.game.client.scenes.utils.Colors;
 
 /**
  * BoardPane representing the Tic Tac Toe Board
