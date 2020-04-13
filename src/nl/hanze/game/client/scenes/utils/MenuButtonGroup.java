@@ -11,6 +11,12 @@ import java.util.List;
 public class MenuButtonGroup extends HBox {
     private List<MenuButton> buttons;
 
+    /**
+     * Constructs a group of buttons
+     *
+     * @author Roy Voetman
+     * @param buttons List of Menu Buttons that will be grouped
+     */
     public MenuButtonGroup(List<MenuButton> buttons) {
         this.buttons = buttons;
 
@@ -24,12 +30,23 @@ public class MenuButtonGroup extends HBox {
         this.setSpacing(30);
     }
 
+    /**
+     * Select the given btn object.
+     *
+     * @author Roy Voetman
+     * @param btn The button to be selected.
+     */
     public void select(MenuButton btn) {
         this.buttons.forEach(MenuButton::deselect);
 
         btn.select();
     }
 
+    /**
+     * Retrieve the currently selected button in the group.
+     *
+     * @return Selected MenuButton in the group.
+     */
     public MenuButton getActive() {
         for (MenuButton btn : buttons) {
             if (btn.isActive()) {
