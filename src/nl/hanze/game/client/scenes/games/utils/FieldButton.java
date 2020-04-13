@@ -5,6 +5,9 @@ import javafx.scene.paint.Color;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
 
+/**
+ * @author Pieter Beens
+ */
 public class FieldButton extends Button {
 
     private final int rowID;

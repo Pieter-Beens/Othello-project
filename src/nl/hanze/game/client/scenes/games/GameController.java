@@ -8,7 +8,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import nl.hanze.game.client.Main;
 import nl.hanze.game.client.players.AI.utils.Move;
@@ -48,6 +47,7 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * Constructs a GameController.
      *
+     * @author Roy Voetman
      * @param model The model for the game.
      * @param turnTime The time players have to do a move.
      */
@@ -60,6 +60,7 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * Getter for the active player in the model.
      *
+     * @author Roy Voetman
      * @return Active Player object.
      */
     public Player getActivePlayer() {
@@ -69,6 +70,7 @@ public abstract class GameController extends Controller implements Initializable
     /**
      * When all FXML elements are set in their Fields bootstrap all elements here.
      *
+     * @author Roy Voetman
      * @param location Uniform Resource of the FXML
      * @param resources Locale-specific objects
      */
@@ -95,6 +97,8 @@ public abstract class GameController extends Controller implements Initializable
 
     /**
      * When players are defined in the model bootstrap the player logic.
+     *
+     * @author Roy Voetman
      */
     public void setup() {
         model.setup();
@@ -104,6 +108,9 @@ public abstract class GameController extends Controller implements Initializable
             acceptNewMoves();
     }
 
+    /**
+     * @author Pieter Beens
+     */
     protected void drawCoordinates(){
         double hPadding = ((680/model.getBoardSize())/2)-6;
         double vPadding = ((680/model.getBoardSize())/2)-12;
@@ -126,41 +133,59 @@ public abstract class GameController extends Controller implements Initializable
             rightFieldId.getChildren().add(label2);
         }
     }
+
+    /**
+     * Ask AI to calculate move or enable valid fields so local player is able to click in the GUI.
+     *
+     * @author Roy Voetman
+     * @param map A map with all the argument from this response.
+     */
     @Override
     public void gameYourTurn(Map<String, String> map) {
         super.gameYourTurn(map);
 
+        // If player is an AI calculate a new move.
         if (model.getActivePlayer().getPlayerType() == PlayerType.AI) {
+            // Calculate the move in a separate thread.
             new Thread(() -> {
                 Move move = model.getActivePlayer().calculateMove(model.getBoard(), model.getInactivePlayer());
+
+                // Record move in the model and on the game board.
                 Platform.runLater(() -> {
                     move(move);
 
+                    // Send move to the server.
                     if (Main.serverConnection.hasConnection())
                         Main.serverConnection.move(Move.cordsToCell(move.getRow(), move.getColumn(), model.getBoardSize()));
                 });
             }).start();
         } else {
+            // Enable GUI elements to click on valid moves.
             forfeitButton.setDisable(false);
             getBoardPane().enableValidFields();
         }
     }
 
+    /**
+     * When an opponent's move is received record it.
+     *
+     * @author Roy Voetman
+     * @param map A map with all the argument from this response.
+     */
     @Override
     public void gameMove(Map<String, String> map) {
+        // Ignore move of yourself.
         if (map.get("PLAYER").equals(GameModel.serverName)) return;
 
         super.gameMove(map);
 
+        // Determine coordinates.
         int cell = Integer.parseInt(map.get("MOVE"));
         int[] cords = Move.cellToCords(cell, model.getBoardSize());
 
         System.out.println(Arrays.toString(cords) + "----------------------------");
+        // Record move in the model and on the game board.
         move(new Move(model.getPlayerByName(map.get("PLAYER")), cords[0], cords[1]));
-    }
-    
-    public GameModel getModel() {
-        return model;
     }
 
     /**
@@ -194,10 +219,9 @@ public abstract class GameController extends Controller implements Initializable
         }
     }
 
-    public BoardPane getBoardPane() {
-        return gameBoard;
-    }
-
+    /**
+     * @author Bart van Poele
+     */
     public void updateTurnLabel(){
         String player = model.getActivePlayer().getName();
 
@@ -207,6 +231,9 @@ public abstract class GameController extends Controller implements Initializable
         skippedTurnText.setText(GameModel.getSkippedTurnText());
     }
 
+    /**
+     * When the scene is changed, cancel the turn timer and empty the skippedTurnText field.
+     */
     @Override
     public void changeScene() {
         timer.cancel();
@@ -228,6 +255,11 @@ public abstract class GameController extends Controller implements Initializable
         super.goBack();
     }
 
+    /**
+     * When a win occurs go to the lobby with a win message.
+     *
+     * @param map A map with all the argument from this response.
+     */
     @Override
     public void gameWin(Map<String, String> map) {
         String msg = "You won";
@@ -238,6 +270,11 @@ public abstract class GameController extends Controller implements Initializable
         goToLobby(map, msg);
     }
 
+    /**
+     * When a loss occurs go to the lobby with a loss message.
+     *
+     * @param map A map with all the argument from this response.
+     */
     @Override
     public void gameLoss(Map<String, String> map) {
         String msg = "You lost";
@@ -249,14 +286,26 @@ public abstract class GameController extends Controller implements Initializable
         goToLobby(map, msg);
     }
 
+    /**
+     * When a draw occurs go to the lobby with a draw message.
+     *
+     * @param map A map with all the argument from this response.
+     */
     @Override
     public void gameDraw(Map<String, String> map) {
         goToLobby(map, "You came to a draw at "+ model.getPlayerByName(GameModel.serverName).getScore() + " points!");
     }
 
+    /**
+     * Load the lobby scene with a game result message.
+     *
+     * @param map A map with all the argument from this response.
+     * @param msg Message to be shown in the lobby.
+     */
     private void goToLobby(Map<String, String> map, String msg) {
         String serverComment = map.get("COMMENT");
         if (!serverComment.equals("")) {
+            // Add comment from args map to the message.
             msg += "\n" + serverComment;
         }
 
@@ -264,17 +313,30 @@ public abstract class GameController extends Controller implements Initializable
         goToLobby();
     }
 
+    /**
+     * Load the lobby scene.
+     */
     private void goToLobby() {
         try {
             Controller.loadScene("lobby/lobby.fxml");
         } catch (IOException ignore) {}
     }
 
+    /**
+     * All views that should be updated when a move has been recorded.
+     * Child classes are open to extend this method.
+     */
     public void updateViews() {
         gameBoard.update();
         updateTurnLabel();
     }
 
+    /**
+     * Record the move if it was valid in the model and update all the views.
+     *
+     * @param move The move that has been done by the active player.
+     * @return A boolean indicating if the move was valid.
+     */
     public boolean move(Move move) {
         if (model.isValidMove(move)) {
             forfeitButton.setDisable(true);
@@ -285,5 +347,25 @@ public abstract class GameController extends Controller implements Initializable
         }
         System.out.println(getActivePlayer().getName() + " made an ILLEGAL MOVE: " + Main.alphabet[move.getRow()] + "," + move.getColumn());
         return false;
+    }
+
+    /**
+     * Getter for the game model
+     *
+     * @author Roy Voetman
+     * @return The game model
+     */
+    public GameModel getModel() {
+        return model;
+    }
+
+    /**
+     * Getter for the BoardPane
+     *
+     * @author Roy Voetman
+     * @return The BoardPane.
+     */
+    public BoardPane getBoardPane() {
+        return gameBoard;
     }
 }

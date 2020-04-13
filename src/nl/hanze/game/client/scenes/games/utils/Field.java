@@ -3,6 +3,9 @@ package nl.hanze.game.client.scenes.games.utils;
 import nl.hanze.game.client.players.Player;
 import nl.hanze.game.client.players.PlayerType;
 
+/**
+ * @author Pieter Beens
+ */
 public class Field {
     int rowID;
     int columnID;
