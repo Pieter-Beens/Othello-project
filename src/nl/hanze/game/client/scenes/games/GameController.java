@@ -220,6 +220,9 @@ public abstract class GameController extends Controller implements Initializable
         }
     }
 
+    /**
+     * @author Bart van Poele
+     */
     public void updateTurnLabel(){
         String player = model.getActivePlayer().getName();
 
@@ -229,6 +232,9 @@ public abstract class GameController extends Controller implements Initializable
         skippedTurnText.setText(GameModel.getSkippedTurnText());
     }
 
+    /**
+     * When the scene is changed, cancel the turn timer and empty the skippedTurnText field.
+     */
     @Override
     public void changeScene() {
         timer.cancel();
@@ -250,6 +256,11 @@ public abstract class GameController extends Controller implements Initializable
         super.goBack();
     }
 
+    /**
+     * When a win occurs go to the lobby with a win message.
+     *
+     * @param map A map with all the argument from this response.
+     */
     @Override
     public void gameWin(Map<String, String> map) {
         String msg = "You won";
@@ -260,6 +271,11 @@ public abstract class GameController extends Controller implements Initializable
         goToLobby(map, msg);
     }
 
+    /**
+     * When a loss occurs go to the lobby with a loss message.
+     *
+     * @param map A map with all the argument from this response.
+     */
     @Override
     public void gameLoss(Map<String, String> map) {
         String msg = "You lost";
@@ -271,11 +287,22 @@ public abstract class GameController extends Controller implements Initializable
         goToLobby(map, msg);
     }
 
+    /**
+     * When a draw occurs go to the lobby with a draw message.
+     *
+     * @param map A map with all the argument from this response.
+     */
     @Override
     public void gameDraw(Map<String, String> map) {
         goToLobby(map, "You came to a draw at "+ model.getPlayerByName(GameModel.serverName).getScore() + " points!");
     }
 
+    /**
+     * Load the lobby scene with a game result message.
+     *
+     * @param map A map with all the argument from this response.
+     * @param msg Message to be shown in the lobby.
+     */
     private void goToLobby(Map<String, String> map, String msg) {
         String serverComment = map.get("COMMENT");
         if (!serverComment.equals("")) {
@@ -286,17 +313,30 @@ public abstract class GameController extends Controller implements Initializable
         goToLobby();
     }
 
+    /**
+     * Load the lobby scene.
+     */
     private void goToLobby() {
         try {
             Controller.loadScene("lobby/lobby.fxml");
         } catch (IOException ignore) {}
     }
 
+    /**
+     * All views that should be updated when a move has been recorded.
+     * Child classes are open to extend this method.
+     */
     public void updateViews() {
         gameBoard.update();
         updateTurnLabel();
     }
 
+    /**
+     * Record the move if it was valid in the model and update all the views.
+     *
+     * @param move The move that has been done by the active player.
+     * @return A boolean indicating if the move was valid.
+     */
     public boolean move(Move move) {
         if (model.isValidMove(move)) {
             forfeitButton.setDisable(true);
