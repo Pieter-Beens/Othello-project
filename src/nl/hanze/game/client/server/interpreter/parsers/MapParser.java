@@ -3,9 +3,19 @@ package nl.hanze.game.client.server.interpreter.parsers;
 import java.util.*;
 
 /**
+ * Parser to parse dict's (i.e. Items between '{' '}')
+ *
  * @author Roy Voetman
  */
 public class MapParser implements ParseStrategy<Map<String, String>> {
+    /**
+     * Parses all the items between '{' '}' into a map.
+     *
+     * @author Roy Voetman
+     * @param response The response from the server.
+     * @param command The matched command.
+     * @return A map of all the elements in the dict.
+     */
     @Override
     public Map<String, String> parse(String response, String command) {
         String string = response.replace("SVR " + command + " ", "")
