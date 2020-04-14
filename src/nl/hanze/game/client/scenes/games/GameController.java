@@ -111,7 +111,8 @@ public abstract class GameController extends Controller implements Initializable
     }
 
     /**
-     * @author Pieter Beens
+     *
+     * @author Bart van Poele
      */
     protected void drawCoordinates(){
         double hPadding = ((680/model.getBoardSize())/2)-6;

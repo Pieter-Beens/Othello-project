@@ -15,6 +15,14 @@ public class OthelloAIEasy implements AIStrategy {
 
     private Random rand = new Random();
 
+    /**
+     * Easy AI's implementation of AIStrategy interface method. This AI randomly selects a Move from a list of valid moves.
+     * @author Pieter Beens
+     * @param board An Othello gameboard on which the AI is asked to make a move.
+     * @param player Represents the AI player.
+     * @param opponent Represents the AI player's opponent.
+     * @return Returns a move selected according to this AI's algorithm.
+     */
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
         System.out.println("RNGesus is blessing us with His wisdom...");

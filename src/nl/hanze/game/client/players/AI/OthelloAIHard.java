@@ -26,15 +26,12 @@ public class OthelloAIHard implements AIStrategy {
     private static final int ROW = 1;
     private static final int COLUMN = 2;
 
-
-    private static final int MAXDEPTH = 1;
+    private static final int MAXDEPTH = 10;
     private static final int LASTPHASE = 0;
 
     private static final int CORNERSCORE = 20;
     private static final int BORDERSCORE = 5;
     private static final int XCROSSSCORE = -20;
-
-    private static int[][] scoreBoard = null;
 
     /**
      * Main method for this class.
@@ -80,7 +77,7 @@ public class OthelloAIHard implements AIStrategy {
         HashMap<Integer, Field> opponentResponse = new HashMap<>();
 
         if (depth >= MAXDEPTH) { //base case for the recursive call
-            if (MAXDEPTH % 2 == 0) {
+            if (activePlayer.getPlayerType() == PlayerType.AI) {
                 score = OthelloModel.getBoardScore(board, activePlayer, inactivePlayer); //calculate the value of this current board
                 //score = calculateScore(board, activePlayer, inactivePlayer);
             }
