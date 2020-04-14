@@ -85,7 +85,7 @@
                               <Insets left="20.0" right="20.0" />
                            </GridPane.margin>
                         </GridPane>
-                        <Text fx:id="errorMsg" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="5" />
+                        <Text fx:id="errorMsg" fill="#f50000" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
                </children>
