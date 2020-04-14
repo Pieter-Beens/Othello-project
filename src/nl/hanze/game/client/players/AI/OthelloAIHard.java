@@ -26,7 +26,7 @@ public class OthelloAIHard implements AIStrategy {
     private static final int ROW = 1;
     private static final int COLUMN = 2;
 
-    private static final int MAXDEPTH = 5;
+    private static final int MAXDEPTH = 6;
     private static final int LASTPHASE = 0;
 
     private static final int CORNERSCORE = 20;
@@ -139,41 +139,34 @@ public class OthelloAIHard implements AIStrategy {
      * @param board A double array of Fields, on which the othello game is played.
      * @param lastMoveWasValid A boolean that keeps track on whether or not the previous player could play their last
      *                         move. 2 players unable to play in a row constitutes a game end.
-     * @param player An instance of the Player class, representing the current player, for which the best score will be
+     * @param activePlayer An instance of the Player class, representing the current player, for which the best score will be
      *               calculated.
-     * @param opponent An instance of the Player class, representing the opponent of the player.
+     * @param inactivePlayer An instance of the Player class, representing the opponent of the player.
      * @return Returns an int array containing the score of the best move, the row of the best move, and the column of
      * the best move.
      */
-    public int[] minMaxNotHeuristic(Field[][] board, boolean lastMoveWasValid, Player player, Player opponent) {
+    public int[] minMaxNotHeuristic(Field[][] board, boolean lastMoveWasValid, Player activePlayer, Player inactivePlayer) {
         int score;
-        int bestScore = -5000;
+        int bestScore;
         int bestRow = -1;
         int bestCol = -1;
 
-        ArrayList<Field> validMoves = checkFieldValidity(board, player, opponent);
-
-        for(Field cell : validMoves) {
-            cell.setOwner(player);
-            Field[][] boardCopy = enactCaptures(cell, board, player, opponent);
-            score = minMaxNotHeuristic(boardCopy, true, opponent, player)[SCORE];
-            cell.setOwner(null);
-            if ((score > bestScore && player.getPlayerType() == PlayerType.AI) ||
-                    (score < bestScore && player.getPlayerType() != PlayerType.AI)) {
-                bestScore = score;
-                bestRow = cell.getRowID();
-                bestCol = cell.getRowID();
-            }
+        if (activePlayer.getPlayerType() == PlayerType.AI) {
+            bestScore = -50;
+        } else {
+            bestScore = 50;
         }
+
+        ArrayList<Field> validMoves = checkFieldValidity(board, activePlayer, inactivePlayer);
 
         if (validMoves.isEmpty()) {
             if (lastMoveWasValid) {
-                bestScore = minMaxNotHeuristic(board, false, opponent, player)[SCORE];
+                bestScore = minMaxNotHeuristic(board, false, inactivePlayer, activePlayer)[SCORE];
             }
             else { //2 invalid moves in a row? Game has ended!
-                String boardWinCondition = didPlayerWin(board, player);
+                String boardWinCondition = didPlayerWin(board, activePlayer);
                 if (boardWinCondition.equals("win")) {
-                    if (player.getPlayerType() == PlayerType.AI) {
+                    if (activePlayer.getPlayerType() == PlayerType.AI) {
                         return new int[] {1}; //Julius has won
                     }
                     else {
@@ -181,7 +174,7 @@ public class OthelloAIHard implements AIStrategy {
                     }
                 }
                 else if (boardWinCondition.equals("lose")) {
-                    if (player.getPlayerType() == PlayerType.AI) {
+                    if (activePlayer.getPlayerType() == PlayerType.AI) {
                         return new int[] {-1}; //Julius has lost
                     }
                     else {
@@ -191,6 +184,19 @@ public class OthelloAIHard implements AIStrategy {
                 else {//draw
                     return new int[] {0};
                 }
+            }
+        }
+
+        for(Field cell : validMoves) {
+            Field[][] boardCopy = enactCaptures(cell, board, activePlayer, inactivePlayer);
+            boardCopy[cell.getRowID()][cell.getColumnID()].setOwner(activePlayer);
+            score = minMaxNotHeuristic(boardCopy, true, inactivePlayer, activePlayer)[SCORE];
+            cell.setOwner(null);
+            if ((score > bestScore && activePlayer.getPlayerType() == PlayerType.AI) ||
+                    (score < bestScore && activePlayer.getPlayerType() != PlayerType.AI)) {
+                bestScore = score;
+                bestRow = cell.getRowID();
+                bestCol = cell.getRowID();
             }
         }
         return new int[]{bestScore, bestRow, bestCol};
