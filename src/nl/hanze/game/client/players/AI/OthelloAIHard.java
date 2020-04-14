@@ -26,7 +26,7 @@ public class OthelloAIHard implements AIStrategy {
     private static final int ROW = 1;
     private static final int COLUMN = 2;
 
-    private static final int MAXDEPTH = 7;
+    private static final int MAXDEPTH = 5;
     private static final int LASTPHASE = 0;
 
     private static final int CORNERSCORE = 20;
@@ -45,59 +45,17 @@ public class OthelloAIHard implements AIStrategy {
     @Override
     public Move determineNextMove(Field[][] board, Player player, Player opponent) {
         System.out.println("Julius is thinking...");
-
         board = cloneBoard(board);
-        if (scoreBoard == null) setupScoreBoard(board);
 
         int[] move;
-        if (emptyFields(board) < LASTPHASE) { //if the amount of empty fields left is less than the lastphase field
+        if (countEmptyFields(board) < LASTPHASE) { //if the amount of empty fields left is less than the lastphase field
+            System.out.println(">USING LASTPHASE AI<");
             move = minMaxNotHeuristic(board, true, player, opponent);
         } //then we've reached the final phase and can calculate a win all the way
         else {
             move = minMax(board, 0, player, opponent); //otherwise, just use the regular minmax
         }
         return new Move(player, move[ROW], move[COLUMN]);
-    }
-
-    /**
-     * This method creates a score based on the squares of an othello board
-     * @param board the board for which a score needs to be made. Only relevant for its length. A double array of
-     *              Fields.
-     */
-    private void setupScoreBoard(Field[][] board) {
-        scoreBoard = new int[board.length][board.length];
-        for (int r = 0; r < board.length; r++) {
-            for (int c = 0; c < board.length; c++) {
-                if ((c == 0 && r == 0) ||
-                        (c == 7 && r == 0) ||
-                        (c == 0 && r == 7) ||
-                        (c == 7 && r == 7)) {
-                    scoreBoard[r][c] = CORNERSCORE;
-                } else if (c == 0 || c == 7
-                        || r == 0 || r == 7) {
-                    scoreBoard[r][c] = BORDERSCORE;
-                } else if ((c == 1 && r == 1) ||
-                        (c == 6 && r == 1) ||
-                        (c == 1 && r == 6) ||
-                        (c == 6 && r == 6)) {
-                    scoreBoard[r][c] = XCROSSSCORE;
-                } else {
-                    scoreBoard[r][c] = 1;
-                }
-            }
-        }
-
-        //TODO: see if I can't make this method more efficient using model commented below
-
-//        scoreBoard[0][0] = CORNERSCORE;
-//        scoreBoard[7][0] = CORNERSCORE;
-//        scoreBoard[0][7] = CORNERSCORE;
-//        scoreBoard[7][7] = CORNERSCORE;
-//
-//        scoreBoard[1][1] = XCROSSSCORE;
-//        scoreBoard[6][1] = XCROSSSCORE;
-//        scoreBoard[1][6] = XCROSSSCORE;
-//        scoreBoard[6][6] = XCROSSSCORE;
     }
 
     /**
@@ -125,7 +83,7 @@ public class OthelloAIHard implements AIStrategy {
                 score = OthelloModel.getBoardScore(board, activePlayer, inactivePlayer); //calculate the value of this current board
                 //score = calculateScore(board, activePlayer, inactivePlayer);
             }
-            else { //if the max depth is an odd number, Julius is the opponent instead of the player
+            else { //if the max depth is an odd number, Julius is the inactive player instead of the active player
                 score = OthelloModel.getBoardScore(board, inactivePlayer, activePlayer);
                 //score = calculateScore(board, inactivePlayer, activePlayer);
             }
@@ -187,8 +145,7 @@ public class OthelloAIHard implements AIStrategy {
      * @return Returns an int array containing the score of the best move, the row of the best move, and the column of
      * the best move.
      */
-    private int[] minMaxNotHeuristic(Field[][] board, boolean lastMoveWasValid, Player player, Player opponent) {
-
+    public int[] minMaxNotHeuristic(Field[][] board, boolean lastMoveWasValid, Player player, Player opponent) {
         int score;
         int bestScore = -5000;
         int bestRow = -1;
@@ -244,7 +201,7 @@ public class OthelloAIHard implements AIStrategy {
      * @param board A double array of Fields for which the number of unoccupied cells will be counted.
      * @return an int, representing the number of unoccupied fields on the given board.
      */
-    private int emptyFields(Field[][] board) {
+    public int countEmptyFields(Field[][] board) {
         int returnInt = 0;
         for (Field[] row : board) {
             for (Field field : row) {
@@ -254,71 +211,6 @@ public class OthelloAIHard implements AIStrategy {
             }
         }
         return returnInt;
-    }
-
-    /**
-     * Method which calculates the score on a given board.
-     * @param board The Othello board for which the score needs to be calculated. A double array of Fields.
-     * @param player The Player for which we're calculating the score.
-     * @param opponent An instance of the Player class representing the player's opponent.
-     * @return The score on the board, calculated for the player.
-     */
-    private int calculateScore(Field[][] board, Player player, Player opponent) {
-        int score = 0;
-        for (Field[] row : board) {
-            for (Field field : row) {
-                if (field.getOwner() == player) {
-                    score += scoreBoard[field.getColumnID()][field.getRowID()];
-                    if ((field.getColumnID() == 1 && field.getRowID() == 1) &&
-                            (board[0][0].getOwner() == player)) {
-                        score -= XCROSSSCORE; //it's okay to have the XCross if we also have the associated corner
-                    } else if ((field.getColumnID() == 6 && field.getRowID() == 1) &&
-                            (board[7][0].getOwner() == player)) {
-                        score -= XCROSSSCORE;
-                    } else if ((field.getColumnID() == 1 && field.getRowID() == 6) &&
-                            (board[0][7].getOwner() == player)) {
-                        score -= XCROSSSCORE;
-                    } else if ((field.getColumnID() == 6 && field.getRowID() == 6) &&
-                            (board[7][7].getOwner() == player)) {
-                        score -= XCROSSSCORE;
-                    }
-                } else if (field.getOwner() == opponent) {
-                    score -= scoreBoard[field.getColumnID()][field.getRowID()];
-                    if ((field.getColumnID() == 1 && field.getRowID() == 1) &&
-                            (board[0][0].getOwner() == opponent)) {
-                        score += XCROSSSCORE; //same as above, but mirrored for the opponent
-                    } else if ((field.getColumnID() == 6 && field.getRowID() == 1) &&
-                            (board[7][0].getOwner() == opponent)) {
-                        score += XCROSSSCORE;
-                    } else if ((field.getColumnID() == 1 && field.getRowID() == 6) &&
-                            (board[0][7].getOwner() == opponent)) {
-                        score += XCROSSSCORE;
-                    } else if ((field.getColumnID() == 6 && field.getRowID() == 6) &&
-                            (board[7][7].getOwner() == opponent)) {
-                        score += XCROSSSCORE;
-                    }
-                }
-            }
-        }
-        //=========================DEBUG
-//        String rt = "";
-//        for (Field[] row : board) {
-//            for (Field field : row) {
-//                rt += field;
-//            }
-//            rt += "\n";
-//        }
-//        String type;
-//        if (player.getPlayerType() == PlayerType.AI) {
-//            type = "an AI";
-//        }
-//        else {
-//            type = "a human person";
-//        }
-//        System.out.println("SCORE OF THIS BOARD IS: " + score + ", calculated for " + type);
-//        System.out.println(rt);
-        //=========================DEBUG
-        return score;
     }
 
     /**
@@ -460,7 +352,7 @@ public class OthelloAIHard implements AIStrategy {
      * @param board A double array of Field instances, which needs to be cloned.
      * @return A double array of Field instances, every field instance a copy of the ones in the given board.
      */
-    private Field[][] cloneBoard(Field[][] board) {
+    public Field[][] cloneBoard(Field[][] board) {
         Field[][] boardCopy = new Field[8][8];
         for (int r = 0; r < 8; r++) {
             for (int c = 0; c < 8; c++) {
@@ -469,12 +361,5 @@ public class OthelloAIHard implements AIStrategy {
             }
         }
         return boardCopy;
-    }
-
-    private Move perfectEnding(Field[][] board, Player player, Player opponent) {
-
-        //TODO: insert minmax to win/loss, or perhaps better... maximum captures!
-
-        return new Move(player, 0, 0); //PLACEHOLDER
     }
 }

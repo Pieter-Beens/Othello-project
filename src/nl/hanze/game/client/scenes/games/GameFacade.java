@@ -61,8 +61,8 @@ public class GameFacade {
         game = game.toLowerCase().replace("-", "");
 
         // Create an AIPlayer and a local player.
-        Player player1 = new AIPlayer("Julius", PlayerType.AI, aiFactory.create(game, difficulty));
-        //Player player2 = new AIPlayer("RoboPieter", PlayerType.AI, aiFactory.create(game, 1)); // USE TO TEST AGAINST MEDIUM AI
+        Player player1 = new AIPlayer("Computer", PlayerType.AI, aiFactory.create(game, difficulty));
+        //Player player2 = new AIPlayer("MEDIUM", PlayerType.AI, aiFactory.create(game, 1)); // USE TO TEST AGAINST MEDIUM AI
         Player player2 = new Player("You", PlayerType.LOCAL);
 
         startOffline(player1, player2, game, fullscreen, turnTime);
@@ -109,7 +109,7 @@ public class GameFacade {
         // Create the first player based on the provided params.
         Player player1;
         if (playerType == PlayerType.AI) {
-            player1 = new AIPlayer(GameModel.serverName, playerType, aiFactory.create(game, 2));
+            player1 = new AIPlayer(GameModel.serverName, playerType, aiFactory.create(game, 1));
         } else {
             player1 = new Player(GameModel.serverName, playerType);
         }

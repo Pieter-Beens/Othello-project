@@ -11,6 +11,8 @@ import nl.hanze.game.client.scenes.games.utils.Field;
 
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Pieter Beens
@@ -31,10 +33,6 @@ public class OthelloModel extends GameModel {
 
         players[0].changeScore(2);
         players[1].changeScore(2);
-
-        // Tic-Tac-Toe signs are used to calculate the relative value of a player's position in OthelloModel.getBoardScore()
-        players[0].setSign("O");
-        players[1].setSign("X");
 
         super.setup();
     }
@@ -183,27 +181,54 @@ public class OthelloModel extends GameModel {
 
         for (Field[] row : board) {
             for (Field field : row) {
-                if (!OthelloAIHard.getCaptures(field, board, opponent, player, false).isEmpty()) score += -1;
+                if (!OthelloAIHard.getCaptures(field, board, opponent, player).isEmpty()) score += -1;
             }
         }
 
         // SOURCE 2: stable stones ================================================================================
 
-        //TODO: score per stable stone: 10
+        //TODO: 15 points per stable stone
 
-        for (Field[] row : board) {
-            for (Field field : row) {
-                if (isStable(field)) {
-                    if (field.getOwner() == player) score += 0;
-                    else score -= 0;
-                }
-            }
-        }
+//        int i = 0;
+//        int x = 0;
+//        while (true) {
+//            try{
+//                if (board[x][i].getOwner() == player) score += 15;
+//                else {
+//                    i = -1;
+//                    x++;
+//                }
+//            } catch (NullPointerException ignore) {}
+//            i++;
+//        }
+//
+//        try {
+//            if (board[0][0].getOwner() == player) {
+//                score += stablePoints(0, 0, 1);
+//            } else if (board[0][0].getOwner() == opponent) {
+//                score -= stablePoints(0, 0, 1);
+//            }
+//        } catch (NullPointerException ignore) {}
+//
+//        for (Field[] row : board) {
+//            for (Field field : row) {
+//
+//            }
+//        }
+//
+//        for (Field[] row : board) {
+//            for (Field field : row) {
+//                if (isStable(field)) {
+//                    if (field.getOwner() == player) score += 15;
+//                    else score -= 15;
+//                }
+//            }
+//        }
 
         // SOURCE 3: corners and x-corners ========================================================================
 
 
-        // x-cornerscore = -10 unless associated corner is occupied
+        // x-cornerscore is added the unless associated corner is occupied
 
         //TODO: cornerscore = 10 for every distance from stable stones (yours or opponent's)
         // amazing depending on empty fields to build with...
@@ -214,8 +239,8 @@ public class OthelloModel extends GameModel {
                 else score += +100;
             }
         }
-        else if (board[0][0].getOwner() == player) score += 250;
-        else score += -250;
+        else if (board[0][0].getOwner() == player) score += 200;
+        else score += -200;
 
         if (board[7][0].getOwner() == null) {
             if (board[6][1].getOwner() != null) {
@@ -223,8 +248,8 @@ public class OthelloModel extends GameModel {
                 else score += +100;
             }
         }
-        else if (board[7][0].getOwner() == player) score += 250;
-        else score += -250;
+        else if (board[7][0].getOwner() == player) score += 200;
+        else score += -200;
 
         if (board[0][7].getOwner() == null) {
             if (board[1][6].getOwner() != null) {
@@ -232,8 +257,8 @@ public class OthelloModel extends GameModel {
                 else score += +100;
             }
         }
-        else if (board[0][7].getOwner() == player) score += 250;
-        else score += -250;
+        else if (board[0][7].getOwner() == player) score += 200;
+        else score += -200;
 
         if (board[7][7].getOwner() == null) {
             if (board[6][6].getOwner() != null) {
@@ -241,52 +266,102 @@ public class OthelloModel extends GameModel {
                 else score += +100;
             }
         }
-        else if (board[7][7].getOwner() == player) score += 250;
-        else score += -250;
+        else if (board[7][7].getOwner() == player) score += 200;
+        else score += -200;
 
-        // SOURCE 4: edge patterns (hardcoded) =====================================================================
+        // SOURCE 4: edges ===================== =====================================================================
 
-        // every edge field is worth 3 points
+        // every edge field is worth x points
         for (int i = 2; i < 6; i++) {
             if (board[0][i].getOwner() != null) {
                 if (board[0][i].getOwner() == player) score += 20;
                 else score += -20;
             }
+            if (board[i][0].getOwner() != null) {
+                if (board[i][0].getOwner() == player) score += 20;
+                else score += -20;
+            }
+            if (board[7][i].getOwner() != null) {
+                if (board[7][i].getOwner() == player) score += 20;
+                else score += -20;
+            }
+            if (board[i][7].getOwner() != null) {
+                if (board[i][7].getOwner() == player) score += 20;
+                else score += -20;
+            }
         }
 
-        String northEdge = "";
-        for (int i = 0; i < 8; i++) {
-            try { northEdge += board[0][i].getOwner().getSign(); } catch (NullPointerException e) { northEdge += "-"; }
+        // build Strings based on edge fields
+        String[] edgeStrings = new String[]{"","","",""};
+
+        for (int j = 0; j < 8; j++) {
+            if (board[0][j].getOwner() == null) edgeStrings[0] += "-";
+            else edgeStrings[0] += (board[0][j].getOwner() == player) ? "X" : "O";
+        }
+        //System.out.println(edgeStrings[0]);
+        for (int j = 0; j < 8; j++) {
+            if (board[j][0].getOwner() == null) edgeStrings[1] += "-";
+            else edgeStrings[1] += (board[j][0].getOwner() == player) ? "X" : "O";
+        }
+        //System.out.println(edgeStrings[1]);
+        for (int j = 0; j < 8; j++) {
+            if (board[7][j].getOwner() == null) edgeStrings[2] += "-";
+            else edgeStrings[2] += (board[7][j].getOwner() == player) ? "X" : "O";
+        }
+        //System.out.println(edgeStrings[2]);
+        for (int j = 0; j < 8; j++) {
+            if (board[j][7].getOwner() == null) edgeStrings[3] += "-";
+            else edgeStrings[3] += (board[j][7].getOwner() == player) ? "X" : "O";
+        }
+        //System.out.println(edgeStrings[3]);
+
+        // check regex patterns
+        for (String edge : edgeStrings) {
+            if (Pattern.matches("-+O+X+-+", edge)) {
+                score += -20;
+            }
+            else if (Pattern.matches("-+X+O+-+", edge)) {
+                score += -20;
+            }
+            if (Pattern.matches("^-X+O", edge)) {
+                score += -120;
+            }
+            else if (Pattern.matches("OX+-$", edge)) {
+                score += -120;
+            }
+            if (Pattern.matches("^-X+-X+", edge)) {
+                score += -80;
+            }
+            else if (Pattern.matches("X+-X+-$", edge)) {
+                score += -80;
+            }
+            if (Pattern.matches("^--+X+-X+", edge)) {
+                score += -20;
+            }
+            else if (Pattern.matches("X+-X+-+-$", edge)) {
+                score += -20;
+            }
+            if (Pattern.matches("^-X+-X+O+", edge)) {
+                score += +40;
+            }
+            else if (Pattern.matches("O+X+-X+-$", edge)) {
+                score += +40;
+            }
+            if (Pattern.matches("^-O+X+-X+", edge)) {
+                score += +120;
+            }
+            else if (Pattern.matches("X+-X+O+-$", edge)) {
+                score += +120;
+            }
+            if (edge.equals("--X--X--")) score+= 25;
         }
 
-        String southEdge = "";
-        for (int i = 0; i < 8; i++) {
-            try { southEdge += board[7][i].getOwner().getSign(); } catch (NullPointerException e) { southEdge += "-"; }
-        }
 
-        String westEdge = "";
-        for (int i = 0; i < 8; i++) {
-            try { westEdge += board[i][0].getOwner().getSign(); } catch (NullPointerException e) { westEdge += "-"; }
-        }
-
-        String eastEdge = "";
-        for (int i = 0; i < 8; i++) {
-            try { eastEdge += board[i][7].getOwner().getSign(); } catch (NullPointerException e) { eastEdge += "-"; }
-        }
-
-
-        //if (string.equals("-O-OO-O-")) score += 10;
-        //TODO: USE REGEX TO SCORE EDGE PATTERNS
+        // FOR INCREASED PERFORMANCE:
+//        Pattern simpleCapture = Pattern.compile("^-+O+X+");
+//        Matcher m = Pattern.matches("^-+O+X+", "hoi");
+//        boolean b = m.matches();
 
         return score;
-    }
-
-    public static boolean isStable(Field field) {
-        boolean result = true;
-
-        //TODO: check all directions in sets of two opposites:
-        // if no empty fields on either side, or only same color (and no empty) on one side, field is stable
-
-        return result;
     }
 }
