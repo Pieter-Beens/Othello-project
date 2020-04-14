@@ -28,9 +28,8 @@ public class ServerSocket implements Runnable, Observable {
     );
 
     /**
-     *
      * @param socket: the socket of the connection
-     * @param queue: the Queue of the commands to be send
+     * @param queue: the Queue containing the commands to be send
      * @throws IOException when IO issues occur
      */
     public ServerSocket(Socket socket, BlockingQueue<String> queue) throws IOException {
@@ -47,6 +46,7 @@ public class ServerSocket implements Runnable, Observable {
         String response;
 
         while (running) {
+            //send commands to the server if available
             while ((command = commandQueue.poll()) != null) {
                 System.out.println(command);
                 out.println(command);
@@ -56,6 +56,7 @@ public class ServerSocket implements Runnable, Observable {
             }
 
             try {
+                //read server responses and notify observers
                 while (in.ready() && (response = in.readLine()) != null) {
                     if (ignoredResponses.contains(response)) {
                         continue;

@@ -39,7 +39,7 @@ public class Main extends Application {
      *
      * @author Roy Voetman
      * @param primaryStage The created primary stage.
-     * @throws IOException When the start.fxml file is not found
+     * @throws IOException When issues occur regarding file retrieval
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -49,13 +49,14 @@ public class Main extends Application {
         primaryStage.setResizable(true);
 
         Main.primaryStage = primaryStage;
-        Scene scene = new Scene(new Pane());
-        scene.getStylesheets().add("/resources/style.css");
-        Main.primaryStage.setScene(scene);
         Main.primaryStage.setMinHeight(800);
         Main.primaryStage.setMinWidth(1265);
-        Controller.loadScene("start/start.fxml");
 
+        Scene scene = new Scene(new Pane());
+        Main.primaryStage.setScene(scene);
+        scene.getStylesheets().add("/resources/style.css");
+
+        Controller.loadScene("start/start.fxml");
 
         //Close background process on close
         primaryStage.setOnCloseRequest(t -> {

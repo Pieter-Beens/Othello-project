@@ -4,18 +4,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Font;
 import nl.hanze.game.client.scenes.games.GameController;
-import nl.hanze.game.client.scenes.games.GameModel;
 import nl.hanze.game.client.scenes.games.othello.utils.OthelloBoard;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * @author Pieter Beens
+ * @author Pieter Beens & Bart van Poele
  */
 
 public class OthelloController extends GameController {
@@ -53,7 +50,7 @@ public class OthelloController extends GameController {
         scoreLabel1.setText(scoreLabel1Text);
 
         if (player2Name.equals("You")) scoreLabel2Text = "Your score: ";
-        else scoreLabel2Text = player1Name + "'s score: ";
+        else scoreLabel2Text = player2Name + "'s score: ";
         scoreLabel2.setText(scoreLabel2Text);
 
 
