@@ -26,7 +26,7 @@ public class OthelloAIHard implements AIStrategy {
     private static final int ROW = 1;
     private static final int COLUMN = 2;
 
-    private static final int MAXDEPTH = 5;
+    private static final int MAXDEPTH = 1;
     private static final int LASTPHASE = 0;
 
     private static final int CORNERSCORE = 20;
