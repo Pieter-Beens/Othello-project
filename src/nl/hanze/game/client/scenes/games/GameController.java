@@ -111,7 +111,7 @@ public abstract class GameController extends Controller implements Initializable
     }
 
     /**
-     *
+     * This draws the field coordinates around the board view
      * @author Bart van Poele
      */
     protected void drawCoordinates(){
