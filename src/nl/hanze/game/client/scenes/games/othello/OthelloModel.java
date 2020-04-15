@@ -23,6 +23,10 @@ public class OthelloModel extends GameModel {
         super(8);
     }
 
+    /**
+     * Sets up the game starting position (four stones in the middle of the board) and initial player score (2 each),
+     * then call super.
+     */
     @Override
     public void setup() {
         // sets up the opening state of the game with two stones of each color in the middle of the board
@@ -37,6 +41,10 @@ public class OthelloModel extends GameModel {
         super.setup();
     }
 
+    /**
+     * Method to place a stone on the board based on the information in a Move object.
+     * @param move The move being played. Includes data on coordinates and the Player whose move it is.
+     */
     @Override
     public void recordMove(Move move) {
         Field targetField = board[move.getRow()][move.getColumn()];
@@ -57,6 +65,10 @@ public class OthelloModel extends GameModel {
         nextTurn(false);
     }
 
+    /**
+     * Checks for the validity of all fields (meaning that placing a stone there would lead to at least one capture)
+     * and sets the validity boolean in Field.
+     */
     @Override
     public void updateFieldValidity() {
         for (Field[] row : board) {
@@ -67,6 +79,11 @@ public class OthelloModel extends GameModel {
         }
     }
 
+    /**
+     * Othello-specific method to go to the next turn which can detect when a game has ended/
+     * THIS IS NOT A METHOD OVERRIDE: the parent class' nextTurn doesn't accept any parameters.
+     * @param lastTurnWasSkipped Used to see if a lack of valid moves in the next turn would cause the game to end.
+     */
     // Note this is not an override! The parent class' nextTurn() accepts no parameters...
     public void nextTurn(boolean lastTurnWasSkipped) {
         super.nextTurn();

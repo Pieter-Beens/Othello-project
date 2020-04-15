@@ -28,6 +28,11 @@ public class OthelloController extends GameController {
         super(model, turnTime);
     }
 
+    /**
+     * Initialises all JavaFX components with Othello-specific information and settings.
+     * @param location Uniform Resource of the FXML
+     * @param resources Locale-specific objects
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -41,6 +46,9 @@ public class OthelloController extends GameController {
         drawCoordinates();
     }
 
+    /**
+     * Sets Othello score label text and then calls super.
+     */
     public void setup() {
         String player1Name = model.getPlayer(0).getName();
         String player2Name = model.getPlayer(1).getName();
@@ -54,7 +62,7 @@ public class OthelloController extends GameController {
         scoreLabel2.setText(scoreLabel2Text);
 
 
-        //TODO: make this work and set visible/invisble on correct turns
+        //TODO: set visible/invisible on correct turns
         try {
             graphic1 = new ImageView(new Image(new FileInputStream("src/resources/blackstone.png")));
             graphic2 = new ImageView(new Image(new FileInputStream("src/resources/whitestone.png")));
@@ -65,6 +73,9 @@ public class OthelloController extends GameController {
         super.setup();
     }
 
+    /**
+     * Used to update all Othello-specific JavaFX components at the start of the game, and after every turn.
+     */
     @Override
     public void updateViews() {
         super.updateViews();
@@ -77,6 +88,9 @@ public class OthelloController extends GameController {
         System.out.println("=====Turn " + model.getTurnCount() + ": how is the board looking for " + getActivePlayer().getName() + "? " + boardScore);
     }
 
+    /**
+     * Updates score labels with the current player scores.
+     */
     public void updateScoreLabels(){
         scoreLabel1.setText(scoreLabel1Text + model.getPlayer(0).getScore());
         scoreLabel2.setText(scoreLabel2Text + model.getPlayer(1).getScore());

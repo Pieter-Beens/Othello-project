@@ -192,6 +192,7 @@ public abstract class GameController extends Controller implements Initializable
     }
 
     /**
+     * Method called on click of Forfeit Button.
      * @author Pieter Beens
      */
     public void forfeit(ActionEvent e) {
@@ -202,6 +203,9 @@ public abstract class GameController extends Controller implements Initializable
     }
 
     /**
+     * Calls all possible methods for receiving the next move, depending on the type of player whose turn it is next:
+     * enabling buttons for local players and triggering the AI algorithms for AI players. Moves from remote players do
+     * not have to be requested.
      * @author Pieter Beens
      */
     public void acceptNewMoves() {
