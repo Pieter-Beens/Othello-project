@@ -20,14 +20,22 @@ import nl.hanze.game.client.scenes.games.utils.FieldButton;
  */
 
 public class OthelloBoard extends BoardPane {
-    Image validMoveDot;
+    Image validMoveDot = new Image("File:src/resources/validMoveDot.png");
 
+    /**
+     * OthelloBoard's constructor simply calls the abstract parent's constructor.
+     * @param model The data model containing all variables for this board.
+     * @param controller The associated controller for this View class.
+     */
     public OthelloBoard(GameModel model, OthelloController controller) {
         super(model, controller);
-        super.setPrefSize(680,680);
-        this.validMoveDot = new Image("File:src/resources/validMoveDot.png");
     }
 
+    /**
+     * Implements the BoardPane interface's enableValidField class by, rather than enabling buttons, marking the buttons
+     * which represent valid moves.
+     */
+    @Override
     public void enableValidFields() {
         int i = 0;
         for (Field[] row : model.getBoard()) for (Field field : row) {
@@ -44,6 +52,10 @@ public class OthelloBoard extends BoardPane {
         }
     }
 
+    /**
+     * Updates the FieldButton objects in this board by checking the information provided by the OthelloModel. Sets the
+     * stone graphics on the right fields and sets the background on the Field where the most recent move was played.
+     */
     @Override
     public void update() {
         for (FieldButton[] row : fieldButtons) for(Node fieldNode : row){
@@ -63,6 +75,10 @@ public class OthelloBoard extends BoardPane {
         disableAllFields();
     }
 
+    /**
+     * This method prevents all FieldButton objects from receiving input. While the effect of a move is being calculated
+     * and during the turns of an AI or Remote player, a Local player should not be able to input any moves.
+     */
     @Override
     public void disableAllFields() {
         int i = 0;

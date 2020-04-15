@@ -158,7 +158,7 @@ public abstract class GameModel {
             ex.printStackTrace();
         }
     }
-
+    
     public int determineOthelloWinner() {
         if (players[0].getScore() > players[1].getScore()) {
             return 0;
@@ -169,6 +169,11 @@ public abstract class GameModel {
         }
     }
 
+    /**
+     * Passes on a data request to the proper Field object.
+     * @param move The move to evaluate.
+     * @return Returns true is the move is valid.
+     */
     public boolean isValidMove(Move move) {
         if (move == null) return false;
         Field field = this.board[move.getRow()][move.getColumn()];

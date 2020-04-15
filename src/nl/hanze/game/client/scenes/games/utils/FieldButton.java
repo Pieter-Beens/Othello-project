@@ -13,6 +13,12 @@ public class FieldButton extends Button {
     private final int rowID;
     private final int columnID;
 
+    /**
+     * This constructor sets up the actionlistener for a FieldButton to try and get the controller to play a move for a
+     * Local player.
+     * @param rowID This FieldButton's row number (denoted by alphabetical letters in-game).
+     * @param columnID This FieldButton's column number (denoted by the same number + 1 in-game).
+     */
     public FieldButton(int rowID, int columnID) {
         this.rowID = rowID;
         this.columnID = columnID;
@@ -31,11 +37,16 @@ public class FieldButton extends Button {
         });
     }
 
-
+    /**
+     * @return Returns this FieldButton's row number (denoted by alphabetical letters in-game).
+     */
     public int getRowID() {
         return rowID;
     }
 
+    /**
+     * @return Returns this FieldButton's column number (denoted by the same number + 1 in-game).
+     */
     public int getColumnID() {
         return columnID;
     }

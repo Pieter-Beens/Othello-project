@@ -195,6 +195,11 @@ public class OthelloModel extends GameModel {
         return captureTally;
     }
 
+    /**
+     * Sets the recentMove boolean in a Field. This boolean is used to be able to show where the most recent move was
+     * placed on the JavaFX Othello board. The penultimate move's Field's recentMove boolean is also returned to false.
+     * @param recentMove The Field where the most recent move was played, and which needs to be identifiable as such.
+     */
     public void updateRecentMove(Field recentMove) {
         for (Field[] row : board) {
             for (Field field : row) {
@@ -204,6 +209,21 @@ public class OthelloModel extends GameModel {
         recentMove.setRecentMove();
     }
 
+    /**
+     * This method encapsulates the board evaluation algorithm used by the Medium and Hard AI's. This score is also
+     * displayed and updated next to the JavaFX Othello board during a game. The score returned is calculated in multiple
+     * steps:
+     *
+     * First, the difference between the number of valid moves the player has on this board (relative 'mobility') is considered.
+     * Second, the difference in the number of 'stable' stones (which can never be captures) is considered. >NOT IMPLEMENTED<
+     * Third, the number of valuable corners (as well as undesirable x-corners) and their variable value is considered.
+     * Fourth, the number of occupied edge fields is considered. Additionally, the four edges of the board are then checked
+     * for regex patterns, which can increase or decrease score further.
+     * @param board The board which is being evaluated.
+     * @param player The player for whom score is being calculated: higher is better.
+     * @param opponent The opposing player: a better position for this player means a lower score is returned.
+     * @return Returns the score representing the value of the given player's position.
+     */
     public static int getBoardScore(Field[][] board, Player player, Player opponent) {
         int score = 0;
 
@@ -223,7 +243,6 @@ public class OthelloModel extends GameModel {
         // SOURCE 2: stable stones ================================================================================
 
         //TODO: 15 points per stable stone
-
 //        int i = 0;
 //        int x = 0;
 //        while (true) {
@@ -262,11 +281,9 @@ public class OthelloModel extends GameModel {
 
         // SOURCE 3: corners and x-corners ========================================================================
 
-
         // x-cornerscore is added the unless associated corner is occupied
 
-        //TODO: cornerscore = 10 for every distance from stable stones (yours or opponent's)
-        // amazing depending on empty fields to build with...
+        //TODO: variable cornerscore = 10 for every distance from stable stones (yours or opponent's)
 
         if (board[0][0].getOwner() == null) {
             if (board[1][1].getOwner() != null) {
@@ -390,7 +407,6 @@ public class OthelloModel extends GameModel {
             }
             if (edge.equals("--X--X--")) score+= 25;
         }
-
 
         // FOR INCREASED PERFORMANCE:
 //        Pattern simpleCapture = Pattern.compile("^-+O+X+");
