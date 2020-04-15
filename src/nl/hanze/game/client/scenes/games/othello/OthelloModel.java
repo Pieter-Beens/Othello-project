@@ -108,6 +108,10 @@ public class OthelloModel extends GameModel {
         }
     }
 
+    /**
+     * Checks if any Field in the board array has its validity field set to true.
+     * @return Returns boolean if there is a valid move this turn.
+     */
     public boolean turnHasMoves() {
         for (Field[] row : board) {
             for (Field field : row) {
@@ -117,6 +121,15 @@ public class OthelloModel extends GameModel {
         return false;
     }
 
+    /**
+     * Finds all fields on the board that would be captured if the active player placed a stone on the given Field
+     * (potentially zero).
+     * @author Pieter Beens
+     * @param field The Field where a stone may be placed by the player, leading to the captures found via this method.
+     * @return Returns a Stack containing all Fields that would be captured in the event of the active player placing a
+     * stone on the given Field. The Stack will be empty if there are no captures possible, meaning the hypothetical move is
+     * invalid.
+     */
     public Stack<Field> getCaptures(Field field) {
         Stack<Field> allCaptures = new Stack<>();
 
@@ -167,6 +180,11 @@ public class OthelloModel extends GameModel {
         return allCaptures;
     }
 
+    /**
+     * Flips the owner property for all fields captured by the player moving to the given Field.
+     * @author Pieter Beens
+     * @return Returns a proper copy of the given board with the move's captures enacted.
+     */
     public int enactCaptures(Field field) {
         int captureTally = 0;
         Stack<Field> captures = getCaptures(field);
