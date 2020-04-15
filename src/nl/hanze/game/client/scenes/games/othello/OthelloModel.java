@@ -19,6 +19,9 @@ import java.util.regex.Pattern;
  */
 
 public class OthelloModel extends GameModel {
+    /**
+     * This constructor simply provides the appropriate number of fields to the abstract parent's constructor
+     */
     public OthelloModel() {
         super(8);
     }

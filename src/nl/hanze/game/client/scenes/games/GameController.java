@@ -82,11 +82,11 @@ public abstract class GameController extends Controller implements Initializable
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                int time = model.getElapsedTime();
+                int time = model.gettimeLeft();
                 Platform.runLater(() -> timerLabel.setText("Turn Timer: " + time));
 
                 if(time > 0) {
-                    model.decreaseElapsedTime();
+                    model.decreasetimeLeft();
                 } else {
                     timer.cancel();
 
@@ -235,7 +235,7 @@ public abstract class GameController extends Controller implements Initializable
         if(player.equals("You")) turnLabel.setText("Your turn");
         else turnLabel.setText(player+"'s turn");
 
-        skippedTurnText.setText(GameModel.getSkippedTurnText());
+        skippedTurnText.setText(GameModel.skippedTurnText);
     }
 
     /**

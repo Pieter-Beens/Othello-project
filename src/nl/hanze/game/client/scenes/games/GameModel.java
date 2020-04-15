@@ -31,13 +31,17 @@ public abstract class GameModel {
     protected Field[][] board;
     protected ArrayList<Field[][]> boardHistory = new ArrayList<>();
     protected int turnTime;
-    protected int elapsedTime;
+    protected int timeLeft;
 
     public static final int[][] DIRECTIONS = {{1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}, {-1,0}, {-1,1}, {0,1}};
     public static int serverTurnTime;
     public static String serverName;
     public static String skippedTurnText;
 
+    /**
+     * Sets up the board model array with the proper amount of fields depending on the game.
+     * @param boardSize The proper amount of fields on the board for a certain game (defined in subclass constructors).
+     */
     public GameModel(int boardSize) {
         this.boardSize = boardSize;
 
@@ -49,8 +53,11 @@ public abstract class GameModel {
         }
     }
 
+    /**
+     * Defines generic operations done between turns in all games.
+     */
     public void nextTurn() {
-        elapsedTime = turnTime;
+        timeLeft = turnTime;
 
         turnCounter++;
 
@@ -59,6 +66,9 @@ public abstract class GameModel {
         updateFieldValidity();
     }
 
+    /**
+     * Defines generic operations done at setup for all games.
+     */
     public void setup() {
         players[turnCounter%2].setStartingColors();
 
@@ -67,14 +77,27 @@ public abstract class GameModel {
         updateFieldValidity();
     }
 
+    /**
+     * @param i Defines the player requested, where 1 is the starting player and 0 is the other.
+     * @return Returns one of two possible players playing a game.
+     */
     public Player getPlayer(int i) {
+        if (i > 1 || i < 0) throw new IndexOutOfBoundsException("No such player exists.");
         return players[i];
     }
 
+    /**
+     * Adds a player to the game on a certain index.
+     * @param index Defines the index the player is set to, where 1 is the starting player and 0 is the other.
+     * @param player The player being added to the game.
+     */
     public void setPlayer(int index, Player player) {
         this.players[index] = player;
     }
 
+    /**
+     * @return Returns the active player, meaning the player whose turn it is.
+     */
     public Player getActivePlayer() {
         return players[turnCounter%2];
     }
@@ -104,30 +127,44 @@ public abstract class GameModel {
         return players[1];
     }
 
+    /**
+     * @return Returns the number of fields in a single row or column for this game.
+     */
     public int getBoardSize() {
         return boardSize;
     }
 
+    /**
+     * @return Returns the number of the turn where the game is currently at. Turn 1 has the value 1.
+     */
     public int getTurnCount() {
         return turnCounter;
     }
 
+    /**
+     * @param columnID The index of the column.
+     * @param rowID The index of the row.
+     * @return Returns a Field with the given column and row indexes.
+     */
     public Field getField(int columnID, int rowID) {
         return board[columnID][rowID];
     }
 
+    /**
+     * @return Returns the entirety of the board array containing all Field objects.
+     */
     public Field[][] getBoard() {
         return board;
     }
 
-    public static String getSkippedTurnText() {
-        return skippedTurnText;
-    }
-
+    /**
+     * This method handles the operations taking place at the end of the game: deciding a winner, exiting the game
+     * scene and displaying result messages.
+     * @param timedOut True if the end of the game was caused by a time-out, leading the active player to lose at all times.
+     */
     public void endGame(boolean timedOut)  {
         System.out.println("<GAME END>");
         gameHasEnded = true;
-
 
         String msg = "";
         int winner = determineOthelloWinner();
@@ -158,7 +195,11 @@ public abstract class GameModel {
             ex.printStackTrace();
         }
     }
-    
+
+    /**
+     * A method for calculating the winner in Othello.
+     * @return Returns the index of the player who won.
+     */
     public int determineOthelloWinner() {
         if (players[0].getScore() > players[1].getScore()) {
             return 0;
@@ -181,17 +222,29 @@ public abstract class GameModel {
         return field.getValidity();
     }
 
+    /**
+     * A method for handling forfeits, which displays a Popup which exits the game scene, effectively ending the game.
+     * @param losingPlayer The player who forfeited and loses by default.
+     */
     public void forfeitGame(Player losingPlayer) {
         String msg = losingPlayer.getName() + " forfeited, losing by default.";
         Popup.display(msg, "GAME END", 300, 200);
     }
 
+    /**
+     * @return True if the game has come to an end (=endGame() has been called).
+     */
     public boolean hasGameEnded() {
         return gameHasEnded;
     }
 
+    /**
+     * Sets the maximum turn time used in the game, as well as the time left at the very start of the game. Adjusted by
+     * -1 to account for possible server synchronisation issues.
+     * @param turnTime The maximum amount of time a player can take before making a move.
+     */
     public void setTurnTime(int turnTime) {
-        this.elapsedTime = turnTime - 1;
+        this.timeLeft = turnTime - 1;
         this.turnTime = turnTime - 1;
     }
 
@@ -201,8 +254,8 @@ public abstract class GameModel {
      * @author Roy Voetman
      * @return The current value of elapsed time
      */
-    public int getElapsedTime() {
-        return elapsedTime;
+    public int gettimeLeft() {
+        return timeLeft;
     }
 
     /**
@@ -210,8 +263,8 @@ public abstract class GameModel {
      *
      * @author Roy Voetman
      */
-    public void decreaseElapsedTime() {
-        elapsedTime--;
+    public void decreasetimeLeft() {
+        timeLeft--;
     }
 
     public abstract void recordMove(Move move);
