@@ -69,18 +69,14 @@ public class LobbyController extends Controller implements Initializable {
 
     private static Timer playersTableUpdater;
 
-
     // Contains either 'ai' or 'manual' to indicate as whom the user wants to play as
     @FXML private ToggleGroup playerMode;
 
     // Contains the name of the game the user wants to play
     @FXML private ToggleGroup selectedGame;
 
-
     // Indicates whether the user wants to play fullscreen, default is 'false'
     @FXML private CheckBox fullscreen;
-
-
 
     @FXML
     public Text lastGameResult;
